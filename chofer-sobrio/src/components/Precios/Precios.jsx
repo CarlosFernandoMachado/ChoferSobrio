@@ -11,9 +11,6 @@ export default class Precios extends Component{
                     <h2>Bienvidos a Chofer Sobrio</h2>
                     <p>Esta es la pagina precios!</p>
                 </Jumbotron>
-                <Link to="/">
-                    <Button bsStyle="primary"> Click me!</Button>
-                </Link>
             </Container>
         )
     }
