@@ -11,12 +11,6 @@ export default class Home extends Component{
                     <h2>Bienvidos a Chofer Sobrio</h2>
                     <p>Esta es la pagina Home!</p>
                 </Jumbotron>
-                <Link to="/precios">
-                    <Button bsStyle="primary"Precios> Precios! </Button>
-                </Link>
-                <Link to="/seguridad">
-                    <Button bsStyle="primary"Seguridad> Seguridad! </Button>
-                </Link>
             </Container>
         )
     }

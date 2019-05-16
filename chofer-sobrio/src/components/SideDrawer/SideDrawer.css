@@ -28,6 +28,17 @@
     margin: 0.5rem 0;
 }
 
+.side-drawer Link{
+    margin: 0.5rem 0;
+}
+
+.side-drawer Button{
+    color: black;
+    margin: 0.5rem 0;
+    background: none;
+    border-color: transparent;
+}
+
 .side-drawer a{
     color: #521751;
     text-decoration: none;

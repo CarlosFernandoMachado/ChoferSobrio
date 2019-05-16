@@ -1,6 +1,9 @@
 import React from 'react';
 import './Toolbar.css';
-import DrawerToggleButton from './DrawerToggleButton';
+import DrawerToggleButton from '../DrawerToggleButton/DrawerToggleButton';
+import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
+
 const toolbar = props => (
     <header className="toolbar">
         <nav className="toolbar__navigation">
@@ -11,8 +14,15 @@ const toolbar = props => (
             <div className="spacer" />
             <div className="toolbar_navigation-items">
                 <ul>
-                    <li> <a href="/">Precios</a> </li>
-                    <li> <a href="/">Seguridad</a> </li>
+                    <Link to="/">
+                        <Button bsStyle="primary"> Home</Button>
+                    </Link>
+                    <Link to="/precios">
+                        <Button bsStyle="primary" > Precios</Button>
+                    </Link>
+                    <Link to="/seguridad">
+                        <Button bsStyle="primary"> Seguridad</Button>
+                    </Link>
                 </ul>
             </div>
         </nav>
