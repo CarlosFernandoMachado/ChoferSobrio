@@ -8,6 +8,7 @@ import Toolbar from './components/Toolbar/Toolbar';
 import SideDrawer from './components/SideDrawer/SideDrawer';
 import Backdrop from './components/Backdrop/Backdrop';
 import PedirChofer from './components/PedirChofer/PedirChofer';
+import CrearGerente from './components/CrearGerente/CrearGerente';
 
 class App extends Component {
   state = {
@@ -42,6 +43,7 @@ class App extends Component {
               <Route exact path="/precios" component={Precios}></Route>
               <Route exact path="/seguridad" component={Seguridad}></Route>
               <Route exact path="/pedirchofer" component={PedirChofer}></Route>
+              <Route exact path="/CrearGerente" component={CrearGerente}></Route>
             </div>
           </main>
         </div>

@@ -14,6 +14,9 @@ export default class Home extends Component {
                 <Link to="/pedirchofer">
                     <Button bsStyle="primary"> Pedir Chofer</Button>
                 </Link>
+                <Link to="/CrearGerente">
+                    <Button bsStyle="primary"> Crear Gerente</Button>
+                </Link>
             </Container>
         )
     }
