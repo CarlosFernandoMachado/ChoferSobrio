@@ -7,6 +7,7 @@ import { Button } from 'react-bootstrap';
 import Toolbar from './components/Toolbar/Toolbar';
 import SideDrawer from './components/SideDrawer/SideDrawer';
 import Backdrop from './components/Backdrop/Backdrop';
+import PedirChofer from './components/PedirChofer/PedirChofer';
 
 class App extends Component {
   state = {
@@ -40,6 +41,7 @@ class App extends Component {
               <Route exact path="/" component={Home}></Route>
               <Route exact path="/precios" component={Precios}></Route>
               <Route exact path="/seguridad" component={Seguridad}></Route>
+              <Route exact path="/pedirchofer" component={PedirChofer}></Route>
             </div>
           </main>
         </div>
