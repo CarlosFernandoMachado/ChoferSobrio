@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Calendar from 'react-calendar';
 import { Link } from 'react-router-dom';
 import { Jumbotron, Container, Row, Col, Image, Button, Form, InputGroup } from 'react-bootstrap';
 import './PedirChofer.css'
@@ -14,7 +15,7 @@ export default class Precios extends Component {
             placa: '',
             ubicacion_actual: '',
             destino: '',
-            fecha: '',
+            fecha: new Date(),
             hora: '',
             validated: ''
         };
@@ -140,16 +141,11 @@ export default class Precios extends Component {
                     <Form.Row>
                         <Form.Group as={Col} md="4" controlId="validationCustom06">
                             <Form.Label>Fecha</Form.Label>
-                            <Form.Control
-                                type="text"
-                                required
-                                name="fecha"
-                                value={this.state.value}
-                                onChange={this.handleChange}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                Ingrese la fecha
-                            </Form.Control.Feedback>
+                            
+                                    <Calendar
+                                         onChange={this.onChange}
+                                         value={this.state.fecha}
+                                     />  
                         </Form.Group>
                         <Form.Group as={Col} md="4" controlId="validationCustom07">
                             <Form.Label>Hora</Form.Label>
