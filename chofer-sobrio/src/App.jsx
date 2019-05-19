@@ -5,6 +5,7 @@ import Precios from './components/Precios/Precios';
 import Seguridad from './components/Seguridad/Seguridad';
 import { Button } from 'react-bootstrap';
 import Toolbar from './components/Toolbar/Toolbar';
+import Crear from './components/Crear_C_G_C/Crear'
 import SideDrawer from './components/SideDrawer/SideDrawer';
 import Backdrop from './components/Backdrop/Backdrop';
 import PedirChofer from './components/PedirChofer/PedirChofer';
@@ -49,8 +50,12 @@ class App extends Component {
               <Route exact path="/precios" component={Precios}></Route>
               <Route exact path="/seguridad" component={Seguridad}></Route>
               <Route exact path="/pedirchofer" component={PedirChofer}></Route>
+
+              <Route exact path="/crear" component={Crear}></Route>
+
               <Route exact path="/CrearGerente" component={CrearGerente}></Route>
               <Route exact path="/pedidos" component={Pedidos}></Route>
+
             </div>
           </main>
         </div>

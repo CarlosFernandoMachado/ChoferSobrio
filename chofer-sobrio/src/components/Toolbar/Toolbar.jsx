@@ -23,12 +23,18 @@ const toolbar = props => (
                     <Link to="/seguridad">
                         <Button bsStyle="primary"> Seguridad</Button>
                     </Link>
+<<<<<<< HEAD
+                    <Link to="/crear">
+                    <Button bsStyle="primary"> Crear </Button>
+                </Link>
+=======
                     <Link to="/CrearGerente">
                         <Button bsStyle="primary"> Crear Gerente</Button>
                     </Link>
                     <Link to="/pedidos">
                         <Button bsStyle="primary"> Pedidos</Button>
                     </Link>
+>>>>>>> e5a4de15ab78349cb28d5ef1300e0b54cd370e97
                 </ul>
             </div>
         </nav>
