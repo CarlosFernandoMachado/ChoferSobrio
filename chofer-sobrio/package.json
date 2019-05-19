@@ -12,6 +12,7 @@
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.1",
     "react-sidebar": "^3.0.2",
+    "react-time-picker": "^3.5.2",
     "semantic-ui-react": "^0.87.1"
   },
   "scripts": {

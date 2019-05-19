@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Calendar from 'react-calendar';
-import { Jumbotron, Container, Col, Button, Form, InputGroup } from 'react-bootstrap';
+import TimePicker from 'react-time-picker';
+import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from 'react-bootstrap';
 import './PedirChofer.css'
 
 export default class Precios extends Component {
@@ -15,7 +16,7 @@ export default class Precios extends Component {
             ubicacion_actual: '',
             destino: '',
             fecha: new Date(),
-            hora: '',
+            hora: '9:00',
             validated: ''
         };
 
@@ -48,6 +49,9 @@ export default class Precios extends Component {
                     <h2>Bienvidos a Chofer Sobrio</h2>
                     <p>Esta es la pagina para pedir chofer!</p>
                 </Jumbotron>
+
+                <Card border="ligth">
+                <Alert variant="secondary">
                 <Form
                     noValidate
                     validated={validated}
@@ -147,21 +151,27 @@ export default class Precios extends Component {
                                      />  
                         </Form.Group>
                         <Form.Group as={Col} md="4" controlId="validationCustom07">
-                            <Form.Label>Hora</Form.Label>
-                            <Form.Control
-                                type="text"
-                                required
-                                name="hora"
-                                value={this.state.value}
-                                onChange={this.handleChange}
-                            />
+                        <Form.Label>Hora </Form.Label>
+                            <TimePicker
+                                 onChange={this.onChange}
+                                 name = "hora"
+                                 value={this.state.hora}
+                                 format="hh:mm"
+                                 disableClock = {true}
+                                 required                                    
+                                />
                             <Form.Control.Feedback type="invalid">
                                 Ingrese la hora
                             </Form.Control.Feedback>
                         </Form.Group>
                     </Form.Row>
-                    <Button type="submit" variant="dark" >Submit form</Button>
+                    <div class="text-center"> 
+                        <Button type="submit" variant="warning" >Submit form</Button>
+                    </div>
                 </Form>
+                </Alert>
+                </Card>
+               
             </Container>
         )
     }

@@ -12,7 +12,9 @@ export default class Home extends Component {
                     <p>Esta es la pagina Home!</p>
                 </Jumbotron>
                 <Link to="/pedirchofer">
-                    <Button bsStyle="primary"> Pedir Chofer</Button>
+                <div class="text-center"> 
+                        <Button type="submit" variant="warning" >Pedir Chofer</Button>
+                </div>
                 </Link>
             </Container>
         )

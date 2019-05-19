@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Col, Button, Form, InputGroup } from 'react-bootstrap';
+import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from 'react-bootstrap';
 import './CrearGerente.css'
 
 export default class Precios extends Component {
@@ -41,6 +41,8 @@ export default class Precios extends Component {
                     <h2>Bienvidos a Chofer Sobrio</h2>
                     <p>Esta es la pagina para crear gerente?</p>
                 </Jumbotron>
+                <Card border="ligth">
+                <Alert variant="secondary">
                 <Form
                     noValidate
                     validated={validated}
@@ -95,8 +97,12 @@ export default class Precios extends Component {
                             </InputGroup>
                         </Form.Group>
                     </Form.Row>
-                    <Button type="submit" variant="dark" >Crear</Button>
+                    <div class="text-center"> 
+                        <Button type="submit" variant="warning" >Crear</Button>
+                    </div>
                 </Form>
+                </Alert>
+                </Card>
             </Container>
         )
     }
