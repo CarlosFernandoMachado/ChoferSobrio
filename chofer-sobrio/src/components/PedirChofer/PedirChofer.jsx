@@ -156,7 +156,7 @@ export default class Precios extends Component {
                                  onChange={this.onChange}
                                  name = "hora"
                                  value={this.state.hora}
-                                 format="hh:mm"
+                                 format="hh:mm a"
                                  disableClock = {true}
                                  required                                    
                                 />
