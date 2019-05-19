@@ -9,11 +9,18 @@ import SideDrawer from './components/SideDrawer/SideDrawer';
 import Backdrop from './components/Backdrop/Backdrop';
 import PedirChofer from './components/PedirChofer/PedirChofer';
 import CrearGerente from './components/CrearGerente/CrearGerente';
+import Pedidos from './components/Pedidos/Pedidos'
 
 class App extends Component {
-  state = {
-    sideDrawerOpen: false
-  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      sideDrawerOpen: false
+    };
+    this.drawerToggleClickHandler = this.drawerToggleClickHandler.bind(this);
+    this.backdropClickHandler = this.backdropClickHandler.bind(this);
+  }
 
   drawerToggleClickHandler = () => {
     this.setState((prevState) => {
@@ -33,17 +40,17 @@ class App extends Component {
     return (
       <Router>
         <div style={{ height: '100%' }}>
-          <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
-          <SideDrawer show={this.state.sideDrawerOpen} />
+          <Toolbar drawerClickHandler={this.drawerToggleClickHandler}/>
+          <SideDrawer show={this.state.sideDrawerOpen}  hide ={this.backdropClickHandler}/>
           {backdrop}
           <main style={{ marginTop: '64px' }}>
-
             <div>
               <Route exact path="/" component={Home}></Route>
               <Route exact path="/precios" component={Precios}></Route>
               <Route exact path="/seguridad" component={Seguridad}></Route>
               <Route exact path="/pedirchofer" component={PedirChofer}></Route>
               <Route exact path="/CrearGerente" component={CrearGerente}></Route>
+              <Route exact path="/pedidos" component={Pedidos}></Route>
             </div>
           </main>
         </div>

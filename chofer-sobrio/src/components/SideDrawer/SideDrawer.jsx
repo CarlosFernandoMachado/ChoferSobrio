@@ -12,13 +12,19 @@ const sideDrawer = props => {
         <nav className={drawerClasses}>
             <ul>
                 <Link to="/">
-                    <Button bsStyle="primary"> Home</Button>
+                    <Button bsStyle="primary" onClick={props.hide} > Home</Button>
                 </Link>
                 <Link to="/precios">
-                    <Button bsStyle="primary"> Precios</Button>
+                    <Button bsStyle="primary" onClick={props.hide}> Precios</Button>
                 </Link>
                 <Link to="/seguridad">
-                    <Button bsStyle="primary"> Seguridad</Button>
+                    <Button bsStyle="primary" onClick={props.hide}> Seguridad</Button>
+                </Link>
+                <Link to="/CrearGerente">
+                    <Button bsStyle="primary" onClick={props.hide}> Crear Gerente</Button>
+                </Link>
+                <Link to="/pedidos">
+                    <Button bsStyle="primary" onClick={props.hide}> Pedidos</Button>
                 </Link>
             </ul>
         </nav>
