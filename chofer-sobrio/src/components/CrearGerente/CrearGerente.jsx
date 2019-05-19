@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
-import { Jumbotron, Container, Row, Col, Image, Button, Form, InputGroup } from 'react-bootstrap';
+import { Jumbotron, Container, Col, Button, Form, InputGroup } from 'react-bootstrap';
 import './CrearGerente.css'
 
 export default class Precios extends Component {

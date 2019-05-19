@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
-import { Jumbotron, Container, Row, Col, Image, Button, Table } from 'react-bootstrap';
+import { Jumbotron, Container, Table } from 'react-bootstrap';
 import './Pedidos.css'
 
 export default class Precios extends Component {

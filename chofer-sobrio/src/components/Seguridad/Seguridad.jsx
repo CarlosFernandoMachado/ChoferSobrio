@@ -1,6 +1,5 @@
 import React , {Component} from 'react'
-import { Link } from 'react-router-dom';
-import { Jumbotron, Container, Row, Col, Image, Button } from 'react-bootstrap';
+import { Jumbotron, Container } from 'react-bootstrap';
 import './Seguridad.css'
 
 export default class Seguridad extends Component{

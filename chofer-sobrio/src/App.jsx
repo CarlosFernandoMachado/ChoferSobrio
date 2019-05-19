@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from './components/Home/Home';
 import Precios from './components/Precios/Precios';
 import Seguridad from './components/Seguridad/Seguridad';
-import { Button } from 'react-bootstrap';
 import Toolbar from './components/Toolbar/Toolbar';
 import Crear from './components/Crear_C_G_C/Crear'
 import SideDrawer from './components/SideDrawer/SideDrawer';
