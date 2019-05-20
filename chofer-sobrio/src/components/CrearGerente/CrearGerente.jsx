@@ -24,12 +24,13 @@ export default class Precios extends Component {
 
     handleSubmit(event) {
         const form = event.currentTarget;
+        var length = Math.log(this.state.identidad) * Math.LOG10E + 1 | 0;
+        alert(length);
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
         } else {
             this.setState({ validated: 'true' });
-            alert('Nombre: ' + this.state.nombre + 'Telefono: ' + this.state.telefono + 'ID: ' + this.state.identidad);
             event.preventDefault();
             this.setState({ listo: 'true' });
         }
