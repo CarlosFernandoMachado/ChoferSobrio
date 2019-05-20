@@ -100,6 +100,49 @@ export default class Crear extends Component {
         var database = Fire.database();
         database.ref('cliente/' + id).remove();
     }
+
+    Crearpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion) {
+        var database = Fire.database();
+        database.ref('pedido/' + id).set({
+            color: color_vehiculo,
+            destino: destino,
+            fecha: fecha,
+            hora: hora,
+            marca: marca,
+            nombre: nombre,
+            placa: placa,
+            telefono: telefono,
+            ubicacion: ubicacion
+        });
+    }
+    Leerpedido(userId) {
+        var database = Fire.database();
+        var n = database.ref('/pedido/' + userId).once('value').then(function (snapshot) {
+            var username = (snapshot.val() && snapshot.val().nombre) || 'Anonymous';
+
+        })
+        alert(n);
+
+        return n;
+    }
+    modificarpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion) {
+        var database = Fire.database();
+        database.ref('pedido/' + id).set({
+            color: color_vehiculo,
+            destino: destino,
+            fecha: fecha,
+            hora: hora,
+            marca: marca,
+            nombre: nombre,
+            placa: placa,
+            telefono: telefono,
+            ubicacion: ubicacion
+        });
+    }
+    Eliminarpedido(id) {
+        var database = Fire.database();
+        database.ref('pedido/' + id).remove();
+    }
     render() {
         if (this.props.validado && this.props.funcion === "crear_gerente"){
             this.Creargerente(2,this.props.datos[0],this.props.datos[1],this.props.datos[2])
