@@ -49,12 +49,9 @@ class App extends Component {
               <Route exact path="/precios" component={Precios}></Route>
               <Route exact path="/seguridad" component={Seguridad}></Route>
               <Route exact path="/pedirchofer" component={PedirChofer}></Route>
-
               <Route exact path="/crear" component={Crear}></Route>
-
               <Route exact path="/CrearGerente" component={CrearGerente}></Route>
               <Route exact path="/pedidos" component={Pedidos}></Route>
-
             </div>
           </main>
         </div>

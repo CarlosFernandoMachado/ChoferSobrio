@@ -4,7 +4,6 @@ import Fire from './Fire';
 
 
 
-
 export default class Crear extends Component {
     Crearchofer(id, identidad, name, number) {
         var database = Fire.database();
@@ -16,7 +15,7 @@ export default class Crear extends Component {
     }
     Leerchofer(userId) {
         var database = Fire.database();
-        var n = database.ref('/chofer/' + userId).once('value').then(function(snapshot) {
+        var n = database.ref('/chofer/' + userId).once('value').then(function (snapshot) {
             var username = (snapshot.val() && snapshot.val().nombre) || 'Anonymous';
 
         })
@@ -46,7 +45,7 @@ export default class Crear extends Component {
     }
     Leergerente(userId) {
         var database = Fire.database();
-        var n = database.ref('/gerente/' + userId).once('value').then(function(snapshot) {
+        var n = database.ref('/gerente/' + userId).once('value').then(function (snapshot) {
             var username = (snapshot.val() && snapshot.val().nombre) || 'Anonymous';
 
         })
@@ -78,7 +77,7 @@ export default class Crear extends Component {
     }
     Leercliente(userId) {
         var database = Fire.database();
-        var n = database.ref('/cliente/' + userId).once('value').then(function(snapshot) {
+        var n = database.ref('/cliente/' + userId).once('value').then(function (snapshot) {
             var username = (snapshot.val() && snapshot.val().nombre) || 'Anonymous';
 
         })
@@ -102,11 +101,12 @@ export default class Crear extends Component {
         database.ref('cliente/' + id).remove();
     }
     render() {
+        if (this.props.validado && this.props.funcion === "crear_gerente"){
+            this.Creargerente(2,this.props.datos[0],this.props.datos[1],this.props.datos[2])
+        }
         return (
-            <div>Hello></div>
-
-
-
+            <div>
+            </div>
         )
 
     }

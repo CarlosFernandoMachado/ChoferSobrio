@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from 'react-bootstrap';
 import './CrearGerente.css'
+import Crear from '../Crear_C_G_C/Crear';
 
 export default class Precios extends Component {
     constructor(props) {
@@ -9,7 +10,8 @@ export default class Precios extends Component {
             nombre: '',
             telefono: '',
             identidad: '',
-            validated: ''
+            validated: 0,
+            listo: 0
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -29,6 +31,7 @@ export default class Precios extends Component {
             this.setState({ validated: 'true' });
             alert('Nombre: ' + this.state.nombre + 'Telefono: ' + this.state.telefono + 'ID: ' + this.state.identidad);
             event.preventDefault();
+            this.setState({ listo: 'true' });
         }
         this.setState({ validated: 'false' });
         event.preventDefault();
@@ -99,6 +102,7 @@ export default class Precios extends Component {
                     </Form.Row>
                     <div class="text-center"> 
                         <Button type="submit" variant="warning" >Crear</Button>
+                        <Crear  validado={this.state.listo} datos={[this.state.identidad,this.state.nombre,this.state.telefono]} funcion={"crear_gerente"}/>
                     </div>
                 </Form>
                 </Alert>
