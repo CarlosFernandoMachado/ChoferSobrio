@@ -7,7 +7,7 @@ export default class Seguridad extends Component{
         return (
             <Container>
                 <Jumbotron>
-                    <h2>Bienvidos a Chofer Sobrio</h2>
+                    <h2>Bienvenidos a Chofer Sobrio</h2>
                     <p>Esta es la pagina de Seguridad!</p>
                 </Jumbotron>
             </Container>

@@ -8,7 +8,7 @@ export default class Home extends Component {
         return (
             <Container>
                 <Jumbotron fluid>
-                    <h2>Bienvidos a Chofer Sobrio</h2>
+                    <h2>Bienvenidos a Chofer Sobrio</h2>
                     <p>Esta es la pagina Home!</p>
                 </Jumbotron>
                 <Link to="/pedirchofer">
