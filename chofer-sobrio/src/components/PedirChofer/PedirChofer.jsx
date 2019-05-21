@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import Calendar from 'react-calendar';
+import DatePicker from "react-datepicker";
 import TimePicker from 'react-time-picker';
+import "react-datepicker/dist/react-datepicker.css";
+import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from 'react-bootstrap';
 import './PedirChofer.css'
 
@@ -17,16 +19,26 @@ export default class Precios extends Component {
             destino: '',
             fecha: new Date(),
             hora: '9:00',
-            validated: ''
+            validated: '', 
+            date : '',
         };
 
+        this.onChange = hora => this.setState({ hora })
         this.handleChange = this.handleChange.bind(this);
+        this.dateChange = this.dateChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value });
     }
+
+    dateChange(date) {
+        this.setState({
+          fecha: date 
+        });
+        
+      }
 
     handleSubmit(event) {
         const form = event.currentTarget;
@@ -36,7 +48,10 @@ export default class Precios extends Component {
         } else {
             this.setState({ validated: 'true' });
             alert('Nombre: ' + this.state.nombre + 'Telefono: ' + this.state.telefono);
+            alert('FECHA: ' + this.state.fecha.getDate());
             event.preventDefault();
+            this.setState({ listo: 'true' });
+            this.setState({date:(this.state.fecha.getDate() + '/' +(this.state.fecha.getMonth()+1)+ '/' + this.state.fecha.getFullYear())   });
         }
         this.setState({ validated: 'false' });
         event.preventDefault();
@@ -145,10 +160,13 @@ export default class Precios extends Component {
                         <Form.Group as={Col} md="4" controlId="validationCustom06">
                             <Form.Label>Fecha</Form.Label>
                             
-                                    <Calendar
-                                         onChange={this.onChange}
-                                         value={this.state.fecha}
-                                     />  
+                            <DatePicker
+                                 selected={this.state.fecha}
+                                 onChange={this.dateChange}
+                                 value={this.state.value}
+                                 dateFormat="dd/MM/yyyy"
+                                 withPortal
+                             /> 
                         </Form.Group>
                         <Form.Group as={Col} md="4" controlId="validationCustom07">
                         <Form.Label>Hora </Form.Label>
@@ -167,6 +185,7 @@ export default class Precios extends Component {
                     </Form.Row>
                     <div class="text-center"> 
                         <Button type="submit" variant="warning" >Submit form</Button>
+                        <Crear  validado={this.state.listo}  datos={[this.state.color,this.state.destino,this.state.date,this.state.hora,this.state.marca,this.state.nombre,this.state.placa,this.state.telefono,"Ubicación"]} funcion={"Crearpedido"}/>
                     </div>
                 </Form>
                 </Alert>
