@@ -18,19 +18,20 @@ export default class IniciarSesion extends Component{
 
       componentDidMount() {
         this.removeListener = firebaseAuth().onAuthStateChanged(user => {
-          console.log(user);
           if (user) {
             this.setState({
               authed: true,
               loading: false,
               user
             });
+            localStorage.setItem('user', JSON.stringify(user));
           } else {
             this.setState({
               authed: false,
               loading: false,
               user: null
             });
+            localStorage.clear();
           }
         });
       }
