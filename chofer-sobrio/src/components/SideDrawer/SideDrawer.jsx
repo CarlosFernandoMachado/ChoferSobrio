@@ -1,7 +1,8 @@
 import React from 'react';
 import './SideDrawer.css';
 import { Link } from 'react-router-dom';
-import { Button,CardImg, Card } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+import { CardImg, CardBody, Card, CardTitle, CardSubtitle, CardText } from 'reactstrap';
 
 const sideDrawer = props => {
     let drawerClasses = 'side-drawer';
@@ -10,18 +11,26 @@ const sideDrawer = props => {
     }
 
     const user = JSON.parse(localStorage.getItem('user'));
-    let mensaje;
+    let mensaje, imagen, usuario;
     if (user) {
         mensaje = 'Cerrar sesion';
+        imagen = user.photoURL;
+        usuario = user.displayName;
     } else {
         mensaje = 'Iniciar sesion';
+        imagen = '/blank.png';
+        usuario = '';
     }
 
     return (
         <nav className={drawerClasses}>
+            <Card>
+                <img className="rounded-circle mx-auto d-block" width="70%" src={imagen} alt="Foto de perfil" />
+                <CardBody>
+                    <CardTitle className="text-center">{usuario}</CardTitle>
+                </CardBody>
+            </Card>
             <ul>
-                {user ? <img top width="60%" src={user.photoURL} alt="Foto de perfil" /> : null}
-                {user ? user.displayName : null}
                 <Link to="/">
                     <Button bsStyle="primary" onClick={props.hide} > Home</Button>
                 </Link>
