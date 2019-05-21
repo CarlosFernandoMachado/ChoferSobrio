@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Jumbotron, Container, Table, Card, Alert } from 'react-bootstrap';
 import './Pedidos.css'
-import firebase from '../Crear_C_G_C/Fire';
+// quitar
+import firebase from '../config/config';
 
 export default class Precios extends Component {
 

@@ -26,6 +26,9 @@ const sideDrawer = props => {
                 <Link to="/pedidos">
                     <Button bsStyle="primary" onClick={props.hide}> Pedidos</Button>
                 </Link>
+                <Link to="/">
+                    <Button bsStyle="primary"> IniciarSesion</Button>
+                </Link>
             </ul>
         </nav>
     );

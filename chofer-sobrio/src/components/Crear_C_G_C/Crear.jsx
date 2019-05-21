@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import './Crear.css'
-import Fire from './Fire';
-
-
+import Fire from '../config/config'; 
 
 export default class Crear extends Component {
     Crearchofer(id, identidad, name, number) {

@@ -38,6 +38,9 @@ const toolbar = props => (
                     <Link to="/pedidos">
                         <Button bsStyle="primary"> Pedidos</Button>
                     </Link>
+                    <Link to="/iniciarSesion">
+                        <Button bsStyle="primary"> Iniciar Sesion</Button>
+                    </Link>
                 </ul>
             </div>
         </nav>

@@ -11,7 +11,8 @@ import PedirChofer from './components/PedirChofer/PedirChofer';
 import CrearGerente from './components/CrearGerente/CrearGerente';
 import CrearChofer from './components/CrearChofer/CrearChofer';
 import CrearCliente from './components/CrearCliente/CrearCliente';
-import Pedidos from './components/Pedidos/Pedidos'
+import Pedidos from './components/Pedidos/Pedidos';
+import IniciarSesion from './components/IniciarSesion/IniciarSesion';
 
 class App extends Component {
 
@@ -56,6 +57,7 @@ class App extends Component {
               <Route exact path="/CrearChofer" component={CrearChofer}></Route>
               <Route exact path="/CrearCliente" component={CrearCliente}></Route>
               <Route exact path="/pedidos" component={Pedidos}></Route>
+              <Route exact path="/iniciarSesion" component={IniciarSesion}></Route>
             </div>
           </main>
         </div>
