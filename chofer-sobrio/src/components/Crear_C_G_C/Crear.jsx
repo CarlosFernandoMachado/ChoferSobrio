@@ -147,6 +147,9 @@ export default class Crear extends Component {
         if (this.props.validado && this.props.funcion === "crear_gerente"){
             this.Creargerente(2,this.props.datos[0],this.props.datos[1],this.props.datos[2])
         }
+        if (this.props.validado && this.props.funcion === "crear_cliente"){
+            this.Crearcliente(2,this.props.datos[0],this.props.datos[1],this.props.datos[2],this.props.datos[3],this.props.datos[4])
+        }
         return (
             <div>
             </div>
