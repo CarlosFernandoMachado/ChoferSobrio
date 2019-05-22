@@ -32,9 +32,7 @@ const toolbar = function(props) {
                         <Link to="/seguridad">
                             <Button bsStyle="primary"> Seguridad</Button>
                         </Link>
-                        <Link to="/crear">
-                            <Button bsStyle="primary"> Crear </Button>
-                        </Link>
+                        
                         <Link to="/CrearGerente">
                             <Button bsStyle="primary"> Crear Gerente</Button>
                         </Link>

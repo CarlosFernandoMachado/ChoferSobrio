@@ -28,17 +28,48 @@ export default class Precios extends Component {
         const form = event.currentTarget;
         var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
         var length_placa = this.state.Placa.length;
+        var placa_cadena = this.state.Placa;
+
+        if (length_placa > 0) {
+            placa_cadena = this.state.Placa.replace(' ', '');
+        }
+
         var rex = /[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i;
-        if (form.checkValidity() === false || length !==8 || length_placa !==8) {
-            alert('numero placa o telefono invalido');
+        if (form.checkValidity() === false) {
+            alert('campos vacios')
+            this.setState({ validated: 'false' });
+
             event.preventDefault();
+            
             event.stopPropagation();
         } else {
-            this.setState({ validated: 'true' });
-            event.preventDefault();
-            this.setState({ listo: 'true' });
+            if(length !==8 ){
+                alert('numero de telefono invalido')
+            }
+            if (placa_cadena.length === 7 && placa_cadena.match(rex) !== null ) {
+
+                if (length === 8) {
+                    this.setState({ validated: 'true' });
+                    event.preventDefault();
+                    this.setState({ listo: 'true' });
+                    event.preventDefault();
+                } else {
+                    
+                    this.setState({ validated: 'false' });
+                    event.preventDefault();
+            
+                    
+                }
+
+
+            } else {
+                alert('numero de placa invalido');
+                
+                this.setState({ validated: 'false' });
+
+                event.preventDefault();
+            }
         }
-        this.setState({ validated: 'false' });
         event.preventDefault();
     }
     render() {
@@ -131,8 +162,9 @@ export default class Precios extends Component {
                             </Form.Row>
                             <div class="text-center">
                                 <Button type="submit" variant="warning" >Crear</Button>
-                                <Crear validado={ this.state.listo } datos={ [this.state.Color, this.state.Marca,this.state.nombre, this.state.Placa , this.state.telefono] } funcion={ "crear_cliente" } />
-                            </div>
+                                <Crear validado={ this.state.listo } datos={ [this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono] } funcion={ "crear_cliente" } />
+                                
+                                </div>
                         </Form>
                     </Alert>
                 </Card>
