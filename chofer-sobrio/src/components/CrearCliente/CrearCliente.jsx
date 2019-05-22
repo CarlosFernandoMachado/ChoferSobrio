@@ -11,7 +11,9 @@ export default class Precios extends Component {
             Marca: '',
             nombre: '',
             Placa: 0,
-            telefono: 0
+            telefono: 0,
+            validated: '',
+            listo: 0
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -25,12 +27,9 @@ export default class Precios extends Component {
     handleSubmit(event) {
         const form = event.currentTarget;
         var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
-        var length_placa = this.state.Placa.length
-        var placa_cadena = this.state.Placa.replace(' ','') 
+        var length_placa = this.state.Placa.length;
         var rex = /[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i;
-        
-        
-        if (form.checkValidity() === false || length !==8 || length_placa !==8 ||placa_cadena.match(rex)==null) {
+        if (form.checkValidity() === false || length !==8 || length_placa !==8) {
             alert('numero placa o telefono invalido');
             event.preventDefault();
             event.stopPropagation();
