@@ -20,12 +20,12 @@ const toolbar = props => (
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
-                        <Dropdown.Item><Link to="/"><Button bsStyle="primary">Home</Button> </Link></Dropdown.Item>
-                        <Dropdown.Item><Link to="/precios"><Button bsStyle="primary">Precios</Button></Link></Dropdown.Item>
-                        <Dropdown.Item><Link to="/seguridad"><Button bsStyle="primary">Seguridad </Button></Link></Dropdown.Item>
-                        <Dropdown.Item><Link to="/crear"><Button bsStyle="primary">Crear</Button></Link></Dropdown.Item>
-                        <Dropdown.Item><Link to="/CrearGerente"><Button bsStyle="primary">Crear Gerente</Button></Link></Dropdown.Item>
-                        <Dropdown.Item><Link to="/pedidos"><Button bsStyle="primary">Pedidos </Button></Link></Dropdown.Item>
+                        <Dropdown.Item><Link to="/"><Button >Home</Button> </Link></Dropdown.Item>
+                        <Dropdown.Item><Link to="/precios"><Button>Precios</Button></Link></Dropdown.Item>
+                        <Dropdown.Item><Link to="/seguridad"><Button>Seguridad </Button></Link></Dropdown.Item>
+                        <Dropdown.Item><Link to="/crear"><Button>Crear</Button></Link></Dropdown.Item>
+                        <Dropdown.Item><Link to="/CrearGerente"><Button>Crear Gerente</Button></Link></Dropdown.Item>
+                        <Dropdown.Item><Link to="/pedidos"><Button>Pedidos </Button></Link></Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </div>
