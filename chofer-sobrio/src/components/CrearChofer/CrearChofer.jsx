@@ -70,7 +70,7 @@ export default class Precios extends Component {
         return (
             <Container>
                 <Jumbotron>
-                    <h2>Bienvidos a chofer Sobrio</h2>
+                    <h2>Bienvenidos a chofer Sobrio</h2>
                     <p>Esta es la pagina para crear chofer?</p>
                 </Jumbotron>
                 <Card border="ligth">
