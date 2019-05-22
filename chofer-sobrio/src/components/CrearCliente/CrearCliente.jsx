@@ -29,11 +29,6 @@ export default class Precios extends Component {
         var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
         var length_placa = this.state.Placa.length;
         var placa_cadena = this.state.Placa;
-
-        if (length_placa > 0) {
-            placa_cadena = this.state.Placa.replace(' ', '');
-        }
-
         var rex = /[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i;
         if (form.checkValidity() === false) {
            
@@ -56,6 +51,7 @@ export default class Precios extends Component {
                     event.preventDefault();
                     this.setState({ listo: 'true' });
                     event.preventDefault();
+                    
                 } else {
                     
                     this.setState({ validated: 'false' });
@@ -136,7 +132,7 @@ export default class Precios extends Component {
                                     <InputGroup>
                                         <Form.Control
                                             type="text"
-                                            placeholder="_ _ _   _ _ _ _"
+                                            placeholder="_ _ _ _ _ _ _"
                                             required
                                             name="Placa"
                                             value={ this.state.value }
