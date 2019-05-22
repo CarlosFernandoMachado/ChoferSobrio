@@ -16,7 +16,7 @@ class SideDrawer extends React.Component {
 
     componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
-        
+
         if (user) {
             // admins
             this.dbRefAdmins = firebase.database().ref('/admin');
@@ -36,10 +36,10 @@ class SideDrawer extends React.Component {
         const { isAdmin } = this.state;
 
         let drawerClasses = 'side-drawer';
-        if(props.show){
-            drawerClasses ='side-drawer open';
+        if (props.show) {
+            drawerClasses = 'side-drawer open';
         }
-    
+
         const user = JSON.parse(localStorage.getItem('user'));
         let mensaje, imagen, usuario;
         if (user) {
@@ -51,7 +51,7 @@ class SideDrawer extends React.Component {
             imagen = '/blank.png';
             usuario = '';
         }
-    
+
         return (
             <nav className={drawerClasses}>
                 <Card>
@@ -61,30 +61,30 @@ class SideDrawer extends React.Component {
                     </CardBody>
                 </Card>
                 <ul>
-                    <Link to="/">
-                        <Button bsStyle="primary" onClick={props.hide} > Home</Button>
-                    </Link>
-                    <Link to="/precios">
-                        <Button bsStyle="primary" onClick={props.hide}> Precios</Button>
-                    </Link>
-                    <Link to="/seguridad">
-                        <Button bsStyle="primary" onClick={props.hide}> Seguridad</Button>
-                    </Link>
-
                     {isAdmin ? (
                         <React.Fragment>
                             <Link to="/CrearGerente">
-                                <Button bsStyle="primary" onClick={props.hide}> Crear Gerente</Button>
+                                <Button onClick={props.hide}> Crear Gerente</Button>
+                            </Link>
+                            <Link to="/CrearChofer">
+                                <Button onClick={props.hide}> Crear Chofer</Button>
                             </Link>
                         </React.Fragment>
                     ) : null}
-
-
-                    <Link to="/pedidos">
-                        <Button bsStyle="primary" onClick={props.hide}> Pedidos</Button>
-                    </Link>
                     <Link to="/iniciarSesion">
-                        <Button bsStyle="primary">{mensaje}</Button>
+                        <Button>{mensaje}</Button>
+                    </Link>
+                    <Link to="/">
+                        <Button onClick={props.hide} > Home</Button>
+                    </Link>
+                    <Link to="/precios">
+                        <Button onClick={props.hide}> Precios</Button>
+                    </Link>
+                    <Link to="/seguridad">
+                        <Button onClick={props.hide}> Seguridad</Button>
+                    </Link>
+                    <Link to="/pedidos">
+                        <Button onClick={props.hide}> Pedidos</Button>
                     </Link>
                 </ul>
             </nav>
