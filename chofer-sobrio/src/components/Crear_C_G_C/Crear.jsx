@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import './Crear.css'
-import Fire from './Fire';
-
-
+import Fire from '../config/config'; 
 
 export default class Crear extends Component {
     Crearchofer(id, identidad, name, number) {
@@ -146,6 +144,12 @@ export default class Crear extends Component {
     render() {
         if (this.props.validado && this.props.funcion === "crear_gerente"){
             this.Creargerente(2,this.props.datos[0],this.props.datos[1],this.props.datos[2])
+        }
+        if (this.props.validado && this.props.funcion === "Crearpedido"){
+            this.Crearpedido(2, this.props.datos[0],this.props.datos[1],this.props.datos[2],this.props.datos[3],this.props.datos[4],this.props.datos[5],this.props.datos[6],this.props.datos[7],this.props.datos[8] )
+        }
+        if (this.props.validado && this.props.funcion === "crear_cliente"){
+            this.Crearcliente(2,this.props.datos[0],this.props.datos[1],this.props.datos[2],this.props.datos[3],this.props.datos[4])
         }
         return (
             <div>

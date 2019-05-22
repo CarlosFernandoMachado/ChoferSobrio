@@ -9,7 +9,10 @@ import SideDrawer from './components/SideDrawer/SideDrawer';
 import Backdrop from './components/Backdrop/Backdrop';
 import PedirChofer from './components/PedirChofer/PedirChofer';
 import CrearGerente from './components/CrearGerente/CrearGerente';
-import Pedidos from './components/Pedidos/Pedidos'
+import CrearChofer from './components/CrearChofer/CrearChofer';
+import CrearCliente from './components/CrearCliente/CrearCliente';
+import Pedidos from './components/Pedidos/Pedidos';
+import IniciarSesion from './components/IniciarSesion/IniciarSesion';
 
 class App extends Component {
 
@@ -51,7 +54,10 @@ class App extends Component {
               <Route exact path="/pedirchofer" component={PedirChofer}></Route>
               <Route exact path="/crear" component={Crear}></Route>
               <Route exact path="/CrearGerente" component={CrearGerente}></Route>
+              <Route exact path="/CrearChofer" component={CrearChofer}></Route>
+              <Route exact path="/CrearCliente" component={CrearCliente}></Route>
               <Route exact path="/pedidos" component={Pedidos}></Route>
+              <Route exact path="/iniciarSesion" component={IniciarSesion}></Route>
             </div>
           </main>
         </div>

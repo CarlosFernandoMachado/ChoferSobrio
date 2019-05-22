@@ -1,4 +1,5 @@
 import React from 'react';
+import firebase from '../config/config';
 import './Toolbar.css';
 import DrawerToggleButton from '../DrawerToggleButton/DrawerToggleButton';
 import { Link } from 'react-router-dom';

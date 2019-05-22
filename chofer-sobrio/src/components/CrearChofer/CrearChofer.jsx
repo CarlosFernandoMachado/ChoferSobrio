@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from 'react-bootstrap';
-import './CrearGerente.css'
+import './CrearChofer.css'
 import Crear from '../Crear_C_G_C/Crear';
 
 export default class Precios extends Component {
@@ -10,8 +10,8 @@ export default class Precios extends Component {
             nombre: '',
             telefono: '',
             identidad: '',
-            validated: 0,
-            listo: 0
+            validated: '',
+            listo: 0,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -70,8 +70,8 @@ export default class Precios extends Component {
         return (
             <Container>
                 <Jumbotron>
-                    <h2>Bienvenidos a Chofer Sobrio</h2>
-                    <p>Esta es la pagina para crear gerente?</p>
+                    <h2>Bienvenidos a chofer Sobrio</h2>
+                    <p>Esta es la pagina para crear chofer?</p>
                 </Jumbotron>
                 <Card border="ligth">
                     <Alert variant="secondary">
@@ -86,6 +86,7 @@ export default class Precios extends Component {
                                     <Form.Control
                                         required
                                         type="text"
+                                        id="nombre"
                                         name="nombre"
                                         value={this.state.value}
                                         onChange={this.handleChange}
@@ -99,9 +100,9 @@ export default class Precios extends Component {
                                     <Form.Control
                                         required
                                         type="number"
-                                        name="telefono"
                                         id="telefono"
-                                        placeholder="31762140"
+                                        name="telefono"
+                                        placeholder="_ _ _ _ _ _ _ _"
                                         value={this.state.value}
                                         onChange={this.handleChange}
                                     />
@@ -114,14 +115,10 @@ export default class Precios extends Component {
                                     <InputGroup>
                                         <Form.Control
                                             type="number"
-                                            /*minLength = "13"
-                                            maxLength = "13"*/
-                                            /*min={9999999999999}
-                                            max={9999999999999}*/
+                                            id="identidad"
                                             placeholder="0801199004231"
                                             required
                                             name="identidad"
-                                            id="identidad"
                                             value={this.state.value}
                                             onChange={this.handleChange}
                                         />
@@ -133,7 +130,7 @@ export default class Precios extends Component {
                             </Form.Row>
                             <div class="text-center">
                                 <Button type="submit" variant="warning" >Crear</Button>
-                                <Crear validado={this.state.listo} datos={[this.state.identidad, this.state.nombre, this.state.telefono]} funcion={"crear_gerente"} />
+                                <Crear validado={this.state.listo} datos={[this.state.identidad, this.state.nombre, this.state.telefono]} funcion={"crear_chofer"} />
                             </div>
                         </Form>
                     </Alert>
