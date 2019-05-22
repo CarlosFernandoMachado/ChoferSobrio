@@ -36,7 +36,7 @@ export default class Precios extends Component {
 
         var rex = /[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i;
         if (form.checkValidity() === false) {
-            alert('campos vacios')
+           
             this.setState({ validated: 'false' });
 
             event.preventDefault();
@@ -44,7 +44,10 @@ export default class Precios extends Component {
             event.stopPropagation();
         } else {
             if(length !==8 ){
-                alert('numero de telefono invalido')
+                
+                this.setState({telefono: ''});
+                document.getElementById("telefono").value = "";
+                
             }
             if (placa_cadena.length === 7 && placa_cadena.match(rex) !== null ) {
 
@@ -63,8 +66,9 @@ export default class Precios extends Component {
 
 
             } else {
-                alert('numero de placa invalido');
-                
+               
+                this.setState({Placa: ''});
+                document.getElementById("Placa").value = "";
                 this.setState({ validated: 'false' });
 
                 event.preventDefault();
@@ -137,6 +141,7 @@ export default class Precios extends Component {
                                             name="Placa"
                                             value={ this.state.value }
                                             onChange={ this.handleChange }
+                                            id="Placa"
                                         />
                                         <Form.Control.Feedback type="invalid">
                                             Ingrese su numero de placa
@@ -149,9 +154,10 @@ export default class Precios extends Component {
                                         required
                                         type="number"
                                         name="telefono"
-                                        placeholder="31762140"
+                                        placeholder="_ _ _ _ _ _ _ _"
                                         value={ this.state.value }
                                         onChange={ this.handleChange }
+                                        id="telefono"
 
                                     />
                                     <Form.Control.Feedback type="invalid">
