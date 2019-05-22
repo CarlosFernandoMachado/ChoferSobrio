@@ -21,7 +21,7 @@ export default class Precios extends Component {
             hora: '9:00',
             validated: '',
             date: '',
-            listo: 0
+            listo: 0, 
         };
 
         this.onChange = hora => this.setState({ hora })
@@ -43,29 +43,72 @@ export default class Precios extends Component {
 
     handleSubmit(event) {
         const form = event.currentTarget;
+        this.setState({ date: (this.state.fecha.getDate() + '/' + (this.state.fecha.getMonth() + 1) + '/' + this.state.fecha.getFullYear()) });
+
+
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
+
         } else {
             var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
+          
+            /*VALIDACIONES*/ 
+
+
+            if(!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)){
+                /*Caracteres especiales*/ 
+                this.setState({nombre: ''});
+                document.getElementById("nombre").value = "";
+                
+            }
+
+            if(!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.marca)){
+                /*Caracteres especiales*/ 
+                this.setState({marca: ''});
+                document.getElementById("marca").value = "";
+            }
+
+            if(!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.color)){
+                /*Caracteres especiales*/ 
+                this.setState({color: ''});
+                document.getElementById("color").value = "";
+            }
+
+            if(!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.destino)){
+                /*Caracteres especiales*/ 
+                this.setState({destino: ''});
+                document.getElementById("destino").value = "";
+            }
+
+            if(!/[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i.test(this.state.placa)){
+                /*Placa invalida*/ 
+                this.setState({placa: ''});
+                document.getElementById("placa").value = "";
+            }
+
+
             if (length == 8) {
                 if (this.state.placa.length == 7) {
                     this.setState({ validated: 'true' });
                     event.preventDefault();
                     this.setState({ listo: 'true' });
-                    this.setState({ date: (this.state.fecha.getDate() + '/' + (this.state.fecha.getMonth() + 1) + '/' + this.state.fecha.getFullYear()) });
                 }else{
                     this.setState({placa: ''});
                     document.getElementById("placa").value = "";
+                    
                 }
             }else{
                 this.setState({telefono: ''});
                 document.getElementById("telefono").value = "";
             }
+
+            
         }
         this.setState({ validated: 'false' });
         event.preventDefault();
     }
+
     render() {
         const { validated } = this.state;
         return (
@@ -91,6 +134,7 @@ export default class Precios extends Component {
                                         name="nombre"
                                         value={this.state.value}
                                         onChange={this.handleChange}
+                                        id="nombre"
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         Ingrese su nombre
@@ -107,7 +151,7 @@ export default class Precios extends Component {
                                         id="telefono"
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese su telefono
+                                        Ingrese su teléfono(8 digitos)
                             </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={Col} md="4" controlId="validationCustomUsername">
@@ -119,6 +163,7 @@ export default class Precios extends Component {
                                             name="marca"
                                             value={this.state.value}
                                             onChange={this.handleChange}
+                                            id = "marca"
                                         />
                                         <Form.Control.Feedback type="invalid">
                                             Ingrese la marca de su vehiculo
@@ -135,6 +180,7 @@ export default class Precios extends Component {
                                         name="color"
                                         value={this.state.value}
                                         onChange={this.handleChange}
+                                        id = "color"
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         Ingrese el color de su vehiculo
@@ -162,6 +208,7 @@ export default class Precios extends Component {
                                         name="destino"
                                         value={this.state.value}
                                         onChange={this.handleChange}
+                                        id = "destino"
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         Ingrese su destino
