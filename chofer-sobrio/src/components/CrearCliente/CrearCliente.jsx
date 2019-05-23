@@ -10,6 +10,7 @@ export default class Precios extends Component {
             Color: '',
             Marca: '',
             nombre: '',
+            correo: '',
             Placa: 0,
             telefono: 0,
             validated: '',
@@ -168,7 +169,7 @@ export default class Precios extends Component {
                             </Form.Row>
                             <div class="text-center">
                                 <Button type="submit" variant="warning" >Crear</Button>
-                                <Crear validado={ this.state.listo } datos={ [this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono] } funcion={ "crear_cliente" } />
+                                <Crear validado={ this.state.listo } datos={ [this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo] } funcion={ "crear_cliente" } />
                                 
                                 </div>
                         </Form>
