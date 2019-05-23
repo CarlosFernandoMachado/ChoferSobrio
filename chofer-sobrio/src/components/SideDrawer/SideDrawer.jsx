@@ -28,7 +28,11 @@ class SideDrawer extends React.Component {
     }
 
     componentWillUnmount() {
-        this.dbRefAdmins.off('value', this.dbCallbackAdmins);
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        if (user) {
+            this.dbRefAdmins.off('value', this.dbCallbackAdmins);
+        }
     }
 
     render() {
