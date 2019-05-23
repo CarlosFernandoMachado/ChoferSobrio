@@ -3,13 +3,14 @@ import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from
 import './CrearGerente.css'
 import Crear from '../Crear_C_G_C/Crear';
 
-export default class Precios extends Component {
+export default class CrearGerente extends Component {
     constructor(props) {
         super(props);
         this.state = {
             nombre: '',
             telefono: '',
             identidad: '',
+            correo: '',
             validated: 0,
             listo: 0
         };
@@ -24,46 +25,45 @@ export default class Precios extends Component {
 
     handleSubmit(event) {
         const form = event.currentTarget;
+        var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
+        var lengthID = this.state.identidad.length
 
+        if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)) {
+            /*Caracteres especiales*/
+            this.setState({ nombre: '' });
+            document.getElementById("nombre").value = "";
+            
+        }
+        if (length !== 8) {
+            
+            this.setState({ telefono: '' });
+            document.getElementById("telefono").value = "";
+
+        }
+        if (lengthID !== 13) {
+            alert(lengthID)
+            alert(length)
+            this.setState({ identidad: '' });
+            document.getElementById("identidad").value = "";
+
+        }
         if (form.checkValidity() === false) {
+            this.setState({ validated: 'false' });
+            
             event.preventDefault();
             event.stopPropagation();
 
         } else {
-            var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
-            var lengthID = Math.log(this.state.identidad) * Math.LOG10E + 1 | 0;
-
-            /*VALIDACIONES*/
-
-
-            if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)) {
-                /*Caracteres especiales*/
-                this.setState({ nombre: '' });
-                document.getElementById("nombre").value = "";
-
-            }
-
-            if (this.state.telefono.length == 8) {
-                this.setState({ validated: 'true' });
-                event.preventDefault();
-                this.setState({ listo: 'true' });
-            } else {
-                this.setState({ telefono: '' });
-                document.getElementById("telefono").value = "";
-            }
-
-            if (this.state.identidad.length == 13) {
-                this.setState({ validated: 'true' });
-                event.preventDefault();
-                this.setState({ listo: 'true' });
-            } else {
-                this.setState({ identidad: '' });
-                document.getElementById("identidad").value = "";
-
-            }
+           
+            this.setState({ validated: 'true' });
+            event.preventDefault();
+            this.setState({ listo: 'true' });
+            
+            event.preventDefault();
         }
-        this.setState({ validated: 'false' });
-        event.preventDefault();
+        event.preventDefault()
+      
+        
     }
     render() {
         const { validated } = this.state;
@@ -89,9 +89,10 @@ export default class Precios extends Component {
                                         name="nombre"
                                         value={this.state.value}
                                         onChange={this.handleChange}
+                                        id="nombre"
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese su Nombre
+                                    Ingrese su nombre Correctamente (A-Z)
                                 </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={Col} md="4" controlId="validationCustom02">
@@ -106,7 +107,7 @@ export default class Precios extends Component {
                                         onChange={this.handleChange}
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese su Telefono
+                                    Ingrese su Telefono Correctamente 8 digitos (0-9)
                             </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={Col} md="4" controlId="validationCustomID">
@@ -114,11 +115,7 @@ export default class Precios extends Component {
                                     <InputGroup>
                                         <Form.Control
                                             type="number"
-                                            /*minLength = "13"
-                                            maxLength = "13"*/
-                                            /*min={9999999999999}
-                                            max={9999999999999}*/
-                                            placeholder="0801199004231"
+                                            placeholder=""
                                             required
                                             name="identidad"
                                             id="identidad"
@@ -126,14 +123,31 @@ export default class Precios extends Component {
                                             onChange={this.handleChange}
                                         />
                                         <Form.Control.Feedback type="invalid">
-                                            Ingrese su Identidad
+                                        Ingrese su Identidad Correctamente 13 digitos (0-9) sin espacios ni guiones
+                                </Form.Control.Feedback>
+                                    </InputGroup>
+                                </Form.Group>
+                                <Form.Group as={Col} md="4" controlId="validationCustomID">
+                                    <Form.Label>Correo</Form.Label>
+                                    <InputGroup>
+                                        <Form.Control
+                                            type="email"
+                                            placeholder=""
+                                            required
+                                            name="correo"
+                                            id="correo"
+                                            value={this.state.value}
+                                            onChange={this.handleChange}
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                            Ingrese su Correo
                                 </Form.Control.Feedback>
                                     </InputGroup>
                                 </Form.Group>
                             </Form.Row>
                             <div class="text-center">
                                 <Button type="submit" variant="warning" >Crear</Button>
-                                <Crear validado={this.state.listo} datos={[this.state.identidad, this.state.nombre, this.state.telefono]} funcion={"crear_gerente"} />
+                                <Crear validado={this.state.listo} datos={[this.state.identidad, this.state.nombre, this.state.telefono, this.state.correo]} funcion={"crear_gerente"} />
                             </div>
                         </Form>
                     </Alert>

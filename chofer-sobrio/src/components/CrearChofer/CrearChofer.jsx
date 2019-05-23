@@ -3,13 +3,14 @@ import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from
 import './CrearChofer.css'
 import Crear from '../Crear_C_G_C/Crear';
 
-export default class Precios extends Component {
+export default class CrearChofer extends Component {
     constructor(props) {
         super(props);
         this.state = {
             nombre: '',
             telefono: '',
             identidad: '',
+            correo: '',
             validated: '',
             listo: 0,
         };
@@ -24,43 +25,40 @@ export default class Precios extends Component {
 
     handleSubmit(event) {
         const form = event.currentTarget;
+        var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
+        var lengthID = this.state.identidad.length
 
+        if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)) {
+            /*Caracteres especiales*/
+            this.setState({ nombre: '' });
+            document.getElementById("nombre").value = "";
+            
+        }
+        if (length !== 8) {
+
+            this.setState({ telefono: '' });
+            document.getElementById("telefono").value = "";
+
+        }
+        if (lengthID !== 13) {
+            
+            this.setState({ identidad: '' });
+            document.getElementById("identidad").value = "";
+
+        }
         if (form.checkValidity() === false) {
+            this.setState({ validated: 'false' })
             event.preventDefault();
             event.stopPropagation();
 
         } else {
-            var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
-            var lengthID = Math.log(this.state.identidad) * Math.LOG10E + 1 | 0;
+           
+            this.setState({ validated: 'true' });
+            event.preventDefault();
+            this.setState({ listo: 'true' });
 
-            /*VALIDACIONES*/
 
 
-            if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)) {
-                /*Caracteres especiales*/
-                this.setState({ nombre: '' });
-                document.getElementById("nombre").value = "";
-
-            }
-
-            if (this.state.telefono.length == 8) {
-                this.setState({ validated: 'true' });
-                event.preventDefault();
-                this.setState({ listo: 'true' });
-            } else {
-                this.setState({ telefono: '' });
-                document.getElementById("telefono").value = "";
-            }
-
-            if (this.state.identidad.length == 13) {
-                this.setState({ validated: 'true' });
-                event.preventDefault();
-                this.setState({ listo: 'true' });
-            } else {
-                this.setState({ identidad: '' });
-                document.getElementById("identidad").value = "";
-
-            }
         }
         this.setState({ validated: 'false' });
         event.preventDefault();
@@ -77,25 +75,25 @@ export default class Precios extends Component {
                     <Alert variant="secondary">
                         <Form
                             noValidate
-                            validated={validated}
-                            onSubmit={e => this.handleSubmit(e)}
+                            validated={ validated }
+                            onSubmit={ e => this.handleSubmit(e) }
                         >
                             <Form.Row>
-                                <Form.Group as={Col} md="4" controlId="validationCustom01">
+                                <Form.Group as={ Col } md="4" controlId="validationCustom01">
                                     <Form.Label>Nombre</Form.Label>
                                     <Form.Control
                                         required
                                         type="text"
                                         id="nombre"
                                         name="nombre"
-                                        value={this.state.value}
-                                        onChange={this.handleChange}
+                                        value={ this.state.value }
+                                        onChange={ this.handleChange }
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese su Nombre
+                                        Ingrese su nombre Correctamente (A-Z)
                                 </Form.Control.Feedback>
                                 </Form.Group>
-                                <Form.Group as={Col} md="4" controlId="validationCustom02">
+                                <Form.Group as={ Col } md="4" controlId="validationCustom02">
                                     <Form.Label>Telefono</Form.Label>
                                     <Form.Control
                                         required
@@ -103,34 +101,49 @@ export default class Precios extends Component {
                                         id="telefono"
                                         name="telefono"
                                         placeholder="_ _ _ _ _ _ _ _"
-                                        value={this.state.value}
-                                        onChange={this.handleChange}
+                                        value={ this.state.value }
+                                        onChange={ this.handleChange }
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese su Telefono
+                                        Ingrese su Telefono Correctamente 8 digitos (0-9)
                             </Form.Control.Feedback>
                                 </Form.Group>
-                                <Form.Group as={Col} md="4" controlId="validationCustomID">
+                                <Form.Group as={ Col } md="4" controlId="validationCustomID">
                                     <Form.Label>Identidad</Form.Label>
                                     <InputGroup>
                                         <Form.Control
                                             type="number"
                                             id="identidad"
-                                            placeholder="0801199004231"
+                                            placeholder="_ _ _ _ _ _ _ _ _ _ _ _ _"
                                             required
                                             name="identidad"
-                                            value={this.state.value}
-                                            onChange={this.handleChange}
+                                            value={ this.state.value }
+                                            onChange={ this.handleChange }
                                         />
                                         <Form.Control.Feedback type="invalid">
-                                            Ingrese su Identidad
+                                            Ingrese su Identidad Correctamente 13 digitos (0-9)
                                 </Form.Control.Feedback>
                                     </InputGroup>
+                                </Form.Group>
+                                <Form.Group as={ Col } md="4" controlId="validationCustom02">
+                                    <Form.Label>Correo</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="email"
+                                        id="correo"
+                                        name="correo"
+                                        placeholder=""
+                                        value={ this.state.value }
+                                        onChange={ this.handleChange }
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Ingrese su Correo Correctamente 
+                            </Form.Control.Feedback>
                                 </Form.Group>
                             </Form.Row>
                             <div class="text-center">
                                 <Button type="submit" variant="warning" >Crear</Button>
-                                <Crear validado={this.state.listo} datos={[this.state.identidad, this.state.nombre, this.state.telefono]} funcion={"crear_chofer"} />
+                                <Crear validado={ this.state.listo } datos={ [this.state.identidad, this.state.nombre, this.state.telefono, this.state.correo] } funcion={ "crear_chofer" } />
                             </div>
                         </Form>
                     </Alert>
