@@ -3,13 +3,14 @@ import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from
 import './CrearGerente.css'
 import Crear from '../Crear_C_G_C/Crear';
 
-export default class Precios extends Component {
+export default class CrearGerente extends Component {
     constructor(props) {
         super(props);
         this.state = {
             nombre: '',
             telefono: '',
             identidad: '',
+            correo: '',
             validated: 0,
             listo: 0
         };
@@ -43,24 +44,27 @@ export default class Precios extends Component {
 
             }
 
-            if (this.state.telefono.length == 8) {
+            if (length === 8 && lengthID === 13) {
                 this.setState({ validated: 'true' });
                 event.preventDefault();
                 this.setState({ listo: 'true' });
             } else {
                 this.setState({ telefono: '' });
                 document.getElementById("telefono").value = "";
+                this.setState({ identidad: '' });
+                document.getElementById("identidad").value = "";
             }
-
-            if (this.state.identidad.length == 13) {
+            
+            /*
+            if (lengthID === 13) {
                 this.setState({ validated: 'true' });
                 event.preventDefault();
                 this.setState({ listo: 'true' });
             } else {
                 this.setState({ identidad: '' });
                 document.getElementById("identidad").value = "";
-
             }
+            */
         }
         this.setState({ validated: 'false' });
         event.preventDefault();
@@ -114,11 +118,7 @@ export default class Precios extends Component {
                                     <InputGroup>
                                         <Form.Control
                                             type="number"
-                                            /*minLength = "13"
-                                            maxLength = "13"*/
-                                            /*min={9999999999999}
-                                            max={9999999999999}*/
-                                            placeholder="0801199004231"
+                                            placeholder=""
                                             required
                                             name="identidad"
                                             id="identidad"
@@ -126,14 +126,31 @@ export default class Precios extends Component {
                                             onChange={this.handleChange}
                                         />
                                         <Form.Control.Feedback type="invalid">
-                                            Ingrese su Identidad
+                                            Ingrese su Identidad sin espacios y sin guiones
+                                </Form.Control.Feedback>
+                                    </InputGroup>
+                                </Form.Group>
+                                <Form.Group as={Col} md="4" controlId="validationCustomID">
+                                    <Form.Label>Correo</Form.Label>
+                                    <InputGroup>
+                                        <Form.Control
+                                            type="email"
+                                            placeholder=""
+                                            required
+                                            name="correo"
+                                            id="correo"
+                                            value={this.state.value}
+                                            onChange={this.handleChange}
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                            Ingrese su Correo
                                 </Form.Control.Feedback>
                                     </InputGroup>
                                 </Form.Group>
                             </Form.Row>
                             <div class="text-center">
                                 <Button type="submit" variant="warning" >Crear</Button>
-                                <Crear validado={this.state.listo} datos={[this.state.identidad, this.state.nombre, this.state.telefono]} funcion={"crear_gerente"} />
+                                <Crear validado={this.state.listo} datos={[this.state.identidad, this.state.nombre, this.state.telefono, this.state.correo]} funcion={"Creargerente"} />
                             </div>
                         </Form>
                     </Alert>

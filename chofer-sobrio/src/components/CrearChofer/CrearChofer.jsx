@@ -3,13 +3,14 @@ import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from
 import './CrearChofer.css'
 import Crear from '../Crear_C_G_C/Crear';
 
-export default class Precios extends Component {
+export default class CrearChofer extends Component {
     constructor(props) {
         super(props);
         this.state = {
             nombre: '',
             telefono: '',
             identidad: '',
+            correo: '',
             validated: '',
             listo: 0,
         };
@@ -24,17 +25,16 @@ export default class Precios extends Component {
 
     handleSubmit(event) {
         const form = event.currentTarget;
+        var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
+        var lengthID = Math.log(this.state.identidad) * Math.LOG10E + 1 | 0;
 
         if (form.checkValidity() === false) {
+            this.setState({ validated: 'false' })
             event.preventDefault();
             event.stopPropagation();
 
         } else {
-            var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
-            var lengthID = Math.log(this.state.identidad) * Math.LOG10E + 1 | 0;
-
             /*VALIDACIONES*/
-
 
             if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)) {
                 /*Caracteres especiales*/
@@ -43,21 +43,21 @@ export default class Precios extends Component {
 
             }
 
-            if (this.state.telefono.length == 8) {
+            if (length === 8) {
                 this.setState({ validated: 'true' });
                 event.preventDefault();
                 this.setState({ listo: 'true' });
             } else {
-                this.setState({ telefono: '' });
+                this.setState({ telefono: ''});
                 document.getElementById("telefono").value = "";
             }
 
-            if (this.state.identidad.length == 13) {
+            if (lengthID === 13) {
                 this.setState({ validated: 'true' });
                 event.preventDefault();
                 this.setState({ listo: 'true' });
             } else {
-                this.setState({ identidad: '' });
+                this.setState({ identidad: ''});
                 document.getElementById("identidad").value = "";
 
             }
@@ -127,10 +127,25 @@ export default class Precios extends Component {
                                 </Form.Control.Feedback>
                                     </InputGroup>
                                 </Form.Group>
+                                <Form.Group as={Col} md="4" controlId="validationCustom02">
+                                    <Form.Label>Correo</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="email"
+                                        id="correo"
+                                        name="correo"
+                                        placeholder=""
+                                        value={this.state.value}
+                                        onChange={this.handleChange}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Ingrese su Telefono
+                            </Form.Control.Feedback>
+                                </Form.Group>
                             </Form.Row>
                             <div class="text-center">
                                 <Button type="submit" variant="warning" >Crear</Button>
-                                <Crear validado={this.state.listo} datos={[this.state.identidad, this.state.nombre, this.state.telefono]} funcion={"crear_chofer"} />
+                                <Crear validado={this.state.listo} datos={[this.state.identidad, this.state.nombre, this.state.telefono, this.state.correo]} funcion={"Crearchofer"} />
                             </div>
                         </Form>
                     </Alert>
