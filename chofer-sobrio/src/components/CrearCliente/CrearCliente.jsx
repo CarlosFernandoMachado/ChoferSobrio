@@ -134,7 +134,7 @@ export default class Precios extends Component {
                                         onChange={ this.handleChange }
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese su Telefono
+                                        Ingrese su correo correctamente
                         </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={ Col } md="4" controlId="validationCustom01">
