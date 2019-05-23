@@ -16,6 +16,9 @@ export default class Precios extends Component {
     componentDidMount() {
         this.loaddata();
     }
+    componentWillUnmount() {
+        document.getElementById('table_body').innerHTML = '';
+    }
 
     loaddata = () => {
         var rootRef = firebase.database().ref().child("pedido");
