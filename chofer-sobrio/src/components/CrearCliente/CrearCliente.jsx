@@ -30,40 +30,64 @@ export default class Precios extends Component {
         var length_placa = this.state.Placa.length;
         var placa_cadena = this.state.Placa;
         var rex = /[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i;
+        if (length !== 8) {
+
+            this.setState({ telefono: '' });
+            document.getElementById("telefono").value = "";
+
+        }
+        if (placa_cadena.length !== 7 || placa_cadena.match(rex) == null) {
+
+            this.setState({ Placa: '' });
+            document.getElementById("Placa").value = "";
+        }
+        if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)) {
+            /*Caracteres especiales*/
+            this.setState({ nombre: '' });
+            document.getElementById("nombre").value = "";
+            this.setState({ validated: 'false' });
+        }
+        if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Marca)) {
+            /*Caracteres especiales*/
+            this.setState({ Marca: '' });
+            document.getElementById("Marca").value = "";
+            this.setState({ validated: 'false' });
+        }
+        if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Color)) {
+            /*Caracteres especiales*/
+            this.setState({ Color: '' });
+            document.getElementById("Color").value = "";
+            this.setState({ validated: 'false' });
+        }
         if (form.checkValidity() === false) {
-           
+
             this.setState({ validated: 'false' });
 
             event.preventDefault();
-            
+
             event.stopPropagation();
         } else {
-            if(length !==8 ){
-                
-                this.setState({telefono: ''});
-                document.getElementById("telefono").value = "";
-                
-            }
-            if (placa_cadena.length === 7 && placa_cadena.match(rex) !== null ) {
+           
+            if (placa_cadena.length === 7 && placa_cadena.match(rex) !== null) {
 
                 if (length === 8) {
                     this.setState({ validated: 'true' });
                     event.preventDefault();
                     this.setState({ listo: 'true' });
                     event.preventDefault();
-                    
+
                 } else {
-                    
+
                     this.setState({ validated: 'false' });
                     event.preventDefault();
-            
-                    
+
+
                 }
 
 
             } else {
-               
-                this.setState({Placa: ''});
+
+                this.setState({ Placa: '' });
                 document.getElementById("Placa").value = "";
                 this.setState({ validated: 'false' });
 
@@ -96,9 +120,10 @@ export default class Precios extends Component {
                                         name="Color"
                                         value={ this.state.value }
                                         onChange={ this.handleChange }
+                                        id="Color"
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese el color de vehiculo
+                                        Ingrese el color de vehiculo (A-Z)
                                 </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={ Col } md="4" controlId="validationCustom01">
@@ -109,9 +134,10 @@ export default class Precios extends Component {
                                         name="Marca"
                                         value={ this.state.value }
                                         onChange={ this.handleChange }
+                                        id="Marca"
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese la marca de vehiculo
+                                        Ingrese la marca de vehiculo (A-Z)
                                 </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={ Col } md="4" controlId="validationCustom01">
@@ -122,9 +148,10 @@ export default class Precios extends Component {
                                         name="nombre"
                                         value={ this.state.value }
                                         onChange={ this.handleChange }
+                                        id="nombre"
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese su Nombre
+                                        Ingrese su Nombre (A-Z)
                                 </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={ Col } md="4" controlId="validationCustomID">
@@ -140,7 +167,7 @@ export default class Precios extends Component {
                                             id="Placa"
                                         />
                                         <Form.Control.Feedback type="invalid">
-                                            Ingrese su numero de placa
+                                            Numero de placa invalido 3 letras (A-Z) y 4 digitos(0-9)
                                 </Form.Control.Feedback>
                                     </InputGroup>
                                 </Form.Group>
@@ -157,7 +184,7 @@ export default class Precios extends Component {
 
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese su Telefono
+                                        Numero de telefono invalido siga el formato indicado 8 digitos numericos
                             </Form.Control.Feedback>
                                 </Form.Group>
 
@@ -165,8 +192,8 @@ export default class Precios extends Component {
                             <div class="text-center">
                                 <Button type="submit" variant="warning" >Crear</Button>
                                 <Crear validado={ this.state.listo } datos={ [this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono] } funcion={ "crear_cliente" } />
-                                
-                                </div>
+
+                            </div>
                         </Form>
                     </Alert>
                 </Card>
