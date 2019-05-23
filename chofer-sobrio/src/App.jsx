@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import firebase from './components/config/config';
 import Home from './components/Home/Home';
 import Precios from './components/Precios/Precios';
 import Seguridad from './components/Seguridad/Seguridad';
@@ -14,16 +15,56 @@ import CrearCliente from './components/CrearCliente/CrearCliente';
 import Pedidos from './components/Pedidos/Pedidos';
 import IniciarSesion from './components/IniciarSesion/IniciarSesion';
 import Password_olvidada from './components/Password_olvidada/Password_olvidada';
-class App extends Component {
+import { Autenticado } from './routes/Autenticado';
 
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sideDrawerOpen: false
+      sideDrawerOpen: false,
+      isGerente: false,
+      isChofer: false,
     };
     this.drawerToggleClickHandler = this.drawerToggleClickHandler.bind(this);
     this.backdropClickHandler = this.backdropClickHandler.bind(this);
   }
+
+  componentDidMount() {
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (user) {
+        // gerentes
+        this.dbRefGerentes = firebase.database().ref('/gerente');
+        this.dbCallbackGerentes = this.dbRefGerentes.on('value', (snap) => {
+            const gerentes = snap.val();
+            let isGerente = false;
+            gerentes.forEach(gerente => {
+                isGerente = isGerente || gerente.correo === user.email; 
+            });
+            this.setState({ isGerente });
+        });
+
+        // choferes
+        this.dbRefChoferes = firebase.database().ref('/chofer');
+        this.dbCallbackChoferes = this.dbRefChoferes.on('value', (snap) => {
+            const choferes = snap.val();
+            console.log(choferes)
+            let isChofer = false;
+            choferes.forEach(chofer => {
+                isChofer = isChofer || chofer.correo === user.email; 
+            });
+            this.setState({ isChofer });
+        });
+    }
+}
+
+componentWillUnmount() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+        this.dbRefGerentes.off('value', this.dbCallbackGerentes);
+        this.dbRefChoferes.off('value', this.dbCallbackChoferes);
+    }
+}
 
   drawerToggleClickHandler = () => {
     this.setState((prevState) => {
