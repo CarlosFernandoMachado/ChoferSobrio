@@ -10,8 +10,11 @@ export default class Precios extends Component {
             Color: '',
             Marca: '',
             nombre: '',
+            correo: '',
             Placa: 0,
-            telefono: 0
+            telefono: 0,
+            validated: '',
+            listo: 0
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -25,29 +28,74 @@ export default class Precios extends Component {
     handleSubmit(event) {
         const form = event.currentTarget;
         var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
-        var length_placa = this.state.Placa.length
-        var placa_cadena = this.state.Placa.replace(' ','') 
+        var placa_cadena = this.state.Placa;
         var rex = /[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i;
-        
-        
-        if (form.checkValidity() === false || length !==8 || length_placa !==8 ||placa_cadena.match(rex)==null) {
-            alert('numero placa o telefono invalido');
+        if (length !== 8) {
+
+            this.setState({ telefono: '' });
+            document.getElementById("telefono").value = "";
+
+        }
+        if (placa_cadena.length !== 7 || placa_cadena.match(rex) == null) {
+
+            this.setState({ Placa: '' });
+            document.getElementById("Placa").value = "";
+        }
+        if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)) {
+            /*Caracteres especiales*/
+            this.setState({ nombre: '' });
+            document.getElementById("nombre").value = "";
+           
+        }
+        if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Marca)) {
+            /*Caracteres especiales*/
+            this.setState({ Marca: '' });
+            document.getElementById("Marca").value = "";
+           
+        }
+        if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Color)) {
+            /*Caracteres especiales*/
+            this.setState({ Color: '' });
+            document.getElementById("Color").value = "";
+           
+        }
+        if (form.checkValidity() === false) {
+
+            this.setState({ validated: 'false' });
+
             event.preventDefault();
+
             event.stopPropagation();
         } else {
             this.setState({ validated: 'true' });
             event.preventDefault();
             this.setState({ listo: 'true' });
+            event.preventDefault();
+
         }
-        this.setState({ validated: 'false' });
+
+
         event.preventDefault();
+    }
+    limpiar(event) {
+        this.setState({ telefono: '' });
+        document.getElementById("telefono").value = "";
+        this.setState({ Placa: '' });
+        document.getElementById("Placa").value = "";
+        this.setState({ nombre: '' });
+        document.getElementById("nombre").value = "";
+        this.setState({ Marca: '' });
+        document.getElementById("Marca").value = "";
+        this.setState({ Color: '' });
+        document.getElementById("Color").value = "";
+
     }
     render() {
         const { validated } = this.state;
         return (
             <Container>
                 <Jumbotron>
-                    <h2>Bienvidos a chofer Sobrio</h2>
+                    <h2>Bienvenidos a chofer Sobrio</h2>
                     <p>Esta es la pagina para crear Cliente?</p>
                 </Jumbotron>
                 <Card border="ligth">
@@ -56,6 +104,8 @@ export default class Precios extends Component {
                             noValidate
                             validated={ validated }
                             onSubmit={ e => this.handleSubmit(e) }
+
+
                         >
                             <Form.Row>
                                 <Form.Group as={ Col } md="4" controlId="validationCustom01">
@@ -66,10 +116,26 @@ export default class Precios extends Component {
                                         name="Color"
                                         value={ this.state.value }
                                         onChange={ this.handleChange }
+                                        id="Color"
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese el color de vehiculo
+                                        Ingrese el color de vehiculo (A-Z)
                                 </Form.Control.Feedback>
+                                </Form.Group>
+                                <Form.Group as={ Col } md="4" controlId="validationCustom02">
+                                    <Form.Label>Correo</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="email"
+                                        id="correo"
+                                        name="correo"
+                                        placeholder=""
+                                        value={ this.state.value }
+                                        onChange={ this.handleChange }
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Ingrese su correo correctamente
+                        </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={ Col } md="4" controlId="validationCustom01">
                                     <Form.Label>Marca de Vehiculo</Form.Label>
@@ -79,9 +145,10 @@ export default class Precios extends Component {
                                         name="Marca"
                                         value={ this.state.value }
                                         onChange={ this.handleChange }
+                                        id="Marca"
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese la marca de vehiculo
+                                        Ingrese la marca de vehiculo (A-Z)
                                 </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={ Col } md="4" controlId="validationCustom01">
@@ -92,9 +159,10 @@ export default class Precios extends Component {
                                         name="nombre"
                                         value={ this.state.value }
                                         onChange={ this.handleChange }
+                                        id="nombre"
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese su Nombre
+                                        Ingrese su Nombre (A-Z)
                                 </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={ Col } md="4" controlId="validationCustomID">
@@ -102,14 +170,15 @@ export default class Precios extends Component {
                                     <InputGroup>
                                         <Form.Control
                                             type="text"
-                                            placeholder="_ _ _   _ _ _ _"
+                                            placeholder="_ _ _ _ _ _ _"
                                             required
                                             name="Placa"
                                             value={ this.state.value }
                                             onChange={ this.handleChange }
+                                            id="Placa"
                                         />
                                         <Form.Control.Feedback type="invalid">
-                                            Ingrese su numero de placa
+                                            Numero de placa invalido 3 letras (A-Z) y 4 digitos(0-9)
                                 </Form.Control.Feedback>
                                     </InputGroup>
                                 </Form.Group>
@@ -119,21 +188,25 @@ export default class Precios extends Component {
                                         required
                                         type="number"
                                         name="telefono"
-                                        placeholder="31762140"
+                                        placeholder="_ _ _ _ _ _ _ _"
                                         value={ this.state.value }
                                         onChange={ this.handleChange }
+                                        id="telefono"
 
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese su Telefono
+                                        Numero de telefono invalido siga el formato indicado 8 digitos numericos
                             </Form.Control.Feedback>
                                 </Form.Group>
 
                             </Form.Row>
                             <div class="text-center">
-                                <Button type="submit" variant="warning" >Crear</Button>
-                                <Crear validado={ this.state.listo } datos={ [this.state.Color, this.state.Marca,this.state.nombre, this.state.Placa , this.state.telefono] } funcion={ "crear_cliente" } />
+                                <Button type="submit" variant="warning" > Crear</Button>
+                                <Crear validado={ this.state.listo } datos={ [this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo] } funcion={ "crear_cliente" }  />
+
                             </div>
+
+
                         </Form>
                     </Alert>
                 </Card>

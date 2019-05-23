@@ -3,12 +3,13 @@ import './Crear.css'
 import Fire from '../config/config'; 
 
 export default class Crear extends Component {
-    Crearchofer(id, identidad, name, number) {
+    Crearchofer(id, identidad, name, number, email) {
         var database = Fire.database();
         database.ref('chofer/' + id).set({
             identidad: identidad,
             nombre: name,
-            telefono: number
+            telefono: number,
+            correo: email
         });
     }
     Leerchofer(userId) {
@@ -21,24 +22,26 @@ export default class Crear extends Component {
 
         return n;
     }
-    modificarchofer(id, name, number) {
+    modificarchofer(id, name, number, email) {
         var database = Fire.database();
         database.ref('chofer/' + id).update({
 
             nombre: name,
-            telefono: number
+            telefono: number,
+            correo: email
         });
     }
     Eliminarchofer(id) {
         var database = Fire.database();
         database.ref('chofer/' + id).remove();
     }
-    Creargerente(id, identidad, name, number) {
+    Creargerente(id, identidad, name, number, email) {
         var database = Fire.database();
         database.ref('gerente/' + id).set({
             identidad: identidad,
             nombre: name,
-            telefono: number
+            telefono: number,
+            correo: email
         });
     }
     Leergerente(userId) {
@@ -51,26 +54,28 @@ export default class Crear extends Component {
 
         return n;
     }
-    modificargerente(id, name, number) {
+    modificargerente(id, name, number, email) {
         var database = Fire.database();
         database.ref('gerente/' + id).update({
 
             nombre: name,
-            telefono: number
+            telefono: number,
+            correo: email
         });
     }
     EliminarGerente(id) {
         var database = Fire.database();
         database.ref('gerente/' + id).remove();
     }
-    Crearcliente(id, color_vehiculo, marca, nombre, placa, telefono) {
+    Crearcliente(id, color_vehiculo, marca, nombre, placa, telefono, email) {
         var database = Fire.database();
         database.ref('cliente/' + id).set({
             color_vehiculo: color_vehiculo,
             marca: marca,
             nombre: nombre,
             placa: placa,
-            telefono: telefono
+            telefono: telefono,
+            correo: email
         });
     }
     Leercliente(userId) {
@@ -143,13 +148,16 @@ export default class Crear extends Component {
     }
     render() {
         if (this.props.validado && this.props.funcion === "crear_gerente"){
-            this.Creargerente(2,this.props.datos[0],this.props.datos[1],this.props.datos[2])
+            this.Creargerente(2,this.props.datos[0],this.props.datos[1],this.props.datos[2],this.props.datos[3])
         }
         if (this.props.validado && this.props.funcion === "Crearpedido"){
             this.Crearpedido(2, this.props.datos[0],this.props.datos[1],this.props.datos[2],this.props.datos[3],this.props.datos[4],this.props.datos[5],this.props.datos[6],this.props.datos[7],this.props.datos[8] )
         }
         if (this.props.validado && this.props.funcion === "crear_cliente"){
-            this.Crearcliente(2,this.props.datos[0],this.props.datos[1],this.props.datos[2],this.props.datos[3],this.props.datos[4])
+            this.Crearcliente(2,this.props.datos[0],this.props.datos[1],this.props.datos[2],this.props.datos[3],this.props.datos[4],this.props.datos[5])
+        }
+        if (this.props.validado && this.props.funcion === "crear_chofer"){
+            this.Crearchofer(2,this.props.datos[0],this.props.datos[1],this.props.datos[2],this.props.datos[3])
         }
         return (
             <div>
