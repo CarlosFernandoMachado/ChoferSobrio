@@ -19,7 +19,7 @@ class SideDrawer extends React.Component {
 
         if (user) {
             // admins
-            this.dbRefAdmins = firebase.database().ref('/admin');
+            this.dbRefAdmins = firebase.database().ref('/gerente');
             this.dbCallbackAdmins = this.dbRefAdmins.on('value', (snap) => {
                 const admins = snap.val();
                 admins.forEach(admin => this.setState({ isAdmin: admin.correo === user.email }));

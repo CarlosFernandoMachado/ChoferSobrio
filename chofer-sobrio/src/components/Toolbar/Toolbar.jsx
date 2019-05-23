@@ -12,7 +12,8 @@ class Toolbar extends React.Component {
         this.props = props;
 
         this.state = {
-            isAdmin: false,
+            isGerente: false,
+            isChofer: false,
         };
     }
 
@@ -20,32 +21,81 @@ class Toolbar extends React.Component {
         const user = JSON.parse(localStorage.getItem('user'));
 
         if (user) {
-            // admins
-            this.dbRefAdmins = firebase.database().ref('/admin');
-            this.dbCallbackAdmins = this.dbRefAdmins.on('value', (snap) => {
-                const admins = snap.val();
-                admins.forEach(admin => this.setState({ isAdmin: admin.correo === user.email }));
+            // gerentes
+            this.dbRefGerentes = firebase.database().ref('/gerente');
+            this.dbCallbackGerentes = this.dbRefGerentes.on('value', (snap) => {
+                const gerentes = snap.val();
+                let isGerente = false;
+                gerentes.forEach(gerente => {
+                    isGerente = isGerente || gerente.correo === user.email; 
+                });
+                this.setState({ isGerente });
+            });
+
+            // choferes
+            this.dbRefChoferes = firebase.database().ref('/chofer');
+            this.dbCallbackChoferes = this.dbRefChoferes.on('value', (snap) => {
+                const choferes = snap.val();
+                console.log(choferes)
+                let isChofer = false;
+                choferes.forEach(chofer => {
+                    isChofer = isChofer || chofer.correo === user.email; 
+                });
+                this.setState({ isChofer });
             });
         }
     }
 
-
     componentWillUnmount() {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
-            this.dbRefAdmins.off('value', this.dbCallbackAdmins);
+            this.dbRefGerentes.off('value', this.dbCallbackGerentes);
+            this.dbRefChoferes.off('value', this.dbCallbackChoferes);
         }
     }
 
     render() {
         const props = this.props;
-        const { isAdmin } = this.state;
+        const { isGerente, isChofer } = this.state;
 
         let mensaje;
         if (localStorage.getItem('user')) {
             mensaje = 'Cerrar sesion';
         } else {
             mensaje = 'Iniciar sesion';
+        }
+
+        let menuProtegidos = [];
+        if (isGerente) {
+            menuProtegidos.push((
+                <Dropdown.Item>
+                    <Link to="/CrearGerente">
+                        <Button bsStyle="primary"> Crear Gerente</Button>
+                    </Link>
+                </Dropdown.Item>
+            ), (
+                <Dropdown.Item>
+                    <Link to="/CrearChofer">
+                        <Button bsStyle="primary"> Crear Chofer</Button>
+                    </Link>
+                </Dropdown.Item>
+            ), (
+                <Dropdown.Item>
+                    <Link to="/CrearCliente">
+                        <Button bsStyle="primary"> Crear Cliente</Button>
+                    </Link>
+                </Dropdown.Item>
+            ));
+        }
+
+        if (isChofer || isGerente) {
+            menuProtegidos.push(
+                <Dropdown.Item>
+                    <Link to="/pedidos">
+                        <Button>Pedidos </Button>
+                    </Link>
+                </Dropdown.Item>
+            );
         }
 
         return (
@@ -68,29 +118,10 @@ class Toolbar extends React.Component {
                                 <Dropdown.Item><Link to="/seguridad"><Button>Seguridad </Button></Link></Dropdown.Item>
                                 <Dropdown.Item><Link to="/crear"><Button>Crear</Button></Link></Dropdown.Item>
 
-                                {/* Menus de admin */}
-                                {isAdmin ? (
-                                    <React.Fragment>
-                                        <Dropdown.Item>
-                                            <Link to="/CrearGerente">
-                                                <Button bsStyle="primary"> Crear Gerente</Button>
-                                            </Link>
-                                        </Dropdown.Item>
-                                        <Dropdown.Item>
-                                            <Link to="/CrearChofer">
-                                                <Button bsStyle="primary"> Crear Chofer</Button>
-                                            </Link>
-                                        </Dropdown.Item>
-                                        <Dropdown.Item>
-                                            <Link to="/CrearCliente">
-                                                <Button bsStyle="primary"> Crear Cliente</Button>
-                                            </Link>
-                                        </Dropdown.Item>
-                                    </React.Fragment>
-                                ) : null}
+                                {/* Menus de gerente */}
+                                {menuProtegidos}
 
-                                <Dropdown.Item><Link to="/pedidos"><Button>Pedidos </Button></Link></Dropdown.Item>
-                                <Dropdown.Item><Link to="/iniciarSesion"><Button>Iniciar Sesión </Button></Link></Dropdown.Item>
+                                <Dropdown.Item><Link to="/iniciarSesion"><Button>{mensaje}</Button></Link></Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
