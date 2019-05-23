@@ -127,6 +127,21 @@ export default class Precios extends Component {
                                         Ingrese el color de vehiculo (A-Z)
                                 </Form.Control.Feedback>
                                 </Form.Group>
+                                <Form.Group as={Col} md="4" controlId="validationCustom02">
+                                <Form.Label>Correo</Form.Label>
+                                <Form.Control
+                                    required
+                                    type="email"
+                                    id="correo"
+                                    name="correo"
+                                    placeholder=""
+                                    value={this.state.value}
+                                    onChange={this.handleChange}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Ingrese su Telefono
+                        </Form.Control.Feedback>
+                            </Form.Group>
                                 <Form.Group as={ Col } md="4" controlId="validationCustom01">
                                     <Form.Label>Marca de Vehiculo</Form.Label>
                                     <Form.Control
