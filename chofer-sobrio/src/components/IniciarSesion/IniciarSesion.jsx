@@ -78,7 +78,7 @@ export default class IniciarSesion extends Component{
                 <div className="text-center">
                     <a href="/sing-up">Regístrate </a>
                     <span className="p-2"> | </span>
-                    <a href="/forgot-password"> Olvidé la contraseña </a>
+                    <Link to="/Password_olvidada"><a> Olvidé la contraseña </a></Link>
                 </div>
         
                 <NavWrapper className="navbar navbar-expand-sm navbar-dark px-sm-5">

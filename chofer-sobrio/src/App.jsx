@@ -13,7 +13,7 @@ import CrearChofer from './components/CrearChofer/CrearChofer';
 import CrearCliente from './components/CrearCliente/CrearCliente';
 import Pedidos from './components/Pedidos/Pedidos';
 import IniciarSesion from './components/IniciarSesion/IniciarSesion';
-
+import Password_olvidada from './components/Password_olvidada/Password_olvidada';
 class App extends Component {
 
   constructor(props) {
@@ -58,6 +58,7 @@ class App extends Component {
               <Route exact path="/CrearCliente" component={CrearCliente}></Route>
               <Route exact path="/pedidos" component={Pedidos}></Route>
               <Route exact path="/iniciarSesion" component={IniciarSesion}></Route>
+              <Route exact path="/Password_olvidada" component={Password_olvidada}></Route>
             </div>
           </main>
         </div>
