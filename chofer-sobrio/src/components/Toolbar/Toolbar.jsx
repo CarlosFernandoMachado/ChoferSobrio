@@ -26,6 +26,7 @@ const toolbar = props => (
                         <Dropdown.Item><Link to="/crear"><Button>Crear</Button></Link></Dropdown.Item>
                         <Dropdown.Item><Link to="/CrearGerente"><Button>Crear Gerente</Button></Link></Dropdown.Item>
                         <Dropdown.Item><Link to="/pedidos"><Button>Pedidos </Button></Link></Dropdown.Item>
+                        <Dropdown.Item><Link to="/iniciarSesion"><Button>Iniciar Sesión </Button></Link></Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </div>

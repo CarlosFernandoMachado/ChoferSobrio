@@ -1,8 +1,7 @@
 import React , {Component} from 'react'
-import { Link } from 'react-router-dom';
-import { Jumbotron, Container, Row, Col, Image, Button } from 'react-bootstrap';
+import { Jumbotron, Container, Button } from 'react-bootstrap';
 import './IniciarSesion.css'
-import { Form, FormGroup, Label, Input } from 'reactstrap';
+import { Form, FormGroup, Input } from 'reactstrap';
 import Login from '../config/Login';
 import { logout } from '../config/auth';
 import { firebaseAuth } from '../config/config';
@@ -76,7 +75,7 @@ export default class IniciarSesion extends Component{
                 }
         
                 <div className="text-center">
-                    <a href="/sing-up">Regístrate </a>
+                    <a href="/CrearCliente">Regístrate </a>
                     <span className="p-2"> | </span>
                     <a href="/forgot-password"> Olvidé la contraseña </a>
                 </div>
