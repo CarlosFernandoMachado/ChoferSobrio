@@ -28,7 +28,6 @@ export default class Precios extends Component {
     handleSubmit(event) {
         const form = event.currentTarget;
         var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
-        var length_placa = this.state.Placa.length;
         var placa_cadena = this.state.Placa;
         var rex = /[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i;
         if (length !== 8) {
@@ -46,19 +45,19 @@ export default class Precios extends Component {
             /*Caracteres especiales*/
             this.setState({ nombre: '' });
             document.getElementById("nombre").value = "";
-            this.setState({ validated: 'false' });
+           
         }
         if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Marca)) {
             /*Caracteres especiales*/
             this.setState({ Marca: '' });
             document.getElementById("Marca").value = "";
-            this.setState({ validated: 'false' });
+           
         }
         if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Color)) {
             /*Caracteres especiales*/
             this.setState({ Color: '' });
             document.getElementById("Color").value = "";
-            this.setState({ validated: 'false' });
+           
         }
         if (form.checkValidity() === false) {
 
@@ -68,34 +67,28 @@ export default class Precios extends Component {
 
             event.stopPropagation();
         } else {
-           
-            if (placa_cadena.length === 7 && placa_cadena.match(rex) !== null) {
+            this.setState({ validated: 'true' });
+            event.preventDefault();
+            this.setState({ listo: 'true' });
+            event.preventDefault();
 
-                if (length === 8) {
-                    this.setState({ validated: 'true' });
-                    event.preventDefault();
-                    this.setState({ listo: 'true' });
-                    event.preventDefault();
-
-                } else {
-
-                    this.setState({ validated: 'false' });
-                    event.preventDefault();
-
-
-                }
-
-
-            } else {
-
-                this.setState({ Placa: '' });
-                document.getElementById("Placa").value = "";
-                this.setState({ validated: 'false' });
-
-                event.preventDefault();
-            }
         }
+
+
         event.preventDefault();
+    }
+    limpiar(event) {
+        this.setState({ telefono: '' });
+        document.getElementById("telefono").value = "";
+        this.setState({ Placa: '' });
+        document.getElementById("Placa").value = "";
+        this.setState({ nombre: '' });
+        document.getElementById("nombre").value = "";
+        this.setState({ Marca: '' });
+        document.getElementById("Marca").value = "";
+        this.setState({ Color: '' });
+        document.getElementById("Color").value = "";
+
     }
     render() {
         const { validated } = this.state;
@@ -111,6 +104,8 @@ export default class Precios extends Component {
                             noValidate
                             validated={ validated }
                             onSubmit={ e => this.handleSubmit(e) }
+
+
                         >
                             <Form.Row>
                                 <Form.Group as={ Col } md="4" controlId="validationCustom01">
@@ -126,6 +121,22 @@ export default class Precios extends Component {
                                     <Form.Control.Feedback type="invalid">
                                         Ingrese el color de vehiculo (A-Z)
                                 </Form.Control.Feedback>
+                                </Form.Group>
+                                <Form.Group as={ Col } md="4" controlId="validationCustom02">
+                                    <Form.Label>Correo</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="email"
+                                        id="correo"
+                                        name="correo"
+                                        pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+                                        placeholder=""
+                                        value={ this.state.value }
+                                        onChange={ this.handleChange }
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                    Ingrese su Correo Correctamente (correo@ejemplo.com)
+                        </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={ Col } md="4" controlId="validationCustom01">
                                     <Form.Label>Marca de Vehiculo</Form.Label>
@@ -191,10 +202,12 @@ export default class Precios extends Component {
 
                             </Form.Row>
                             <div class="text-center">
-                                <Button type="submit" variant="warning" >Crear</Button>
-                                <Crear validado={ this.state.listo } datos={ [this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo] } funcion={ "crear_cliente" } />
-                                
-                                </div>
+                                <Button type="submit" variant="warning" > Crear</Button>
+                                <Crear validado={ this.state.listo } datos={ [this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo] } funcion={ "crear_cliente" }  />
+
+                            </div>
+
+
                         </Form>
                     </Alert>
                 </Card>

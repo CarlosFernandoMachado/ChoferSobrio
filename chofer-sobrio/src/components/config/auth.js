@@ -15,7 +15,16 @@ export function login(email, pw) {
 }
 
 export function resetPassword(email) {
+  
   return firebaseAuth().sendPasswordResetEmail(email);
+}
+export function correo_verificacion(email){
+  var user = firebaseAuth.auth().currentUser;
+  return user.sendEmailVerification().then(function() {
+       // Email sent.
+      }).catch(function(error) {
+      // An error happened.
+      });
 }
 
 export function saveUser(user) {

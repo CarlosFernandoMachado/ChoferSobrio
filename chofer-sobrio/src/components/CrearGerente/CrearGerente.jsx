@@ -25,49 +25,45 @@ export default class CrearGerente extends Component {
 
     handleSubmit(event) {
         const form = event.currentTarget;
+        var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
+        var lengthID = this.state.identidad.length
 
+        if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)) {
+            /*Caracteres especiales*/
+            this.setState({ nombre: '' });
+            document.getElementById("nombre").value = "";
+            
+        }
+        if (length !== 8) {
+            
+            this.setState({ telefono: '' });
+            document.getElementById("telefono").value = "";
+
+        }
+        if (lengthID !== 13) {
+            alert(lengthID)
+            alert(length)
+            this.setState({ identidad: '' });
+            document.getElementById("identidad").value = "";
+
+        }
         if (form.checkValidity() === false) {
+            this.setState({ validated: 'false' });
+            
             event.preventDefault();
             event.stopPropagation();
 
         } else {
-            var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
-            var lengthID = Math.log(this.state.identidad) * Math.LOG10E + 1 | 0;
-
-            /*VALIDACIONES*/
-
-
-            if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)) {
-                /*Caracteres especiales*/
-                this.setState({ nombre: '' });
-                document.getElementById("nombre").value = "";
-
-            }
-
-            if (length === 8 && lengthID === 13) {
-                this.setState({ validated: 'true' });
-                event.preventDefault();
-                this.setState({ listo: 'true' });
-            } else {
-                this.setState({ telefono: '' });
-                document.getElementById("telefono").value = "";
-                this.setState({ identidad: '' });
-                document.getElementById("identidad").value = "";
-            }
+           
+            this.setState({ validated: 'true' });
+            event.preventDefault();
+            this.setState({ listo: 'true' });
             
-            /*
-            if (lengthID === 13) {
-                this.setState({ validated: 'true' });
-                event.preventDefault();
-                this.setState({ listo: 'true' });
-            } else {
-                this.setState({ identidad: '' });
-                document.getElementById("identidad").value = "";
-            }
-            */
+            event.preventDefault();
         }
-        this.setState({ validated: 'false' });
-        event.preventDefault();
+        event.preventDefault()
+      
+        
     }
     render() {
         const { validated } = this.state;
@@ -93,9 +89,10 @@ export default class CrearGerente extends Component {
                                         name="nombre"
                                         value={this.state.value}
                                         onChange={this.handleChange}
+                                        id="nombre"
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese su Nombre
+                                    Ingrese su nombre Correctamente (A-Z)
                                 </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={Col} md="4" controlId="validationCustom02">
@@ -110,7 +107,7 @@ export default class CrearGerente extends Component {
                                         onChange={this.handleChange}
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese su Telefono
+                                    Ingrese su Telefono Correctamente 8 digitos (0-9)
                             </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={Col} md="4" controlId="validationCustomID">
@@ -126,7 +123,7 @@ export default class CrearGerente extends Component {
                                             onChange={this.handleChange}
                                         />
                                         <Form.Control.Feedback type="invalid">
-                                            Ingrese su Identidad sin espacios y sin guiones
+                                        Ingrese su Identidad Correctamente 13 digitos (0-9) sin espacios ni guiones
                                 </Form.Control.Feedback>
                                     </InputGroup>
                                 </Form.Group>
@@ -138,19 +135,20 @@ export default class CrearGerente extends Component {
                                             placeholder=""
                                             required
                                             name="correo"
+                                            pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
                                             id="correo"
                                             value={this.state.value}
                                             onChange={this.handleChange}
                                         />
                                         <Form.Control.Feedback type="invalid">
-                                            Ingrese su Correo
+                                        Ingrese su Correo Correctamente (correo@ejemplo.com)
                                 </Form.Control.Feedback>
                                     </InputGroup>
                                 </Form.Group>
                             </Form.Row>
                             <div class="text-center">
                                 <Button type="submit" variant="warning" >Crear</Button>
-                                <Crear validado={this.state.listo} datos={[this.state.identidad, this.state.nombre, this.state.telefono, this.state.correo]} funcion={"Creargerente"} />
+                                <Crear validado={this.state.listo} datos={[this.state.identidad, this.state.nombre, this.state.telefono, this.state.correo]} funcion={"crear_gerente"} />
                             </div>
                         </Form>
                     </Alert>

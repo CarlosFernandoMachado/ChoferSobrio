@@ -148,13 +148,16 @@ export default class Crear extends Component {
     }
     render() {
         if (this.props.validado && this.props.funcion === "crear_gerente"){
-            this.Creargerente(2,this.props.datos[0],this.props.datos[1],this.props.datos[2])
+            this.Creargerente(2,this.props.datos[0],this.props.datos[1],this.props.datos[2],this.props.datos[3])
         }
         if (this.props.validado && this.props.funcion === "Crearpedido"){
             this.Crearpedido(2, this.props.datos[0],this.props.datos[1],this.props.datos[2],this.props.datos[3],this.props.datos[4],this.props.datos[5],this.props.datos[6],this.props.datos[7],this.props.datos[8] )
         }
         if (this.props.validado && this.props.funcion === "crear_cliente"){
-            this.Crearcliente(2,this.props.datos[0],this.props.datos[1],this.props.datos[2],this.props.datos[3],this.props.datos[4])
+            this.Crearcliente(2,this.props.datos[0],this.props.datos[1],this.props.datos[2],this.props.datos[3],this.props.datos[4],this.props.datos[5])
+        }
+        if (this.props.validado && this.props.funcion === "crear_chofer"){
+            this.Crearchofer(2,this.props.datos[0],this.props.datos[1],this.props.datos[2],this.props.datos[3])
         }
         return (
             <div>
