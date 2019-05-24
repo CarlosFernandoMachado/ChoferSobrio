@@ -135,12 +135,13 @@ export default class CrearGerente extends Component {
                                             placeholder=""
                                             required
                                             name="correo"
+                                            pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
                                             id="correo"
                                             value={this.state.value}
                                             onChange={this.handleChange}
                                         />
                                         <Form.Control.Feedback type="invalid">
-                                            Ingrese su Correo
+                                        Ingrese su Correo Correctamente (correo@ejemplo.com)
                                 </Form.Control.Feedback>
                                     </InputGroup>
                                 </Form.Group>

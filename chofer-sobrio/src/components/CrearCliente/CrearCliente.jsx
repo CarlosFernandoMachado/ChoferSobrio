@@ -129,12 +129,13 @@ export default class Precios extends Component {
                                         type="email"
                                         id="correo"
                                         name="correo"
+                                        pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
                                         placeholder=""
                                         value={ this.state.value }
                                         onChange={ this.handleChange }
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese su correo correctamente
+                                    Ingrese su Correo Correctamente (correo@ejemplo.com)
                         </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={ Col } md="4" controlId="validationCustom01">
