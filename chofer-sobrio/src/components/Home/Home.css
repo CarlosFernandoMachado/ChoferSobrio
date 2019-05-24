@@ -16,3 +16,36 @@
     width: calc(100% - 10px);
     z-index: 1;
 }
+
+.outer-div{
+    height: 330px;
+    width: 82.5%;
+    position: absolute;
+    justifyContent: center;
+    display: inline-block;
+    text-align: center;
+}
+
+.jumbotron-div{
+    height: 70%;
+}
+
+.map-div{
+    height: 100%;
+    width: 100%;
+}
+
+.button-div{
+    padding-top: 10px;
+}
+
+
+@media (max-width: 768px){ 
+    .outer-div{
+        width: 93%;
+    }
+    .jumbotron-div{
+        height: 60%;
+    }
+    
+}
