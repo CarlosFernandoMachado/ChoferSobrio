@@ -234,7 +234,7 @@ export default class Precios extends Component {
                                 </Form.Group>
                             </Form.Row>
                             <div className="text-center">
-                                <Button type="submit" variant="warning" >Submit form</Button>
+                                <Button type="submit" variant="warning" >Pedir chofer</Button>
                                 <Crear validado={this.state.listo} datos={[this.state.color, this.state.destino, this.state.date, this.state.hora, this.state.marca, this.state.nombre, this.state.placa, this.state.telefono, "Ubicación"]} funcion={"Crearpedido"} />
                             </div>
                         </Form>

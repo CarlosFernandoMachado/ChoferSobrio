@@ -9,7 +9,9 @@ export default class Crear extends Component {
             identidad: identidad,
             nombre: name,
             telefono: number,
-            correo: email
+            correo: email,
+            contraseña:"",
+            validado:0
         });
     }
     Leerchofer(userId) {
@@ -28,7 +30,50 @@ export default class Crear extends Component {
 
             nombre: name,
             telefono: number,
-            correo: email
+            correo: email,
+            
+        });
+    }
+    modificarvalidacionchofer(id, validado) {
+        var database = Fire.database();
+        database.ref('chofer/' + id).update({
+
+            validado:validado
+            
+        });
+    }
+    modificarvalidacioncliente(id, validado) {
+        var database = Fire.database();
+        database.ref('cliente/' + id).update({
+
+            validado:validado
+            
+        });
+    }
+    modificarvalidaciongerente(id, validado) {
+        var database = Fire.database();
+        database.ref('gerente/' + id).update({
+
+            validado:validado
+            
+        });
+    }
+    modificarcontraseñachofer(id,contraseña){
+        var database = Fire.database();
+        database.ref('chofer/' + id).update({
+            contraseña:""
+        });
+    }
+    modificarcontraseñacliente(id,contraseña){
+        var database = Fire.database();
+        database.ref('cliente/' + id).update({
+            contraseña:""
+        });
+    }
+    modificarcontraseñagerente(id,contraseña){
+        var database = Fire.database();
+        database.ref('gerente/' + id).update({
+            contraseña:""
         });
     }
     Eliminarchofer(id) {
@@ -41,7 +86,10 @@ export default class Crear extends Component {
             identidad: identidad,
             nombre: name,
             telefono: number,
-            correo: email
+            correo: email,
+            contraseña:"",
+            validado:0
+            
         });
     }
     Leergerente(userId) {
@@ -75,7 +123,9 @@ export default class Crear extends Component {
             nombre: nombre,
             placa: placa,
             telefono: telefono,
-            correo: email
+            correo: email,
+            contraseña:"",
+            validado:0
         });
     }
     Leercliente(userId) {
