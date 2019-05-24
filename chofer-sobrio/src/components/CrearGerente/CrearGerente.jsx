@@ -135,18 +135,19 @@ export default class CrearGerente extends Component {
                                             placeholder=""
                                             required
                                             name="correo"
+                                            pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
                                             id="correo"
                                             value={this.state.value}
                                             onChange={this.handleChange}
                                         />
                                         <Form.Control.Feedback type="invalid">
-                                            Ingrese su Correo
+                                        Ingrese su Correo Correctamente (correo@ejemplo.com)
                                 </Form.Control.Feedback>
                                     </InputGroup>
                                 </Form.Group>
                             </Form.Row>
                             <div class="text-center">
-                                <Button type="submit" variant="warning" >Crear</Button>
+                                <Button type="submit" variant="warning" >Crear gerente</Button>
                                 <Crear validado={this.state.listo} datos={[this.state.identidad, this.state.nombre, this.state.telefono, this.state.correo]} funcion={"crear_gerente"} />
                             </div>
                         </Form>

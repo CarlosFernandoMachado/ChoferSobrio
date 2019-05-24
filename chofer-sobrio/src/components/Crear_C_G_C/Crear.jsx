@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './Crear.css'
-import Fire from '../config/config'; 
+import Fire from '../config/config';
 
 export default class Crear extends Component {
     Crearchofer(id, identidad, name, number, email) {
@@ -9,12 +9,14 @@ export default class Crear extends Component {
             identidad: identidad,
             nombre: name,
             telefono: number,
-            correo: email
+            correo: email,
+            contraseña: "",
+            validado: 0
         });
     }
     Leerchofer(userId) {
         var database = Fire.database();
-        var n = database.ref('/chofer/' + userId).once('value').then(function (snapshot) {
+        var n = database.ref('/chofer/' + userId).once('value').then(function(snapshot) {
             var username = (snapshot.val() && snapshot.val().nombre) || 'Anonymous';
 
         })
@@ -28,7 +30,50 @@ export default class Crear extends Component {
 
             nombre: name,
             telefono: number,
-            correo: email
+            correo: email,
+
+        });
+    }
+    modificarvalidacionchofer(id, validado) {
+        var database = Fire.database();
+        database.ref('chofer/' + id).update({
+
+            validado: validado
+
+        });
+    }
+    modificarvalidacioncliente(id, validado) {
+        var database = Fire.database();
+        database.ref('cliente/' + id).update({
+
+            validado: validado
+
+        });
+    }
+    modificarvalidaciongerente(id, validado) {
+        var database = Fire.database();
+        database.ref('gerente/' + id).update({
+
+            validado: validado
+
+        });
+    }
+    modificarcontraseñachofer(id, contraseña) {
+        var database = Fire.database();
+        database.ref('chofer/' + id).update({
+            contraseña: ""
+        });
+    }
+    modificarcontraseñacliente(id, contraseña) {
+        var database = Fire.database();
+        database.ref('cliente/' + id).update({
+            contraseña: ""
+        });
+    }
+    modificarcontraseñagerente(id, contraseña) {
+        var database = Fire.database();
+        database.ref('gerente/' + id).update({
+            contraseña: ""
         });
     }
     Eliminarchofer(id) {
@@ -41,12 +86,15 @@ export default class Crear extends Component {
             identidad: identidad,
             nombre: name,
             telefono: number,
-            correo: email
+            correo: email,
+            contraseña: "",
+            validado: 0
+
         });
     }
     Leergerente(userId) {
         var database = Fire.database();
-        var n = database.ref('/gerente/' + userId).once('value').then(function (snapshot) {
+        var n = database.ref('/gerente/' + userId).once('value').then(function(snapshot) {
             var username = (snapshot.val() && snapshot.val().nombre) || 'Anonymous';
 
         })
@@ -75,12 +123,14 @@ export default class Crear extends Component {
             nombre: nombre,
             placa: placa,
             telefono: telefono,
-            correo: email
+            correo: email,
+            contraseña: "",
+            validado: 0
         });
     }
     Leercliente(userId) {
         var database = Fire.database();
-        var n = database.ref('/cliente/' + userId).once('value').then(function (snapshot) {
+        var n = database.ref('/cliente/' + userId).once('value').then(function(snapshot) {
             var username = (snapshot.val() && snapshot.val().nombre) || 'Anonymous';
 
         })
@@ -120,7 +170,7 @@ export default class Crear extends Component {
     }
     Leerpedido(userId) {
         var database = Fire.database();
-        var n = database.ref('/pedido/' + userId).once('value').then(function (snapshot) {
+        var n = database.ref('/pedido/' + userId).once('value').then(function(snapshot) {
             var username = (snapshot.val() && snapshot.val().nombre) || 'Anonymous';
 
         })
@@ -147,17 +197,17 @@ export default class Crear extends Component {
         database.ref('pedido/' + id).remove();
     }
     render() {
-        if (this.props.validado && this.props.funcion === "crear_gerente"){
-            this.Creargerente(2,this.props.datos[0],this.props.datos[1],this.props.datos[2],this.props.datos[3])
+        if (this.props.validado && this.props.funcion === "crear_gerente") {
+            this.Creargerente(2, this.props.datos[0], this.props.datos[1], this.props.datos[2], this.props.datos[3])
         }
-        if (this.props.validado && this.props.funcion === "Crearpedido"){
-            this.Crearpedido(2, this.props.datos[0],this.props.datos[1],this.props.datos[2],this.props.datos[3],this.props.datos[4],this.props.datos[5],this.props.datos[6],this.props.datos[7],this.props.datos[8] )
+        if (this.props.validado && this.props.funcion === "Crearpedido") {
+            this.Crearpedido(2, this.props.datos[0], this.props.datos[1], this.props.datos[2], this.props.datos[3], this.props.datos[4], this.props.datos[5], this.props.datos[6], this.props.datos[7], this.props.datos[8])
         }
-        if (this.props.validado && this.props.funcion === "crear_cliente"){
-            this.Crearcliente(2,this.props.datos[0],this.props.datos[1],this.props.datos[2],this.props.datos[3],this.props.datos[4],this.props.datos[5])
+        if (this.props.validado && this.props.funcion === "crear_cliente") {
+            this.Crearcliente(2, this.props.datos[0], this.props.datos[1], this.props.datos[2], this.props.datos[3], this.props.datos[4], this.props.datos[5])
         }
-        if (this.props.validado && this.props.funcion === "crear_chofer"){
-            this.Crearchofer(2,this.props.datos[0],this.props.datos[1],this.props.datos[2],this.props.datos[3])
+        if (this.props.validado && this.props.funcion === "crear_chofer") {
+            this.Crearchofer(2, this.props.datos[0], this.props.datos[1], this.props.datos[2], this.props.datos[3])
         }
         return (
             <div>
