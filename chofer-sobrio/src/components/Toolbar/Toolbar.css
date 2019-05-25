@@ -5,6 +5,7 @@
     width: 100%;
     background: black;
     height: 56px;
+    z-index: 1;
 
 }
 .toolbar__navigation{
@@ -38,6 +39,15 @@
 .toolbar_navigation-items li{
     padding: 0 0.5rem;
 }
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+}
+ .navbar-item {
+     margin: 0 1em;
+     background-color: #FFF017;
+ }
 
 .toolbar_navigation-items Button{
     /* padding: 0 0.5rem;

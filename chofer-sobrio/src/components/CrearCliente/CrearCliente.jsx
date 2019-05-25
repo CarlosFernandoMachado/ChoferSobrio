@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from 'react-bootstrap';
 import './CrearCliente.css'
+import { Link } from 'react-router-dom';
+import Home from '../Home/Home'
 import Crear from '../Crear_C_G_C/Crear';
 
 export default class Precios extends Component {
@@ -45,19 +47,19 @@ export default class Precios extends Component {
             /*Caracteres especiales*/
             this.setState({ nombre: '' });
             document.getElementById("nombre").value = "";
-           
+
         }
         if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Marca)) {
             /*Caracteres especiales*/
             this.setState({ Marca: '' });
             document.getElementById("Marca").value = "";
-           
+
         }
         if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Color)) {
             /*Caracteres especiales*/
             this.setState({ Color: '' });
             document.getElementById("Color").value = "";
-           
+
         }
         if (form.checkValidity() === false) {
 
@@ -104,7 +106,8 @@ export default class Precios extends Component {
                             noValidate
                             validated={ validated }
                             onSubmit={ e => this.handleSubmit(e) }
-
+                             
+                            
 
                         >
                             <Form.Row>
@@ -135,7 +138,7 @@ export default class Precios extends Component {
                                         onChange={ this.handleChange }
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                    Ingrese su Correo Correctamente (correo@ejemplo.com)
+                                        Ingrese su Correo Correctamente (correo@ejemplo.com)
                         </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={ Col } md="4" controlId="validationCustom01">
@@ -202,9 +205,10 @@ export default class Precios extends Component {
 
                             </Form.Row>
                             <div class="text-center">
-                                <Button type="submit" variant="warning" > Crear</Button>
-                                <Crear validado={ this.state.listo } datos={ [this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo] } funcion={ "crear_cliente" }  />
-
+                            <Button type="submit" variant="warning" > Registrarse</Button>
+                            
+                            <Crear validado={ this.state.listo } datos={ [this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo] } funcion={ "crear_cliente" }  />
+                                    
                             </div>
 
 

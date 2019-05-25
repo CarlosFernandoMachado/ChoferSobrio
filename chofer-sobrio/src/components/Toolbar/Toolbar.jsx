@@ -70,13 +70,13 @@ class Toolbar extends React.Component {
             menuProtegidos.push((
                 <Dropdown.Item>
                     <Link to="/CrearGerente">
-                        <Button bsStyle="primary"> Crear Gerente</Button>
+                        <Button> Crear Gerente</Button>
                     </Link>
                 </Dropdown.Item>
             ), (
                 <Dropdown.Item>
                     <Link to="/CrearChofer">
-                        <Button bsStyle="primary"> Crear Chofer</Button>
+                        <Button> Crear Chofer</Button>
                     </Link>
                 </Dropdown.Item>
             ));
@@ -98,18 +98,26 @@ class Toolbar extends React.Component {
                     <div className="toolbar__toggle-button" >
                         <DrawerToggleButton click={props.drawerClickHandler} />
                     </div>
-                    <div className="toolbar__logo"> <Link to="/">The Logo</Link> </div>
+                    <div className="toolbar__logo"> <Link to="/">Chofer Sobrio</Link> </div>
                     <div className="spacer" />
-                    <div className="toolbar_navigation-items">
-                        <Dropdown>
+                    <div className="toolbar_navigation-items navbar">
+
+                        <Link to="/">
+                            <Button className="navbar-item"> Home</Button>
+                        </Link>
+                        <Link to="/precios">
+                            <Button className="navbar-item"> Precios</Button>
+                        </Link>
+                        <Link to="/seguridad">
+                            <Button className="navbar-item"> Seguridad</Button>
+                        </Link>
+
+                        <Dropdown className="navbar-item">
                             <Dropdown.Toggle vari="dropdown-basic">
                                 Opciones
                             </Dropdown.Toggle>
         
                             <Dropdown.Menu>
-                                <Dropdown.Item><Link to="/"><Button >Home</Button> </Link></Dropdown.Item>
-                                <Dropdown.Item><Link to="/precios"><Button>Precios</Button></Link></Dropdown.Item>
-                                <Dropdown.Item><Link to="/seguridad"><Button>Seguridad </Button></Link></Dropdown.Item>
                                 <Dropdown.Item><Link to="/crear"><Button>Crear</Button></Link></Dropdown.Item>
 
                                 {/* Menus de gerente */}

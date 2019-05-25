@@ -147,7 +147,7 @@ export default class CrearGerente extends Component {
                                 </Form.Group>
                             </Form.Row>
                             <div class="text-center">
-                                <Button type="submit" variant="warning" >Crear</Button>
+                                <Button type="submit" variant="warning" >Crear gerente</Button>
                                 <Crear validado={this.state.listo} datos={[this.state.identidad, this.state.nombre, this.state.telefono, this.state.correo]} funcion={"crear_gerente"} />
                             </div>
                         </Form>
