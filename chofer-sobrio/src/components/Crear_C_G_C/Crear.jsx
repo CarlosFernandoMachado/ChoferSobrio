@@ -18,6 +18,10 @@ export default class Crear extends Component {
             contraseña: "",
             validado: 0
         });
+        Fire.auth().createUserWithEmailAndPassword(email,'123456').then(
+            Fire.auth().sendPasswordResetEmail(email).then(
+                alert("Se envio un correo de confirmacion a tu correo"))
+        ).catch(alert("Usuario registrado, no se pudo enviar mensaje de conficion"));
     }
     Leerchofer(userId) {
         var database = Fire.database();
@@ -96,6 +100,10 @@ export default class Crear extends Component {
             validado: 0
 
         });
+        Fire.auth().createUserWithEmailAndPassword(email,'123456').then(
+            Fire.auth().sendPasswordResetEmail(email).the(
+                alert("Se envio un correo de confirmacion a tu correo"))
+        );
     }
     Leergerente(userId) {
         var database = Fire.database();
@@ -132,6 +140,10 @@ export default class Crear extends Component {
             contraseña: "",
             validado: 0
         });
+        Fire.auth().createUserWithEmailAndPassword(email,'123456').then(
+            Fire.auth().sendPasswordResetEmail(email).the(
+                alert("Se envio un correo de confirmacion a tu correo"))
+        );
         
         
     }
