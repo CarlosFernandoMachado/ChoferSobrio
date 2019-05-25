@@ -69,7 +69,6 @@ export default class ModificarContrasena extends Component {
         document.getElementById("nueva").value = "";
         this.setState({ contrasena_check: '' });
         document.getElementById("check").value = "";
-        this.setState({ Marca: '' });
     }
     render() {
         const { validated } = this.state;
