@@ -15,56 +15,70 @@ import CrearCliente from './components/CrearCliente/CrearCliente';
 import Pedidos from './components/Pedidos/Pedidos';
 import IniciarSesion from './components/IniciarSesion/IniciarSesion';
 import Password_olvidada from './components/Password_olvidada/Password_olvidada';
-import { Autenticado } from './routes/Autenticado';
+import { Gerente, Chofer, Cliente } from './routes';
+import ModificarContrasenaChofer from './components/ModificarContrasena/ModificarContrasenaChofer';
+import ModificarContrasenaCliente from './components/ModificarContrasena/ModificarContrasenaCliente';
+import ModificarContrasenaGerente from './components/ModificarContrasena/ModificarContrasenaGerente';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: null,
       sideDrawerOpen: false,
-      isGerente: false,
-      isChofer: false,
+      permisos: {
+        gerente: false,
+        chofer: false,
+        cliente: false,
+      },
     };
     this.drawerToggleClickHandler = this.drawerToggleClickHandler.bind(this);
     this.backdropClickHandler = this.backdropClickHandler.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const user = JSON.parse(localStorage.getItem('user'));
 
     if (user) {
-        // gerentes
-        this.dbRefGerentes = firebase.database().ref('/gerente');
-        this.dbCallbackGerentes = this.dbRefGerentes.on('value', (snap) => {
-            const gerentes = snap.val();
-            let isGerente = false;
-            gerentes.forEach(gerente => {
-                isGerente = isGerente || gerente.correo === user.email; 
-            });
-            this.setState({ isGerente });
+      // gerentes
+      const isGerente = await firebase.database().ref('/gerente').once('value').then((snap) => {
+        let isGerente = false;
+        const gerentes = snap.val();
+        gerentes.forEach(gerente => {
+          isGerente = isGerente || gerente.correo === user.email; 
         });
+        return isGerente;
+      });
 
-        // choferes
-        this.dbRefChoferes = firebase.database().ref('/chofer');
-        this.dbCallbackChoferes = this.dbRefChoferes.on('value', (snap) => {
-            const choferes = snap.val();
-            console.log(choferes)
-            let isChofer = false;
-            choferes.forEach(chofer => {
-                isChofer = isChofer || chofer.correo === user.email; 
-            });
-            this.setState({ isChofer });
+      // choferes
+      const isChofer = await firebase.database().ref('/chofer').once('value').then((snap) => {
+        let isChofer = false;
+        const choferes = snap.val();
+        choferes.forEach(chofer => {
+          isChofer = isChofer || chofer.correo === user.email; 
         });
-    }
-}
+        return isChofer;
+      });
 
-componentWillUnmount() {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user) {
-        this.dbRefGerentes.off('value', this.dbCallbackGerentes);
-        this.dbRefChoferes.off('value', this.dbCallbackChoferes);
+      // clientes
+      const isCliente = await firebase.database().ref('/cliente').once('value').then((snap) => {
+        let isCliente = false;
+        const clientes = snap.val();
+        clientes.forEach(cliente => {
+          isCliente = isCliente || cliente.correo === user.email;
+        });
+        return isCliente;
+      });
+
+      const permisos = {
+        gerente: isGerente,
+        chofer: isChofer,
+        cliente: isCliente,
+      };
+
+      this.setState({ permisos, user });
     }
-}
+  }
 
   drawerToggleClickHandler = () => {
     this.setState((prevState) => {
@@ -77,29 +91,35 @@ componentWillUnmount() {
   };
 
   render() {
+    const { permisos } = this.state;
+
     let backdrop;
     if (this.state.sideDrawerOpen) {
       backdrop = <Backdrop click={this.backdropClickHandler} />
     }
+
     return (
       <Router>
         <div style={{ height: '100%' }}>
           <Toolbar drawerClickHandler={this.drawerToggleClickHandler}/>
-          <SideDrawer show={this.state.sideDrawerOpen}  hide ={this.backdropClickHandler}/>
+          <SideDrawer show={this.state.sideDrawerOpen} hide={this.backdropClickHandler}/>
           {backdrop}
           <main style={{ marginTop: '64px' }}>
             <div>
               <Route exact path="/" component={Home}></Route>
               <Route exact path="/precios" component={Precios}></Route>
               <Route exact path="/seguridad" component={Seguridad}></Route>
-              <Route exact path="/pedirchofer" component={PedirChofer}></Route>
               <Route exact path="/crear" component={Crear}></Route>
-              <Route exact path="/CrearGerente" component={CrearGerente}></Route>
-              <Route exact path="/CrearChofer" component={CrearChofer}></Route>
+              <Cliente exact path="/pedirchofer" permisos={permisos} component={PedirChofer}></Cliente>
+              <Gerente exact path="/CrearGerente" permisos={permisos} component={CrearGerente}></Gerente>
+              <Gerente exact path="/CrearChofer" permisos={permisos} component={CrearChofer}></Gerente>
+              <Chofer exact path="/pedidos" permisos={permisos} component={Pedidos}></Chofer>
               <Route exact path="/CrearCliente" component={CrearCliente}></Route>
-              <Route exact path="/pedidos" component={Pedidos}></Route>
               <Route exact path="/iniciarSesion" component={IniciarSesion}></Route>
               <Route exact path="/Password_olvidada" component={Password_olvidada}></Route>
+              <Route exact path="/ModificarContrasenaChofer" component={ModificarContrasenaChofer}></Route>
+              <Route exact path="/ModificarContrasenaCliente" component={ModificarContrasenaCliente}></Route>
+              <Route exact path="/ModificarContrasenaGerente" component={ModificarContrasenaGerente}></Route>
             </div>
           </main>
         </div>

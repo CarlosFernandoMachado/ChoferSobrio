@@ -27,7 +27,7 @@ class Toolbar extends React.Component {
                 const gerentes = snap.val();
                 let isGerente = false;
                 gerentes.forEach(gerente => {
-                    isGerente = isGerente || gerente.correo === user.email; 
+                    isGerente = isGerente || gerente.correo === user.email;
                 });
                 this.setState({ isGerente });
             });
@@ -36,10 +36,9 @@ class Toolbar extends React.Component {
             this.dbRefChoferes = firebase.database().ref('/chofer');
             this.dbCallbackChoferes = this.dbRefChoferes.on('value', (snap) => {
                 const choferes = snap.val();
-                console.log(choferes)
                 let isChofer = false;
                 choferes.forEach(chofer => {
-                    isChofer = isChofer || chofer.correo === user.email; 
+                    isChofer = isChofer || chofer.correo === user.email;
                 });
                 this.setState({ isChofer });
             });
@@ -65,16 +64,17 @@ class Toolbar extends React.Component {
             mensaje = 'Iniciar sesion';
         }
 
-        let menuProtegidos = [];
+        let key = 0;
+        const menu = [];
         if (isGerente) {
-            menuProtegidos.push((
-                <Dropdown.Item>
+            menu.push((
+                <Dropdown.Item key={key++}>
                     <Link to="/CrearGerente">
                         <Button> Crear Gerente</Button>
                     </Link>
                 </Dropdown.Item>
             ), (
-                <Dropdown.Item>
+                <Dropdown.Item key={key++}>
                     <Link to="/CrearChofer">
                         <Button> Crear Chofer</Button>
                     </Link>
@@ -83,12 +83,26 @@ class Toolbar extends React.Component {
         }
 
         if (isChofer || isGerente) {
-            menuProtegidos.push(
-                <Dropdown.Item>
+            menu.push(
+                <Dropdown.Item key={key++}>
                     <Link to="/pedidos">
                         <Button>Pedidos </Button>
                     </Link>
                 </Dropdown.Item>
+            );
+        }
+
+        let dropdown;
+        if (menu.length > 0) {
+            dropdown = (
+                <Dropdown >
+                    <Dropdown.Toggle variant="dropdown-basic">
+                        Crear
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu className="dropdown_menu">
+                        {menu}
+                    </Dropdown.Menu>
+                </Dropdown>
             );
         }
 
@@ -111,21 +125,11 @@ class Toolbar extends React.Component {
                         <Link to="/seguridad">
                             <Button className="navbar-item"> Seguridad</Button>
                         </Link>
+                        <Link to="/iniciarsesion">
+                            <Button className="navbar-item"> {mensaje}</Button>
+                        </Link>
+                        {dropdown}
 
-                        <Dropdown className="navbar-item">
-                            <Dropdown.Toggle vari="dropdown-basic">
-                                Opciones
-                            </Dropdown.Toggle>
-        
-                            <Dropdown.Menu>
-                                <Dropdown.Item><Link to="/crear"><Button>Crear</Button></Link></Dropdown.Item>
-
-                                {/* Menus de gerente */}
-                                {menuProtegidos}
-
-                                <Dropdown.Item><Link to="/iniciarSesion"><Button>{mensaje}</Button></Link></Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
                     </div>
                 </nav>
             </header>

@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import DatePicker from "react-datepicker";
 import TimePicker from 'react-time-picker';
+import firebase from '../config/config';
 import "react-datepicker/dist/react-datepicker.css";
 import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from 'react-bootstrap';
-import './PedirChofer.css'
+import './PedirChofer.css';
 
 export default class Precios extends Component {
     constructor(props) {
@@ -22,12 +23,41 @@ export default class Precios extends Component {
             validated: '',
             date: '',
             listo: 0,
+            infoCliente: {},
         };
 
-        this.onChange = hora => this.setState({ hora })
+        this.onChange = hora => this.setState({ hora });
         this.handleChange = this.handleChange.bind(this);
         this.dateChange = this.dateChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    async componentDidMount() {
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        if (user) {
+            // clientes
+            const info = await firebase.database().ref('/cliente').once('value').then((snap) => {
+                const clientes = snap.val();
+                let infoCliente;
+                clientes.forEach(cliente => {
+                    if (cliente.correo === user.email) {
+                        infoCliente = cliente;
+                    }
+                });
+                return infoCliente;
+            });
+
+            console.log(info);
+
+            this.setState({
+                nombre: info.nombre,
+                telefono: info.telefono,
+                marca: info.marca,
+                color: info.color_vehiculo,
+                placa: info.placa,
+            });
+        }
     }
 
     handleChange(event) {
@@ -123,7 +153,7 @@ export default class Precios extends Component {
                                         required
                                         type="text"
                                         name="nombre"
-                                        value={this.state.value}
+                                        value={this.state.nombre}
                                         onChange={this.handleChange}
                                         id="nombre"
                                     />
@@ -137,7 +167,7 @@ export default class Precios extends Component {
                                         required
                                         type="number"
                                         name="telefono"
-                                        value={this.state.value}
+                                        value={this.state.telefono}
                                         onChange={this.handleChange}
                                         id="telefono"
                                     />
@@ -152,7 +182,7 @@ export default class Precios extends Component {
                                             type="text"
                                             required
                                             name="marca"
-                                            value={this.state.value}
+                                            value={this.state.marca}
                                             onChange={this.handleChange}
                                             id="marca"
                                         />
@@ -169,7 +199,7 @@ export default class Precios extends Component {
                                         type="text"
                                         required
                                         name="color"
-                                        value={this.state.value}
+                                        value={this.state.color}
                                         onChange={this.handleChange}
                                         id="color"
                                     />
@@ -183,7 +213,7 @@ export default class Precios extends Component {
                                         type="text"
                                         required
                                         name="placa"
-                                        value={this.state.value}
+                                        value={this.state.placa}
                                         onChange={this.handleChange}
                                         id="placa"
                                     />

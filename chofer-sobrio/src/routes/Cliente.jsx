@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-function Chofer({ component: Component, path, permisos, ...rest }) {
+function Cliente({ component: Component, path, permisos, ...rest }) {
     return (
         <Route
             {...rest}
@@ -14,8 +14,8 @@ function Chofer({ component: Component, path, permisos, ...rest }) {
                     );
                 }
 
-                // esta autenticado, pero no es gerente ni chofer
-                if (!permisos.gerente && !permisos.chofer) {
+                // esta autenticado, pero no es cliente
+                if (!permisos.cliente) {
                     return (
                         <Redirect to="/" />
                         // <Redirect exact to="/" />
@@ -31,4 +31,4 @@ function Chofer({ component: Component, path, permisos, ...rest }) {
     );
 }
 
-export default Chofer;
+export default Cliente;
