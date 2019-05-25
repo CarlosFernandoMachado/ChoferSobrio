@@ -19,7 +19,6 @@ import { Gerente, Chofer, Cliente } from './routes';
 import ModificarContrasenaChofer from './components/ModificarContrasena/ModificarContrasenaChofer';
 import ModificarContrasenaCliente from './components/ModificarContrasena/ModificarContrasenaCliente';
 import ModificarContrasenaGerente from './components/ModificarContrasena/ModificarContrasenaGerente';
-import { Gerente, Chofer } from './routes';
 
 class App extends Component {
   constructor(props) {
