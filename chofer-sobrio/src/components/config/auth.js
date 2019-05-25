@@ -3,7 +3,10 @@ import { db, firebaseAuth } from './config';
 export function auth(email, pw) {
   return firebaseAuth()
     .createUserWithEmailAndPassword(email, pw)
-    .then(saveUser);
+    .then(saveUser).catch(function(error){
+
+    });
+  
 }
 
 export function logout() {
@@ -11,6 +14,7 @@ export function logout() {
 }
 
 export function login(email, pw) {
+ 
   return firebaseAuth().signInWithEmailAndPassword(email, pw);
 }
 
@@ -18,12 +22,12 @@ export function resetPassword(email) {
   
   return firebaseAuth().sendPasswordResetEmail(email);
 }
-export function correo_verificacion(email){
+export function verificar(){
   var user = firebaseAuth.auth().currentUser;
   return user.sendEmailVerification().then(function() {
-       // Email sent.
+       alert("Correo de verificacion enviado");
       }).catch(function(error) {
-      // An error happened.
+       alert("No se pudo enviar el correo de vericacion");
       });
 }
 
