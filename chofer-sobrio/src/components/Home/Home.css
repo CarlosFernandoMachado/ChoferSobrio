@@ -21,13 +21,21 @@
     height: 330px;
     width: 82.5%;
     position: absolute;
-    justifyContent: center;
     display: inline-block;
     text-align: center;
 }
 
 .jumbotron-div{
     height: 70%;
+    align-items: center;
+}
+
+.jumbo-boy{
+    background: yellow;
+}
+
+.jumbo-boy h1{
+    font-size: 45px;
 }
 
 .map-div{

@@ -27,7 +27,7 @@ class Toolbar extends React.Component {
                 const gerentes = snap.val();
                 let isGerente = false;
                 gerentes.forEach(gerente => {
-                    isGerente = isGerente || gerente.correo === user.email; 
+                    isGerente = isGerente || gerente.correo === user.email;
                 });
                 this.setState({ isGerente });
             });
@@ -39,7 +39,7 @@ class Toolbar extends React.Component {
                 console.log(choferes)
                 let isChofer = false;
                 choferes.forEach(chofer => {
-                    isChofer = isChofer || chofer.correo === user.email; 
+                    isChofer = isChofer || chofer.correo === user.email;
                 });
                 this.setState({ isChofer });
             });
@@ -64,32 +64,40 @@ class Toolbar extends React.Component {
         } else {
             mensaje = 'Iniciar sesion';
         }
-
-        let menuProtegidos = [];
+        var menu;
         if (isGerente) {
-            menuProtegidos.push((
-                <Dropdown.Item>
-                    <Link to="/CrearGerente">
-                        <Button> Crear Gerente</Button>
-                    </Link>
-                </Dropdown.Item>
-            ), (
-                <Dropdown.Item>
-                    <Link to="/CrearChofer">
-                        <Button> Crear Chofer</Button>
-                    </Link>
-                </Dropdown.Item>
-            ));
+            menu = <Dropdown >
+                <Dropdown.Toggle variant="dropdown-basic">
+                    Crear
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="dropdown_menu">
+                    <Dropdown.Item>
+                        <Link to="/CrearGerente">
+                            <Button>Gerente</Button>
+                        </Link>
+                    </Dropdown.Item>
+                    <Dropdown.Item>
+                        <Link to="/CrearChofer">
+                            <Button>Chofer</Button>
+                        </Link>
+                    </Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
         }
 
-        if (isChofer || isGerente) {
-            menuProtegidos.push(
-                <Dropdown.Item>
-                    <Link to="/pedidos">
-                        <Button>Pedidos </Button>
-                    </Link>
-                </Dropdown.Item>
-            );
+        if (isChofer) {
+            menu = <Dropdown >
+                <Dropdown.Toggle variant="dropdown-basic">
+                    Crear
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="dropdown_menu">
+                    <Dropdown.Item>
+                        <Link to="/pedidos">
+                            <Button>Pedidos </Button>
+                        </Link>
+                    </Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
         }
 
         return (
@@ -111,21 +119,11 @@ class Toolbar extends React.Component {
                         <Link to="/seguridad">
                             <Button className="navbar-item"> Seguridad</Button>
                         </Link>
+                        <Link to="/iniciarsesion">
+                            <Button className="navbar-item"> {mensaje}</Button>
+                        </Link>
+                        {menu}
 
-                        <Dropdown className="navbar-item">
-                            <Dropdown.Toggle vari="dropdown-basic">
-                                Opciones
-                            </Dropdown.Toggle>
-        
-                            <Dropdown.Menu>
-                                <Dropdown.Item><Link to="/crear"><Button>Crear</Button></Link></Dropdown.Item>
-
-                                {/* Menus de gerente */}
-                                {menuProtegidos}
-
-                                <Dropdown.Item><Link to="/iniciarSesion"><Button>{mensaje}</Button></Link></Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
                     </div>
                 </nav>
             </header>
