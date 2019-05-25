@@ -44,14 +44,7 @@ export default class ModificarContrasena extends Component {
             document.getElementById("check").value = "";
 
         }
-        if (form.checkValidity() === false) {
-
-            this.setState({ validated: 'false' });
-
-            event.preventDefault();
-
-            event.stopPropagation();
-        } else {
+         else {
             this.setState({ validated: 'true' });
             event.preventDefault();
             this.setState({ listo: 'true' });
@@ -59,12 +52,25 @@ export default class ModificarContrasena extends Component {
 
         }
 
+        const { contrasena_nueva, contrasena_check } = this.state;
+        if (contrasena_nueva !== contrasena_check || form.checkValidity() === false) {
+                this.setState({ validated: 'false' });
+
+                event.preventDefault();
+
+                event.stopPropagation();
+            alert("La contrasena no es igual a la ingresada");
+        } else {
+            this.setState({ validated: 'true' });
+            event.preventDefault();
+            this.setState({ listo: 'true' });
+            event.preventDefault();
+        }
+
 
         event.preventDefault();
     }
     limpiar(event) {
-        this.setState({ contrasena_actual: '' });
-        document.getElementById("actual").value = "";
         this.setState({ contrasena_nueva: '' });
         document.getElementById("nueva").value = "";
         this.setState({ contrasena_check: '' });
@@ -89,20 +95,6 @@ export default class ModificarContrasena extends Component {
 
                         >
                             <Form.Row>
-                                <Form.Group as={ Col } md="4" controlId="validationCustom01">
-                                    <Form.Label>Contrasena Actual</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="password"
-                                        name="actual"
-                                        value={ this.state.value }
-                                        onChange={ this.handleChange }
-                                        id="actual"
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        Ingrese la contrasena actual (A-Z) sin caracteres especiales
-                                </Form.Control.Feedback>
-                                </Form.Group>
                                 <Form.Group as={ Col } md="4" controlId="validationCustom01">
                                     <Form.Label>Contrasena Nueva</Form.Label>
                                     <Form.Control
