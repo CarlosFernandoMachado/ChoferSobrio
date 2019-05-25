@@ -16,6 +16,10 @@ import Pedidos from './components/Pedidos/Pedidos';
 import IniciarSesion from './components/IniciarSesion/IniciarSesion';
 import Password_olvidada from './components/Password_olvidada/Password_olvidada';
 import { Gerente, Chofer, Cliente } from './routes';
+import ModificarContrasenaChofer from './components/ModificarContrasena/ModificarContrasenaChofer';
+import ModificarContrasenaCliente from './components/ModificarContrasena/ModificarContrasenaCliente';
+import ModificarContrasenaGerente from './components/ModificarContrasena/ModificarContrasenaGerente';
+import { Gerente, Chofer } from './routes';
 
 class App extends Component {
   constructor(props) {
@@ -114,6 +118,9 @@ class App extends Component {
               <Route exact path="/CrearCliente" component={CrearCliente}></Route>
               <Route exact path="/iniciarSesion" component={IniciarSesion}></Route>
               <Route exact path="/Password_olvidada" component={Password_olvidada}></Route>
+              <Route exact path="/ModificarContrasenaChofer" component={ModificarContrasenaChofer}></Route>
+              <Route exact path="/ModificarContrasenaCliente" component={ModificarContrasenaCliente}></Route>
+              <Route exact path="/ModificarContrasenaGerente" component={ModificarContrasenaGerente}></Route>
             </div>
           </main>
         </div>
