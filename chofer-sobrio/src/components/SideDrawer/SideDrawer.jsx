@@ -78,11 +78,11 @@ class SideDrawer extends React.Component {
         if (isGerente) {
             menu.push((
                 <Link key={key++} to="/CrearGerente">
-                    <Button> Crear Gerente</Button>
+                    <Button onClick={props.hide}> Crear Gerente</Button>
                 </Link>
             ), (
                 <Link key={key++} to="/CrearChofer">
-                    <Button> Crear Chofer</Button>
+                    <Button onClick={props.hide}> Crear Chofer</Button>
                 </Link>
             ));
         }
@@ -90,7 +90,7 @@ class SideDrawer extends React.Component {
         if (isChofer || isGerente) {
             menu.push(
                 <Link key={key++} to="/pedidos">
-                    <Button>Pedidos </Button>
+                    <Button onClick={props.hide}>Pedidos </Button>
                 </Link>
             );
         }
@@ -106,7 +106,7 @@ class SideDrawer extends React.Component {
                 </Card>
                 <ul>
                     <Link to="/iniciarSesion">
-                        <Button>{mensaje}</Button>
+                        <Button onClick={props.hide}>{mensaje}</Button>
                     </Link>
                     <Link to="/">
                         <Button onClick={props.hide} > Home</Button>
