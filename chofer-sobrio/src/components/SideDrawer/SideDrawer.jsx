@@ -73,6 +73,9 @@ class SideDrawer extends React.Component {
                             <Link to="/CrearChofer">
                                 <Button onClick={props.hide}> Crear Chofer</Button>
                             </Link>
+                            <Link to="/pedidos">
+                                <Button onClick={props.hide}> Pedidos</Button>
+                            </Link>
                         </React.Fragment>
                     ) : null}
                     <Link to="/iniciarSesion">
@@ -87,9 +90,7 @@ class SideDrawer extends React.Component {
                     <Link to="/seguridad">
                         <Button onClick={props.hide}> Seguridad</Button>
                     </Link>
-                    <Link to="/pedidos">
-                        <Button onClick={props.hide}> Pedidos</Button>
-                    </Link>
+                    
                 </ul>
             </nav>
         );

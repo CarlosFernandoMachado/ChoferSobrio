@@ -64,40 +64,45 @@ class Toolbar extends React.Component {
         } else {
             mensaje = 'Iniciar sesion';
         }
-        var menu;
+        const menu = [];
         if (isGerente) {
-            menu = <Dropdown >
-                <Dropdown.Toggle variant="dropdown-basic">
-                    Crear
-                </Dropdown.Toggle>
-                <Dropdown.Menu className="dropdown_menu">
-                    <Dropdown.Item>
-                        <Link to="/CrearGerente">
-                            <Button>Gerente</Button>
-                        </Link>
-                    </Dropdown.Item>
-                    <Dropdown.Item>
-                        <Link to="/CrearChofer">
-                            <Button>Chofer</Button>
-                        </Link>
-                    </Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown>
+            menu.push((
+                <Dropdown.Item>
+                    <Link to="/CrearGerente">
+                        <Button> Crear Gerente</Button>
+                    </Link>
+                </Dropdown.Item>
+            ), (
+                <Dropdown.Item>
+                    <Link to="/CrearChofer">
+                        <Button> Crear Chofer</Button>
+                    </Link>
+                </Dropdown.Item>
+            ));
         }
 
-        if (isChofer) {
-            menu = <Dropdown >
-                <Dropdown.Toggle variant="dropdown-basic">
-                    Crear
-                </Dropdown.Toggle>
-                <Dropdown.Menu className="dropdown_menu">
-                    <Dropdown.Item>
-                        <Link to="/pedidos">
-                            <Button>Pedidos </Button>
-                        </Link>
-                    </Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown>
+        if (isChofer || isGerente) {
+            menu.push(
+                <Dropdown.Item>
+                    <Link to="/pedidos">
+                        <Button>Pedidos </Button>
+                    </Link>
+                </Dropdown.Item>
+            );
+        }
+
+        let dropdown;
+        if (menu) {
+            dropdown = (
+                <Dropdown >
+                    <Dropdown.Toggle variant="dropdown-basic">
+                        Crear
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu className="dropdown_menu">
+                        {menu}
+                    </Dropdown.Menu>
+                </Dropdown>
+            );
         }
 
         return (
@@ -122,7 +127,7 @@ class Toolbar extends React.Component {
                         <Link to="/iniciarsesion">
                             <Button className="navbar-item"> {mensaje}</Button>
                         </Link>
-                        {menu}
+                        {dropdown}
 
                     </div>
                 </nav>
