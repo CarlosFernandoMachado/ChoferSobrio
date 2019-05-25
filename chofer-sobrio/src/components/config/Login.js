@@ -22,10 +22,12 @@ export default class Login extends Component {
   handleSubmit = e => {
     console.log('submut');
     e.preventDefault();
-    login(this.state.email, this.state.password).catch(error => {
+    login(this.state.email, this.state.password)
+    .catch(error => {
       this.setState(setErrorMsg('Invalid username/password.'));
     });
   };
+
   resetPassword = () => {
     resetPassword(this.state.email)
       .then(() =>
@@ -35,6 +37,7 @@ export default class Login extends Component {
       )
       .catch(error => this.setState(setErrorMsg(`Email address not found.`)));
   };
+
   render() {
     return (
         <StyledFirebaseAuth uiConfig={firebaseUI} firebaseAuth={firebaseAuth()}/>

@@ -16,29 +16,31 @@ export default class IniciarSesion extends Component{
         loading: true
       };
 
-      componentDidMount() {
-        this.removeListener = firebaseAuth().onAuthStateChanged(user => {
-          if (user) {
-            this.setState({
-              authed: true,
-              loading: false,
-              user
-            });
-            localStorage.setItem('user', JSON.stringify(user));
-          } else {
-            this.setState({
-              authed: false,
-              loading: false,
-              user: null
-            });
-            localStorage.clear();
-          }
+    componentDidMount() {
+        this.removeListener = firebaseAuth().onAuthStateChanged(async (user) => {
+            if (user) {
+                localStorage.setItem('user', JSON.stringify(user));
+
+                this.setState({
+                    authed: true,
+                    loading: false,
+                    user
+                });
+
+            } else {
+                this.setState({
+                    authed: false,
+                    loading: false,
+                    user: null
+                });
+                localStorage.clear();
+            }
         });
-      }
-    
-      componentWillUnmount() {
+    }
+
+    componentWillUnmount() {
         this.removeListener();
-      }
+    }
 
     render(){
 
@@ -59,35 +61,33 @@ export default class IniciarSesion extends Component{
                 </Jumbotron>
 
                 <Form className="login-form">
-                <FormGroup>
-                     <Input type="email" placeholder="Correo" />
-                </FormGroup>
+                    <FormGroup>
+                        <Input type="email" placeholder="Correo" />
+                    </FormGroup>
 
-                <FormGroup>
-                     <Input type="password" placeholder="Contraseña" />
-                </FormGroup>
-                
-                <Button className="btn-lg btn-dark btn-block">Iniciar sesión </Button>
-                
-                <div className="text-center pt-3"> O continuar con una red social</div>
-                
-                {/*<FacebookLoginButton className="mt-3 mb-3"/>*/
-                /* instalar npm i react-social-login-buttons*/
-                }
-        
-                <div className="text-center">
-                    <a href="/CrearCliente">Regístrate </a>
-                    <span className="p-2"> | </span>
-                    <Link to="/Password_olvidada"><a> Olvidé la contraseña </a></Link>
-                </div>
-        
-                <NavWrapper className="navbar navbar-expand-sm navbar-dark px-sm-5">
-                    {this.state.authed ? botonLogout : <Login />}
-                </NavWrapper>
-            </Form>
+                    <FormGroup>
+                        <Input type="password" placeholder="Contraseña" />
+                    </FormGroup>
+                    
+                    <Button className="btn-lg btn-dark btn-block">Iniciar sesión </Button>
+                    
+                    <div className="text-center pt-3"> O continuar con una red social</div>
+                    
+                    {/*<FacebookLoginButton className="mt-3 mb-3"/>*/
+                    /* instalar npm i react-social-login-buttons*/
+                    }
+            
+                    <div className="text-center">
+                        <a href="/CrearCliente">Regístrate </a>
+                        <span className="p-2"> | </span>
+                        <Link to="/Password_olvidada"><a> Olvidé la contraseña </a></Link>
+                    </div>
+            
+                    <NavWrapper className="navbar navbar-expand-sm navbar-dark px-sm-5">
+                        {this.state.authed ? botonLogout : <Login />}
+                    </NavWrapper>
+                </Form>
             </Container>
-            
-            
         )
     }
 }

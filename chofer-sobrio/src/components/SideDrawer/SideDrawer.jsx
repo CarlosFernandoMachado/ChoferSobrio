@@ -34,7 +34,6 @@ class SideDrawer extends React.Component {
             this.dbRefChoferes = firebase.database().ref('/chofer');
             this.dbCallbackChoferes = this.dbRefChoferes.on('value', (snap) => {
                 const choferes = snap.val();
-                console.log(choferes)
                 let isChofer = false;
                 choferes.forEach(chofer => {
                     isChofer = isChofer || chofer.correo === user.email;
@@ -75,13 +74,14 @@ class SideDrawer extends React.Component {
         }
 
         const menu = [];
+        let key = 0;
         if (isGerente) {
             menu.push((
-                <Link to="/CrearGerente">
+                <Link key={key++} to="/CrearGerente">
                     <Button> Crear Gerente</Button>
                 </Link>
             ), (
-                <Link to="/CrearChofer">
+                <Link key={key++} to="/CrearChofer">
                     <Button> Crear Chofer</Button>
                 </Link>
             ));
@@ -89,7 +89,7 @@ class SideDrawer extends React.Component {
 
         if (isChofer || isGerente) {
             menu.push(
-                <Link to="/pedidos">
+                <Link key={key++} to="/pedidos">
                     <Button>Pedidos </Button>
                 </Link>
             );

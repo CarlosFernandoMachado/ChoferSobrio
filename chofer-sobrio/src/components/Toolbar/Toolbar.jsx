@@ -36,7 +36,6 @@ class Toolbar extends React.Component {
             this.dbRefChoferes = firebase.database().ref('/chofer');
             this.dbCallbackChoferes = this.dbRefChoferes.on('value', (snap) => {
                 const choferes = snap.val();
-                console.log(choferes)
                 let isChofer = false;
                 choferes.forEach(chofer => {
                     isChofer = isChofer || chofer.correo === user.email;
@@ -64,16 +63,18 @@ class Toolbar extends React.Component {
         } else {
             mensaje = 'Iniciar sesion';
         }
+
+        let key = 0;
         const menu = [];
         if (isGerente) {
             menu.push((
-                <Dropdown.Item>
+                <Dropdown.Item key={key++}>
                     <Link to="/CrearGerente">
                         <Button> Crear Gerente</Button>
                     </Link>
                 </Dropdown.Item>
             ), (
-                <Dropdown.Item>
+                <Dropdown.Item key={key++}>
                     <Link to="/CrearChofer">
                         <Button> Crear Chofer</Button>
                     </Link>
@@ -83,7 +84,7 @@ class Toolbar extends React.Component {
 
         if (isChofer || isGerente) {
             menu.push(
-                <Dropdown.Item>
+                <Dropdown.Item key={key++}>
                     <Link to="/pedidos">
                         <Button>Pedidos </Button>
                     </Link>
@@ -92,7 +93,7 @@ class Toolbar extends React.Component {
         }
 
         let dropdown;
-        if (menu) {
+        if (menu.length > 0) {
             dropdown = (
                 <Dropdown >
                     <Dropdown.Toggle variant="dropdown-basic">

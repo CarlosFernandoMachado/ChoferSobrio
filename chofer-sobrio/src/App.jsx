@@ -15,56 +15,56 @@ import CrearCliente from './components/CrearCliente/CrearCliente';
 import Pedidos from './components/Pedidos/Pedidos';
 import IniciarSesion from './components/IniciarSesion/IniciarSesion';
 import Password_olvidada from './components/Password_olvidada/Password_olvidada';
-import { Autenticado } from './routes/Autenticado';
+import { Gerente, Chofer } from './routes';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       sideDrawerOpen: false,
-      isGerente: false,
-      isChofer: false,
+      permisos: null,
     };
     this.drawerToggleClickHandler = this.drawerToggleClickHandler.bind(this);
     this.backdropClickHandler = this.backdropClickHandler.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const user = JSON.parse(localStorage.getItem('user'));
 
     if (user) {
-        // gerentes
-        this.dbRefGerentes = firebase.database().ref('/gerente');
-        this.dbCallbackGerentes = this.dbRefGerentes.on('value', (snap) => {
-            const gerentes = snap.val();
-            let isGerente = false;
-            gerentes.forEach(gerente => {
-                isGerente = isGerente || gerente.correo === user.email; 
-            });
-            this.setState({ isGerente });
-        });
+      let permisos;
 
-        // choferes
-        this.dbRefChoferes = firebase.database().ref('/chofer');
-        this.dbCallbackChoferes = this.dbRefChoferes.on('value', (snap) => {
-            const choferes = snap.val();
-            console.log(choferes)
-            let isChofer = false;
-            choferes.forEach(chofer => {
-                isChofer = isChofer || chofer.correo === user.email; 
-            });
-            this.setState({ isChofer });
+      // gerentes
+      const isGerente = await firebase.database().ref('/gerente').once('value').then((snap) => {
+        let isGerente = false;
+        const gerentes = snap.val();
+        gerentes.forEach(gerente => {
+          isGerente = isGerente || gerente.correo === user.email; 
         });
+        return isGerente;
+      });
+  
+      // choferes
+      const isChofer = await firebase.database().ref('/chofer').once('value').then((snap) => {
+        let isChofer = false;
+        const choferes = snap.val();
+        choferes.forEach(chofer => {
+          isChofer = isChofer || chofer.correo === user.email; 
+        });
+        return isChofer;
+      });
+  
+      if (isGerente) {
+        permisos = 'gerente';
+      } else if (isChofer) {
+        permisos = 'chofer';
+      } else {
+        permisos = null;
+      }
+  
+      this.setState({ permisos });
     }
-}
-
-componentWillUnmount() {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user) {
-        this.dbRefGerentes.off('value', this.dbCallbackGerentes);
-        this.dbRefChoferes.off('value', this.dbCallbackChoferes);
-    }
-}
+  }
 
   drawerToggleClickHandler = () => {
     this.setState((prevState) => {
@@ -77,10 +77,13 @@ componentWillUnmount() {
   };
 
   render() {
+    const { permisos } = this.state;
+
     let backdrop;
     if (this.state.sideDrawerOpen) {
       backdrop = <Backdrop click={this.backdropClickHandler} />
     }
+
     return (
       <Router>
         <div style={{ height: '100%' }}>
@@ -94,10 +97,10 @@ componentWillUnmount() {
               <Route exact path="/seguridad" component={Seguridad}></Route>
               <Route exact path="/pedirchofer" component={PedirChofer}></Route>
               <Route exact path="/crear" component={Crear}></Route>
-              <Route exact path="/CrearGerente" component={CrearGerente}></Route>
-              <Route exact path="/CrearChofer" component={CrearChofer}></Route>
+              <Gerente exact path="/CrearGerente" permisos={permisos} component={CrearGerente}></Gerente>
+              <Gerente exact path="/CrearChofer" permisos={permisos} component={CrearChofer}></Gerente>
+              <Chofer exact path="/pedidos" permisos={permisos} component={Pedidos}></Chofer>
               <Route exact path="/CrearCliente" component={CrearCliente}></Route>
-              <Route exact path="/pedidos" component={Pedidos}></Route>
               <Route exact path="/iniciarSesion" component={IniciarSesion}></Route>
               <Route exact path="/Password_olvidada" component={Password_olvidada}></Route>
             </div>
