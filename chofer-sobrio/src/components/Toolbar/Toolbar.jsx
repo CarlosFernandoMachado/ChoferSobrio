@@ -79,12 +79,6 @@ class Toolbar extends React.Component {
                         <Button bsStyle="primary"> Crear Chofer</Button>
                     </Link>
                 </Dropdown.Item>
-            ), (
-                <Dropdown.Item>
-                    <Link to="/CrearCliente">
-                        <Button bsStyle="primary"> Crear Cliente</Button>
-                    </Link>
-                </Dropdown.Item>
             ));
         }
 
