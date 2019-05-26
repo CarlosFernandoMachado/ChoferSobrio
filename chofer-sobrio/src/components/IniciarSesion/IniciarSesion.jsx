@@ -72,12 +72,9 @@ export default class IniciarSesion extends Component {
                     <Button className="btn-lg btn-dark btn-block">Iniciar sesión </Button>
 
                     <div className="text-center pt-3"> O continuar con una red social</div>
-<<<<<<< HEAD
                    */}
                     
-=======
 
->>>>>>> d06393ab083f9656b3528450f3bb7cb5ffc62251
                     {/*<FacebookLoginButton className="mt-3 mb-3"/>*/
                         /* instalar npm i react-social-login-buttons*/
                     }
@@ -89,13 +86,7 @@ export default class IniciarSesion extends Component {
                         <br/>
                         {this.state.authed ? <Link to="/ModificarContrasenaCliente">Modificar contraseña</Link> : null }
                     </div>
-<<<<<<< HEAD
-                    
-            
-=======
-                    {this.state.authed ? <Link to="/ModificarContrasenaCliente">Modificar contrasena</Link> : null}
 
->>>>>>> d06393ab083f9656b3528450f3bb7cb5ffc62251
                     <NavWrapper className="navbar navbar-expand-sm navbar-dark px-sm-5">
                         {this.state.authed ? botonLogout : <Login />}
                     </NavWrapper>
