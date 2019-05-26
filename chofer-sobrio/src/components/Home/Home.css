@@ -17,6 +17,30 @@
     z-index: 1;
 }
 
+.pedir{
+    background: yellow;
+    color: black;
+    outline: none;
+}
+
+.pedir:hover{
+    background: yellow;
+    color: black;
+    outline: none;
+}
+
+.pedir:focus{
+    background: yellow;
+    color: black;
+    outline: none;
+}
+
+.pedir:active{
+    background: yellow;
+    color: black;
+    outline: transparent;
+}
+
 .outer-div{
     height: 330px;
     width: 82.5%;
@@ -31,7 +55,10 @@
 }
 
 .jumbo-boy{
-    background: yellow;
+    background:yellow;
+    border: 1px;
+    outline-width: thin; 
+    border-radius: 20px; 
 }
 
 .jumbo-boy h1{
@@ -53,7 +80,9 @@
         width: 93%;
     }
     .jumbotron-div{
-        height: 60%;
+        height: 50%;
     }
-    
+    .jumbo-boy{
+        border-radius: 10px; 
+    }
 }

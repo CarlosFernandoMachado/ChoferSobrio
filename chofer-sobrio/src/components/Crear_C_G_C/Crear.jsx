@@ -3,9 +3,9 @@ import './Crear.css'
 import Fire from '../config/config';
 
 
-function redirigir(){ 
-    window.location="/"; 
-} 
+function redirigir() {
+    window.location = "/";
+}
 
 export default class Crear extends Component {
     Crearchofer(id, identidad, name, number, email) {
@@ -18,14 +18,14 @@ export default class Crear extends Component {
             contraseña: "",
             validado: 0
         });
-        Fire.auth().createUserWithEmailAndPassword(email,'123456').then(
+        Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
             Fire.auth().sendPasswordResetEmail(email).then(
                 alert("Se envio un correo de confirmacion a tu correo"))
         ).catch(alert("Usuario registrado, no se pudo enviar mensaje de conficion"));
     }
     Leerchofer(userId) {
         var database = Fire.database();
-        var n = database.ref('/chofer/' + userId).once('value').then(function(snapshot) {
+        var n = database.ref('/chofer/' + userId).once('value').then(function (snapshot) {
             var username = (snapshot.val() && snapshot.val().nombre) || 'Anonymous';
 
         })
@@ -100,14 +100,14 @@ export default class Crear extends Component {
             validado: 0
 
         });
-        Fire.auth().createUserWithEmailAndPassword(email,'123456').then(
+        Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
             Fire.auth().sendPasswordResetEmail(email).the(
                 alert("Se envio un correo de confirmacion a tu correo"))
         );
     }
     Leergerente(userId) {
         var database = Fire.database();
-        var n = database.ref('/gerente/' + userId).once('value').then(function(snapshot) {
+        var n = database.ref('/gerente/' + userId).once('value').then(function (snapshot) {
             var username = (snapshot.val() && snapshot.val().nombre) || 'Anonymous';
 
         })
@@ -140,16 +140,16 @@ export default class Crear extends Component {
             contraseña: "",
             validado: 0
         });
-        Fire.auth().createUserWithEmailAndPassword(email,'123456').then(
+        Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
             Fire.auth().sendPasswordResetEmail(email).the(
                 alert("Se envio un correo de confirmacion a tu correo"))
         );
-        
-        
+
+
     }
     Leercliente(userId) {
         var database = Fire.database();
-        var n = database.ref('/cliente/' + userId).once('value').then(function(snapshot) {
+        var n = database.ref('/cliente/' + userId).once('value').then(function (snapshot) {
             var username = (snapshot.val() && snapshot.val().nombre) || 'Anonymous';
 
         })
@@ -157,7 +157,7 @@ export default class Crear extends Component {
 
         return n;
     }
-    
+
     modificarcliente(id, color_vehiculo, marca, nombre, placa, telefono) {
         var database = Fire.database();
         database.ref('cliente/' + id).update({
@@ -190,7 +190,7 @@ export default class Crear extends Component {
     }
     Leerpedido(userId) {
         var database = Fire.database();
-        var n = database.ref('/pedido/' + userId).once('value').then(function(snapshot) {
+        var n = database.ref('/pedido/' + userId).once('value').then(function (snapshot) {
             var username = (snapshot.val() && snapshot.val().nombre) || 'Anonymous';
 
         })
@@ -218,21 +218,70 @@ export default class Crear extends Component {
     }
     render() {
         if (this.props.validado && this.props.funcion === "crear_gerente") {
-            this.Creargerente(2, this.props.datos[0], this.props.datos[1], this.props.datos[2], this.props.datos[3])
-            setTimeout(redirigir,1000);
+            var database = Fire.database();
+            var identity = this.props.datos[0];
+            var name = this.props.datos[1];
+            var telephone = this.props.datos[2];
+            var email = this.props.datos[3];
+            var id = 0;
+            var n = database.ref('/referencias/').once('value').then(function (snapshot) {
+                id = (snapshot.val() && snapshot.val().id_gerente) || 'Anonymous';
+                id++;
+                database.ref('gerente/' + id).set({
+                    identidad: identity,
+                    nombre: name,
+                    telefono: telephone,
+                    correo: email,
+                    contraseña: "",
+                    validado: 0
+        
+                });
+                database.ref('referencias/').update({
+                    id_gerente: id
+                });
+            })
         }
         if (this.props.validado && this.props.funcion === "Crearpedido") {
-            this.Crearpedido(2, this.props.datos[0], this.props.datos[1], this.props.datos[2], this.props.datos[3], this.props.datos[4], this.props.datos[5], this.props.datos[6], this.props.datos[7], this.props.datos[8])
+            var database = Fire.database();
+            var colour = this.props.datos[0];
+            var destination = this.props.datos[1];
+            var date = this.props.datos[2];
+            var hour = this.props.datos[3];
+            var brand = this.props.datos[4];
+            var name = this.props.datos[5];
+            var plate = this.props.datos[6];
+            var telephone = this.props.datos[7];
+            var location = this.props.datos[8];
+            var id = 0;
+            var n = database.ref('/referencias/').once('value').then(function (snapshot) {
+                id = (snapshot.val() && snapshot.val().id_pedido) || 'Anonymous';
+                id++;
+                database.ref('pedido/' + id).set({
+                    color: colour,
+                    destino: destination,
+                    fecha: date,
+                    hora: hour,
+                    marca: brand,
+                    nombre: name,
+                    placa: plate,
+                    telefono: telephone,
+                    ubicacion: location
+        
+                });
+                database.ref('referencias/').update({
+                    id_pedido: id
+                });
+            })
         }
         if (this.props.validado && this.props.funcion === "crear_cliente") {
             this.Crearcliente(2, this.props.datos[0], this.props.datos[1], this.props.datos[2], this.props.datos[3], this.props.datos[4], this.props.datos[5])
-            setTimeout(redirigir,1000); 
-           
+            setTimeout(redirigir, 1000);
+
         }
         if (this.props.validado && this.props.funcion === "crear_chofer") {
             this.Crearchofer(2, this.props.datos[0], this.props.datos[1], this.props.datos[2], this.props.datos[3])
-            setTimeout(redirigir,1000);
-            
+            setTimeout(redirigir, 1000);
+
         }
         return (
             <div>
