@@ -45,7 +45,7 @@ export default class IniciarSesion extends Component{
     render(){
 
         const botonLogout = (
-            <ButtonContainer onClick={logout}>
+            <ButtonContainer id="btn-color-picker" onClick={logout}>
                 <span className="ml-2 ">
                     <i className="fas fa-sign-out-alt" />
                 </span>
@@ -80,7 +80,7 @@ export default class IniciarSesion extends Component{
                     <div className="text-center">
                         <a href="/CrearCliente">Regístrate </a>
                         <span className="p-2"> | </span>
-                        <Link to="/Password_olvidada"><a> Olvidé la contraseña </a></Link>
+                        <Link to="/Password_olvidada"> Olvidé la contraseña</Link>
                     </div>
             
                     <NavWrapper className="navbar navbar-expand-sm navbar-dark px-sm-5">
