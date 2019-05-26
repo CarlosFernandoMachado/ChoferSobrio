@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
 import DatePicker from "react-datepicker";
+import { registerLocale, setDefaultLocale } from "react-datepicker"
 import TimePicker from 'react-time-picker';
 import firebase from '../config/config';
 import "react-datepicker/dist/react-datepicker.css";
 import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert, Dropdown } from 'react-bootstrap';
+import es from 'date-fns/locale/es';
 import './PedirChofer.css'
+
+registerLocale('es', es);
+setDefaultLocale('es');
 
 export default class Precios extends Component {
     constructor(props) {
@@ -219,9 +224,9 @@ export default class Precios extends Component {
                                     <Dropdown>
                                         <Dropdown.Toggle variant="warning" id="dropdown-basic">
                                              Seleccione un color..
-                                        </Dropdown.Toggle>                                       
+                                        </Dropdown.Toggle>                                      
                                          <Dropdown.Menu>                                            
-                                             <Dropdown.Item eventKey = 'Amarillo' onSelect={this.handleSelect}>
+                                             <Dropdown.Item eventKey = 'Amarillo'>
                                                  Amarillo
                                              </Dropdown.Item>
                                              <Dropdown.Item eventKey = 'Azul' onSelect={this.handleSelect}>
@@ -260,8 +265,9 @@ export default class Precios extends Component {
                                                     placeholder="Ingrese el color del vehículo"
                                                     id="colorField"                                                  
                                                     bsRole="toggle"
-                                                 />                                           
+                                                 />                                      
                                          </Dropdown.Menu>
+                                         
                                         </Dropdown>
                                 </Form.Group>
                             </Form.Row>
@@ -286,6 +292,7 @@ export default class Precios extends Component {
                                         value={this.state.hora}
                                         format="hh:mm a"
                                         disableClock={true}
+                                        locale='es'
                                         required
                                     />
                                     <Form.Control.Feedback type="invalid">
