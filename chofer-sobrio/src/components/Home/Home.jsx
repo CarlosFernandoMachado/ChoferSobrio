@@ -10,9 +10,9 @@ export default class Home extends Component {
             <Container>
                 <div className="outer-div">
                     <div className="jumbotron-div">
-                        <Jumbotron fluid>
-                            <h2>Bienvenidos a Chofer Sobrio</h2>
-                            <p>Esta es la pagina Home!</p>
+                        <Jumbotron className="jumbo-boy" fluid>
+                            <h1>Chofer Sobrio</h1>
+                            <h5>Vuelve sin esquelas y sin accidentes a casa</h5>
                         </Jumbotron>
                     </div>
                     <div className="map-div">

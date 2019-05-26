@@ -96,36 +96,36 @@ export default class Precios extends Component {
         const { validated } = this.state;
         return (
             <Container>
-                <Jumbotron>
-                    <h2>Bienvenidos a chofer Sobrio</h2>
-                    <p>Esta es la pagina para crear Cliente?</p>
+                <Jumbotron className="jumbo-boy" fluid>
+                    <h1>Chofer Sobrio</h1>
+                    <h5>Registrate con nosotros</h5>
                 </Jumbotron>
                 <Card border="ligth">
                     <Alert variant="secondary">
                         <Form
                             noValidate
-                            validated={ validated }
-                            onSubmit={ e => this.handleSubmit(e) }
-                             
-                            
+                            validated={validated}
+                            onSubmit={e => this.handleSubmit(e)}
+
+
 
                         >
                             <Form.Row>
-                                <Form.Group as={ Col } md="4" controlId="validationCustom01">
+                                <Form.Group as={Col} md="4" controlId="validationCustom01">
                                     <Form.Label>Color de Vehiculo</Form.Label>
                                     <Form.Control
                                         required
                                         type="text"
                                         name="Color"
-                                        value={ this.state.value }
-                                        onChange={ this.handleChange }
+                                        value={this.state.value}
+                                        onChange={this.handleChange}
                                         id="Color"
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         Ingrese el color de vehiculo (A-Z)
                                 </Form.Control.Feedback>
                                 </Form.Group>
-                                <Form.Group as={ Col } md="4" controlId="validationCustom02">
+                                <Form.Group as={Col} md="4" controlId="validationCustom02">
                                     <Form.Label>Correo</Form.Label>
                                     <Form.Control
                                         required
@@ -134,42 +134,42 @@ export default class Precios extends Component {
                                         name="correo"
                                         pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
                                         placeholder=""
-                                        value={ this.state.value }
-                                        onChange={ this.handleChange }
+                                        value={this.state.value}
+                                        onChange={this.handleChange}
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         Ingrese su Correo Correctamente (correo@ejemplo.com)
                         </Form.Control.Feedback>
                                 </Form.Group>
-                                <Form.Group as={ Col } md="4" controlId="validationCustom01">
+                                <Form.Group as={Col} md="4" controlId="validationCustom01">
                                     <Form.Label>Marca de Vehiculo</Form.Label>
                                     <Form.Control
                                         required
                                         type="text"
                                         name="Marca"
-                                        value={ this.state.value }
-                                        onChange={ this.handleChange }
+                                        value={this.state.value}
+                                        onChange={this.handleChange}
                                         id="Marca"
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         Ingrese la marca de vehiculo (A-Z)
                                 </Form.Control.Feedback>
                                 </Form.Group>
-                                <Form.Group as={ Col } md="4" controlId="validationCustom01">
+                                <Form.Group as={Col} md="4" controlId="validationCustom01">
                                     <Form.Label>Nombre</Form.Label>
                                     <Form.Control
                                         required
                                         type="text"
                                         name="nombre"
-                                        value={ this.state.value }
-                                        onChange={ this.handleChange }
+                                        value={this.state.value}
+                                        onChange={this.handleChange}
                                         id="nombre"
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         Ingrese su Nombre (A-Z)
                                 </Form.Control.Feedback>
                                 </Form.Group>
-                                <Form.Group as={ Col } md="4" controlId="validationCustomID">
+                                <Form.Group as={Col} md="4" controlId="validationCustomID">
                                     <Form.Label>Placa</Form.Label>
                                     <InputGroup>
                                         <Form.Control
@@ -177,8 +177,8 @@ export default class Precios extends Component {
                                             placeholder="_ _ _ _ _ _ _"
                                             required
                                             name="Placa"
-                                            value={ this.state.value }
-                                            onChange={ this.handleChange }
+                                            value={this.state.value}
+                                            onChange={this.handleChange}
                                             id="Placa"
                                         />
                                         <Form.Control.Feedback type="invalid">
@@ -186,15 +186,15 @@ export default class Precios extends Component {
                                 </Form.Control.Feedback>
                                     </InputGroup>
                                 </Form.Group>
-                                <Form.Group as={ Col } md="4" controlId="validationCustom02">
+                                <Form.Group as={Col} md="4" controlId="validationCustom02">
                                     <Form.Label>Telefono</Form.Label>
                                     <Form.Control
                                         required
                                         type="number"
                                         name="telefono"
                                         placeholder="_ _ _ _ _ _ _ _"
-                                        value={ this.state.value }
-                                        onChange={ this.handleChange }
+                                        value={this.state.value}
+                                        onChange={this.handleChange}
                                         id="telefono"
 
                                     />
@@ -205,10 +205,10 @@ export default class Precios extends Component {
 
                             </Form.Row>
                             <div class="text-center">
-                            <Button type="submit" variant="warning" > Registrarse</Button>
-                                <Crear validado={ this.state.listo } datos={ [this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo] } funcion={ "crear_cliente" }  />
-                            
-                           
+                                <Button type="submit" variant="warning" > Registrarse</Button>
+                                <Crear validado={this.state.listo} datos={[this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo]} funcion={"crear_cliente"} />
+
+
                             </div>
 
 
