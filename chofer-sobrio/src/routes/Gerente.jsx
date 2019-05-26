@@ -16,10 +16,8 @@ function Gerente({ component: Component, path, permisos, ...rest }) {
 
                 // esta autenticado, pero no es gerente
                 if (!permisos.gerente) {
-                    console.log({ permisos });
                     return (
                         <Redirect to="/" />
-                        // <Redirect exact to="/" />
                     );
                 }
 
