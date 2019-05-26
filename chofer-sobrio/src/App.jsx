@@ -26,11 +26,7 @@ class App extends Component {
     this.state = {
       user: null,
       sideDrawerOpen: false,
-      permisos: {
-        gerente: false,
-        chofer: false,
-        cliente: false,
-      },
+      permisos: null,
     };
     this.drawerToggleClickHandler = this.drawerToggleClickHandler.bind(this);
     this.backdropClickHandler = this.backdropClickHandler.bind(this);
@@ -45,7 +41,7 @@ class App extends Component {
         let isGerente = false;
         const gerentes = snap.val();
         gerentes.forEach(gerente => {
-          isGerente = isGerente || gerente.correo === user.email; 
+          isGerente = isGerente || gerente.correo === user.email;
         });
         return isGerente;
       });
@@ -55,7 +51,7 @@ class App extends Component {
         let isChofer = false;
         const choferes = snap.val();
         choferes.forEach(chofer => {
-          isChofer = isChofer || chofer.correo === user.email; 
+          isChofer = isChofer || chofer.correo === user.email;
         });
         return isChofer;
       });
