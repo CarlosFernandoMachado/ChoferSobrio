@@ -82,6 +82,7 @@ export default class IniciarSesion extends Component{
                         <span className="p-2"> | </span>
                         <Link to="/Password_olvidada"> Olvidé la contraseña</Link>
                     </div>
+                    {this.state.authed ? <Link to="/ModificarContrasenaCliente">Modificar contrasena</Link> : null }
             
                     <NavWrapper className="navbar navbar-expand-sm navbar-dark px-sm-5">
                         {this.state.authed ? botonLogout : <Login />}

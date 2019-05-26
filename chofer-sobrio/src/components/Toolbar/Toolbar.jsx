@@ -88,7 +88,7 @@ class Toolbar extends React.Component {
                     <Link to="/pedidos">
                         <Button>Pedidos </Button>
                     </Link>
-                </Dropdown.Item>
+                </Dropdown.Item>,
             );
         }
 
