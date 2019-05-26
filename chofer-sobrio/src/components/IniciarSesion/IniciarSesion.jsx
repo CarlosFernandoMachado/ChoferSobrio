@@ -1,4 +1,4 @@
-import React , {Component} from 'react'
+import React, { Component } from 'react'
 import { Jumbotron, Container, Button } from 'react-bootstrap';
 import './IniciarSesion.css'
 import { Form, FormGroup, Input } from 'reactstrap';
@@ -10,11 +10,11 @@ import { ButtonContainer } from '../config/Button';
 import styled from 'styled-components';
 
 
-export default class IniciarSesion extends Component{
+export default class IniciarSesion extends Component {
     state = {
         authed: false,
         loading: true
-      };
+    };
 
     componentDidMount() {
         this.removeListener = firebaseAuth().onAuthStateChanged(async (user) => {
@@ -42,7 +42,7 @@ export default class IniciarSesion extends Component{
         this.removeListener();
     }
 
-    render(){
+    render() {
 
         const botonLogout = (
             <ButtonContainer id="btn-color-picker" onClick={logout}>
@@ -55,9 +55,9 @@ export default class IniciarSesion extends Component{
 
         return (
             <Container>
-                <Jumbotron>
-                    <h2>Bienvenidos a Chofer Sobrio</h2>
-                    <p>Esta es la pagina Iniciar Sesión!</p>
+                <Jumbotron className="jumbo-boy" fluid>
+                    <h1>Chofer Sobrio</h1>
+                    <h5>Inicia sesion</h5>
                 </Jumbotron>
 
                 <Form className="login-form">
@@ -68,22 +68,22 @@ export default class IniciarSesion extends Component{
                     <FormGroup>
                         <Input type="password" placeholder="Contraseña" />
                     </FormGroup>
-                    
+
                     <Button className="btn-lg btn-dark btn-block">Iniciar sesión </Button>
-                    
+
                     <div className="text-center pt-3"> O continuar con una red social</div>
-                    
+
                     {/*<FacebookLoginButton className="mt-3 mb-3"/>*/
-                    /* instalar npm i react-social-login-buttons*/
+                        /* instalar npm i react-social-login-buttons*/
                     }
-            
+
                     <div className="text-center">
                         <a href="/CrearCliente">Regístrate </a>
                         <span className="p-2"> | </span>
                         <Link to="/Password_olvidada"> Olvidé la contraseña</Link>
                     </div>
-                    {this.state.authed ? <Link to="/ModificarContrasenaCliente">Modificar contrasena</Link> : null }
-            
+                    {this.state.authed ? <Link to="/ModificarContrasenaCliente">Modificar contrasena</Link> : null}
+
                     <NavWrapper className="navbar navbar-expand-sm navbar-dark px-sm-5">
                         {this.state.authed ? botonLogout : <Login />}
                     </NavWrapper>
