@@ -22,7 +22,7 @@ export default class Home extends Component {
                     <div className="button-div">
                         <Link to="/pedirchofer">
                             <div id="button">
-                                <Button variant="warning" >Pedir Chofer</Button>
+                                <Button className="pedir" >Pedir Chofer</Button>
                             </div>
                         </Link>
                     </div>

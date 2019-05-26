@@ -85,7 +85,7 @@ export default class Precios extends Component {
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
-            this.setState({ listo: 'false' });
+
         } else {
             var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
             /*VALIDACIONES*/
@@ -115,12 +115,13 @@ export default class Precios extends Component {
                 this.setState({ validated: 'false' });
             } else if (this.state.validated) {
                  alert("Pedido realizado");
-                this.setState({ validated: 'false' });
-                event.preventDefault();
-                this.setState({ listo: 'true' });
+                 this.setState({ validated: 'true' });
+                 event.preventDefault();
+                 this.setState({ listo: 'true' });
             }
         }
         event.preventDefault();
+        this.setState({ validated: 'false' });
     }
 
     render() {
@@ -137,8 +138,7 @@ export default class Precios extends Component {
                         <Form
                             noValidate
                             validated={validated}
-                            onSubmit={e => this.handleSubmit(e)}
-                        >
+                            onSubmit={e => this.handleSubmit(e)}>
                             <Form.Row>
                                 <Form.Group as={Col} md="4">
                                     <Form.Label>Nombre</Form.Label>
@@ -219,34 +219,36 @@ export default class Precios extends Component {
                                     <Dropdown>
                                         <Dropdown.Toggle variant="warning" id="dropdown-basic">
                                              Seleccione un color..
-                                        </Dropdown.Toggle>
-
-                                         <Dropdown.Menu>
-                                             <Dropdown.Item eventKey = 'Amarillo'  onSelect={this.handleSelect}>
+                                        </Dropdown.Toggle>                                       
+                                         <Dropdown.Menu>                                            
+                                             <Dropdown.Item eventKey = 'Amarillo' onSelect={this.handleSelect}>
                                                  Amarillo
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey = 'Azul'  onSelect={this.handleSelect}>
+                                             <Dropdown.Item eventKey = 'Azul' onSelect={this.handleSelect}>
                                                  Azul
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey = 'Blanco'  onSelect={this.handleSelect}>
+                                             <Dropdown.Item eventKey = 'Blanco' onSelect={this.handleSelect}>
                                                  Blanco
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey = 'Dorado'  onSelect={this.handleSelect}>
+                                             <Dropdown.Item eventKey = 'Dorado' onSelect={this.handleSelect}>
                                                  Dorado
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey = 'Gris'  onSelect={this.handleSelect}>
+                                             <Dropdown.Item eventKey = 'Gris' onSelect={this.handleSelect}>
                                                  Gris
                                             </Dropdown.Item>
-                                            <Dropdown.Item eventKey = 'Negro'  onSelect={this.handleSelect}>
+                                            <Dropdown.Item eventKey = 'Negro' onSelect={this.handleSelect}>
                                                  Negro
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey = 'Ocre'  onSelect={this.handleSelect}>
+                                             <Dropdown.Item eventKey = 'Ocre' onSelect={this.handleSelect}>
                                                  Ocre
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey = 'Plateado'  onSelect={this.handleSelect}>
+                                             <Dropdown.Item eventKey = 'Plateado' onSelect={this.handleSelect}>
                                                  Plateado
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey = 'Verde'  onSelect={this.handleSelect}>
+                                             <Dropdown.Item eventKey = 'Plateado' onSelect={this.handleSelect}>
+                                                 Rojo
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey = 'Verde' onSelect={this.handleSelect}>
                                                  Verde
                                              </Dropdown.Item>
                                              <Form.Label>Otro color:</Form.Label>

@@ -5,4 +5,10 @@
     margin: auto;
     height: 100%;
   }
+
+  #btn-color-picker{
+    background: yellow;
+    border-color: transparent; 
+    color: black;
+  }
   
