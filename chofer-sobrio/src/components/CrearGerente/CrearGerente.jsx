@@ -32,10 +32,10 @@ export default class CrearGerente extends Component {
             /*Caracteres especiales*/
             this.setState({ nombre: '' });
             document.getElementById("nombre").value = "";
-            
+
         }
         if (length !== 8) {
-            
+
             this.setState({ telefono: '' });
             document.getElementById("telefono").value = "";
 
@@ -49,29 +49,29 @@ export default class CrearGerente extends Component {
         }
         if (form.checkValidity() === false) {
             this.setState({ validated: 'false' });
-            
+
             event.preventDefault();
             event.stopPropagation();
 
         } else {
-           
+
             this.setState({ validated: 'true' });
             event.preventDefault();
             this.setState({ listo: 'true' });
-            
+
             event.preventDefault();
         }
         event.preventDefault()
-      
-        
+
+
     }
     render() {
         const { validated } = this.state;
         return (
             <Container>
-                <Jumbotron>
-                    <h2>Bienvenidos a Chofer Sobrio</h2>
-                    <p>Esta es la pagina para crear gerente?</p>
+                <Jumbotron className="jumbo-boy" fluid>
+                    <h1>Chofer Sobrio</h1>
+                    <h5>Registra a un nuevo Gerente</h5>
                 </Jumbotron>
                 <Card border="ligth">
                     <Alert variant="secondary">
@@ -92,7 +92,7 @@ export default class CrearGerente extends Component {
                                         id="nombre"
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                    Ingrese su nombre Correctamente (A-Z)
+                                        Ingrese su nombre Correctamente (A-Z)
                                 </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={Col} md="4" controlId="validationCustom02">
@@ -107,7 +107,7 @@ export default class CrearGerente extends Component {
                                         onChange={this.handleChange}
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                    Ingrese su Telefono Correctamente 8 digitos (0-9)
+                                        Ingrese su Telefono Correctamente 8 digitos (0-9)
                             </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={Col} md="4" controlId="validationCustomID">
@@ -123,7 +123,7 @@ export default class CrearGerente extends Component {
                                             onChange={this.handleChange}
                                         />
                                         <Form.Control.Feedback type="invalid">
-                                        Ingrese su Identidad Correctamente 13 digitos (0-9) sin espacios ni guiones
+                                            Ingrese su Identidad Correctamente 13 digitos (0-9) sin espacios ni guiones
                                 </Form.Control.Feedback>
                                     </InputGroup>
                                 </Form.Group>
@@ -141,7 +141,7 @@ export default class CrearGerente extends Component {
                                             onChange={this.handleChange}
                                         />
                                         <Form.Control.Feedback type="invalid">
-                                        Ingrese su Correo Correctamente (correo@ejemplo.com)
+                                            Ingrese su Correo Correctamente (correo@ejemplo.com)
                                 </Form.Control.Feedback>
                                     </InputGroup>
                                 </Form.Group>

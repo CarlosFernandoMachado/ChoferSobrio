@@ -85,4 +85,7 @@
     .jumbo-boy{
         border-radius: 10px; 
     }
+    .jumbo-boy h5{
+        font-size: 1.21rem;
+    }
 }

@@ -67,9 +67,9 @@ export default class CrearChofer extends Component {
         const { validated } = this.state;
         return (
             <Container>
-                <Jumbotron>
-                    <h2>Bienvenidos a chofer Sobrio</h2>
-                    <p>Esta es la pagina para crear chofer?</p>
+                <Jumbotron className="jumbo-boy" fluid>
+                    <h1>Chofer Sobrio</h1>
+                    <h5>Registra a un nuevo chofer</h5>
                 </Jumbotron>
                 <Card border="ligth">
                     <Alert variant="secondary">
