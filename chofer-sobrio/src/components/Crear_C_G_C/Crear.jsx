@@ -228,11 +228,11 @@ export default class Crear extends Component {
                 id = (snapshot.val() && snapshot.val().id_gerente) || 'Anonymous';
                 id++;
                 database.ref('gerente/' + id).set({
+                    contraseña: "",
+                    correo: email,
                     identidad: identity,
                     nombre: name,
                     telefono: telephone,
-                    correo: email,
-                    contraseña: "",
                     validado: 0
         
                 });
@@ -240,6 +240,7 @@ export default class Crear extends Component {
                     id_gerente: id
                 });
             })
+            setTimeout(redirigir, 1000);
         }
         if (this.props.validado && this.props.funcion === "Crearpedido") {
             var database = Fire.database();
@@ -272,16 +273,60 @@ export default class Crear extends Component {
                     id_pedido: id
                 });
             })
+            setTimeout(redirigir, 1000);
         }
         if (this.props.validado && this.props.funcion === "crear_cliente") {
-            this.Crearcliente(2, this.props.datos[0], this.props.datos[1], this.props.datos[2], this.props.datos[3], this.props.datos[4], this.props.datos[5])
+            var database = Fire.database();
+            var colour = this.props.datos[0];
+            var brand = this.props.datos[1];
+            var name = this.props.datos[2];
+            var plate = this.props.datos[3];
+            var telephone = this.props.datos[4];
+            var email = this.props.datos[5];
+            var id = 0;
+            var n = database.ref('/referencias/').once('value').then(function (snapshot) {
+                id = (snapshot.val() && snapshot.val().id_cliente) || 'Anonymous';
+                id++;
+                database.ref('cliente/' + id).set({
+                    color_vehiculo: colour,
+                    contraseña: "",
+                    correo: email,
+                    marca: brand,
+                    nombre: name,
+                    placa: plate,
+                    telefono: telephone,
+                    validado: 0
+                });
+                database.ref('referencias/').update({
+                    id_cliente: id
+                });
+            })
             setTimeout(redirigir, 1000);
-
         }
         if (this.props.validado && this.props.funcion === "crear_chofer") {
-            this.Crearchofer(2, this.props.datos[0], this.props.datos[1], this.props.datos[2], this.props.datos[3])
+            var database = Fire.database();
+            var identity = this.props.datos[0];
+            var name = this.props.datos[1];
+            var telephone = this.props.datos[2];
+            var email = this.props.datos[3];
+            var id = 0;
+            var n = database.ref('/referencias/').once('value').then(function (snapshot) {
+                id = (snapshot.val() && snapshot.val().id_chofer) || 'Anonymous';
+                id++;
+                database.ref('chofer/' + id).set({
+                    contraseña: "",
+                    correo: email,
+                    identidad: identity,
+                    nombre: name,
+                    telefono: telephone,
+                    validado: 0
+        
+                });
+                database.ref('referencias/').update({
+                    id_chofer: id
+                });
+            })
             setTimeout(redirigir, 1000);
-
         }
         return (
             <div>
