@@ -74,13 +74,17 @@
     padding-top: 10px;
 }
 
+.invisible-div{
+    visibility: hidden;
+    display: none;
+}
 
 @media (max-width: 768px){ 
     .outer-div{
         width: 93%;
     }
     .jumbotron-div{
-        height: 50%;
+        height: 58%;
     }
     .jumbo-boy{
         border-radius: 10px; 

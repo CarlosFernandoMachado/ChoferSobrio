@@ -85,8 +85,8 @@ class Toolbar extends React.Component {
         if (isChofer || isGerente) {
             menu.push(
                 <Dropdown.Item key={key++}>
-                    <Link to="/pedidos">
-                        <Button>Pedidos </Button>
+                    <Link to="/reservaciones">
+                        <Button>Reservaciones </Button>
                     </Link>
                 </Dropdown.Item>,
             );

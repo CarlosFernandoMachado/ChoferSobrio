@@ -40,7 +40,7 @@ export default class Precios extends Component {
 
     async componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
-
+        this.getLocation();
         if (user) {
             // clientes
             const info = await firebase.database().ref('/cliente').once('value').then((snap) => {
@@ -64,6 +64,21 @@ export default class Precios extends Component {
                 placa: info.placa,
             });
         }
+    }
+
+    getLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(this.showPosition);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    showPosition = (position) => {
+        var lat = position.coords.latitude;
+        var lon = position.coords.longitude;
+        var ubicacion = lat + "," + lon;
+        this.setState({ ubicacion_actual: ubicacion });
     }
 
     handleChange(event) {
@@ -303,7 +318,7 @@ export default class Precios extends Component {
                           
                             <div className="text-center">                          
                                 <Button type="submit" variant="warning" >Pedir chofer</Button>
-                                <Crear validado={this.state.listo} datos={[this.state.color, this.state.destino, this.state.date, this.state.hora, this.state.marca, this.state.nombre, this.state.placa, this.state.telefono, "Ubicación"]} funcion={"Crearpedido"} />                          
+                                <Crear validado={this.state.listo} datos={[this.state.color, this.state.destino, this.state.date, this.state.hora, this.state.marca, this.state.nombre, this.state.placa, this.state.telefono, this.state.ubicacion_actual]} funcion={"Crearpedido"} />                          
                                 
                             </div>
                         

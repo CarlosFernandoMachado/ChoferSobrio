@@ -68,9 +68,9 @@ export default class Precios extends Component {
     render() {
         return (
             <Container>
-                <Jumbotron>
-                    <h2>Bienvenidos a Chofer Sobrio</h2>
-                    <p>Esta es la pagina de Pedidos!</p>
+                <Jumbotron className="jumbo-boy" fluid>
+                    <h1>Chofer Sobrio</h1>
+                    <h5>Reservaciones de hoy y mañana</h5>
                 </Jumbotron>
                 <Card border="light">
                     <Alert variant="secondary">
