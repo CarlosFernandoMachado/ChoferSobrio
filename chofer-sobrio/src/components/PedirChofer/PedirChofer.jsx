@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import DatePicker from "react-datepicker";
 import TimePicker from 'react-time-picker';
 import firebase from '../config/config';
-import { Link } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
 import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert, Dropdown } from 'react-bootstrap';
@@ -77,6 +76,7 @@ export default class Precios extends Component {
         this.setState({ color: evtKey });
     }
 
+
     handleSubmit(event) {
         const form = event.currentTarget;
         this.setState({ date: (this.state.fecha.getDate() + '/' + (this.state.fecha.getMonth() + 1) + '/' + this.state.fecha.getFullYear()) });
@@ -85,7 +85,7 @@ export default class Precios extends Component {
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
-
+            this.setState({ listo: 'false' });
         } else {
             var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
             /*VALIDACIONES*/
@@ -94,46 +94,32 @@ export default class Precios extends Component {
                 this.setState({ nombre: '' });
                 document.getElementById("nombre").value = "";
                 this.setState({ validated: 'false' });
-            }
-            if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.marca)) {
+            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.marca)) {
                 /*Caracteres especiales*/
                 this.setState({ marca: '' });
                 document.getElementById("marca").value = "";
                 this.setState({ validated: 'false' });
-            }
-            if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.color) || !/^[" "]+$/.test(this.state.color) ) {
-                /*Caracteres especiales*/
-                this.setState({ color: '' });
-                document.getElementById("colorField").value = "";
-                this.setState({ validated: 'false' });
-            }
-
-            if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.destino)) {
-                /*Caracteres especiales*/
-                this.setState({ destino: '' });
-                document.getElementById("destino").value = "";
-                this.setState({ validated: 'false' });
-            }
-            if (this.state.placa.length != 7 || !/^[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i.test(this.state.placa)) {
+            }else if (this.state.placa.length != 7 || !/^[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i.test(this.state.placa)) {
                 /*Placa invalida*/
                 this.setState({ placa: '' });
                 document.getElementById("placa").value = "";
                 this.setState({ validated: 'false' });
-            }
-            if (length != 8 || !/^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
+            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.destino)) {
+                /*Caracteres especiales*/
+                this.setState({ destino: '' });
+                document.getElementById("destino").value = "";
+                this.setState({ validated: 'false' });
+            } else if (length != 8 || !/^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
                 this.setState({ telefono: '' });
                 document.getElementById("telefono").value = "";
                 this.setState({ validated: 'false' });
-            }
-            if (this.state.validated != 'false') {
-                this.setState({ validated: 'true' });
+            } else if (this.state.validated) {
+                 alert("Pedido realizado");
+                this.setState({ validated: 'false' });
                 event.preventDefault();
                 this.setState({ listo: 'true' });
             }
-
-
         }
-        this.setState({ validated: 'false' });
         event.preventDefault();
     }
 
@@ -309,6 +295,7 @@ export default class Precios extends Component {
                             <div className="text-center">                          
                                 <Button type="submit" variant="warning" >Pedir chofer</Button>
                                 <Crear validado={this.state.listo} datos={[this.state.color, this.state.destino, this.state.date, this.state.hora, this.state.marca, this.state.nombre, this.state.placa, this.state.telefono, "Ubicación"]} funcion={"Crearpedido"} />                          
+                                
                             </div>
                         
                         </Form>
