@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import DatePicker from "react-datepicker";
 import TimePicker from 'react-time-picker';
+import firebase from '../config/config';
+import { Link } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
 import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert, Dropdown } from 'react-bootstrap';
@@ -22,14 +24,43 @@ export default class Precios extends Component {
             validated: '',
             date: '',
             listo: 0,
+            infoCliente: {},
         };
 
-        this.onChange = hora => this.setState({ hora })
+        this.onChange = hora => this.setState({ hora });
         this.handleChange = this.handleChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.dateChange = this.dateChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         }
+
+    async componentDidMount() {
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        if (user) {
+            // clientes
+            const info = await firebase.database().ref('/cliente').once('value').then((snap) => {
+                const clientes = snap.val();
+                let infoCliente;
+                clientes.forEach(cliente => {
+                    if (cliente.correo === user.email) {
+                        infoCliente = cliente;
+                    }
+                });
+                return infoCliente;
+            });
+
+            console.log(info);
+
+            this.setState({
+                nombre: info.nombre,
+                telefono: info.telefono,
+                marca: info.marca,
+                color: info.color_vehiculo,
+                placa: info.placa,
+            });
+        }
+    }
 
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value });
@@ -73,7 +104,7 @@ export default class Precios extends Component {
             if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.color) || !/^[" "]+$/.test(this.state.color) ) {
                 /*Caracteres especiales*/
                 this.setState({ color: '' });
-                document.getElementById("color").value = "";
+                document.getElementById("colorField").value = "";
                 this.setState({ validated: 'false' });
             }
 
@@ -129,7 +160,7 @@ export default class Precios extends Component {
                                         required
                                         type="text"
                                         name="nombre"
-                                        value={this.state.value}
+                                        value={this.state.nombre}
                                         onChange={this.handleChange}
                                         id="nombre"
                                     />
@@ -143,7 +174,7 @@ export default class Precios extends Component {
                                         required
                                         type="number"
                                         name="telefono"
-                                        value={this.state.value}
+                                        value={this.state.telefono}
                                         onChange={this.handleChange}
                                         id="telefono"
                                     />
@@ -158,7 +189,7 @@ export default class Precios extends Component {
                                             type="text"
                                             required
                                             name="marca"
-                                            value={this.state.value}
+                                            value={this.state.marca}
                                             onChange={this.handleChange}
                                             id="marca"
                                         />
@@ -175,7 +206,7 @@ export default class Precios extends Component {
                                         type="text"
                                         required
                                         name="placa"
-                                        value={this.state.value}
+                                        value={this.state.placa}
                                         onChange={this.handleChange}
                                         id="placa"
                                     />
@@ -191,7 +222,6 @@ export default class Precios extends Component {
                                         name="destino"
                                         value={this.state.value}
                                         onChange={this.handleChange}
-                                        placeholder="Ingrese el color del vehículo"
                                         id="destino"
                                     />
                                     <Form.Control.Feedback type="invalid">
@@ -239,6 +269,7 @@ export default class Precios extends Component {
                                                     name="color"
                                                     value={this.state.value}
                                                     onChange={this.handleChange}
+                                                    placeholder="Ingrese el color del vehículo"
                                                     id="colorField"                                                  
                                                     bsRole="toggle"
                                                  />                                           
@@ -254,6 +285,7 @@ export default class Precios extends Component {
                                         selected={this.state.fecha}
                                         onChange={this.dateChange}
                                         value={this.state.value}
+                                        minDate={new Date()}
                                         dateFormat="dd/MM/yyyy"
                                         withPortal
                                     />
@@ -273,15 +305,18 @@ export default class Precios extends Component {
                             </Form.Control.Feedback>
                                 </Form.Group>
                             </Form.Row>
-                            <div className="text-center">
+                          
+                            <div className="text-center">                          
                                 <Button type="submit" variant="warning" >Pedir chofer</Button>
-                                <Crear validado={this.state.listo} datos={[this.state.color, this.state.destino, this.state.date, this.state.hora, this.state.marca, this.state.nombre, this.state.placa, this.state.telefono, "Ubicación"]} funcion={"Crearpedido"} />
+                                <Crear validado={this.state.listo} datos={[this.state.color, this.state.destino, this.state.date, this.state.hora, this.state.marca, this.state.nombre, this.state.placa, this.state.telefono, "Ubicación"]} funcion={"Crearpedido"} />                          
                             </div>
+                        
                         </Form>
                     </Alert>
                 </Card>
 
             </Container>
         )
+        
     }
 }

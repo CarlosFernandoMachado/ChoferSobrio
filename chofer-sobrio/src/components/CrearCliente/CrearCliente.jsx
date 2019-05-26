@@ -206,9 +206,9 @@ export default class Precios extends Component {
                             </Form.Row>
                             <div class="text-center">
                             <Button type="submit" variant="warning" > Registrarse</Button>
+                                <Crear validado={ this.state.listo } datos={ [this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo] } funcion={ "crear_cliente" }  />
                             
-                            <Crear validado={ this.state.listo } datos={ [this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo] } funcion={ "crear_cliente" }  />
-                                    
+                           
                             </div>
 
 

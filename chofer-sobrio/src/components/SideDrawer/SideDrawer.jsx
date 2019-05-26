@@ -10,7 +10,8 @@ class SideDrawer extends React.Component {
         super(props);
 
         this.state = {
-            isAdmin: false,
+            isGerente: false,
+            isChofer: false,
         };
     }
 
@@ -18,11 +19,26 @@ class SideDrawer extends React.Component {
         const user = JSON.parse(localStorage.getItem('user'));
 
         if (user) {
-            // admins
-            this.dbRefAdmins = firebase.database().ref('/gerente');
-            this.dbCallbackAdmins = this.dbRefAdmins.on('value', (snap) => {
-                const admins = snap.val();
-                admins.forEach(admin => this.setState({ isAdmin: admin.correo === user.email }));
+            // gerentes
+            this.dbRefGerentes = firebase.database().ref('/gerente');
+            this.dbCallbackGerentes = this.dbRefGerentes.on('value', (snap) => {
+                const gerentes = snap.val();
+                let isGerente = false;
+                gerentes.forEach(gerente => {
+                    isGerente = isGerente || gerente.correo === user.email;
+                });
+                this.setState({ isGerente });
+            });
+
+            // choferes
+            this.dbRefChoferes = firebase.database().ref('/chofer');
+            this.dbCallbackChoferes = this.dbRefChoferes.on('value', (snap) => {
+                const choferes = snap.val();
+                let isChofer = false;
+                choferes.forEach(chofer => {
+                    isChofer = isChofer || chofer.correo === user.email;
+                });
+                this.setState({ isChofer });
             });
         }
     }
@@ -31,13 +47,14 @@ class SideDrawer extends React.Component {
         const user = JSON.parse(localStorage.getItem('user'));
 
         if (user) {
-            this.dbRefAdmins.off('value', this.dbCallbackAdmins);
+            this.dbRefGerentes.off('value', this.dbCallbackGerentes);
+            this.dbRefChoferes.off('value', this.dbCallbackChoferes);
         }
     }
 
     render() {
         const props = this.props;
-        const { isAdmin } = this.state;
+        const { isGerente, isChofer } = this.state;
 
         let drawerClasses = 'side-drawer';
         if (props.show) {
@@ -56,6 +73,29 @@ class SideDrawer extends React.Component {
             usuario = '';
         }
 
+        const menu = [];
+        let key = 0;
+        if (isGerente) {
+            menu.push((
+                <Link key={key++} to="/CrearGerente">
+                    <Button onClick={props.hide}> Crear Gerente</Button>
+                </Link>
+            ), (
+                <Link key={key++} to="/CrearChofer">
+                    <Button onClick={props.hide}> Crear Chofer</Button>
+                </Link>
+            ));
+        }
+
+        if (isChofer || isGerente) {
+            menu.push(
+                <Link key={key++} to="/pedidos">
+                    <Button onClick={props.hide}>Pedidos </Button>
+                </Link>
+            );
+        }
+
+
         return (
             <nav className={drawerClasses}>
                 <Card>
@@ -65,18 +105,8 @@ class SideDrawer extends React.Component {
                     </CardBody>
                 </Card>
                 <ul>
-                    {isAdmin ? (
-                        <React.Fragment>
-                            <Link to="/CrearGerente">
-                                <Button onClick={props.hide}> Crear Gerente</Button>
-                            </Link>
-                            <Link to="/CrearChofer">
-                                <Button onClick={props.hide}> Crear Chofer</Button>
-                            </Link>
-                        </React.Fragment>
-                    ) : null}
                     <Link to="/iniciarSesion">
-                        <Button>{mensaje}</Button>
+                        <Button onClick={props.hide}>{mensaje}</Button>
                     </Link>
                     <Link to="/">
                         <Button onClick={props.hide} > Home</Button>
@@ -87,9 +117,7 @@ class SideDrawer extends React.Component {
                     <Link to="/seguridad">
                         <Button onClick={props.hide}> Seguridad</Button>
                     </Link>
-                    <Link to="/pedidos">
-                        <Button onClick={props.hide}> Pedidos</Button>
-                    </Link>
+                    {menu}
                 </ul>
             </nav>
         );

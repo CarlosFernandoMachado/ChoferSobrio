@@ -2,6 +2,11 @@ import React, { Component } from 'react'
 import './Crear.css'
 import Fire from '../config/config';
 
+
+function redirigir(){ 
+    window.location="/"; 
+} 
+
 export default class Crear extends Component {
     Crearchofer(id, identidad, name, number, email) {
         var database = Fire.database();
@@ -13,6 +18,10 @@ export default class Crear extends Component {
             contraseña: "",
             validado: 0
         });
+        Fire.auth().createUserWithEmailAndPassword(email,'123456').then(
+            Fire.auth().sendPasswordResetEmail(email).then(
+                alert("Se envio un correo de confirmacion a tu correo"))
+        ).catch(alert("Usuario registrado, no se pudo enviar mensaje de conficion"));
     }
     Leerchofer(userId) {
         var database = Fire.database();
@@ -91,6 +100,10 @@ export default class Crear extends Component {
             validado: 0
 
         });
+        Fire.auth().createUserWithEmailAndPassword(email,'123456').then(
+            Fire.auth().sendPasswordResetEmail(email).the(
+                alert("Se envio un correo de confirmacion a tu correo"))
+        );
     }
     Leergerente(userId) {
         var database = Fire.database();
@@ -127,6 +140,12 @@ export default class Crear extends Component {
             contraseña: "",
             validado: 0
         });
+        Fire.auth().createUserWithEmailAndPassword(email,'123456').then(
+            Fire.auth().sendPasswordResetEmail(email).the(
+                alert("Se envio un correo de confirmacion a tu correo"))
+        );
+        
+        
     }
     Leercliente(userId) {
         var database = Fire.database();
@@ -138,6 +157,7 @@ export default class Crear extends Component {
 
         return n;
     }
+    
     modificarcliente(id, color_vehiculo, marca, nombre, placa, telefono) {
         var database = Fire.database();
         database.ref('cliente/' + id).update({
@@ -199,15 +219,21 @@ export default class Crear extends Component {
     render() {
         if (this.props.validado && this.props.funcion === "crear_gerente") {
             this.Creargerente(2, this.props.datos[0], this.props.datos[1], this.props.datos[2], this.props.datos[3])
+            setTimeout(redirigir,1000);
         }
         if (this.props.validado && this.props.funcion === "Crearpedido") {
             this.Crearpedido(2, this.props.datos[0], this.props.datos[1], this.props.datos[2], this.props.datos[3], this.props.datos[4], this.props.datos[5], this.props.datos[6], this.props.datos[7], this.props.datos[8])
+            setTimeout(redirigir,1000);
         }
         if (this.props.validado && this.props.funcion === "crear_cliente") {
             this.Crearcliente(2, this.props.datos[0], this.props.datos[1], this.props.datos[2], this.props.datos[3], this.props.datos[4], this.props.datos[5])
+            setTimeout(redirigir,1000); 
+           
         }
         if (this.props.validado && this.props.funcion === "crear_chofer") {
             this.Crearchofer(2, this.props.datos[0], this.props.datos[1], this.props.datos[2], this.props.datos[3])
+            setTimeout(redirigir,1000);
+            
         }
         return (
             <div>
