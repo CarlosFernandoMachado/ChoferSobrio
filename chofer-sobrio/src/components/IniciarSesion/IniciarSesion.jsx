@@ -61,7 +61,7 @@ export default class IniciarSesion extends Component{
                 </Jumbotron>
 
                 <Form className="login-form">
-                    <FormGroup>
+                   {/* <FormGroup>
                         <Input type="email" placeholder="Correo" />
                     </FormGroup>
 
@@ -72,6 +72,7 @@ export default class IniciarSesion extends Component{
                     <Button className="btn-lg btn-dark btn-block">Iniciar sesión </Button>
                     
                     <div className="text-center pt-3"> O continuar con una red social</div>
+                   */}
                     
                     {/*<FacebookLoginButton className="mt-3 mb-3"/>*/
                     /* instalar npm i react-social-login-buttons*/
@@ -81,8 +82,10 @@ export default class IniciarSesion extends Component{
                         <a href="/CrearCliente">Regístrate </a>
                         <span className="p-2"> | </span>
                         <Link to="/Password_olvidada"> Olvidé la contraseña</Link>
+                        <br/>
+                        {this.state.authed ? <Link to="/ModificarContrasenaCliente">Modificar contraseña</Link> : null }
                     </div>
-                    {this.state.authed ? <Link to="/ModificarContrasenaCliente">Modificar contrasena</Link> : null }
+                    
             
                     <NavWrapper className="navbar navbar-expand-sm navbar-dark px-sm-5">
                         {this.state.authed ? botonLogout : <Login />}
