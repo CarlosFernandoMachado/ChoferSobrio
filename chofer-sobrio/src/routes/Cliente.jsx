@@ -7,18 +7,10 @@ function Cliente({ component: Component, path, permisos, ...rest }) {
             {...rest}
             path={path}
             render={(props) => {
-                // si no esta autenticado
-                if (!permisos) {
-                    return (
-                        <Redirect to="/iniciarSesion" />
-                    );
-                }
-
                 // esta autenticado, pero no es cliente
-                if (!permisos.cliente) {
+                if (permisos && !permisos.cliente) {
                     return (
                         <Redirect to="/" />
-                        // <Redirect exact to="/" />
                     );
                 }
 

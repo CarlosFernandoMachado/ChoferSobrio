@@ -18,7 +18,6 @@ function Chofer({ component: Component, path, permisos, ...rest }) {
                 if (!permisos.gerente && !permisos.chofer) {
                     return (
                         <Redirect to="/" />
-                        // <Redirect exact to="/" />
                     );
                 }
 
