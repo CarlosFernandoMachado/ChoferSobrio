@@ -36,7 +36,7 @@ export default class Home extends Component {
         var x = document.getElementById("lat");
         var y = document.getElementById("lon");
         x.innerHTML = position.coords.latitude;
-        y.innerHTML = position.coords.longitude;;
+        y.innerHTML = position.coords.longitude;
     }
 
     render() {

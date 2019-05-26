@@ -109,7 +109,7 @@ class App extends Component {
               <Cliente exact path="/pedirchofer" permisos={permisos} component={PedirChofer}></Cliente>
               <Gerente exact path="/CrearGerente" permisos={permisos} component={CrearGerente}></Gerente>
               <Gerente exact path="/CrearChofer" permisos={permisos} component={CrearChofer}></Gerente>
-              <Chofer exact path="/pedidos" permisos={permisos} component={Pedidos}></Chofer>
+              <Chofer exact path="/reservaciones" permisos={permisos} component={Pedidos}></Chofer>
               <Route exact path="/CrearCliente" component={CrearCliente}></Route>
               <Route exact path="/iniciarSesion" component={IniciarSesion}></Route>
               <Route exact path="/Password_olvidada" component={Password_olvidada}></Route>

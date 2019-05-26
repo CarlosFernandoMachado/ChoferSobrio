@@ -70,7 +70,7 @@ export default class Precios extends Component {
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
                     <h1>Chofer Sobrio</h1>
-                    <h5>Pedidos de hoy</h5>
+                    <h5>Reservaciones de hoy y mañana</h5>
                 </Jumbotron>
                 <Card border="light">
                     <Alert variant="secondary">

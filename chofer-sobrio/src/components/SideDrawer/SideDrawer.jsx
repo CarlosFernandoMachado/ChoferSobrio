@@ -89,8 +89,8 @@ class SideDrawer extends React.Component {
 
         if (isChofer || isGerente) {
             menu.push(
-                <Link key={key++} to="/pedidos">
-                    <Button onClick={props.hide}>Pedidos </Button>
+                <Link key={key++} to="/reservaciones">
+                    <Button onClick={props.hide}>Reservaciones </Button>
                 </Link>
             );
         }
