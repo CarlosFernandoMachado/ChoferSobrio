@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import TimePicker from 'react-time-picker';
 import "react-datepicker/dist/react-datepicker.css";
 import Crear from '../Crear_C_G_C/Crear';
-import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from 'react-bootstrap';
+import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert, Dropdown } from 'react-bootstrap';
 import './PedirChofer.css'
 
 export default class Precios extends Component {
@@ -26,9 +26,10 @@ export default class Precios extends Component {
 
         this.onChange = hora => this.setState({ hora })
         this.handleChange = this.handleChange.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
         this.dateChange = this.dateChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
+        }
 
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value });
@@ -39,6 +40,10 @@ export default class Precios extends Component {
             fecha: date
         });
 
+    }
+
+    handleSelect(evtKey){
+        this.setState({ color: evtKey });
     }
 
     handleSubmit(event) {
@@ -65,12 +70,13 @@ export default class Precios extends Component {
                 document.getElementById("marca").value = "";
                 this.setState({ validated: 'false' });
             }
-            if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.color)) {
+            if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.color) || !/^[" "]+$/.test(this.state.color) ) {
                 /*Caracteres especiales*/
                 this.setState({ color: '' });
                 document.getElementById("color").value = "";
                 this.setState({ validated: 'false' });
             }
+
             if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.destino)) {
                 /*Caracteres especiales*/
                 this.setState({ destino: '' });
@@ -164,20 +170,6 @@ export default class Precios extends Component {
                             </Form.Row>
                             <Form.Row>
                                 <Form.Group as={Col} md="4">
-                                    <Form.Label>Color</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        required
-                                        name="color"
-                                        value={this.state.value}
-                                        onChange={this.handleChange}
-                                        id="color"
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        Ingrese el color de su vehiculo
-                            </Form.Control.Feedback>
-                                </Form.Group>
-                                <Form.Group as={Col} md="4">
                                     <Form.Label>Placa</Form.Label>
                                     <Form.Control
                                         type="text"
@@ -199,11 +191,59 @@ export default class Precios extends Component {
                                         name="destino"
                                         value={this.state.value}
                                         onChange={this.handleChange}
+                                        placeholder="Ingrese el color del vehículo"
                                         id="destino"
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         Ingrese su destino
                             </Form.Control.Feedback>
+                                </Form.Group>
+                                <Form.Group as={Col} md="4">
+                                    <Form.Label>Color</Form.Label>
+                                    <Dropdown>
+                                        <Dropdown.Toggle variant="warning" id="dropdown-basic">
+                                             Seleccione un color..
+                                        </Dropdown.Toggle>
+
+                                         <Dropdown.Menu>
+                                             <Dropdown.Item eventKey = 'Amarillo'  onSelect={this.handleSelect}>
+                                                 Amarillo
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey = 'Azul'  onSelect={this.handleSelect}>
+                                                 Azul
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey = 'Blanco'  onSelect={this.handleSelect}>
+                                                 Blanco
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey = 'Dorado'  onSelect={this.handleSelect}>
+                                                 Dorado
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey = 'Gris'  onSelect={this.handleSelect}>
+                                                 Gris
+                                            </Dropdown.Item>
+                                            <Dropdown.Item eventKey = 'Negro'  onSelect={this.handleSelect}>
+                                                 Negro
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey = 'Ocre'  onSelect={this.handleSelect}>
+                                                 Ocre
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey = 'Plateado'  onSelect={this.handleSelect}>
+                                                 Plateado
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey = 'Verde'  onSelect={this.handleSelect}>
+                                                 Verde
+                                             </Dropdown.Item>
+                                             <Form.Label>Otro color:</Form.Label>
+                                                 <Form.Control
+                                                    type="text"
+                                                    name="color"
+                                                    value={this.state.value}
+                                                    onChange={this.handleChange}
+                                                    id="colorField"                                                  
+                                                    bsRole="toggle"
+                                                 />                                           
+                                         </Dropdown.Menu>
+                                        </Dropdown>
                                 </Form.Group>
                             </Form.Row>
                             <Form.Row>
