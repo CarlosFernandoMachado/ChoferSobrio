@@ -124,7 +124,7 @@ export default class Precios extends Component {
                 this.setState({ placa: '' });
                 document.getElementById("placa").value = "";
                 this.setState({ validated: 'false' });
-            } else if (!/^[a-zA-Z0-9ÑñÁáÉéÍíÓóÚúÜü]+$/.test(this.state.destino)) {
+            } else if (!/^[a-z0-9A-ZÑñÁáÉéÍíÓóÚúÜü]+$/.test(this.state.destino)) {
                 /*Caracteres especiales*/
                 this.setState({ destino: '' });
                 document.getElementById("destino").value = "";
@@ -265,7 +265,7 @@ export default class Precios extends Component {
                                              <Dropdown.Item eventKey = 'Plateado' onSelect={this.handleSelect}>
                                                  Plateado
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey = 'Plateado' onSelect={this.handleSelect}>
+                                             <Dropdown.Item eventKey = 'Rojo' onSelect={this.handleSelect}>
                                                  Rojo
                                              </Dropdown.Item>
                                              <Dropdown.Item eventKey = 'Verde' onSelect={this.handleSelect}>

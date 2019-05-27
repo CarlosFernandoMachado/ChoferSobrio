@@ -2,3 +2,12 @@ body {
     background-color: black;
 }
 
+.dropdown-item:hover {
+   background-color: yellow;
+   color: black;
+}
+
+.dropdown-item:active{
+    background-color: yellow;
+}
+
