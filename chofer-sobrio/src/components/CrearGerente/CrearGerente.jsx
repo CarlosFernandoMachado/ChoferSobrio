@@ -135,7 +135,7 @@ export default class CrearGerente extends Component {
                                             placeholder="Solo correo de gmail"
                                             required
                                             name="correo"
-                                            pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+                                            pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[gmail]+(?:\.[a-zA-Z0-9-]+)*$"
                                             id="correo"
                                             value={this.state.value}
                                             onChange={this.handleChange}

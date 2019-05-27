@@ -132,7 +132,7 @@ export default class CrearChofer extends Component {
                                         type="email"
                                         id="correo"
                                         name="correo"
-                                        pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+                                        pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[gmail]+(?:\.[a-zA-Z0-9-]+)*$"
                                         placeholder="Solo correo de gmail"
                                         value={ this.state.value }
                                         onChange={ this.handleChange }

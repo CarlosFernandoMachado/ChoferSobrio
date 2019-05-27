@@ -149,11 +149,11 @@ export default class Crear extends Component {
     }
     Leercliente(userId) {
         var database = Fire.database();
-        var n = database.ref('/cliente/' + userId).once('value').then(function (snapshot) {
-            var username = (snapshot.val() && snapshot.val().nombre) || 'Anonymous';
-
+        var n = database.ref('/cliente/'+ userId).once('value').then(function (snapshot) {
+           var id = (snapshot.val() && snapshot.val().nombre) || 'Anonymous';
+            
         })
-        alert(n);
+     
 
         return n;
     }
