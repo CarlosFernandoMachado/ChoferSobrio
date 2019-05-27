@@ -4,9 +4,20 @@ import { Jumbotron, Container, Button, Card, Alert } from 'react-bootstrap';
 import './Home.css'
 
 export default class Home extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+          lat: 14.0818,
+          lon: -87.20681
+        };
+      }
 
     componentDidMount() {
         this.getLocation();
+        this.renderMap();
+    }
+
+    componentDidUpdate(){
         this.renderMap();
     }
 
@@ -16,8 +27,8 @@ export default class Home extends Component {
     }
 
     initMap = () => {
-        var lat = Number(parseFloat(document.getElementById("lat").innerHTML).toFixed(4));
-        var lon = Number(parseFloat(document.getElementById("lon").innerHTML).toFixed(4));
+        var lat = Number(parseFloat(this.state.lat).toFixed(4));
+        var lon = Number(parseFloat(this.state.lon).toFixed(4));
         var map = new window.google.maps.Map(document.getElementById('map'), {
             center: { lat: lat, lng: lon },
             zoom: 18
@@ -33,10 +44,8 @@ export default class Home extends Component {
     }
 
     showPosition = (position) => {
-        var x = document.getElementById("lat");
-        var y = document.getElementById("lon");
-        x.innerHTML = position.coords.latitude;
-        y.innerHTML = position.coords.longitude;
+        this.setState({ lat: position.coords.latitude });
+        this.setState({ lon: position.coords.longitude });
     }
 
     render() {
@@ -59,8 +68,6 @@ export default class Home extends Component {
                         </Link>
                     </div>
                     <div className="invisible-div">
-                        <p id="lat"/>
-                        <p id="lon"/>
                     </div>
                 </div>
             </Container>
