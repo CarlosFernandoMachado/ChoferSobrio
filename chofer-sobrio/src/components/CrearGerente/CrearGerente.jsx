@@ -132,7 +132,7 @@ export default class CrearGerente extends Component {
                                     <InputGroup>
                                         <Form.Control
                                             type="email"
-                                            placeholder=""
+                                            placeholder="Solo correo de gmail"
                                             required
                                             name="correo"
                                             pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
@@ -141,7 +141,7 @@ export default class CrearGerente extends Component {
                                             onChange={this.handleChange}
                                         />
                                         <Form.Control.Feedback type="invalid">
-                                            Ingrese su Correo Correctamente (correo@ejemplo.com)
+                                            Ingrese su Correo Correctamente (correo@gmail.com)
                                 </Form.Control.Feedback>
                                     </InputGroup>
                                 </Form.Group>

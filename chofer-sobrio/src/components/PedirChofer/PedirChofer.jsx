@@ -124,7 +124,7 @@ export default class Precios extends Component {
                 this.setState({ placa: '' });
                 document.getElementById("placa").value = "";
                 this.setState({ validated: 'false' });
-            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.destino)) {
+            } else if (!/^[a-zA-Z0-9ÑñÁáÉéÍíÓóÚúÜü]+$/.test(this.state.destino)) {
                 /*Caracteres especiales*/
                 this.setState({ destino: '' });
                 document.getElementById("destino").value = "";
