@@ -14,9 +14,7 @@ export default class Crear extends Component {
             identidad: identidad,
             nombre: name,
             telefono: number,
-            correo: email,
-            contraseña: "",
-            validado: 0
+            correo: email
         });
         Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
             Fire.auth().sendPasswordResetEmail(email).then(
@@ -95,9 +93,7 @@ export default class Crear extends Component {
             identidad: identidad,
             nombre: name,
             telefono: number,
-            correo: email,
-            contraseña: "",
-            validado: 0
+            correo: email
 
         });
         Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
@@ -136,9 +132,7 @@ export default class Crear extends Component {
             nombre: nombre,
             placa: placa,
             telefono: telefono,
-            correo: email,
-            contraseña: "",
-            validado: 0
+            correo: email
         });
         Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
             Fire.auth().sendPasswordResetEmail(email).the(
@@ -228,12 +222,10 @@ export default class Crear extends Component {
                 id = (snapshot.val() && snapshot.val().id_gerente) || 'Anonymous';
                 id++;
                 database.ref('gerente/' + id).set({
-                    contraseña: "",
                     correo: email,
                     identidad: identity,
                     nombre: name,
-                    telefono: telephone,
-                    validado: 0
+                    telefono: telephone
         
                 });
                 database.ref('referencias/').update({
@@ -289,13 +281,11 @@ export default class Crear extends Component {
                 id++;
                 database.ref('cliente/' + id).set({
                     color_vehiculo: colour,
-                    contraseña: "",
                     correo: email,
                     marca: brand,
                     nombre: name,
                     placa: plate,
-                    telefono: telephone,
-                    validado: 0
+                    telefono: telephone
                 });
                 database.ref('referencias/').update({
                     id_cliente: id
@@ -314,12 +304,10 @@ export default class Crear extends Component {
                 id = (snapshot.val() && snapshot.val().id_chofer) || 'Anonymous';
                 id++;
                 database.ref('chofer/' + id).set({
-                    contraseña: "",
                     correo: email,
                     identidad: identity,
                     nombre: name,
-                    telefono: telephone,
-                    validado: 0
+                    telefono: telephone
         
                 });
                 database.ref('referencias/').update({
