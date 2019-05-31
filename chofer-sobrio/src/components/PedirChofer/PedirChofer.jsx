@@ -135,6 +135,16 @@ export default class Precios extends Component {
                 this.setState({ validated: 'false' });
             } else if (this.state.marca == 'Seleccione la marca de su vehículo.') {
                 this.setState({ validated: 'false' });
+            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.marca)) {
+                /*Caracteres especiales*/
+                this.setState({ marca: 'Seleccione la marca de su vehículo.' });
+                document.getElementById("marcaField").value = "";
+                this.setState({ validated: 'false' });
+            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.color)) {
+                /*Caracteres especiales*/
+                this.setState({ color: 'Seleccione el color de su vehículo.' });
+                document.getElementById("colorField").value = "";
+                this.setState({ validated: 'false' });
             } else if (this.state.color == 'Seleccione el color de su vehículo.') {
                 this.setState({ validated: 'false' });
             } else if (this.state.validated) {
