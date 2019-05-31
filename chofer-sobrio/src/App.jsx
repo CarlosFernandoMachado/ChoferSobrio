@@ -19,6 +19,9 @@ import { Gerente, Chofer, Cliente } from './routes';
 import ModificarContrasenaChofer from './components/ModificarContrasena/ModificarContrasenaChofer';
 import ModificarContrasenaCliente from './components/ModificarContrasena/ModificarContrasenaCliente';
 import ModificarContrasenaGerente from './components/ModificarContrasena/ModificarContrasenaGerente';
+import MostrarChofer from './components/Visualizar/MostrarChofer';
+import MostrarCliente from './components/Visualizar/MostrarCliente';
+import MostrarGerente from './components/Visualizar/MostrarGerente';
 
 class App extends Component {
   constructor(props) {
@@ -116,6 +119,9 @@ class App extends Component {
               <Route exact path="/ModificarContrasenaChofer" component={ModificarContrasenaChofer}></Route>
               <Route exact path="/ModificarContrasenaCliente" component={ModificarContrasenaCliente}></Route>
               <Route exact path="/ModificarContrasenaGerente" component={ModificarContrasenaGerente}></Route>
+              <Route exact path="/MostrarChofer" component={MostrarChofer}></Route>
+              <Route exact path="/MostrarCliente" component={MostrarCliente}></Route>
+              <Route exact path="/MostrarGerente" component={MostrarGerente}></Route>
             </div>
           </main>
         </div>
