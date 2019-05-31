@@ -18,8 +18,8 @@ export default class Precios extends Component {
         this.state = {
             nombre: '',
             telefono: '',
-            marca: '',
-            color: '',
+            marca: 'Seleccione la marca de su vehículo.',
+            color: 'Seleccione el color de su vehículo.',
             placa: '',
             ubicacion_actual: 'No la compartio',
             destino: '',
@@ -36,6 +36,7 @@ export default class Precios extends Component {
         this.handleSelect = this.handleSelect.bind(this);
         this.dateChange = this.dateChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSelectMarca = this.handleSelectMarca.bind(this);
     }
 
     async componentDidMount() {
@@ -96,6 +97,10 @@ export default class Precios extends Component {
         this.setState({ color: evtKey });
     }
 
+    handleSelectMarca(evtKey) {
+        this.setState({ marca: evtKey });
+    }
+
 
     handleSubmit(event) {
         const form = event.currentTarget;
@@ -114,12 +119,7 @@ export default class Precios extends Component {
                 this.setState({ nombre: '' });
                 document.getElementById("nombre").value = "";
                 this.setState({ validated: 'false' });
-            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.marca)) {
-                /*Caracteres especiales*/
-                this.setState({ marca: '' });
-                document.getElementById("marca").value = "";
-                this.setState({ validated: 'false' });
-            } else if (this.state.placa.length != 7 || !/^[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i.test(this.state.placa)) {
+            }else if (this.state.placa.length != 7 || !/^[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i.test(this.state.placa)) {
                 /*Placa invalida*/
                 this.setState({ placa: '' });
                 document.getElementById("placa").value = "";
@@ -132,6 +132,10 @@ export default class Precios extends Component {
             } else if (length != 8 || !/^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
                 this.setState({ telefono: '' });
                 document.getElementById("telefono").value = "";
+                this.setState({ validated: 'false' });
+            } else if (this.state.marca == 'Seleccione la marca de su vehículo.') {
+                this.setState({ validated: 'false' });
+            } else if (this.state.color == 'Seleccione el color de su vehículo.') {
                 this.setState({ validated: 'false' });
             } else if (this.state.validated) {
                 alert("Pedido realizado");
@@ -150,7 +154,7 @@ export default class Precios extends Component {
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
                     <h1>Chofer Sobrio</h1>
-                    <h5>Haz tu reservacion hoy</h5>
+                    <h5>Haz tu reservación hoy</h5>
                 </Jumbotron>
 
                 <Card border="ligth">
@@ -190,19 +194,84 @@ export default class Precios extends Component {
                                 </Form.Group>
                                 <Form.Group as={Col} md="4">
                                     <Form.Label>Marca</Form.Label>
-                                    <InputGroup>
-                                        <Form.Control
-                                            type="text"
-                                            required
-                                            name="marca"
-                                            value={this.state.marca}
-                                            onChange={this.handleChange}
-                                            id="marca"
-                                        />
-                                        <Form.Control.Feedback type="invalid">
-                                            Ingrese la marca de su vehiculo
-                                </Form.Control.Feedback>
-                                    </InputGroup>
+                                    <Dropdown>
+                                        <Dropdown.Toggle variant="warning" id="dropdown-basic">
+                                            {this.state.marca}
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item eventKey='BMW' onSelect={this.handleSelect}>
+                                                BMW
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Chevrolet' onSelect={this.handleSelectMarca}>
+                                                Chevrolet
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Ferrari' onSelect={this.handleSelectMarca}>
+                                                Ferrari
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Ford' onSelect={this.handleSelectMarca}>
+                                                Ford
+                                            </Dropdown.Item>
+                                            <Dropdown.Item eventKey='Honda' onSelect={this.handleSelectMarca}>
+                                                Honda
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Hyundai' onSelect={this.handleSelectMarca}>
+                                                Hyundai
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Isuzu' onSelect={this.handleSelectMarca}>
+                                                Isuzu
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Jaguar' onSelect={this.handleSelectMarca}>
+                                                Jaguar
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Kia' onSelect={this.handleSelectMarca}>
+                                                Kia
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Land Rover' onSelect={this.handleSelectMarca}>
+                                                Land Rover
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Mazda' onSelect={this.handleSelectMarca}>
+                                                Mazda
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Mercedes Benz' onSelect={this.handleSelectMarca}>
+                                                Mercedes Benz
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Mitsubishi' onSelect={this.handleSelectMarca}>
+                                                Mitsubishi
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Nissan' onSelect={this.handleSelectMarca}>
+                                                Nissan
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Range Rover' onSelect={this.handleSelectMarca}>
+                                                Range Rover
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Renault' onSelect={this.handleSelectMarca}>
+                                                Renault
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Suzuki' onSelect={this.handleSelectMarca}>
+                                                Suzuki
+                                             </Dropdown.Item>
+                                            <Dropdown.Item eventKey='Toyota'>
+                                                Toyota
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Volkswagen' onSelect={this.handleSelectMarca}>
+                                                Volkswagen
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Volvo' onSelect={this.handleSelectMarca}>
+                                                Volvo
+                                             </Dropdown.Item>
+                                            <Form.Label>Otra marca:</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="marca"
+                                                value={this.state.value}
+                                                onChange={this.handleChange}
+                                                placeholder="Ingrese la marca del vehículo"
+                                                id="marcaField"
+                                                bsRole="toggle"
+                                            />
+                                        </Dropdown.Menu>
+
+                                    </Dropdown>
                                 </Form.Group>
                             </Form.Row>
                             <Form.Row>
@@ -238,7 +307,7 @@ export default class Precios extends Component {
                                     <Form.Label>Color</Form.Label>
                                     <Dropdown>
                                         <Dropdown.Toggle variant="warning" id="dropdown-basic">
-                                            Seleccione un color..
+                                            {this.state.color}
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
                                             <Dropdown.Item eventKey='Amarillo'>
@@ -317,8 +386,9 @@ export default class Precios extends Component {
                             </Form.Row>
 
                             <div className="text-center">
-                                <Button type="submit" variant="warning" >Pedir chofer</Button>
-                                <Crear validado={this.state.listo} datos={[this.state.color, this.state.destino, this.state.date, this.state.hora, this.state.marca, this.state.nombre, this.state.placa, this.state.telefono, this.state.ubicacion_actual]} funcion={"Crearpedido"} />
+                                <Button type="submit" variant="warning" >Pedir chofer
+                                    <Crear validado={this.state.listo} datos={[this.state.color, this.state.destino, this.state.date, this.state.hora, this.state.marca, this.state.nombre, this.state.placa, this.state.telefono, this.state.ubicacion_actual]} funcion={"Crearpedido"} />
+                                </Button>
 
                             </div>
 
