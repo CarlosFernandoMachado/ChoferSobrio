@@ -7,7 +7,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert, Dropdown } from 'react-bootstrap';
 import es from 'date-fns/locale/es';
-import './PedirChofer.css'
+import './PedirChofer.css';
+import { th } from 'date-fns/esm/locale';
 
 registerLocale('es', es);
 setDefaultLocale('es');
@@ -24,11 +25,13 @@ export default class Precios extends Component {
             ubicacion_actual: 'No la compartio',
             destino: '',
             fecha: new Date(),
-            hora: '9:00',
+            hora: new Date(),
             validated: '',
             date: '',
             listo: 0,
             infoCliente: {},
+            cambiarHora: new Date(),
+            now: new Date(),
         };
 
         this.onChange = hora => this.setState({ hora });
@@ -90,6 +93,18 @@ export default class Precios extends Component {
         this.setState({
             fecha: date
         });
+
+        if(date.getDate() == new Date().getDate()) {
+            alert(date.getDate())
+            this.setState({
+                cambiarHora: new Date()
+            });
+        }else{
+            alert(date.getDate())
+            this.setState({
+                cambiarHora: '00:00'
+            });
+        }
 
     }
 
@@ -367,14 +382,14 @@ export default class Precios extends Component {
                             </Form.Row>
                             <Form.Row>
                                 <Form.Group as={Col} md="4">
-                                    <Form.Label>Fecha</Form.Label>
+                                    <Form.Label>Fecha y Hora</Form.Label>
 
                                     <DatePicker
                                         selected={this.state.fecha}
                                         onChange={this.dateChange}
+                                        minDate = {new Date()}
                                         value={this.state.value}
-                                        minDate={new Date()}
-                                        dateFormat="dd/MM/yyyy"
+                                        dateFormat="dd/MM/yyyy"                                       
                                         withPortal
                                     />
                                 </Form.Group>
@@ -387,6 +402,7 @@ export default class Precios extends Component {
                                         format="hh:mm a"
                                         disableClock={true}
                                         locale='es'
+                                        minTime={this.state.cambiarHora}                                       
                                         required
                                     />
                                     <Form.Control.Feedback type="invalid">
