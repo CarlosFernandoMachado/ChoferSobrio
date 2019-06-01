@@ -89,6 +89,11 @@ class Toolbar extends React.Component {
                         <Button>Reservaciones </Button>
                     </Link>
                 </Dropdown.Item>,
+                  <Dropdown.Item key={key++}>
+                  <Link to="/reservaciones">
+                      <Button>Mi Perfil </Button>
+                  </Link>
+              </Dropdown.Item>,
             );
         }
 
@@ -97,7 +102,7 @@ class Toolbar extends React.Component {
             dropdown = (
                 <Dropdown >
                     <Dropdown.Toggle variant="dropdown-basic">
-                        Crear
+                        Opciones
                     </Dropdown.Toggle>
                     <Dropdown.Menu className="dropdown_menu">
                         {menu}
