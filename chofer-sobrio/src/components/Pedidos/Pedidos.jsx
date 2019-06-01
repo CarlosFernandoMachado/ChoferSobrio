@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Table, Card, Alert } from 'react-bootstrap';
+import { Jumbotron, Container, Table, Card, Alert, Button } from 'react-bootstrap';
 import './Pedidos.css'
 // quitar
 import firebase from '../config/config';
@@ -30,11 +30,12 @@ export default class Precios extends Component {
         var day = tommorrow.getDate()
         var month = tommorrow.getMonth() + 1
         var year = tommorrow.getFullYear()
-        var today = dd + '/' + mm + '/' + yyyy;
+        var today2 = dd + '/' + mm + '/' + yyyy;
         tommorrow = day + '/' + month + '/' + year;
         rootRef.on("child_added", snap => {
             var fecha = snap.child("fecha").val();
-            if (fecha == today || fecha == tommorrow) {
+            
+            if (fecha === today2 || fecha === tommorrow) {
                 var nombre = snap.child("nombre").val();
                 var telefono = snap.child("telefono").val();
                 var ubicacion = snap.child("ubicacion").val();
@@ -43,6 +44,7 @@ export default class Precios extends Component {
                 var placa = snap.child("placa").val();
                 var marca = snap.child("marca").val();
                 var color = snap.child("color").val();
+                var estado = snap.child("estado").val();
                 var data = [];
                 data.push(nombre);
                 data.push(telefono);
@@ -53,11 +55,22 @@ export default class Precios extends Component {
                 data.push(placa);
                 data.push(marca);
                 data.push(color);
+                data.push(estado);
                 var tr = document.createElement("tr");
                 for (var i = 0; i < data.length; i++) {
                     var td = document.createElement("td");
-
-                    td.textContent = data[i];
+                    if(i===(data.length - 1)){
+                        if(estado==="Disponible"){
+                            //var button=<input class="btn btn-primary" type="submit" value="Submit"></input>
+                            var button = document.createElement("p");
+                            button.innerHTML = "<input class='btn btn-primary' type='submit' value='Reservar'></input>";
+                            td.appendChild(button);
+                        }else{
+                            td.textContent = data[i];
+                        }
+                    }else{
+                        td.textContent = data[i];
+                    }
                     tr.appendChild(td);
                 }
                 var tabla = document.getElementById("table_body");
@@ -77,7 +90,7 @@ export default class Precios extends Component {
                         <Table responsive>
                             <thead>
                                 <tr>
-                                    <th>Nombre</th>
+                                    <th>Nombe</th>
                                     <th>Telefono</th>
                                     <th>Ubicacion</th>
                                     <th>Destino</th>
@@ -86,6 +99,7 @@ export default class Precios extends Component {
                                     <th>Placa</th>
                                     <th>Marca</th>
                                     <th>Color</th>
+                                    <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody id="table_body">

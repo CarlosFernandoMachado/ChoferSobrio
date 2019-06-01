@@ -179,7 +179,8 @@ export default class Crear extends Component {
             nombre: nombre,
             placa: placa,
             telefono: telefono,
-            ubicacion: ubicacion
+            ubicacion: ubicacion,
+            estado: "Disponible"
         });
     }
     Leerpedido(userId) {
