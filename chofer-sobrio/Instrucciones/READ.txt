@@ -9,4 +9,4 @@ npm install --save styled-components
 npm i react-firebaseui
 npm i reactstrap
 npm i google-maps-react
-
+npm install --save styled-components

@@ -162,7 +162,7 @@ export default class Precios extends Component {
                 this.setState({ validated: 'false' });
             } else if (this.state.color == 'Seleccione el color de su vehículo.') {
                 this.setState({ validated: 'false' });
-            } else if (this.state.validated) {
+            } else{
                 alert("Pedido realizado");
                 this.setState({ validated: 'true' });
                 event.preventDefault();
