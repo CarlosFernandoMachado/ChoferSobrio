@@ -96,6 +96,16 @@ class Toolbar extends React.Component {
               </Dropdown.Item>,
             );
         }
+        
+        if (isGerente) {
+            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/MostrarChofer">
+                        <Button>Mostrar Chofer</Button>
+                    </Link>
+                </Dropdown.Item>,
+            );
+        }
 
         let dropdown;
         if (menu.length > 0) {

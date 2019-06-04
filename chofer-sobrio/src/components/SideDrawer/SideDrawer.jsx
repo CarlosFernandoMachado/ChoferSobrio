@@ -78,11 +78,11 @@ class SideDrawer extends React.Component {
         if (isGerente) {
             menu.push((
                 <Link key={key++} to="/CrearGerente">
-                    <Button onClick={props.hide}> Crear Gerente</Button>
+                    <Button onClick={props.hide}>Crear Gerente</Button>
                 </Link>
             ), (
                 <Link key={key++} to="/CrearChofer">
-                    <Button onClick={props.hide}> Crear Chofer</Button>
+                    <Button onClick={props.hide}>Crear Chofer</Button>
                 </Link>
             ));
         }
@@ -90,11 +90,18 @@ class SideDrawer extends React.Component {
         if (isChofer || isGerente) {
             menu.push(
                 <Link key={key++} to="/reservaciones">
-                    <Button onClick={props.hide}>Reservaciones </Button>
+                    <Button onClick={props.hide}>Reservaciones</Button>
                 </Link>
             );
         }
 
+        if (isGerente) {
+            menu.push(
+                <Link key={key++} to="/MostrarChofer">
+                    <Button onClick={props.hide}>Mostrar Chofer</Button>
+                </Link>
+            );
+        }
 
         return (
             <nav className={drawerClasses}>
