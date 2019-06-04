@@ -21,6 +21,7 @@ export default class Crear extends Component {
                 alert("Se envio un correo de confirmacion a tu correo"))
         ).catch(alert("Usuario registrado, no se pudo enviar mensaje de conficion"));
     }
+    
     Leerchofer(userId) {
         var database = Fire.database();
         var n = database.ref('/chofer/' + userId).once('value').then(function (snapshot) {
@@ -31,10 +32,10 @@ export default class Crear extends Component {
 
         return n;
     }
-    modificarchofer(id, name, number, email) {
+    modificarchofer(id,id2, name, number, email) {
         var database = Fire.database();
         database.ref('chofer/' + id).update({
-
+            identidad: id2,
             nombre: name,
             telefono: number,
             correo: email,
@@ -111,10 +112,10 @@ export default class Crear extends Component {
 
         return n;
     }
-    modificargerente(id, name, number, email) {
+    modificargerente(id,id2, name, number, email) {
         var database = Fire.database();
         database.ref('gerente/' + id).update({
-
+            identidad:id2,
             nombre: name,
             telefono: number,
             correo: email
@@ -317,6 +318,18 @@ export default class Crear extends Component {
             })
             setTimeout(redirigir, 1000);
         }
+        if (this.props.validado && this.props.funcion === "modificar_cliente") {
+            var database = Fire.database();
+            var colour = this.props.datos[0];
+            var brand = this.props.datos[1];
+            var name = this.props.datos[2];
+            var plate = this.props.datos[3];
+            var telephone = this.props.datos[4];
+            var email = this.props.datos[5];
+            this.modificarcliente(2,colour,brand,name,plate,telephone,email)
+            setTimeout(redirigir, 1000);
+        }
+        
         return (
             <div>
             </div>

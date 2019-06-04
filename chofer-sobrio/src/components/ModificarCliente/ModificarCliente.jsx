@@ -1,221 +1,409 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from 'react-bootstrap';
-import './ModificarCliente.css'
-import { Link } from 'react-router-dom';
-import Home from '../Home/Home'
+import DatePicker from "react-datepicker";
+import { registerLocale, setDefaultLocale } from "react-datepicker"
+import TimePicker from 'react-time-picker';
+import firebase from '../config/config';
+import "react-datepicker/dist/react-datepicker.css";
 import Crear from '../Crear_C_G_C/Crear';
+import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert, Dropdown } from 'react-bootstrap';
+import es from 'date-fns/locale/es';
+import './ModificarCliente.css';
+import { th } from 'date-fns/esm/locale';
+
+registerLocale('es', es);
+setDefaultLocale('es');
 
 export default class ModificarCliente extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Color: '',
-            Marca: '',
+            id :0,
+            color: '',
+            marca: '',
             nombre: '',
             correo: '',
-            Placa: 0,
+            placa: 0,
             telefono: 0,
             validated: '',
-            listo: 0
+            listo: 0,
+            infoCliente: {},
+            
         };
 
+        this.onChange = hora => this.setState({ hora });
         this.handleChange = this.handleChange.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
+        this.dateChange = this.dateChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSelectMarca = this.handleSelectMarca.bind(this);
+    }
+
+    async componentDidMount() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        this.getLocation();
+        var cont =0;
+        if (user) {
+            // clientes
+            const info = await firebase.database().ref('/cliente').once('value').then((snap) => {
+                const clientes = snap.val();
+                let infoCliente;
+                clientes.forEach(cliente => {
+                    if (cliente.correo === user.email) {
+                        infoCliente = cliente;
+                       
+                    }
+                    
+                });
+                return infoCliente;
+            });
+           console.log(cont)
+            console.log(info);
+
+            this.setState({
+                id:info.id,
+                nombre: info.nombre,
+                correo: info.correo,
+                telefono: info.telefono,
+                marca: info.marca,
+                color: info.color_vehiculo,
+                placa: info.placa,
+            });
+        }
+    }
+
+    getLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(this.showPosition);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    showPosition = (position) => {
+        var lat = position.coords.latitude;
+        var lon = position.coords.longitude;
+        var ubicacion = lat + "," + lon;
+        this.setState({ ubicacion_actual: ubicacion });
     }
 
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value });
     }
 
+    dateChange(date) {
+        this.setState({
+            fecha: date
+        });
+
+        if(date.getDate() == new Date().getDate()) {
+            alert(date.getDate())
+            this.setState({
+                cambiarHora: new Date()
+            });
+        }else{
+            alert(date.getDate())
+            this.setState({
+                cambiarHora: '00:00'
+            });
+        }
+
+    }
+
+    handleSelect(evtKey) {
+        this.setState({ color: evtKey });
+    }
+
+    handleSelectMarca(evtKey) {
+        this.setState({ marca: evtKey });
+    }
+
+
     handleSubmit(event) {
         const form = event.currentTarget;
-        var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
-        var placa_cadena = this.state.Placa;
-        var rex = /[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i;
-        if (length !== 8) {
+        this.setState({ date: (this.state.fecha.getDate() + '/' + (this.state.fecha.getMonth() + 1) + '/' + this.state.fecha.getFullYear()) });
 
-            this.setState({ telefono: '' });
-            document.getElementById("telefono").value = "";
 
-        }
-        if (placa_cadena.length !== 7 || placa_cadena.match(rex) == null) {
-
-            this.setState({ Placa: '' });
-            document.getElementById("Placa").value = "";
-        }
-        if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)) {
-            /*Caracteres especiales*/
-            this.setState({ nombre: '' });
-            document.getElementById("nombre").value = "";
-
-        }
-        if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Marca)) {
-            /*Caracteres especiales*/
-            this.setState({ Marca: '' });
-            document.getElementById("Marca").value = "";
-
-        }
-        if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Color)) {
-            /*Caracteres especiales*/
-            this.setState({ Color: '' });
-            document.getElementById("Color").value = "";
-
-        }
         if (form.checkValidity() === false) {
-
-            this.setState({ validated: 'false' });
-
             event.preventDefault();
-
             event.stopPropagation();
+
         } else {
-            this.setState({ validated: 'true' });
-            event.preventDefault();
-            this.setState({ listo: 'true' });
-            event.preventDefault();
-
+            var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
+            /*VALIDACIONES*/
+            if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)) {
+                /*Caracteres especiales*/
+                this.setState({ nombre: '' });
+                document.getElementById("nombre").value = "";
+                this.setState({ validated: 'false' });
+            }else if (this.state.placa.length != 7 || !/^[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i.test(this.state.placa)) {
+                /*Placa invalida*/
+                this.setState({ placa: '' });
+                document.getElementById("placa").value = "";
+                this.setState({ validated: 'false' });
+            } else if (!/^[a-z0-9A-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.destino)) {
+                /*Caracteres especiales*/
+                this.setState({ destino: '' });
+                document.getElementById("destino").value = "";
+                this.setState({ validated: 'false' });
+            } else if (length != 8 || !/^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
+                this.setState({ telefono: '' });
+                document.getElementById("telefono").value = "";
+                this.setState({ validated: 'false' });
+            } else if (this.state.marca == 'Seleccione la marca de su vehículo.') {
+                this.setState({ validated: 'false' });
+            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.marca)) {
+                /*Caracteres especiales*/
+                this.setState({ marca: 'Seleccione la marca de su vehículo.' });
+                document.getElementById("marcaField").value = "";
+                this.setState({ validated: 'false' });
+            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.color)) {
+                /*Caracteres especiales*/
+                this.setState({ color: 'Seleccione el color de su vehículo.' });
+                document.getElementById("colorField").value = "";
+                this.setState({ validated: 'false' });
+            } else if (this.state.color == 'Seleccione el color de su vehículo.') {
+                this.setState({ validated: 'false' });
+            } else if (this.state.validated) {
+                alert("Pedido realizado");
+                this.setState({ validated: 'true' });
+                event.preventDefault();
+                this.setState({ listo: 'true' });
+            }
         }
-
-
         event.preventDefault();
+        this.setState({ validated: 'false' });
     }
-    limpiar(event) {
-        this.setState({ telefono: '' });
-        document.getElementById("telefono").value = "";
-        this.setState({ Placa: '' });
-        document.getElementById("Placa").value = "";
-        this.setState({ nombre: '' });
-        document.getElementById("nombre").value = "";
-        this.setState({ Marca: '' });
-        document.getElementById("Marca").value = "";
-        this.setState({ Color: '' });
-        document.getElementById("Color").value = "";
 
-    }
     render() {
         const { validated } = this.state;
         return (
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
                     <h1>Chofer Sobrio</h1>
-                    <h5>Modifica tus Datos</h5>
+                    <h5>Modifica tus datos</h5>
                 </Jumbotron>
+
                 <Card border="ligth">
                     <Alert variant="secondary">
                         <Form
                             noValidate
                             validated={validated}
-                            onSubmit={e => this.handleSubmit(e)}
-
-
-
-                        >
+                            onSubmit={e => this.handleSubmit(e)}>
                             <Form.Row>
-                                <Form.Group as={Col} md="4" controlId="validationCustom01">
-                                    <Form.Label>Color de Vehiculo</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        name="Color"
-                                        value={this.state.value}
-                                        onChange={this.handleChange}
-                                        id="Color"
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        Ingrese el color de vehiculo (A-Z)
-                                </Form.Control.Feedback>
-                                </Form.Group>
-                                <Form.Group as={Col} md="4" controlId="validationCustom02">
-                                    <Form.Label>Correo</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="email"
-                                        id="correo"
-                                        name="correo"
-                                        pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[gmail]+(?:\.[a-zA-Z0-9-]+)*$"
-                                        placeholder="solo correos de gmail"
-                                        value={this.state.value}
-                                        onChange={this.handleChange}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        Ingrese su Correo Correctamente (correo@gmail.com)
-                        </Form.Control.Feedback>
-                                </Form.Group>
-                                <Form.Group as={Col} md="4" controlId="validationCustom01">
-                                    <Form.Label>Marca de Vehiculo</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        name="Marca"
-                                        value={this.state.value}
-                                        onChange={this.handleChange}
-                                        id="Marca"
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        Ingrese la marca de vehiculo (A-Z)
-                                </Form.Control.Feedback>
-                                </Form.Group>
-                                <Form.Group as={Col} md="4" controlId="validationCustom01">
+                                <Form.Group as={Col} md="4">
                                     <Form.Label>Nombre</Form.Label>
                                     <Form.Control
                                         required
                                         type="text"
                                         name="nombre"
-                                        value={this.state.value}
+                                        value={this.state.nombre}
                                         onChange={this.handleChange}
                                         id="nombre"
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese su Nombre (A-Z)
+                                        Ingrese su nombre
                                 </Form.Control.Feedback>
                                 </Form.Group>
-                                <Form.Group as={Col} md="4" controlId="validationCustomID">
-                                    <Form.Label>Placa</Form.Label>
-                                    <InputGroup>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="_ _ _ _ _ _ _"
-                                            required
-                                            name="Placa"
-                                            value={this.state.value}
-                                            onChange={this.handleChange}
-                                            id="Placa"
-                                        />
-                                        <Form.Control.Feedback type="invalid">
-                                            Numero de placa invalido 3 letras (A-Z) y 4 digitos(0-9)
-                                </Form.Control.Feedback>
-                                    </InputGroup>
-                                </Form.Group>
-                                <Form.Group as={Col} md="4" controlId="validationCustom02">
+                                
+                                <Form.Group as={Col} md="4">
+                                <Form.Label>Correo</Form.Label>
+                                <Form.Control
+                                    required
+                                    type="email"
+                                    pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[gmail]+(?:\.[a-zA-Z0-9-]+)*$"
+                                    name="correo"
+                                    value={this.state.correo}
+                                    onChange={this.handleChange}
+                                    id="correo"
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Ingrese su correo
+                            </Form.Control.Feedback>
+                            </Form.Group>
+                            
+                                <Form.Group as={Col} md="4">
                                     <Form.Label>Telefono</Form.Label>
                                     <Form.Control
                                         required
                                         type="number"
                                         name="telefono"
-                                        placeholder="_ _ _ _ _ _ _ _"
-                                        value={this.state.value}
+                                        value={this.state.telefono}
                                         onChange={this.handleChange}
                                         id="telefono"
-
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Numero de telefono invalido siga el formato indicado 8 digitos numericos
+                                        Ingrese su teléfono(8 digitos)
                             </Form.Control.Feedback>
                                 </Form.Group>
+                                <Form.Group as={Col} md="4">
+                                    <Form.Label>Marca</Form.Label>
+                                    <Dropdown>
+                                        <Dropdown.Toggle variant="warning" id="dropdown-basic">
+                                            {this.state.marca}
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item eventKey='BMW' onSelect={this.handleSelect}>
+                                                BMW
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Chevrolet' onSelect={this.handleSelectMarca}>
+                                                Chevrolet
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Ferrari' onSelect={this.handleSelectMarca}>
+                                                Ferrari
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Ford' onSelect={this.handleSelectMarca}>
+                                                Ford
+                                            </Dropdown.Item>
+                                            <Dropdown.Item eventKey='Honda' onSelect={this.handleSelectMarca}>
+                                                Honda
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Hyundai' onSelect={this.handleSelectMarca}>
+                                                Hyundai
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Isuzu' onSelect={this.handleSelectMarca}>
+                                                Isuzu
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Jaguar' onSelect={this.handleSelectMarca}>
+                                                Jaguar
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Kia' onSelect={this.handleSelectMarca}>
+                                                Kia
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Land Rover' onSelect={this.handleSelectMarca}>
+                                                Land Rover
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Mazda' onSelect={this.handleSelectMarca}>
+                                                Mazda
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Mercedes Benz' onSelect={this.handleSelectMarca}>
+                                                Mercedes Benz
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Mitsubishi' onSelect={this.handleSelectMarca}>
+                                                Mitsubishi
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Nissan' onSelect={this.handleSelectMarca}>
+                                                Nissan
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Range Rover' onSelect={this.handleSelectMarca}>
+                                                Range Rover
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Renault' onSelect={this.handleSelectMarca}>
+                                                Renault
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Suzuki' onSelect={this.handleSelectMarca}>
+                                                Suzuki
+                                             </Dropdown.Item>
+                                            <Dropdown.Item eventKey='Toyota'>
+                                                Toyota
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Volkswagen' onSelect={this.handleSelectMarca}>
+                                                Volkswagen
+                                             </Dropdown.Item>
+                                             <Dropdown.Item eventKey='Volvo' onSelect={this.handleSelectMarca}>
+                                                Volvo
+                                             </Dropdown.Item>
+                                            <Form.Label>Otra marca:</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="marca"
+                                                value={this.state.value}
+                                                onChange={this.handleChange}
+                                                placeholder="Ingrese la marca del vehículo"
+                                                id="marcaField"
+                                                bsRole="toggle"
+                                            />
+                                        </Dropdown.Menu>
 
+                                    </Dropdown>
+                                </Form.Group>
+                                <Form.Group as={Col} md="4">
+                                <Form.Label>Placa</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    required
+                                    name="placa"
+                                    value={this.state.placa}
+                                    onChange={this.handleChange}
+                                    id="placa"
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Ingrese la placa de su vehiculo
+                        </Form.Control.Feedback>
+                            </Form.Group>
+                            
+                            <Form.Group as={Col} md="4">
+                                <Form.Label>Color</Form.Label>
+                                <Dropdown>
+                                    <Dropdown.Toggle variant="warning" id="dropdown-basic">
+                                        {this.state.color}
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item eventKey='Amarillo'>
+                                            Amarillo
+                                         </Dropdown.Item>
+                                        <Dropdown.Item eventKey='Azul' onSelect={this.handleSelect}>
+                                            Azul
+                                         </Dropdown.Item>
+                                        <Dropdown.Item eventKey='Blanco' onSelect={this.handleSelect}>
+                                            Blanco
+                                         </Dropdown.Item>
+                                        <Dropdown.Item eventKey='Dorado' onSelect={this.handleSelect}>
+                                            Dorado
+                                         </Dropdown.Item>
+                                        <Dropdown.Item eventKey='Gris' onSelect={this.handleSelect}>
+                                            Gris
+                                        </Dropdown.Item>
+                                        <Dropdown.Item eventKey='Negro' onSelect={this.handleSelect}>
+                                            Negro
+                                         </Dropdown.Item>
+                                        <Dropdown.Item eventKey='Ocre' onSelect={this.handleSelect}>
+                                            Ocre
+                                         </Dropdown.Item>
+                                        <Dropdown.Item eventKey='Plateado' onSelect={this.handleSelect}>
+                                            Plateado
+                                         </Dropdown.Item>
+                                        <Dropdown.Item eventKey='Rojo' onSelect={this.handleSelect}>
+                                            Rojo
+                                         </Dropdown.Item>
+                                        <Dropdown.Item eventKey='Verde' onSelect={this.handleSelect}>
+                                            Verde
+                                         </Dropdown.Item>
+                                        <Form.Label>Otro color:</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="color"
+                                            value={this.state.value}
+                                            onChange={this.handleChange}
+                                            placeholder="Ingrese el color del vehículo"
+                                            id="colorField"
+                                            bsRole="toggle"
+                                        />
+                                    </Dropdown.Menu>
+
+                                </Dropdown>
+                            </Form.Group>
                             </Form.Row>
-                            <div class="text-center">
-                                <Button type="submit" variant="warning" > Guardar Datos</Button>
-                                <Crear validado={this.state.listo} datos={[this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo]} funcion={"modificar_cliente"} />
+                            <Form.Row>
+                               
+                            </Form.Row>
+                            <Form.Row>
+                               
+                                
+                            </Form.Row>
 
+                            <div className="text-center">
+                                <Button type="submit" variant="warning" >Guardar
+                                <Crear validado={this.state.listo} datos={[this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo]} funcion={"modificar_cliente"} />
+                                </Button>
 
                             </div>
-
 
                         </Form>
                     </Alert>
                 </Card>
+
             </Container>
         )
+
     }
 }

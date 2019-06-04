@@ -13,6 +13,9 @@ import CrearGerente from './components/CrearGerente/CrearGerente';
 import CrearChofer from './components/CrearChofer/CrearChofer';
 import CrearCliente from './components/CrearCliente/CrearCliente';
 import Pedidos from './components/Pedidos/Pedidos';
+import ModificarCliente from './components/ModificarCliente/ModificarCliente'
+import ModificarChofer from './components/ModificarChofer/ModificarChofer'
+import ModificarGerente from './components/ModificarGerente/ModificarGerente'
 import IniciarSesion from './components/IniciarSesion/IniciarSesion';
 import Password_olvidada from './components/Password_olvidada/Password_olvidada';
 import { Gerente, Chofer, Cliente } from './routes';
@@ -122,6 +125,9 @@ class App extends Component {
               <Route exact path="/MostrarChofer" component={MostrarChofer}></Route>
               <Route exact path="/MostrarCliente" component={MostrarCliente}></Route>
               <Route exact path="/MostrarGerente" component={MostrarGerente}></Route>
+              <Route exact path="/ModificarGerente" component={ModificarGerente}></Route>
+              <Route exact path="/ModificarChofer" component={ModificarChofer}></Route>
+              <Route exact path="/ModificarCliente" component={ModificarCliente}></Route>
             </div>
           </main>
         </div>
