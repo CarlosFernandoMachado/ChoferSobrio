@@ -19,6 +19,7 @@ export default class ModificarGerente extends Component {
         this.state = {
             nombre: '',
             telefono: '',
+            id:0,
             identidad: '',
             correo: '',
             validated: '',
@@ -246,7 +247,7 @@ export default class ModificarGerente extends Component {
 
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Guardar
-                                <Crear validado={this.state.listo} datos={[this.state.identidad, this.state.nombre,  this.state.telefono, this.state.correo]} funcion={"modificar_gerente"} />
+                                <Crear validado={this.state.listo} datos={[this.state.identidad, this.state.nombre,  this.state.telefono, this.state.correo, this.state.id]} funcion={"modificar_gerente"} />
                                 </Button>
 
                             </div>

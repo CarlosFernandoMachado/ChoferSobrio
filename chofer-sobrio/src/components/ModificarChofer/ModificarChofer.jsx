@@ -20,6 +20,7 @@ export default class ModificarChofer extends Component {
             nombre: '',
             telefono: '',
             identidad: '',
+            id:0,
             correo: '',
             validated: '',
             listo: 0,
@@ -246,7 +247,7 @@ export default class ModificarChofer extends Component {
 
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Guardar
-                                <Crear validado={this.state.listo} datos={[ this.state.identidad,this.state.nombre, this.state.telefono, this.state.correo]} funcion={"modificar_chofer"} />
+                                <Crear validado={this.state.listo} datos={[ this.state.identidad,this.state.nombre, this.state.telefono, this.state.correo,this.state.id]} funcion={"modificar_chofer"} />
                                 </Button>
 
                             </div>
