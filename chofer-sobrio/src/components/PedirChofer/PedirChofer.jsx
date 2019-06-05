@@ -95,12 +95,10 @@ export default class Precios extends Component {
         });
 
         if(date.getDate() == new Date().getDate()) {
-            alert(date.getDate())
             this.setState({
                 cambiarHora: new Date()
             });
         }else{
-            alert(date.getDate())
             this.setState({
                 cambiarHora: '00:00'
             });
