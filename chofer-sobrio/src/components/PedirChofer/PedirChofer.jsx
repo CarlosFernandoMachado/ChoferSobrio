@@ -25,7 +25,7 @@ export default class Precios extends Component {
             ubicacion_actual: 'No la compartio',
             destino: '',
             fecha: new Date(),
-            hora: new Date(),
+            hora: '23:00',
             validated: '',
             date: '',
             listo: 0,
@@ -95,12 +95,10 @@ export default class Precios extends Component {
         });
 
         if(date.getDate() == new Date().getDate()) {
-            alert(date.getDate())
             this.setState({
                 cambiarHora: new Date()
             });
         }else{
-            alert(date.getDate())
             this.setState({
                 cambiarHora: '00:00'
             });
@@ -162,7 +160,7 @@ export default class Precios extends Component {
                 this.setState({ validated: 'false' });
             } else if (this.state.color == 'Seleccione el color de su vehículo.') {
                 this.setState({ validated: 'false' });
-            } else if (this.state.validated) {
+            } else{
                 alert("Pedido realizado");
                 this.setState({ validated: 'true' });
                 event.preventDefault();
