@@ -326,9 +326,51 @@ export default class Crear extends Component {
             var plate = this.props.datos[3];
             var telephone = this.props.datos[4];
             var email = this.props.datos[5];
-            this.modificarcliente(2,colour,brand,name,plate,telephone,email)
+            var id = this.props.datos[6];
+            this.modificarcliente(id,colour,brand,name,plate,telephone,email)
             setTimeout(redirigir, 1000);
         }
+       
+        if (this.props.validado && this.props.funcion === "modificar_gerente") {
+            var database = Fire.database();
+            var identity = this.props.datos[0];
+            var name = this.props.datos[1];
+            var telephone = this.props.datos[2];
+            var email = this.props.datos[3];
+            var id =this.props.datos[4]
+            this.modificargerente(id,identity,name,telephone,email);
+            setTimeout(redirigir, 1000);
+        }
+        if (this.props.validado && this.props.funcion === "modificar_chofer") {
+            var database = Fire.database();
+            var identity = this.props.datos[0];
+            var name = this.props.datos[1];
+            var telephone = this.props.datos[2];
+            var email = this.props.datos[3];
+            var id =this.props.datos[4]
+            this.modificarchofer(id,identity,name,telephone,email);
+            setTimeout(redirigir, 1000);
+        }
+        if (this.props.funcion === "eliminar_chofer") {
+           
+            var id =this.props.datos[0]
+            this.Eliminarchofer(id);
+            setTimeout(redirigir, 1000);
+        }
+        if (this.props.funcion === "eliminar_cliente") {
+           
+            var id =this.props.datos[0]
+            this.Eliminarcliente(id);
+            setTimeout(redirigir, 1000);
+        }
+        if (this.props.funcion === "eliminar_gerente") {
+           
+            var id =this.props.datos[0]
+            this.EliminarGerente(id);
+            setTimeout(redirigir, 1000);
+        }
+
+
         
         return (
             <div>

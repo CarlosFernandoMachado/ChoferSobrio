@@ -393,7 +393,7 @@ export default class ModificarCliente extends Component {
 
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Guardar
-                                <Crear validado={this.state.listo} datos={[this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo]} funcion={"modificar_cliente"} />
+                                <Crear validado={this.state.listo} datos={[this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo, this.state.id]} funcion={"modificar_cliente"} />
                                 </Button>
 
                             </div>
