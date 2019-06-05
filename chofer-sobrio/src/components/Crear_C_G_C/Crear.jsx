@@ -181,7 +181,8 @@ export default class Crear extends Component {
             placa: placa,
             telefono: telefono,
             ubicacion: ubicacion,
-            estado: "Disponible"
+            estado: "Disponible",
+            idchofer: 0
         });
     }
     Leerpedido(userId) {
@@ -261,7 +262,8 @@ export default class Crear extends Component {
                     placa: plate,
                     telefono: telephone,
                     ubicacion: location,
-                    estado: 'Disponible'
+                    estado: 'Disponible',
+                    idchofer: 0
         
                 });
                 database.ref('referencias/').update({
