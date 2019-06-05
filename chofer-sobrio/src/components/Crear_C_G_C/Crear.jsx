@@ -260,7 +260,8 @@ export default class Crear extends Component {
                     nombre: name,
                     placa: plate,
                     telefono: telephone,
-                    ubicacion: location
+                    ubicacion: location,
+                    estado: 'Disponible'
         
                 });
                 database.ref('referencias/').update({

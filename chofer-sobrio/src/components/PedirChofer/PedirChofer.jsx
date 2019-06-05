@@ -25,7 +25,7 @@ export default class Precios extends Component {
             ubicacion_actual: 'No la compartio',
             destino: '',
             fecha: new Date(),
-            hora: new Date(),
+            hora: '23:00',
             validated: '',
             date: '',
             listo: 0,
