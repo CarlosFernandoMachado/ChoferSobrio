@@ -65,7 +65,7 @@ class SideDrawer extends React.Component {
         let mensaje, imagen, usuario;
         if (user) {
             mensaje = 'Cerrar sesion';
-            imagen = user.photoURL;
+            imagen = user.photoURL || '/blank.png';
             usuario = user.displayName;
         } else {
             mensaje = 'Iniciar sesion';

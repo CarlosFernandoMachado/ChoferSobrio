@@ -90,7 +90,7 @@ export default class Precios extends Component {
                         <Table responsive>
                             <thead>
                                 <tr>
-                                    <th>Nombe</th>
+                                    <th>Nombre</th>
                                     <th>Telefono</th>
                                     <th>Ubicacion</th>
                                     <th>Destino</th>
