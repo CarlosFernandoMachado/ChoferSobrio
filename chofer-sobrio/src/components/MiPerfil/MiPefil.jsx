@@ -8,8 +8,11 @@ export default class Precios extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            idChofer: ''
+            infoChofer: {},
+            pedidos: [],
         };
+
+        this.mostrarPedidos = this.mostrarPedidos.bind(this);
     }
 
     async componentDidMount() {
@@ -18,67 +21,52 @@ export default class Precios extends Component {
             const info = await firebase.database().ref('/chofer').once('value').then((snap) => {
                 const choferlist = snap.val();
                 let infoChofer;
-                choferlist.forEach(chofer => {
+                choferlist.forEach((chofer, index) => {
                     if (chofer.correo === user.email) {
+                        chofer.index = index;
                         infoChofer = chofer;
                     }
                 });
                 return infoChofer;
             });
 
+            const pedidos = await firebase.database().ref('/pedido').once('value').then(snap => snap.val());
+
             this.setState({
-                idChofer: info.identidad
+                infoChofer: info,
+                pedidos,
             });
         }
-
-        this.loaddata();
     }
 
-    loaddata = () => {
-        var rootRef = firebase.database().ref().child("pedido");
-       
-        rootRef.on("child_added", snap => {
-            var idchofer = snap.child("idchofer").val();
-            
-            if (this.state.idChofer==idchofer) {
-                var nombre = snap.child("nombre").val();
-                var telefono = snap.child("telefono").val();
-                var ubicacion = snap.child("ubicacion").val();
-                var destino = snap.child("destino").val();
-                var hora = snap.child("hora").val();
-                var placa = snap.child("placa").val();
-                var marca = snap.child("marca").val();
-                var color = snap.child("color").val();
-                var estado = snap.child("estado").val();
-                var fecha = snap.child("fecha").val();
-                var data = [];
-                data.push(nombre);
-                data.push(telefono);
-                data.push(ubicacion);
-                data.push(destino);
-                data.push(fecha);
-                data.push(hora);
-                data.push(placa);
-                data.push(marca);
-                data.push(color);
-                data.push(estado);
-                var tr = document.createElement("tr");
-                for (var i = 0; i < data.length; i++) {
-                    var td = document.createElement("td");
-                    if(i===(data.length - 1)){
-                            td.textContent = data[i];
-                    }else{
-                        td.textContent = data[i];
-                    }
-                    tr.appendChild(td);
-                }
-                var tabla = document.getElementById("table_body");
-                tabla.appendChild(tr);
-            }
-        });
-    };
+    mostrarPedidos() {
+        const { pedidos, infoChofer } = this.state;
 
-    
+        const pedidosJSX = [];
+
+        pedidos.forEach((pedido, index) => {
+            if (pedido.idchofer === infoChofer.identidad) {
+                const { color, destino, estado, fecha, hora, marca, nombre, placa, telefono, ubicacion } = pedido;
+                pedidosJSX.push(
+                    <tr key={index}>
+                        <td>{nombre}</td>
+                        <td>{telefono}</td>
+                        <td>{ubicacion}</td>
+                        <td>{destino}</td>
+                        <td>{fecha}</td>
+                        <td>{hora}</td>
+                        <td>{placa}</td>
+                        <td>{marca}</td>
+                        <td>{color}</td>
+                        <td>{estado}</td>
+                    </tr>
+                );
+            }
+        })
+
+        return pedidosJSX;
+    }
+
     render() {
         return (
             <Container>
@@ -91,7 +79,7 @@ export default class Precios extends Component {
                         <Table responsive>
                             <thead>
                                 <tr>
-                                    <th>Nombe</th>
+                                    <th>Nombre</th>
                                     <th>Telefono</th>
                                     <th>Ubicacion</th>
                                     <th>Destino</th>
@@ -104,6 +92,7 @@ export default class Precios extends Component {
                                 </tr>
                             </thead>
                             <tbody id="table_body">
+                                {this.mostrarPedidos()}
                             </tbody>
                         </Table>
                     </Alert>
