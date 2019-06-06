@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Table, Card, Alert, Button } from 'react-bootstrap';
+import { Jumbotron, Container, Table, Card, Alert, Dropdown } from 'react-bootstrap';
 import './MiPerfil.css'
 import firebase from '../config/config';
 
@@ -49,6 +49,17 @@ export default class Precios extends Component {
                 const { color, destino, estado, fecha, hora, marca, nombre, placa, telefono, ubicacion } = pedido;
                 pedidosJSX.push(
                     <tr key={index}>
+                        <td>
+                            <Dropdown>
+                                <Dropdown.Toggle variant="success" id={`dropdown-${index}`}>
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item onClick={() => console.log('Estoy en camino')}>Estoy en camino</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => console.log('Estoy cerca')}>Estoy cerca</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => console.log('Ya llegue')}>Ya llegue</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </td>
                         <td>{nombre}</td>
                         <td>{telefono}</td>
                         <td>{ubicacion}</td>
@@ -79,6 +90,7 @@ export default class Precios extends Component {
                         <Table responsive>
                             <thead>
                                 <tr>
+                                    <th>Mensaje</th>
                                     <th>Nombre</th>
                                     <th>Telefono</th>
                                     <th>Ubicacion</th>
