@@ -127,6 +127,8 @@ export default class Crear extends Component {
     }
     Crearcliente(id, color_vehiculo, marca, nombre, placa, telefono, email) {
         var database = Fire.database();
+        //window.alert("se registrara usuario");
+        Fire.auth().createUserWithEmailAndPassword(email, '123456');
         database.ref('cliente/' + id).set({
             color_vehiculo: color_vehiculo,
             marca: marca,
@@ -135,10 +137,9 @@ export default class Crear extends Component {
             telefono: telefono,
             correo: email
         });
-        Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
-            Fire.auth().sendPasswordResetEmail(email).the(
-                alert("Se envio un correo de confirmacion a tu correo"))
-        );
+               
+        
+       
 
 
     }
@@ -235,6 +236,7 @@ export default class Crear extends Component {
                     id_gerente: id
                 });
             })
+            
             setTimeout(redirigir, 1000);
         }
         if (this.props.validado && this.props.funcion === "Crearpedido") {
@@ -295,8 +297,15 @@ export default class Crear extends Component {
                 database.ref('referencias/').update({
                     id_cliente: id
                 });
-            })
-            setTimeout(redirigir, 1000);
+            });
+            Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
+                alert("Se creo usuario MOSTROOOOOOO"),
+                Fire.auth().sendPasswordResetEmail(email).then(
+                    alert("Se envio un correo de confirmacion a tu correo MOSTROOOO")
+                ).catch("No se envio mensaje mostrooooooooo")
+            ).catch();
+            
+            //setTimeout(redirigir, 1000);
         }
         if (this.props.validado && this.props.funcion === "crear_chofer") {
             var database = Fire.database();
@@ -318,7 +327,13 @@ export default class Crear extends Component {
                 database.ref('referencias/').update({
                     id_chofer: id
                 });
-            })
+            });
+            Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
+                alert("Se creo usuario MOSTROOOOOOO"),
+                Fire.auth().sendPasswordResetEmail(email).then(
+                    alert("Se envio un correo de confirmacion a tu correo MOSTROOOO")
+                ).catch("No se envio mensaje mostrooooooooo")
+            ).catch();
             setTimeout(redirigir, 1000);
         }
         if (this.props.validado && this.props.funcion === "modificar_cliente") {
