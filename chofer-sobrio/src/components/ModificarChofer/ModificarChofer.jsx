@@ -208,7 +208,7 @@ export default class ModificarChofer extends Component {
                                 <Form.Control
                                     required
                                     type="email"
-                                    pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[gmail]+(?:\.[a-zA-Z0-9-]+)*$"
+                                    pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9_]+(?:\.[a-zA-Z0-9-]+)*$"
                                     name="correo"
                                     value={this.state.correo}
                                     onChange={this.handleChange}
