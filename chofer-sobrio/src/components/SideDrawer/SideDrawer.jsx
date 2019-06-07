@@ -102,6 +102,13 @@ class SideDrawer extends React.Component {
                 </Link>
             );
         }
+        if (isGerente) {
+            menu.push(
+                <Link key={key++} to="/EliminarCuenta">
+                    <Button onClick={props.hide}>Eliminar Cuentar</Button>
+                </Link>
+            );
+        }
 
         return (
             <nav className={drawerClasses}>
