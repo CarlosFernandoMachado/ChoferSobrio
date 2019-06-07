@@ -49,13 +49,10 @@ export default class VisualizarCliente extends Component {
             }*/
             for (var i = 0; i < data.length; i++) {
                 var td = document.createElement("td");
-                if (i === (data.length - 1)) {
-                        var button = document.createElement("p");
-                        button.innerHTML = "<input class='btn btn-primary' type='submit' value='Reservar'></input>";
-                        td.appendChild(button);
-                } else {
-                    td.textContent = data[i];
-                }
+                var button = document.createElement("p");
+                button.innerHTML = "<input class='btn btn-primary' type='submit' value='Eliminar'></input>";
+                td.appendChild(button);
+                td.textContent = data[i];
                 tr.appendChild(td);
             }
             var tabla = document.getElementById("table_body");

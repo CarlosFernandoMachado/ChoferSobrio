@@ -27,6 +27,9 @@ export default class VisualizarGerente extends Component {
             var identidad = snap.child("identidad").val();
             var telefono = snap.child("telefono").val();
             var correo = snap.child("correo").val();
+            //en var eliminar @Jean agregara el nodo superior para poder eliminar al usuario
+            var eliminar;
+            //
             var data = [];
             data.push(nombre);
             data.push(identidad);
@@ -35,12 +38,24 @@ export default class VisualizarGerente extends Component {
 
 
             var tr = document.createElement("tr");
+
+            /*
             for (var i = 0; i < data.length; i++) {
                 var td = document.createElement("td");
 
                 td.textContent = data[i];
                 tr.appendChild(td);
+            }*/
+
+            for (var i = 0; i < data.length; i++) {
+                var td = document.createElement("td");
+                var button = document.createElement("p");
+                button.innerHTML = "<input class='btn btn-primary' type='submit' value='Eliminar'></input>";
+                td.appendChild(button);
+                td.textContent = data[i];
+                tr.appendChild(td);
             }
+
             var tabla = document.getElementById("table_body");
             tabla.appendChild(tr);
 
@@ -62,6 +77,7 @@ export default class VisualizarGerente extends Component {
                                     <th>Identidad</th>
                                     <th>Telefono</th>
                                     <th>Correo</th>
+                                    <th>Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody id="table_body">

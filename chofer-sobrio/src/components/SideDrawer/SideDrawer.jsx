@@ -12,6 +12,7 @@ class SideDrawer extends React.Component {
         this.state = {
             isGerente: false,
             isChofer: false,
+            isCliente: false,
         };
     }
 
@@ -40,6 +41,17 @@ class SideDrawer extends React.Component {
                 });
                 this.setState({ isChofer });
             });
+
+            // clientes
+            this.dbRefClientes = firebase.database().ref('/cliente');
+            this.dbCallbackClientes = this.dbRefClientes.on('value', (snap) => {
+                const clientes = snap.val();
+                let isCliente = false;
+                clientes.forEach(cliente => {
+                    isCliente = isCliente || cliente.correo === user.email;
+                });
+                this.setState({ isCliente });
+            });
         }
     }
 
@@ -49,12 +61,13 @@ class SideDrawer extends React.Component {
         if (user) {
             this.dbRefGerentes.off('value', this.dbCallbackGerentes);
             this.dbRefChoferes.off('value', this.dbCallbackChoferes);
+            this.dbRefClientes.off('value', this.dbCallbackClientes);
         }
     }
 
     render() {
         const props = this.props;
-        const { isGerente, isChofer } = this.state;
+        const { isGerente, isChofer, isCliente } = this.state;
 
         let drawerClasses = 'side-drawer';
         if (props.show) {
@@ -102,9 +115,34 @@ class SideDrawer extends React.Component {
                 </Link>
             );
         }
+
         if (isGerente) {
             menu.push(
-                <Link key={key++} to="/EliminarCuenta">
+                <Link key={key++} to="/MostrarCliente">
+                    <Button onClick={props.hide}>Mostrar Cliente</Button>
+                </Link>
+            );
+        }
+
+        if (isGerente) {
+            menu.push(
+                <Link key={key++} to="/MostrarGerente">
+                    <Button onClick={props.hide}>Mostrar Gerente</Button>
+                </Link>
+            );
+        }
+
+        if (isChofer) {
+            menu.push(
+                <Link key={key++} to="/EliminarCuentaChofer">
+                    <Button onClick={props.hide}>Eliminar Cuentar</Button>
+                </Link>
+            );
+        }
+        
+        if (isCliente) {
+            menu.push(
+                <Link key={key++} to="/EliminarCuentaCliente">
                     <Button onClick={props.hide}>Eliminar Cuentar</Button>
                 </Link>
             );

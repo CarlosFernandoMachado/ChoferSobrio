@@ -14,6 +14,7 @@ class Toolbar extends React.Component {
         this.state = {
             isGerente: false,
             isChofer: false,
+            isCliente: false,
         };
     }
 
@@ -42,6 +43,17 @@ class Toolbar extends React.Component {
                 });
                 this.setState({ isChofer });
             });
+
+            // clientes
+            this.dbRefClientes = firebase.database().ref('/cliente');
+            this.dbCallbackClientes = this.dbRefClientes.on('value', (snap) => {
+                const clientes = snap.val();
+                let isCliente = false;
+                clientes.forEach(cliente => {
+                    isCliente = isCliente || cliente.correo === user.email;
+                });
+                this.setState({ isCliente });
+            });
         }
     }
 
@@ -50,12 +62,13 @@ class Toolbar extends React.Component {
         if (user) {
             this.dbRefGerentes.off('value', this.dbCallbackGerentes);
             this.dbRefChoferes.off('value', this.dbCallbackChoferes);
+            this.dbRefClientes.off('value', this.dbCallbackClientes);
         }
     }
 
     render() {
         const props = this.props;
-        const { isGerente, isChofer } = this.state;
+        const { isGerente, isChofer, isCliente } = this.state;
 
         let mensaje;
         if (localStorage.getItem('user')) {
@@ -110,7 +123,47 @@ class Toolbar extends React.Component {
         if (isGerente) {
             menu.push(
                 <Dropdown.Item key={key++}>
+                    <Link to="/MostrarCliente">
+                        <Button>Mostrar Cliente</Button>
+                    </Link>
+                </Dropdown.Item>,
+            );
+        }
+
+        if (isGerente) {
+            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/MostrarGerente">
+                        <Button>Mostrar Gerente</Button>
+                    </Link>
+                </Dropdown.Item>,
+            );
+        }
+
+        if (isGerente) {
+            menu.push(
+                <Dropdown.Item key={key++}>
                     <Link to="/EliminarCuenta">
+                        <Button>Eliminar Cuenta</Button>
+                    </Link>
+                </Dropdown.Item>,
+            );
+        }
+
+        if (isChofer) {
+            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/EliminarCuentaChofer">
+                        <Button>Eliminar Cuenta</Button>
+                    </Link>
+                </Dropdown.Item>,
+            );
+        }
+
+        if (isCliente) {
+            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/EliminarCuentaClientes">
                         <Button>Eliminar Cuenta</Button>
                     </Link>
                 </Dropdown.Item>,

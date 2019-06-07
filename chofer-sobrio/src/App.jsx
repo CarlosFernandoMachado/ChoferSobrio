@@ -27,6 +27,7 @@ import MostrarCliente from './components/Visualizar/MostrarCliente';
 import MostrarGerente from './components/Visualizar/MostrarGerente';
 import MiPerfil from './components/MiPerfil/MiPefil';
 import Eliminar_Cuenta from './components/Eliminar_Cuenta/Eliminar_Cuenta';
+import Eliminar_Cuenta_Cliente from './components/Eliminar_Cuenta/Eliminar_Cuenta_Cliente';
 
 class App extends Component {
   constructor(props) {
@@ -132,6 +133,7 @@ class App extends Component {
               <Route exact path="/ModificarChofer" component={ModificarChofer}></Route>
               <Route exact path="/ModificarCliente" component={ModificarCliente}></Route>
               <Route exact path="/EliminarCuenta" component={Eliminar_Cuenta}></Route>
+              <Route exact path="/EliminarCuentaCliente" component={Eliminar_Cuenta_Cliente}></Route>
             </div>
           </main>
         </div>
