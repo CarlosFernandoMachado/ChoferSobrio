@@ -154,14 +154,15 @@ export default class Crear extends Component {
         return n;
     }
 
-    modificarcliente(id, color_vehiculo, marca, nombre, placa, telefono) {
+    modificarcliente(id, color_vehiculo, marca, nombre, placa, telefono,email) {
         var database = Fire.database();
         database.ref('cliente/' + id).update({
             color_vehiculo: color_vehiculo,
             marca: marca,
             nombre: nombre,
             placa: placa,
-            telefono: telefono
+            telefono: telefono,
+            correo:email
 
         });
     }

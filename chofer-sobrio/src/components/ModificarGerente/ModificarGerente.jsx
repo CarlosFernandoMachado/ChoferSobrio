@@ -34,38 +34,51 @@ export default class ModificarGerente extends Component {
         this.dateChange = this.dateChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSelectMarca = this.handleSelectMarca.bind(this);
+        this.loaddata();
     }
 
-    async componentDidMount() {
+    loaddata = () => {
+        
         const user = JSON.parse(localStorage.getItem('user'));
         this.getLocation();
-        var cont =0;
+        var cont = 0;
         if (user) {
-            // gerentes
-            const info = await firebase.database().ref('/gerente').once('value').then((snap) => {
-                const gerentes = snap.val();
-                let infogerente;
-                gerentes.forEach(gerente => {
-                    if (gerente.correo === user.email) {
-                        infogerente = gerente;
-                       
-                    }
-                    
-                });
-                return infogerente;
-            });
-           console.log(cont)
-            console.log(info);
 
-            this.setState({
-               identidad:info.identidad,
-                nombre: info.nombre,
-                correo: info.correo,
-                telefono: info.telefono,
+            var rootRef = firebase.database().ref().child("gerente");
+            rootRef.on("child_added", snap => {
+                var id = 0
+                var nombre = snap.child("nombre").val();
+                var identidad = snap.child("identidad").val();
+                var telefono = snap.child("telefono").val();
+                var correo = snap.child("correo").val();
+                
                
+
+                if (correo == user.email) {
+                    firebase.database().ref().child('gerente').orderByChild('correo').equalTo(user.email).on("value", function(snapshot) {
+                        console.log(snapshot.val());
+                        snapshot.forEach(function(data) {
+                            id = data.key;
+
+                        });
+                    });
+                   
+                    this.setState({
+                        id: id,
+                        nombre: nombre,
+                        correo: correo,
+                        telefono: telefono,
+                       identidad:identidad
+                    });
+                }
+
             });
+
+
+
         }
-    }
+    
+    };
 
     getLocation = () => {
         if (navigator.geolocation) {

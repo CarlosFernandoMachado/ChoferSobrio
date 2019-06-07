@@ -134,6 +134,7 @@ class Toolbar extends React.Component {
                         <Link to="/">
                             <Button className="navbar-item"> Home</Button>
                         </Link>
+                        
                         <Link to="/precios">
                             <Button className="navbar-item"> Precios</Button>
                         </Link>
