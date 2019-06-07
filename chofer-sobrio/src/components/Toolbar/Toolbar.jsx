@@ -107,6 +107,16 @@ class Toolbar extends React.Component {
             );
         }
 
+        if (isGerente) {
+            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/EliminarCuenta">
+                        <Button>Eliminar Cuenta</Button>
+                    </Link>
+                </Dropdown.Item>,
+            );
+        }
+
         let dropdown;
         if (menu.length > 0) {
             dropdown = (

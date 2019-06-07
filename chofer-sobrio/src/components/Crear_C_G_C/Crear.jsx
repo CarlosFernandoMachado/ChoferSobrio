@@ -329,12 +329,9 @@ export default class Crear extends Component {
                     id_chofer: id
                 });
             });
-            Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
-                alert("Se creo usuario MOSTROOOOOOO"),
-                Fire.auth().sendPasswordResetEmail(email).then(
-                    alert("Se envio un correo de confirmacion a tu correo MOSTROOOO")
-                ).catch("No se envio mensaje mostrooooooooo")
-            ).catch();
+            Fire.auth().createUserWithEmailAndPassword(email, '123456').then( function(_userRecord) {
+                Fire.auth().sendPasswordResetEmail(email);
+            });
             setTimeout(redirigir, 1000);
         }
         if (this.props.validado && this.props.funcion === "modificar_cliente") {

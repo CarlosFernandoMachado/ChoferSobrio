@@ -29,6 +29,9 @@ export default class VisualizarCliente extends Component {
             var placa = snap.child("placa").val();
             var marca = snap.child("marca").val();
             var color = snap.child("color").val();
+            //en var eliminar @Jean agregara el nodo superior para poder eliminar al usuario
+            var eliminar;
+            //
             var data = [];
             data.push(nombre);
             data.push(telefono);
@@ -37,10 +40,22 @@ export default class VisualizarCliente extends Component {
             data.push(marca);
             data.push(color);
             var tr = document.createElement("tr");
+            /* just in case lo arruine todo
             for (var i = 0; i < data.length; i++) {
                 var td = document.createElement("td");
 
                 td.textContent = data[i];
+                tr.appendChild(td);
+            }*/
+            for (var i = 0; i < data.length; i++) {
+                var td = document.createElement("td");
+                if (i === (data.length - 1)) {
+                        var button = document.createElement("p");
+                        button.innerHTML = "<input class='btn btn-primary' type='submit' value='Reservar'></input>";
+                        td.appendChild(button);
+                } else {
+                    td.textContent = data[i];
+                }
                 tr.appendChild(td);
             }
             var tabla = document.getElementById("table_body");
@@ -66,6 +81,7 @@ export default class VisualizarCliente extends Component {
                                     <th>Placa</th>
                                     <th>Marca</th>
                                     <th>Color</th>
+                                    <th>Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody id="table_body">
