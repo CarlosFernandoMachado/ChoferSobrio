@@ -306,7 +306,7 @@ export default class Crear extends Component {
                 ).catch("No se envio mensaje mostrooooooooo")
             ).catch();
             
-            //setTimeout(redirigir, 1000);
+            setTimeout(redirigir, 1000);
         }
         if (this.props.validado && this.props.funcion === "crear_chofer") {
             var database = Fire.database();
