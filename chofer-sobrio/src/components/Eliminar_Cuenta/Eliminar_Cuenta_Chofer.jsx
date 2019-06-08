@@ -38,17 +38,17 @@ export default class Eliminar_Cuenta extends Component {
                 <Card border="ligth">
                     <Alert variant="secondary">
                         <Form
-                            onSubmit={e => this.handleSubmit(e)}>
+                            onSubmit={ e => this.handleSubmit(e) }>
                             <Form.Row>
-                                <Form.Group as={Col} md="4">
+                                <Form.Group as={ Col } md="4">
                                     <Form.Label>Password</Form.Label>
                                     <Form.Control
                                         required
                                         type="password"
                                         placeholder="Ingrese contraseña"
                                         name="password"
-                                        value={this.state.password}
-                                        onChange={this.handleChange}
+                                        value={ this.state.password }
+                                        onChange={ this.handleChange }
                                         id="password"
                                     />
                                     <Form.Text className="text-muted">
@@ -61,7 +61,7 @@ export default class Eliminar_Cuenta extends Component {
                             </Form.Row>
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Eliminar Cuenta
-
+                                <Crear validado={ this.state.listo } datos={ [this.state.id] } funcion={ "eliminar_chofer" } />
                                 </Button>
 
                             </div>

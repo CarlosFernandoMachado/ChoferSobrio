@@ -9,7 +9,7 @@ import { Jumbotron, Col, InputGroup, Card, Alert, Dropdown } from 'react-bootstr
 import firebase from 'firebase';
 
 
-export default class Eliminar_Cuenta extends Component {
+export default class Password_olvidada extends Component {
     constructor(props) {
         super(props);
         this.state = {

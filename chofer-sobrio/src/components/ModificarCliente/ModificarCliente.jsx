@@ -36,10 +36,10 @@ export default class ModificarCliente extends Component {
         this.dateChange = this.dateChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSelectMarca = this.handleSelectMarca.bind(this);
-        this.loaddata();
+        
     }
-    loaddata = () => {
-        console.log ("se hace")
+    async componentDidMount() {
+        console.log ("se hace loco")
         const user = JSON.parse(localStorage.getItem('user'));
         this.getLocation();
         var cont = 0;
@@ -80,8 +80,9 @@ export default class ModificarCliente extends Component {
 
 
         }
+    }
+
     
-    };
 
     
     getLocation = () => {

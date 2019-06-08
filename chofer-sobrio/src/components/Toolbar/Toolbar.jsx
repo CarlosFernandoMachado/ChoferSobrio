@@ -148,6 +148,13 @@ class Toolbar extends React.Component {
                     </Link>
                 </Dropdown.Item>,
             );
+            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/ModificarGerente">
+                        <Button>modificar Cuenta Gerente</Button>
+                    </Link>
+                </Dropdown.Item>,
+            );
         }
 
         if (isChofer) {
@@ -158,6 +165,13 @@ class Toolbar extends React.Component {
                     </Link>
                 </Dropdown.Item>,
             );
+            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/ModificarChofer">
+                        <Button>modificar Cuenta Chofer</Button>
+                    </Link>
+                </Dropdown.Item>,
+            );
         }
 
         if (isCliente) {
@@ -165,6 +179,13 @@ class Toolbar extends React.Component {
                 <Dropdown.Item key={key++}>
                     <Link to="/EliminarCuentaClientes">
                         <Button>Eliminar Cuenta</Button>
+                    </Link>
+                </Dropdown.Item>,
+            );
+            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/ModificarCliente">
+                        <Button>modificar Cuenta Cliente</Button>
                     </Link>
                 </Dropdown.Item>,
             );
@@ -207,6 +228,8 @@ class Toolbar extends React.Component {
                         <Link to="/iniciarsesion">
                             <Button className="navbar-item"> {mensaje}</Button>
                         </Link>
+                        
+                       
                         {dropdown}
 
                     </div>
