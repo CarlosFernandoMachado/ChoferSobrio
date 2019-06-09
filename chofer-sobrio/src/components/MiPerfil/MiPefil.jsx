@@ -21,7 +21,8 @@ export default class Precios extends Component {
             const info = await firebase.database().ref('/chofer').once('value').then((snap) => {
                 const choferlist = snap.val();
                 let infoChofer;
-                choferlist.forEach((chofer, index) => {
+                Object.keys(choferlist).forEach((key, index) => {
+                    const chofer = choferlist[key];
                     if (chofer.correo === user.email) {
                         chofer.index = index;
                         infoChofer = chofer;
@@ -44,7 +45,8 @@ export default class Precios extends Component {
 
         const pedidosJSX = [];
 
-        pedidos.forEach((pedido, index) => {
+        Object.keys(pedidos).forEach((key, index) => {
+            const pedido = pedidos[key];
             if (pedido.idchofer === infoChofer.identidad) {
                 const { color, destino, estado, fecha, hora, marca, nombre, placa, telefono, ubicacion } = pedido;
                 pedidosJSX.push(

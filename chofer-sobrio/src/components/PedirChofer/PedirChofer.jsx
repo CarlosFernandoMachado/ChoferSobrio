@@ -50,7 +50,8 @@ export default class Precios extends Component {
             const info = await firebase.database().ref('/cliente').once('value').then((snap) => {
                 const clientes = snap.val();
                 let infoCliente;
-                clientes.forEach(cliente => {
+                Object.keys(clientes).forEach(key => {
+                    const cliente = clientes[key];
                     if (cliente.correo === user.email) {
                         infoCliente = cliente;
                     }
@@ -387,7 +388,7 @@ export default class Precios extends Component {
                                         onChange={this.dateChange}
                                         minDate = {new Date()}
                                         value={this.state.value}
-                                        dateFormat="dd/MM/yyyy"                                       
+                                        dateFormat="dd/MM/yyyy"
                                         withPortal
                                     />
                                 </Form.Group>
@@ -400,7 +401,7 @@ export default class Precios extends Component {
                                         format="hh:mm a"
                                         disableClock={true}
                                         locale='es'
-                                        minTime={this.state.cambiarHora}                                       
+                                        minTime={this.state.cambiarHora}
                                         required
                                     />
                                     <Form.Control.Feedback type="invalid">

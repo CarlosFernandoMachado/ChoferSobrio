@@ -25,8 +25,8 @@ class SideDrawer extends React.Component {
             this.dbCallbackGerentes = this.dbRefGerentes.on('value', (snap) => {
                 const gerentes = snap.val();
                 let isGerente = false;
-                gerentes.forEach(gerente => {
-                    isGerente = isGerente || gerente.correo === user.email;
+                Object.keys(gerentes).forEach(key => {
+                    isGerente = isGerente || gerentes[key].correo === user.email;
                 });
                 this.setState({ isGerente });
             });
@@ -36,8 +36,8 @@ class SideDrawer extends React.Component {
             this.dbCallbackChoferes = this.dbRefChoferes.on('value', (snap) => {
                 const choferes = snap.val();
                 let isChofer = false;
-                choferes.forEach(chofer => {
-                    isChofer = isChofer || chofer.correo === user.email;
+                Object.keys(choferes).forEach(key => {
+                    isChofer = isChofer || choferes[key].correo === user.email;
                 });
                 this.setState({ isChofer });
             });
@@ -47,8 +47,8 @@ class SideDrawer extends React.Component {
             this.dbCallbackClientes = this.dbRefClientes.on('value', (snap) => {
                 const clientes = snap.val();
                 let isCliente = false;
-                clientes.forEach(cliente => {
-                    isCliente = isCliente || cliente.correo === user.email;
+                Object.keys(clientes).forEach(key => {
+                    isCliente = isCliente || clientes[key].correo === user.email;
                 });
                 this.setState({ isCliente });
             });
@@ -139,7 +139,7 @@ class SideDrawer extends React.Component {
                 </Link>
             );
         }
-        
+
         if (isCliente) {
             menu.push(
                 <Link key={key++} to="/EliminarCuentaCliente">
