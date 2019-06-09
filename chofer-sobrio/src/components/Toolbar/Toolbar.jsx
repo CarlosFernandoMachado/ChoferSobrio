@@ -27,8 +27,8 @@ class Toolbar extends React.Component {
             this.dbCallbackGerentes = this.dbRefGerentes.on('value', (snap) => {
                 const gerentes = snap.val();
                 let isGerente = false;
-                gerentes.forEach(gerente => {
-                    isGerente = isGerente || gerente.correo === user.email;
+                Object.keys(gerentes).forEach(key => {
+                    isGerente = isGerente || gerentes[key].correo === user.email;
                 });
                 this.setState({ isGerente });
             });
@@ -38,8 +38,8 @@ class Toolbar extends React.Component {
             this.dbCallbackChoferes = this.dbRefChoferes.on('value', (snap) => {
                 const choferes = snap.val();
                 let isChofer = false;
-                choferes.forEach(chofer => {
-                    isChofer = isChofer || chofer.correo === user.email;
+                Object.keys(choferes).forEach(key => {
+                    isChofer = isChofer || choferes[key].correo === user.email;
                 });
                 this.setState({ isChofer });
             });
@@ -49,8 +49,8 @@ class Toolbar extends React.Component {
             this.dbCallbackClientes = this.dbRefClientes.on('value', (snap) => {
                 const clientes = snap.val();
                 let isCliente = false;
-                clientes.forEach(cliente => {
-                    isCliente = isCliente || cliente.correo === user.email;
+                Object.keys(clientes).forEach(key => {
+                    isCliente = isCliente || clientes[key].correo === user.email;
                 });
                 this.setState({ isCliente });
             });
@@ -109,7 +109,7 @@ class Toolbar extends React.Component {
               </Dropdown.Item>,
             );
         }
-        
+
         if (isGerente) {
             menu.push(
                 <Dropdown.Item key={key++}>
@@ -148,6 +148,13 @@ class Toolbar extends React.Component {
                     </Link>
                 </Dropdown.Item>,
             );
+            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/ModificarGerente">
+                        <Button>modificar Cuenta Gerente</Button>
+                    </Link>
+                </Dropdown.Item>,
+            );
         }
 
         if (isChofer) {
@@ -158,6 +165,13 @@ class Toolbar extends React.Component {
                     </Link>
                 </Dropdown.Item>,
             );
+            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/ModificarChofer">
+                        <Button>modificar Cuenta Chofer</Button>
+                    </Link>
+                </Dropdown.Item>,
+            );
         }
 
         if (isCliente) {
@@ -165,6 +179,13 @@ class Toolbar extends React.Component {
                 <Dropdown.Item key={key++}>
                     <Link to="/EliminarCuentaClientes">
                         <Button>Eliminar Cuenta</Button>
+                    </Link>
+                </Dropdown.Item>,
+            );
+            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/ModificarCliente">
+                        <Button>modificar Cuenta Cliente</Button>
                     </Link>
                 </Dropdown.Item>,
             );
@@ -197,7 +218,7 @@ class Toolbar extends React.Component {
                         <Link to="/">
                             <Button className="navbar-item"> Home</Button>
                         </Link>
-                        
+
                         <Link to="/precios">
                             <Button className="navbar-item"> Precios</Button>
                         </Link>
@@ -207,6 +228,8 @@ class Toolbar extends React.Component {
                         <Link to="/iniciarsesion">
                             <Button className="navbar-item"> {mensaje}</Button>
                         </Link>
+
+
                         {dropdown}
 
                     </div>

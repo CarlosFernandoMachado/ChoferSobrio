@@ -34,10 +34,10 @@ export default class ModificarGerente extends Component {
         this.dateChange = this.dateChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSelectMarca = this.handleSelectMarca.bind(this);
-        this.loaddata();
+        
     }
 
-    loaddata = () => {
+    async componentDidMount() {
         
         const user = JSON.parse(localStorage.getItem('user'));
         this.getLocation();
@@ -78,7 +78,7 @@ export default class ModificarGerente extends Component {
 
         }
     
-    };
+    }
 
     getLocation = () => {
         if (navigator.geolocation) {
