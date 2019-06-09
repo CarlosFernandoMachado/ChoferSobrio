@@ -198,11 +198,11 @@ export default class Precios extends Component {
                                         id="nombre"
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese su nombre
+                                        Nombre inválido, siga el formato indicado(A-Z).
                                 </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={Col} md="4">
-                                    <Form.Label>Telefono</Form.Label>
+                                    <Form.Label>Teléfono</Form.Label>
                                     <Form.Control
                                         required
                                         type="number"
@@ -212,7 +212,7 @@ export default class Precios extends Component {
                                         id="telefono"
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese su teléfono(8 digitos)
+                                        Número de teléfono inválido siga el formato indicado, 8 dígitos númericos(empezando por 3, 8 o 9).
                             </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={Col} md="4">
@@ -309,7 +309,7 @@ export default class Precios extends Component {
                                         id="placa"
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese la placa de su vehiculo
+                                        Número de placa inválido 3 letras (A-Z) y 4 digitos(0-9).
                             </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={Col} md="4">
@@ -323,7 +323,7 @@ export default class Precios extends Component {
                                         id="destino"
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese su destino
+                                        Destino inválido.
                             </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={Col} md="4">
