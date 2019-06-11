@@ -95,6 +95,16 @@ class Toolbar extends React.Component {
             ));
         }
 
+        if(isChofer || isGerente){
+            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/listarfeedback">
+                        <Button>Feedback </Button>
+                    </Link>
+                </Dropdown.Item>
+            );
+        }
+
         if (isChofer || isGerente) {
             menu.push(
                 <Dropdown.Item key={key++}>
@@ -224,6 +234,9 @@ class Toolbar extends React.Component {
                         </Link>
                         <Link to="/seguridad">
                             <Button className="navbar-item"> Seguridad</Button>
+                        </Link>
+                        <Link to="/feedback">
+                            <Button className="navbar-item"> Tu opinion </Button>
                         </Link>
                         <Link to="/iniciarsesion">
                             <Button className="navbar-item"> {mensaje}</Button>
