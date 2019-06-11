@@ -13,7 +13,10 @@ export default class Eliminar_Cuenta extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            password: ''
+            id:'',
+            correo:'',
+            password: '',
+            listo:0
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -21,10 +24,41 @@ export default class Eliminar_Cuenta extends Component {
     handleChange(event) {
         this.setState({ password: event.target.value });
     }
+    
 
     handleSubmit(event) {
-        event.preventDefault();
+        
+        const user = JSON.parse(localStorage.getItem('user')); 
         var password = this.state.password;
+        var rootRef = firebase.database().ref().child("chofer");
+            rootRef.on("child_added", snap => {
+                var id = 0
+              
+                var correo = snap.child("correo").val();
+               
+
+                if (correo == user.email) {
+                    firebase.database().ref().child('chofer').orderByChild('correo').equalTo(user.email).on("value", function(snapshot) {
+                        console.log(snapshot.val());
+                        snapshot.forEach(function(data) {
+                            id = data.key;
+
+                        });
+                    });
+                   
+                    this.setState({
+                        id: id,
+                      
+                    });
+                    event.preventDefault();
+                  
+                }
+
+            });
+            if (window.confirm(' Se eliminara su cuenta, lamentamos mucho que tengas que irte, esperamos que sea un nos vemos y regreses 😢')) 
+            this.setState({listo:"true"});
+       
+        
     }
 
     render() {
@@ -40,24 +74,7 @@ export default class Eliminar_Cuenta extends Component {
                         <Form
                             onSubmit={ e => this.handleSubmit(e) }>
                             <Form.Row>
-                                <Form.Group as={ Col } md="4">
-                                    <Form.Label>Password</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="password"
-                                        placeholder="Ingrese contraseña"
-                                        name="password"
-                                        value={ this.state.password }
-                                        onChange={ this.handleChange }
-                                        id="password"
-                                    />
-                                    <Form.Text className="text-muted">
-                                        Se eliminara su cuenta, lamentamos mucho que tengas que irte, esperamos que sea un nos vemos y regreses 😢
-                        </Form.Text>
-                                    <Form.Control.Feedback type="invalid">
-                                        Ingrese su password
-                                </Form.Control.Feedback>
-                                </Form.Group>
+                               
                             </Form.Row>
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Eliminar Cuenta

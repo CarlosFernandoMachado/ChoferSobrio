@@ -367,19 +367,19 @@ export default class Crear extends Component {
             this.modificarchofer(id,identity,name,telephone,email);
             setTimeout(redirigir, 1000);
         }
-        if (this.props.funcion === "eliminar_chofer") {
+        if (this.props.validado && this.props.funcion === "eliminar_chofer") {
            
             var id =this.props.datos[0]
             this.Eliminarchofer(id);
             setTimeout(redirigir, 1000);
         }
-        if (this.props.funcion === "eliminar_cliente") {
+        if (this.props.validado && this.props.funcion === "eliminar_cliente") {
            
             var id =this.props.datos[0]
             this.Eliminarcliente(id);
             setTimeout(redirigir, 1000);
         }
-        if (this.props.funcion === "eliminar_gerente") {
+        if (this.props.validado && this.props.funcion === "eliminar_gerente") {
            
             var id =this.props.datos[0]
             this.EliminarGerente(id);
