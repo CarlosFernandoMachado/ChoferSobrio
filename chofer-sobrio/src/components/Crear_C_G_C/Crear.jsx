@@ -18,8 +18,8 @@ export default class Crear extends Component {
         });
         Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
             Fire.auth().sendPasswordResetEmail(email).then(
-                alert("Se envio un correo de confirmacion a tu correo"))
-        ).catch(alert("Usuario registrado, no se pudo enviar mensaje de conficion"));
+                alert("Se te ha enviado un correo de confirmación."))
+        ).catch(alert("Usuario registrado, no se pudo enviar mensaje de confirmación"));
     }
     
     Leerchofer(userId) {
@@ -28,7 +28,6 @@ export default class Crear extends Component {
             var username = (snapshot.val() && snapshot.val().nombre) || 'Anonymous';
 
         })
-        alert(n);
 
         return n;
     }
@@ -99,7 +98,7 @@ export default class Crear extends Component {
         });
         Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
             Fire.auth().sendPasswordResetEmail(email).the(
-                alert("Se envio un correo de confirmacion a tu correo"))
+                alert("Se te ha enviado un correo de confirmación."))
         );
     }
     Leergerente(userId) {
@@ -108,7 +107,6 @@ export default class Crear extends Component {
             var username = (snapshot.val() && snapshot.val().nombre) || 'Anonymous';
 
         })
-        alert(n);
 
         return n;
     }
@@ -193,8 +191,6 @@ export default class Crear extends Component {
             var username = (snapshot.val() && snapshot.val().nombre) || 'Anonymous';
 
         })
-        alert(n);
-
         return n;
     }
     modificarpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion) {
@@ -300,10 +296,8 @@ export default class Crear extends Component {
                 });
             });
             Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
-                alert("Se creo usuario MOSTROOOOOOO"),
                 Fire.auth().sendPasswordResetEmail(email).then(
-                    alert("Se envio un correo de confirmacion a tu correo MOSTROOOO")
-                ).catch("No se envio mensaje mostrooooooooo")
+                ).catch()
             ).catch();
             
             setTimeout(redirigir, 1000);

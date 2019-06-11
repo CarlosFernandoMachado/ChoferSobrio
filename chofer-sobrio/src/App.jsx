@@ -50,8 +50,8 @@ class App extends Component {
       const isGerente = await firebase.database().ref('/gerente').once('value').then((snap) => {
         let isGerente = false;
         const gerentes = snap.val();
-        gerentes.forEach(gerente => {
-          isGerente = isGerente || gerente.correo === user.email;
+        Object.keys(gerentes).forEach(key => {
+          isGerente = isGerente || gerentes[key].correo === user.email;
         });
         return isGerente;
       });
@@ -60,8 +60,8 @@ class App extends Component {
       const isChofer = await firebase.database().ref('/chofer').once('value').then((snap) => {
         let isChofer = false;
         const choferes = snap.val();
-        choferes.forEach(chofer => {
-          isChofer = isChofer || chofer.correo === user.email;
+        Object.keys(choferes).forEach(key => {
+          isChofer = isChofer || choferes[key].correo === user.email;
         });
         return isChofer;
       });
@@ -70,8 +70,9 @@ class App extends Component {
       const isCliente = await firebase.database().ref('/cliente').once('value').then((snap) => {
         let isCliente = false;
         const clientes = snap.val();
-        clientes.forEach(cliente => {
-          isCliente = isCliente || cliente.correo === user.email;
+        Object.keys(clientes).forEach(key => {
+
+          isCliente = isCliente || clientes[key].correo === user.email;
         });
         return isCliente;
       });
