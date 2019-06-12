@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Table, Card, Alert, Dropdown } from 'react-bootstrap';
+import { Jumbotron, Container, Table, Card, Alert, Dropdown, Button } from 'react-bootstrap';
 import './MiPerfil.css'
 import firebase from '../config/config';
 
@@ -12,8 +12,11 @@ export default class Precios extends Component {
             pedidos: [],
         };
 
+        this.clickBoton = this.clickBoton.bind(this);
         this.mostrarPedidos = this.mostrarPedidos.bind(this);
     }
+
+    mensajes = ['ninguno', 'Estoy en camino', 'Estoy cerca', 'Ya llegue'];
 
     async componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
@@ -31,13 +34,44 @@ export default class Precios extends Component {
                 return infoChofer;
             });
 
-            const pedidos = await firebase.database().ref('/pedido').once('value').then(snap => snap.val());
+            // pedidos
+            this.dbRefPedidos = firebase.database().ref('/pedido');
+            this.dbCallbackPedidos = this.dbRefPedidos.on('value', snap => this.setState({ pedidos: snap.val() }));
 
             this.setState({
                 infoChofer: info,
-                pedidos,
             });
         }
+    }
+
+    componentWillUnmount() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            this.dbRefPedidos.off('value', this.dbCallbackPedidos);
+        }
+    }
+
+    clickBoton(mensaje, keyPedido) {
+        const database = firebase.database();
+        const { pedidos } = this.state;
+        let mensajeRes = mensaje;
+        let mensajeActual = mensaje;
+
+        const pedidosRes = pedidos.map(a => Object.assign({}, a));
+        if (mensaje === undefined || mensaje === 'ninguno') {
+            mensajeActual = this.mensajes[1];
+        } else if (mensaje === this.mensajes[1]) {
+            mensajeRes = this.mensajes[2];
+        } else if (mensaje === this.mensajes[2]) {
+            mensajeRes = this.mensajes[3];
+        } else if (mensaje === this.mensajes[3]) {
+        }
+
+
+        pedidosRes[keyPedido].mensaje = mensajeActual;
+        database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
+        pedidosRes[keyPedido].mensaje = mensajeRes;
+        this.setState({ pedidos: pedidosRes });
     }
 
     mostrarPedidos() {
@@ -48,19 +82,22 @@ export default class Precios extends Component {
         Object.keys(pedidos).forEach((key, index) => {
             const pedido = pedidos[key];
             if (pedido.idchofer === infoChofer.identidad) {
-                const { color, destino, estado, fecha, hora, marca, nombre, placa, telefono, ubicacion } = pedido;
+                const { color, destino, estado, fecha, hora, marca, nombre, placa, telefono, ubicacion, mensaje } = pedido;
+
+                let msjBoton = '';
+
+                if (mensaje === undefined || mensaje === 'ninguno' || mensaje === this.mensajes[1]) {
+                    msjBoton = this.mensajes[1];
+                } else if (mensaje === this.mensajes[2]) {
+                    msjBoton = this.mensajes[2];
+                } else if (mensaje === this.mensajes[3]) {
+                    msjBoton = this.mensajes[3];
+                }
+
                 pedidosJSX.push(
                     <tr key={index}>
                         <td>
-                            <Dropdown>
-                                <Dropdown.Toggle variant="success" id={`dropdown-${index}`}>
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    <Dropdown.Item onClick={() => console.log('Estoy en camino')}>Estoy en camino</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => console.log('Estoy cerca')}>Estoy cerca</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => console.log('Ya llegue')}>Ya llegue</Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
+                            <Button variant="info" onClick={() => this.clickBoton(msjBoton, key)}>{msjBoton}</Button>
                         </td>
                         <td>{nombre}</td>
                         <td>{telefono}</td>

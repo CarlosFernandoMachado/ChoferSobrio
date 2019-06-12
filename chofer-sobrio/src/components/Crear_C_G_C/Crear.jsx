@@ -182,7 +182,8 @@ export default class Crear extends Component {
             telefono: telefono,
             ubicacion: ubicacion,
             estado: "Disponible",
-            idchofer: 0
+            idchofer: 0,
+            mensaje: 'ninguno',
         });
     }
     Leerpedido(userId) {
@@ -262,7 +263,8 @@ export default class Crear extends Component {
                     telefono: telephone,
                     ubicacion: location,
                     estado: 'Disponible',
-                    idchofer: 0
+                    idchofer: 0,
+                    mensaje: 'ninguno',
         
                 });
                 database.ref('referencias/').update({

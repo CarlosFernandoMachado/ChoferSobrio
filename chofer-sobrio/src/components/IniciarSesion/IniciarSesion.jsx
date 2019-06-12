@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Button } from 'react-bootstrap';
+import { Jumbotron, Container } from 'react-bootstrap';
 import './IniciarSesion.css'
-import { Form, FormGroup, Input } from 'reactstrap';
+import { Form } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import Login from '../config/Login';
 import { logout } from '../config/auth';
