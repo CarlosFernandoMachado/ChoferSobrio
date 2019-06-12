@@ -31,6 +31,7 @@ import Eliminar_Cuenta_Cliente from './components/Eliminar_Cuenta/Eliminar_Cuent
 import feedback from './components/feedback/feedback';
 import ListarFeedback from './components/feedback/ListarFeedback';
 import Eliminar_Cuenta_Chofer from './components/Eliminar_Cuenta/Eliminar_Cuenta_Chofer';
+import Historial from './components/Historial/Historial';
 
 class App extends Component {
   constructor(props) {
@@ -124,6 +125,7 @@ class App extends Component {
               <Cliente exact path="/pedirchofer" permisos={permisos} component={PedirChofer}></Cliente>
               <Gerente exact path="/CrearGerente" permisos={permisos} component={CrearGerente}></Gerente>
               <Gerente exact path="/CrearChofer" permisos={permisos} component={CrearChofer}></Gerente>
+              <Gerente exact path="/Historial" permisos={permisos} component={Historial}></Gerente>
               <Chofer exact path="/reservaciones" permisos={permisos} component={Pedidos}></Chofer>
               <Chofer exact path="/miperfil" permisos={permisos} component={MiPerfil}></Chofer>
               <Route exact path="/CrearCliente" component={CrearCliente}></Route>
