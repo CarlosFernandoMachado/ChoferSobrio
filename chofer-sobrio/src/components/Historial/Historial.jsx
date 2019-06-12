@@ -22,6 +22,7 @@ export default class Precios extends Component {
                                     <th>Destino</th>
                                     <th>Marca</th>
                                     <th>Color</th>
+                                    <th>Placa</th>
                                     <th>Hora</th>
                                     <th>Fecha</th>
                                 </tr>

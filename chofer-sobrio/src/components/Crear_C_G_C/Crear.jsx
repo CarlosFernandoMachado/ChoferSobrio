@@ -347,6 +347,37 @@ export default class Crear extends Component {
             });
             setTimeout(redirigir, 1000);
         }
+        if (this.props.validado && this.props.funcion === "crearhistorial") {
+            var database = Fire.database();
+            var driver = this.props.datos[0];
+            var customer = this.props.datos[1];
+            var colour = this.props.datos[2];
+            var destination = this.props.datos[3];
+            var date = this.props.datos[4];
+            var hour = this.props.datos[5];
+            var brand = this.props.datos[6];
+            var plate = this.props.datos[7];
+            var location = this.props.datos[8];
+            var id = 0;
+            var n = database.ref('/referencias/').once('value').then(function (snapshot) {
+                id = (snapshot.val() && snapshot.val().id_historial) || 'Anonymous';
+                id++;
+                database.ref('Historial/' + id).set({
+                    chofer: driver,
+                    cliente: customer,
+                    color: colour,
+                    destino: destination,
+                    fecha: date,
+                    hora: hour,
+                    marca: brand,
+                    placa: plate,
+                    ubicacion: location,        
+                });
+                database.ref('referencias/').update({
+                    id_historial: id
+                });
+            })
+        }
         if (this.props.validado && this.props.funcion === "modificar_cliente") {
             var database = Fire.database();
             var colour = this.props.datos[0];
