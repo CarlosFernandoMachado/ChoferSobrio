@@ -39,6 +39,7 @@ export default class Precios extends Component {
             });
         }
     }
+    
 
     mostrarPedidos() {
         const { pedidos, infoChofer } = this.state;
