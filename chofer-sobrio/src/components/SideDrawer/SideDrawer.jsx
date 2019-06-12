@@ -132,10 +132,34 @@ class SideDrawer extends React.Component {
             );
         }
 
+        if (isGerente) {
+            menu.push(
+                <Link key={key++} to="/ModificarGerente">
+                    <Button onClick={props.hide}>Modificar Informacion</Button>
+                </Link>
+            );
+        }
+
+        if (isGerente) {
+            menu.push(
+                <Link key={key++} to="/EliminarCuentaGerente">
+                    <Button onClick={props.hide}>Eliminar Cuenta</Button>
+                </Link>
+            );
+        }
+
         if (isChofer) {
             menu.push(
                 <Link key={key++} to="/EliminarCuentaChofer">
-                    <Button onClick={props.hide}>Eliminar Cuentar</Button>
+                    <Button onClick={props.hide}>Eliminar Cuenta</Button>
+                </Link>
+            );
+        }
+
+        if (isChofer) {
+            menu.push(
+                <Link key={key++} to="/ModificarChofer">
+                    <Button onClick={props.hide}>Modificar Informacion</Button>
                 </Link>
             );
         }
@@ -143,7 +167,15 @@ class SideDrawer extends React.Component {
         if (isCliente) {
             menu.push(
                 <Link key={key++} to="/EliminarCuentaCliente">
-                    <Button onClick={props.hide}>Eliminar Cuentar</Button>
+                    <Button onClick={props.hide}>Eliminar Cuenta</Button>
+                </Link>
+            );
+        }
+
+        if (isCliente) {
+            menu.push(
+                <Link key={key++} to="/ModificarCliente">
+                    <Button onClick={props.hide}>Modificar Informacion</Button>
                 </Link>
             );
         }
