@@ -28,6 +28,10 @@ import MostrarGerente from './components/Visualizar/MostrarGerente';
 import MiPerfil from './components/MiPerfil/MiPefil';
 import Eliminar_Cuenta from './components/Eliminar_Cuenta/Eliminar_Cuenta';
 import Eliminar_Cuenta_Cliente from './components/Eliminar_Cuenta/Eliminar_Cuenta_Cliente';
+import feedback from './components/feedback/feedback';
+import ListarFeedback from './components/feedback/ListarFeedback';
+import Eliminar_Cuenta_Chofer from './components/Eliminar_Cuenta/Eliminar_Cuenta_Chofer';
+import Historial from './components/Historial/Historial';
 
 class App extends Component {
   constructor(props) {
@@ -107,11 +111,13 @@ class App extends Component {
     return (
       <Router>
         <div style={{ height: '100%' }}>
-          <Toolbar drawerClickHandler={this.drawerToggleClickHandler}/>
-          <SideDrawer show={this.state.sideDrawerOpen} hide={this.backdropClickHandler}/>
+          <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
+          <SideDrawer show={this.state.sideDrawerOpen} hide={this.backdropClickHandler} />
           {backdrop}
           <main style={{ marginTop: '64px' }}>
             <div>
+              <Route exact path="/feedback" component={feedback}></Route>
+              <Chofer exact path="/listarfeedback" permisos={permisos} component={ListarFeedback}></Chofer>
               <Route exact path="/" component={Home}></Route>
               <Route exact path="/precios" component={Precios}></Route>
               <Route exact path="/seguridad" component={Seguridad}></Route>
@@ -119,8 +125,9 @@ class App extends Component {
               <Cliente exact path="/pedirchofer" permisos={permisos} component={PedirChofer}></Cliente>
               <Gerente exact path="/CrearGerente" permisos={permisos} component={CrearGerente}></Gerente>
               <Gerente exact path="/CrearChofer" permisos={permisos} component={CrearChofer}></Gerente>
+              <Gerente exact path="/Historial" permisos={permisos} component={Historial}></Gerente>
               <Chofer exact path="/reservaciones" permisos={permisos} component={Pedidos}></Chofer>
-              <Chofer exact path = "/miperfil" permisos={permisos} component={MiPerfil}></Chofer>
+              <Chofer exact path="/miperfil" permisos={permisos} component={MiPerfil}></Chofer>
               <Route exact path="/CrearCliente" component={CrearCliente}></Route>
               <Route exact path="/iniciarSesion" component={IniciarSesion}></Route>
               <Route exact path="/Password_olvidada" component={Password_olvidada}></Route>
@@ -133,8 +140,9 @@ class App extends Component {
               <Route exact path="/ModificarGerente" component={ModificarGerente}></Route>
               <Route exact path="/ModificarChofer" component={ModificarChofer}></Route>
               <Route exact path="/ModificarCliente" component={ModificarCliente}></Route>
-              <Route exact path="/EliminarCuenta" component={Eliminar_Cuenta}></Route>
+              <Route exact path="/EliminarCuentaGerente" component={Eliminar_Cuenta}></Route>
               <Route exact path="/EliminarCuentaCliente" component={Eliminar_Cuenta_Cliente}></Route>
+              <Route exact path="/EliminarCuentaChofer" component={Eliminar_Cuenta_Chofer}></Route>
             </div>
           </main>
         </div>

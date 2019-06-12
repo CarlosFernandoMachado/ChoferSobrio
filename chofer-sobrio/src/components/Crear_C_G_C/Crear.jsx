@@ -182,7 +182,8 @@ export default class Crear extends Component {
             telefono: telefono,
             ubicacion: ubicacion,
             estado: "Disponible",
-            idchofer: 0
+            idchofer: 0,
+            mensaje: 'ninguno',
         });
     }
     Leerpedido(userId) {
@@ -262,7 +263,8 @@ export default class Crear extends Component {
                     telefono: telephone,
                     ubicacion: location,
                     estado: 'Disponible',
-                    idchofer: 0
+                    idchofer: 0,
+                    mensaje: 'ninguno',
         
                 });
                 database.ref('referencias/').update({
@@ -328,6 +330,23 @@ export default class Crear extends Component {
             });
             setTimeout(redirigir, 1000);
         }
+        if(this.props.validado && this.props.funcion === "CrearComentario"){
+            var database = Fire.database();
+            var comentario = this.props.datos;
+            var id = 0;
+            var n = database.ref('/referencias/').once('value').then(function (snapshot) {
+                id = (snapshot.val() && snapshot.val().id_comentarios) || 'Anonymous';
+                id++;
+                database.ref('comentarios/' + id).set({
+                    contenido: comentario
+        
+                });
+                database.ref('referencias/').update({
+                    id_comentarios: id
+                });
+            });
+            setTimeout(redirigir, 1000);
+        }
         if (this.props.validado && this.props.funcion === "modificar_cliente") {
             var database = Fire.database();
             var colour = this.props.datos[0];
@@ -361,19 +380,19 @@ export default class Crear extends Component {
             this.modificarchofer(id,identity,name,telephone,email);
             setTimeout(redirigir, 1000);
         }
-        if (this.props.funcion === "eliminar_chofer") {
+        if (this.props.validado && this.props.funcion === "eliminar_chofer") {
            
             var id =this.props.datos[0]
             this.Eliminarchofer(id);
             setTimeout(redirigir, 1000);
         }
-        if (this.props.funcion === "eliminar_cliente") {
+        if (this.props.validado && this.props.funcion === "eliminar_cliente") {
            
             var id =this.props.datos[0]
             this.Eliminarcliente(id);
             setTimeout(redirigir, 1000);
         }
-        if (this.props.funcion === "eliminar_gerente") {
+        if (this.props.validado && this.props.funcion === "eliminar_gerente") {
            
             var id =this.props.datos[0]
             this.EliminarGerente(id);

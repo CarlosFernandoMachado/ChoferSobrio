@@ -245,7 +245,7 @@ export default class Precios extends Component {
                                              <Dropdown.Item eventKey='Suzuki' onSelect={this.handleSelectMarca}>
                                                 Suzuki
                                              </Dropdown.Item>
-                                            <Dropdown.Item eventKey='Toyota'>
+                                            <Dropdown.Item eventKey='Toyota' onSelect={this.handleSelectMarca}>
                                                 Toyota
                                              </Dropdown.Item>
                                              <Dropdown.Item eventKey='Volkswagen' onSelect={this.handleSelectMarca}>

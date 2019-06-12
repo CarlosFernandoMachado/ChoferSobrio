@@ -223,21 +223,7 @@ export default class ModificarCliente extends Component {
                                 </Form.Control.Feedback>
                                 </Form.Group>
 
-                                <Form.Group as={ Col } md="4">
-                                    <Form.Label>Correo</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="email"
-                                        pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9_]+(?:\.[a-zA-Z0-9-]+)*$"
-                                        name="correo"
-                                        value={ this.state.correo }
-                                        onChange={ this.handleChange }
-                                        id="correo"
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        Ingrese su correo
-                            </Form.Control.Feedback>
-                                </Form.Group>
+                              
 
                                 <Form.Group as={ Col } md="4">
                                     <Form.Label>Telefono</Form.Label>

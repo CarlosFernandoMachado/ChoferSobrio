@@ -1,0 +1,16 @@
+.outer-div{
+    text-align: center;
+}
+
+.jumbo-boy{
+    background:yellow;
+    border: 1px;
+    outline-width: thin; 
+    border-radius: 20px; 
+    text-align: center;
+}
+
+.form-div{
+    display: inline-block;
+    width: 50vw;
+}
