@@ -51,12 +51,12 @@ export default class Precios extends Component {
 
         } else{
              /*VALIDACIONES*/
-             if (length !== 8   || !/^[8-93][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
+             if (length !== 8   || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
                 this.setState({ telefono: '' });
                 document.getElementById("telefono").value = "";
             }else if (this.state.Marca == 'Seleccione la marca de su vehículo.') {
                 this.setState({ validated: 'false' });
-            }else  if (placa_cadena.length !== 7 || placa_cadena.match(rex) == null) {
+            }else  if (placa_cadena.length !== 7 || placa_cadena.match(rex) == null  || !/^[a+p+h][a-z][a-z][0-9][0-9][0-9][0-9]+$/.test(this.state.Placa)) {
                 this.setState({ Placa: '' });
                 document.getElementById("Placa").value = "";
             }else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)) {
@@ -179,7 +179,7 @@ export default class Precios extends Component {
                                         id="correo"
                                         name="correo"
                                         pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9_]+(?:\.[a-zA-Z0-9-]+)*$"
-                                        placeholder="solo correos de gmail"
+                                        placeholder="ejemplo@correo.com"
                                         value={this.state.value}
                                         onChange={this.handleChange}
                                     />

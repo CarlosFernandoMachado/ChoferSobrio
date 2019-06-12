@@ -34,7 +34,7 @@ export default class CrearChofer extends Component {
             document.getElementById("nombre").value = "";
             
         }
-        if (length !== 8) {
+        if (length !== 8  || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
 
             this.setState({ telefono: '' });
             document.getElementById("telefono").value = "";
@@ -133,12 +133,12 @@ export default class CrearChofer extends Component {
                                         id="correo"
                                         name="correo"
                                         pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9_]+(?:\.[a-zA-Z0-9-]+)*$"
-                                        placeholder="Solo correo de gmail"
+                                        placeholder="ejempl0@correo.com"
                                         value={ this.state.value }
                                         onChange={ this.handleChange }
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese su Correo Correctamente (correo@gmail.com)                           </Form.Control.Feedback>
+                                        Ingrese su Correo Correctamente (correo@correo.com)                           </Form.Control.Feedback>
                                 </Form.Group>
                             </Form.Row>
                             <div class="text-center">

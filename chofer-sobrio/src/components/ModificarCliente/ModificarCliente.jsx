@@ -140,13 +140,13 @@ export default class ModificarCliente extends Component {
         var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
         var placa_cadena = this.state.placa;
         var rex = /[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i;
-        if (length !== 8) {
+        if (length !== 8  || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
 
             this.setState({ telefono: '' });
             document.getElementById("telefono").value = "";
 
         }
-        if (placa_cadena.length !== 7 || placa_cadena.match(rex) == null) {
+        if (placa_cadena.length !== 7 || placa_cadena.match(rex) == null || !/^[a+p+h][a-z][a-z][0-9][0-9][0-9][0-9]+$/.test(this.state.placa)) {
             alert("error")
             this.setState({ placa: '' });
             document.getElementById("placa").value = "";
@@ -231,6 +231,7 @@ export default class ModificarCliente extends Component {
                                         required
                                         type="number"
                                         name="telefono"
+                                        placeholder="_ _ _ _ _ _ _ _"
                                         value={ this.state.telefono }
                                         onChange={ this.handleChange }
                                         id="telefono"
@@ -326,6 +327,7 @@ export default class ModificarCliente extends Component {
                                         type="text"
                                         required
                                         name="placa"
+                                        placeholder="_ _ _ _ _ _ _"
                                         value={ this.state.placa }
                                         onChange={ this.handleChange }
                                         id="placa"

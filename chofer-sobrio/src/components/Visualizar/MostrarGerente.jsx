@@ -1,15 +1,22 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Table, Card, Alert } from 'react-bootstrap';
+import { Jumbotron, Container, Table, Card, Alert, Form, Button ,Col,InputGroup} from 'react-bootstrap';
 import './Visualizar.css'
 import firebase from '../config/config';
+import Crear from '../Crear_C_G_C/Crear';
 
 export default class VisualizarGerente extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            id: '',
+            correo: '',
+            listo: 0,
+            validated: 0,
             informacion: []
         };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -17,6 +24,43 @@ export default class VisualizarGerente extends Component {
     }
     componentWillUnmount() {
         document.getElementById('table_body').innerHTML = '';
+    }
+    handleChange(event) {
+        this.setState({ [event.target.name]: event.target.value });
+    }
+
+    handleSubmit(event) {
+        
+        const user = JSON.parse(localStorage.getItem('user')); 
+        var password = this.state.password;
+        var rootRef = firebase.database().ref().child("gerente");
+            rootRef.on("child_added", snap => {
+                var id = 0
+              
+                var correo = snap.child("correo").val();
+               
+
+                                     firebase.database().ref().child('gerente').orderByChild('correo').equalTo(this.state.correo).on("value", function(snapshot) {
+                        console.log(snapshot.val());
+                        snapshot.forEach(function(data) {
+                            id = data.key;
+
+                        });
+                    });
+                   
+                    this.setState({
+                        id: id,
+                      
+                    });
+                    event.preventDefault();
+                  
+                
+
+            });
+            
+            if (window.confirm(' Se eliminara la cuenta')) {
+            this.setState({listo:"true"});
+            }   
     }
 
     loaddata = () => {
@@ -77,12 +121,43 @@ export default class VisualizarGerente extends Component {
                                     <th>Identidad</th>
                                     <th>Telefono</th>
                                     <th>Correo</th>
-                                    <th>Eliminar</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody id="table_body">
                             </tbody>
                         </Table>
+                        <Form
+
+                            onSubmit={ e => this.handleSubmit(e) }>
+                            <Form.Row>
+                                <Form.Group as={ Col } md="4" controlId="validationCustomID">
+                                    <Form.Label>Correo</Form.Label>
+                                    <InputGroup>
+                                        <Form.Control
+                                            type="email"
+                                            placeholder="ejemplo@correo.com"
+                                            required
+                                            name="correo"
+                                            pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9_]+(?:\.[a-zA-Z0-9-]+)*$"
+                                            id="correo"
+                                            value={ this.state.value }
+                                            onChange={ this.handleChange }
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                            Ingrese su Correo Correctamente (correo@gmail.com)
+                    </Form.Control.Feedback>
+                                    </InputGroup>
+                                </Form.Group>
+                            </Form.Row>
+                            <div className="text-center">
+                                <Button type="submit" variant="warning" >Eliminar Gerente
+                            <Crear validado={ this.state.listo } datos={ [this.state.id] } funcion={ "eliminar_gerente" } />
+                                </Button>
+
+                            </div>
+
+                        </Form>
                     </Alert>
                 </Card>
             </Container>

@@ -34,7 +34,7 @@ export default class CrearGerente extends Component {
             document.getElementById("nombre").value = "";
 
         }
-        if (length !== 8) {
+        if (length !== 8  || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
 
             this.setState({ telefono: '' });
             document.getElementById("telefono").value = "";
@@ -102,12 +102,12 @@ export default class CrearGerente extends Component {
                                         type="number"
                                         name="telefono"
                                         id="telefono"
-                                        placeholder="31762140"
+                                        placeholder="_ _ _ _ _ _ _ _"
                                         value={this.state.value}
                                         onChange={this.handleChange}
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese su Telefono Correctamente 8 digitos (0-9)
+                                        Ingrese su Telefono Correctamente 8 digitos 
                             </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={Col} md="4" controlId="validationCustomID">
@@ -115,7 +115,7 @@ export default class CrearGerente extends Component {
                                     <InputGroup>
                                         <Form.Control
                                             type="number"
-                                            placeholder=""
+                                            placeholder="_ _ _ _ _ _ _ _ _ _ _ _ _"
                                             required
                                             name="identidad"
                                             id="identidad"
@@ -132,7 +132,7 @@ export default class CrearGerente extends Component {
                                     <InputGroup>
                                         <Form.Control
                                             type="email"
-                                            placeholder="Solo correo de gmail"
+                                            placeholder="ejemplo@correo.com"
                                             required
                                             name="correo"
                                             pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9_]+(?:\.[a-zA-Z0-9-]+)*$"

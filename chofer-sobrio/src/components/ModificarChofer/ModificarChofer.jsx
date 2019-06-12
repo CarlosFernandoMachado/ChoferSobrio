@@ -138,7 +138,7 @@ export default class ModificarChofer extends Component {
             document.getElementById("nombre").value = "";
             
         }
-        if (length !== 8) {
+        if (length !== 8  || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
 
             this.setState({ telefono: '' });
             document.getElementById("telefono").value = "";
@@ -223,6 +223,7 @@ export default class ModificarChofer extends Component {
                                         required
                                         type="number"
                                         name="telefono"
+                                        placeholder="_ _ _ _ _ _ _ _"
                                         value={this.state.telefono}
                                         onChange={this.handleChange}
                                         id="telefono"

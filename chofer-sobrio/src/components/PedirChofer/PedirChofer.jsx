@@ -133,7 +133,7 @@ export default class Precios extends Component {
                 this.setState({ nombre: '' });
                 document.getElementById("nombre").value = "";
                 this.setState({ validated: 'false' });
-            }else if (this.state.placa.length != 7 || !/^[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i.test(this.state.placa)) {
+            }else if (this.state.placa.length != 7 || !/^[a+p+h][a-z][a-z][0-9][0-9][0-9][0-9]+$/.test(this.state.placa)) {
                 /*Placa invalida*/
                 this.setState({ placa: '' });
                 document.getElementById("placa").value = "";
@@ -143,7 +143,7 @@ export default class Precios extends Component {
                 this.setState({ destino: '' });
                 document.getElementById("destino").value = "";
                 this.setState({ validated: 'false' });
-            } else if (length != 8 || !/^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
+            } else if (length != 8  || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
                 this.setState({ telefono: '' });
                 document.getElementById("telefono").value = "";
                 this.setState({ validated: 'false' });
@@ -208,6 +208,7 @@ export default class Precios extends Component {
                                         required
                                         type="number"
                                         name="telefono"
+                                        placeholder="_ _ _ _ _ _ _ _"
                                         value={this.state.telefono}
                                         onChange={this.handleChange}
                                         id="telefono"
@@ -305,12 +306,13 @@ export default class Precios extends Component {
                                         type="text"
                                         required
                                         name="placa"
+                                        placeholder="_ _ _ _ _ _ _"
                                         value={this.state.placa}
                                         onChange={this.handleChange}
                                         id="placa"
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Número de placa inválido 3 letras (A-Z) y 4 digitos(0-9).
+                                        Número de placa inválido 3 letras (a-z) y 4 digitos(0-9).
                             </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={Col} md="4">
