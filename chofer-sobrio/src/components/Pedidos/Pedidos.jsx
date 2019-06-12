@@ -1,27 +1,25 @@
+/* eslint-disable react/jsx-pascal-case */
 import React, { Component } from 'react'
 import { Jumbotron, Container, Table, Card, Alert, Button } from 'react-bootstrap';
 import './Pedidos.css'
 // quitar
 import firebase from '../config/config';
+import Fire from '../config/config';
+import Card_pedidos from '../Card_pedidos/Card_pedidos';
 
 export default class Precios extends Component {
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
-            informacion: []
+            pedidos: []
         };
+        this.db = firebase.database().ref().child('pedido');
+        this.reservarPedido = this.reservarPedido.bind(this);
+
     }
 
     componentDidMount() {
-        this.loaddata();
-    }
-    componentWillUnmount() {
-        document.getElementById('table_body').innerHTML = '';
-    }
-
-    loaddata = () => {
-        var rootRef = firebase.database().ref().child("pedido");
         var today = new Date();
         var dd = today.getDate();
         var mm = today.getMonth() + 1; //January is 0!
@@ -32,52 +30,66 @@ export default class Precios extends Component {
         var year = tommorrow.getFullYear()
         var today2 = dd + '/' + mm + '/' + yyyy;
         tommorrow = day + '/' + month + '/' + year;
-        rootRef.on("child_added", snap => {
-            var fecha = snap.child("fecha").val();
-            
+        const { pedidos } = this.state;
+
+		this.db.on('child_added', snap => {
+            var fecha = snap.val().fecha;
             if (fecha === today2 || fecha === tommorrow) {
-                var nombre = snap.child("nombre").val();
-                var telefono = snap.child("telefono").val();
-                var ubicacion = snap.child("ubicacion").val();
-                var destino = snap.child("destino").val();
-                var hora = snap.child("hora").val();
-                var placa = snap.child("placa").val();
-                var marca = snap.child("marca").val();
-                var color = snap.child("color").val();
-                var estado = snap.child("estado").val();
-                var data = [];
-                data.push(nombre);
-                data.push(telefono);
-                data.push(ubicacion);
-                data.push(destino);
-                data.push(fecha);
-                data.push(hora);
-                data.push(placa);
-                data.push(marca);
-                data.push(color);
-                data.push(estado);
-                var tr = document.createElement("tr");
-                for (var i = 0; i < data.length; i++) {
-                    var td = document.createElement("td");
-                    if(i===(data.length - 1)){
-                        if(estado==="Disponible"){
-                            //var button=<input class="btn btn-primary" type="submit" value="Submit"></input>
-                            var button = document.createElement("p");
-                            button.innerHTML = "<input class='btn btn-primary' type='submit' value='Reservar'></input>";
-                            td.appendChild(button);
-                        }else{
-                            td.textContent = data[i];
-                        }
-                    }else{
-                        td.textContent = data[i];
-                    }
-                    tr.appendChild(td);
+                var estado_actual=snap.val().estado;
+                if(estado_actual==="Disponible"){
+                    pedidos.push({
+                        color:snap.val().color,
+                        destino:snap.val().destino,
+                        fecha:snap.val().fecha,
+                        hora:snap.val().hora,
+                        idchofer:snap.val().idchofer,
+                        marca:snap.val().marca,
+                        mensaje:snap.val().mensaje,
+                        nombre:snap.val().nombre,
+                        placa:snap.val().placa,
+                        telefono:snap.val().telefono,
+                        ubicacion:snap.val().ubicacion,
+                        pedidoId : snap.key
+                    });
                 }
-                var tabla = document.getElementById("table_body");
-                tabla.appendChild(tr);
             }
+
+			this.setState({pedidos});
+		});
+
+		this.db.on('child_removed', snap => {
+			for(let i = 0; i < pedidos.length; i++) {
+				if(pedidos[i].pedidoId === snap.key) {
+					pedidos.splice(i , 1);
+				}
+			}
+			console.log(pedidos);
+			this.setState({pedidos});
+		});
+    }
+    reservarPedido(pedidoId){
+        alert(pedidoId);
+        var rootRef = firebase.database().ref().child('chofer');
+        var idchofer=null;
+        var usuario=firebase.auth().currentUser;
+        var correo_actual=usuario.email;
+        rootRef.on("child_added", snap => {
+          var correo=snap.child("correo").val();
+          if(correo===correo_actual){
+              idchofer=snap.child("identidad").val();
+          }
         });
-    };
+        
+        var database = Fire.database();
+        database.ref('pedido/' + pedidoId).update({
+                estado:'Ocupado',
+                idchofer:idchofer
+
+        });
+    }
+   
+    
+    
     render() {
         return (
             <Container>
@@ -85,28 +97,30 @@ export default class Precios extends Component {
                     <h1>Chofer Sobrio</h1>
                     <h5>Reservaciones de hoy y mañana</h5>
                 </Jumbotron>
-                <Card border="light">
-                    <Alert variant="secondary">
-                        <Table responsive>
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Telefono</th>
-                                    <th>Ubicacion</th>
-                                    <th>Destino</th>
-                                    <th>Fecha</th>
-                                    <th>Hora</th>
-                                    <th>Placa</th>
-                                    <th>Marca</th>
-                                    <th>Color</th>
-                                    <th>Estado</th>
-                                </tr>
-                            </thead>
-                            <tbody id="table_body">
-                            </tbody>
-                        </Table>
-                    </Alert>
-                </Card>
+                <div className="pedidosBody">
+					{
+						this.state.pedidos.map(pedido => {
+							return (
+								<Card_pedidos 
+                                    color={pedido.color}
+                                    destino={pedido.destino}
+                                    fecha={pedido.fecha}
+                                    hora={pedido.hora}
+                                    idchofer={pedido.idchofer}
+                                    marca={pedido.marca}
+                                    mensaje={pedido.mensaje}
+                                    nombre={pedido.nombre}
+                                    placa={pedido.placa}
+                                    telefono={pedido.telefono}
+                                    ubicacion={pedido.ubicacion}
+                                    pedidoId = {pedido.pedidoId}
+                                    reservarPedido={this.reservarPedido.bind(this)}
+								/>)
+						})
+					}
+					
+				</div>
+                
             </Container>
         )
     }

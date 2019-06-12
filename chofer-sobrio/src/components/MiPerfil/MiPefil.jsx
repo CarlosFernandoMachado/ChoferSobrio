@@ -43,6 +43,7 @@ export default class Precios extends Component {
             });
         }
     }
+    
 
     componentWillUnmount() {
         const user = JSON.parse(localStorage.getItem('user'));
