@@ -4,3 +4,12 @@
     outline-width: thin; 
     border-radius: 20px; 
 }
+.pedidosBody{
+    display: flex;
+    justify-content: center;
+}
+.Card_pedidos{
+    padding: 10px;
+    margin: 10px;
+    
+}
