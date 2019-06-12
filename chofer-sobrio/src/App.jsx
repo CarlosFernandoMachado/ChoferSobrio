@@ -125,8 +125,7 @@ class App extends Component {
               <Cliente exact path="/pedirchofer" permisos={permisos} component={PedirChofer}></Cliente>
               <Gerente exact path="/CrearGerente" permisos={permisos} component={CrearGerente}></Gerente>
               <Gerente exact path="/CrearChofer" permisos={permisos} component={CrearChofer}></Gerente>
-              <Gerente exact path="/Historial" permisos={permisos} component={Historial}></Gerente>
-              <Chofer exact path="/reservaciones" permisos={permisos} component={Pedidos}></Chofer>
+              <Route exact path="/reservaciones" permisos={permisos} component={Pedidos}></Route>
               <Chofer exact path="/miperfil" permisos={permisos} component={MiPerfil}></Chofer>
               <Route exact path="/CrearCliente" component={CrearCliente}></Route>
               <Route exact path="/iniciarSesion" component={IniciarSesion}></Route>

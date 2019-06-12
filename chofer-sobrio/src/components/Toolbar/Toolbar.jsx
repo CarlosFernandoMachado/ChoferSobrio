@@ -215,7 +215,7 @@ class Toolbar extends React.Component {
                     <Dropdown.Toggle variant="dropdown-basic">
                         Opciones
                     </Dropdown.Toggle>
-                    <Dropdown.Menu className="dropdown_menu">
+                    <Dropdown.Menu className="dropdown_menu scrollable-menu">
                         {menu}
                     </Dropdown.Menu>
                 </Dropdown>
