@@ -14,6 +14,7 @@ export default class Precios extends Component {
 
         this.clickBoton = this.clickBoton.bind(this);
         this.mostrarPedidos = this.mostrarPedidos.bind(this);
+        this.finalizar = this.finalizar.bind(this);
     }
 
     mensajes = ['ninguno', 'Estoy en camino', 'Estoy cerca', 'Ya llegue'];
@@ -75,6 +76,16 @@ export default class Precios extends Component {
         this.setState({ pedidos: pedidosRes });
     }
 
+    finalizar(keyPedido) {
+        const database = firebase.database();
+        const { pedidos } = this.state;
+
+        const pedidosRes = pedidos.map(a => Object.assign({}, a));
+        pedidosRes[keyPedido].estado = 'Finalizado';
+        database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
+
+    }
+
     mostrarPedidos() {
         const { pedidos, infoChofer } = this.state;
 
@@ -82,8 +93,8 @@ export default class Precios extends Component {
 
         Object.keys(pedidos).forEach((key, index) => {
             const pedido = pedidos[key];
-            if (pedido.idchofer === infoChofer.identidad) {
-                const { color, destino, estado, fecha, hora, marca, nombre, placa, telefono, ubicacion, mensaje } = pedido;
+            if (pedido.idchofer === infoChofer.identidad && pedido.estado === "Ocupado") {
+                const { color, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, mensaje } = pedido;
 
                 let msjBoton = '';
 
@@ -109,7 +120,9 @@ export default class Precios extends Component {
                         <td>{placa}</td>
                         <td>{marca}</td>
                         <td>{color}</td>
-                        <td>{estado}</td>
+                        <td>
+                            <Button variant="info" onClick={() => this.finalizar(key)}>Finalizar</Button>
+                        </td>
                     </tr>
                 );
             }
@@ -140,7 +153,7 @@ export default class Precios extends Component {
                                     <th>Placa</th>
                                     <th>Marca</th>
                                     <th>Color</th>
-                                    <th>Estado</th>
+                                    <th>Accion</th>
                                 </tr>
                             </thead>
                             <tbody id="table_body">
