@@ -31,6 +31,7 @@ import Eliminar_Cuenta_Cliente from './components/Eliminar_Cuenta/Eliminar_Cuent
 import feedback from './components/feedback/feedback';
 import ListarFeedback from './components/feedback/ListarFeedback';
 import Eliminar_Cuenta_Chofer from './components/Eliminar_Cuenta/Eliminar_Cuenta_Chofer';
+import Historial from './components/Historial/Historial';
 
 class App extends Component {
   constructor(props) {

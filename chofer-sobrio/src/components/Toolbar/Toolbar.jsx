@@ -80,6 +80,13 @@ class Toolbar extends React.Component {
         let key = 0;
         const menu = [];
         if (isGerente) {
+            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/Historial">
+                        <Button>Historial de Reservaciones</Button>
+                    </Link>
+                </Dropdown.Item>,
+            );
             menu.push((
                 <Dropdown.Item key={key++}>
                     <Link to="/CrearGerente">
@@ -114,7 +121,7 @@ class Toolbar extends React.Component {
                 </Dropdown.Item>,
                   <Dropdown.Item key={key++}>
                   <Link to="/miperfil">
-                      <Button>Mi Perfil </Button>
+                      <Button>Mis Reservaciones </Button>
                   </Link>
               </Dropdown.Item>,
             );
@@ -154,14 +161,14 @@ class Toolbar extends React.Component {
             menu.push(
                 <Dropdown.Item key={key++}>
                     <Link to="/EliminarCuentaGerente">
-                        <Button>Eliminar Cuenta Gerente</Button>
+                        <Button>Eliminar Gerente</Button>
                     </Link>
                 </Dropdown.Item>,
             );
             menu.push(
                 <Dropdown.Item key={key++}>
                     <Link to="/ModificarGerente">
-                        <Button>modificar Cuenta Gerente</Button>
+                        <Button>Modificar Gerente</Button>
                     </Link>
                 </Dropdown.Item>,
             );
@@ -171,14 +178,14 @@ class Toolbar extends React.Component {
             menu.push(
                 <Dropdown.Item key={key++}>
                     <Link to="/EliminarCuentaChofer">
-                        <Button>Eliminar Cuenta Chofer</Button>
+                        <Button>Eliminar Chofer</Button>
                     </Link>
                 </Dropdown.Item>,
             );
             menu.push(
                 <Dropdown.Item key={key++}>
                     <Link to="/ModificarChofer">
-                        <Button>modificar Cuenta Chofer</Button>
+                        <Button>Modificar Chofer</Button>
                     </Link>
                 </Dropdown.Item>,
             );
@@ -188,14 +195,14 @@ class Toolbar extends React.Component {
             menu.push(
                 <Dropdown.Item key={key++}>
                     <Link to="/EliminarCuentaCliente">
-                        <Button>Eliminar Cuenta Cliente</Button>
+                        <Button>Eliminar Cliente</Button>
                     </Link>
                 </Dropdown.Item>,
             );
             menu.push(
                 <Dropdown.Item key={key++}>
                     <Link to="/ModificarCliente">
-                        <Button>modificar Cuenta Cliente</Button>
+                        <Button>Modificar Cliente</Button>
                     </Link>
                 </Dropdown.Item>,
             );
@@ -208,7 +215,7 @@ class Toolbar extends React.Component {
                     <Dropdown.Toggle variant="dropdown-basic">
                         Opciones
                     </Dropdown.Toggle>
-                    <Dropdown.Menu className="dropdown_menu">
+                    <Dropdown.Menu className="dropdown_menu scrollable-menu">
                         {menu}
                     </Dropdown.Menu>
                 </Dropdown>
