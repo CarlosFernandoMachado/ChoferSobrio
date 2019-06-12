@@ -19,13 +19,13 @@ export default class ModificarGerente extends Component {
         this.state = {
             nombre: '',
             telefono: '',
-            id:0,
+            id: 0,
             identidad: '',
             correo: '',
             validated: '',
             listo: 0,
             infoCliente: {},
-            
+
         };
 
         this.onChange = hora => this.setState({ hora });
@@ -34,11 +34,11 @@ export default class ModificarGerente extends Component {
         this.dateChange = this.dateChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSelectMarca = this.handleSelectMarca.bind(this);
-        
+
     }
 
     async componentDidMount() {
-        
+
         const user = JSON.parse(localStorage.getItem('user'));
         this.getLocation();
         var cont = 0;
@@ -51,8 +51,8 @@ export default class ModificarGerente extends Component {
                 var identidad = snap.child("identidad").val();
                 var telefono = snap.child("telefono").val();
                 var correo = snap.child("correo").val();
-                
-               
+
+
 
                 if (correo == user.email) {
                     firebase.database().ref().child('gerente').orderByChild('correo').equalTo(user.email).on("value", function(snapshot) {
@@ -62,13 +62,13 @@ export default class ModificarGerente extends Component {
 
                         });
                     });
-                   
+
                     this.setState({
                         id: id,
                         nombre: nombre,
                         correo: correo,
                         telefono: telefono,
-                       identidad:identidad
+                        identidad: identidad
                     });
                 }
 
@@ -77,7 +77,7 @@ export default class ModificarGerente extends Component {
 
 
         }
-    
+
     }
 
     getLocation = () => {
@@ -104,12 +104,12 @@ export default class ModificarGerente extends Component {
             fecha: date
         });
 
-        if(date.getDate() == new Date().getDate()) {
+        if (date.getDate() == new Date().getDate()) {
             alert(date.getDate())
             this.setState({
                 cambiarHora: new Date()
             });
-        }else{
+        } else {
             alert(date.getDate())
             this.setState({
                 cambiarHora: '00:00'
@@ -182,17 +182,17 @@ export default class ModificarGerente extends Component {
                     <Alert variant="secondary">
                         <Form
                             noValidate
-                            validated={validated}
-                            onSubmit={e => this.handleSubmit(e)}>
+                            validated={ validated }
+                            onSubmit={ e => this.handleSubmit(e) }>
                             <Form.Row>
-                                <Form.Group as={Col} md="4">
+                                <Form.Group as={ Col } md="4">
                                     <Form.Label>Nombre</Form.Label>
                                     <Form.Control
                                         required
                                         type="text"
                                         name="nombre"
-                                        value={this.state.nombre}
-                                        onChange={this.handleChange}
+                                        value={ this.state.nombre }
+                                        onChange={ this.handleChange }
                                         id="nombre"
                                     />
                                     <Form.Control.Feedback type="invalid">
@@ -200,67 +200,51 @@ export default class ModificarGerente extends Component {
                                 </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={ Col } md="4" controlId="validationCustomID">
-                                <Form.Label>Identidad</Form.Label>
-                                <InputGroup>
-                                    <Form.Control
-                                        type="number"
-                                        id="identidad"
-                                        placeholder="_ _ _ _ _ _ _ _ _ _ _ _ _"
-                                        required
-                                        name="identidad"
-                                        value={ this.state.identidad }
-                                        onChange={ this.handleChange }
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        Ingrese su Identidad Correctamente 13 digitos (0-9)
+                                    <Form.Label>Identidad</Form.Label>
+                                    <InputGroup>
+                                        <Form.Control
+                                            type="number"
+                                            id="identidad"
+                                            placeholder="_ _ _ _ _ _ _ _ _ _ _ _ _"
+                                            required
+                                            name="identidad"
+                                            value={ this.state.identidad }
+                                            onChange={ this.handleChange }
+                                        />
+                                        <Form.Control.Feedback type="invalid">
+                                            Ingrese su Identidad Correctamente 13 digitos (0-9)
                             </Form.Control.Feedback>
-                                </InputGroup>
-                            </Form.Group>                            
-                                <Form.Group as={Col} md="4">
-                                <Form.Label>Correo</Form.Label>
-                                <Form.Control
-                                    required
-                                    type="email"
-                                    pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9_]+(?:\.[a-zA-Z0-9-]+)*$"
-                                    name="correo"
-                                    value={this.state.correo}
-                                    onChange={this.handleChange}
-                                    id="correo"
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                    Ingrese su correo
-                            </Form.Control.Feedback>
-                            </Form.Group>
-                            
-                                <Form.Group as={Col} md="4">
+                                    </InputGroup>
+                                </Form.Group>
+                                <Form.Group as={ Col } md="4">
                                     <Form.Label>Telefono</Form.Label>
                                     <Form.Control
                                         required
                                         type="number"
                                         name="telefono"
-                                        value={this.state.telefono}
-                                        onChange={this.handleChange}
+                                        value={ this.state.telefono }
+                                        onChange={ this.handleChange }
                                         id="telefono"
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         Ingrese su teléfono(8 digitos)
                             </Form.Control.Feedback>
                                 </Form.Group>
-                               
-                              
-                          
+
+
+
                             </Form.Row>
                             <Form.Row>
-                               
+
                             </Form.Row>
                             <Form.Row>
-                               
-                                
+
+
                             </Form.Row>
 
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Guardar
-                                <Crear validado={this.state.listo} datos={[this.state.identidad, this.state.nombre,  this.state.telefono, this.state.correo, this.state.id]} funcion={"modificar_gerente"} />
+                                <Crear validado={ this.state.listo } datos={ [this.state.identidad, this.state.nombre, this.state.telefono, this.state.correo, this.state.id] } funcion={ "modificar_gerente" } />
                                 </Button>
 
                             </div>
