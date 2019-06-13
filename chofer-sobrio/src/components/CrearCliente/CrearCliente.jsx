@@ -54,7 +54,7 @@ export default class Precios extends Component {
                 document.getElementById("telefono").value = "";
             }else if (this.state.Marca == 'Seleccione la marca de su vehículo.') {
                 this.setState({ validated: 'false' });
-            }else  if (placa_cadena.length !== 7 || placa_cadena.match(rex) == null  || !/^[a+p+h][a-z][a-z][0-9][0-9][0-9][0-9]+$/.test(this.state.Placa)) {
+            }else  if (placa_cadena.length !== 7 || placa_cadena.match(rex) == null  || !/^[a+p+h+P+A+H][a-z+A-Z][a-z+A-Z][0-9][0-9][0-9][0-9]+$/.test(this.state.Placa)) {
                 this.setState({ Placa: '' });
                 document.getElementById("Placa").value = "";
             }else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)) {

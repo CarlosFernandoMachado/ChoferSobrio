@@ -132,7 +132,7 @@ export default class Precios extends Component {
                 this.setState({ nombre: '' });
                 document.getElementById("nombre").value = "";
                 this.setState({ validated: 'false' });
-            }else if (this.state.placa.length != 7 || !/^[a+p+h][a-z][a-z][0-9][0-9][0-9][0-9]+$/.test(this.state.placa)) {
+            }else if (this.state.placa.length != 7 || !/^[a+p+h+P+A+H][a-z+A-Z][a-z+A-Z][0-9][0-9][0-9][0-9]+$/.test(this.state.placa)) {
                 /*Placa invalida*/
                 this.setState({ placa: '' });
                 document.getElementById("placa").value = "";

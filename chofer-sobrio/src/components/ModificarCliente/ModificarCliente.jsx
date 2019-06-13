@@ -143,7 +143,7 @@ export default class ModificarCliente extends Component {
             document.getElementById("telefono").value = "";
 
         }
-        if (placa_cadena.length !== 7 || placa_cadena.match(rex) == null || !/^[a+p+h][a-z][a-z][0-9][0-9][0-9][0-9]+$/.test(this.state.placa)) {
+        if (placa_cadena.length !== 7 || placa_cadena.match(rex) == null || !/^[a+p+h+P+A+H][a-z+A-Z][a-z+A-Z][0-9][0-9][0-9][0-9]+$/.test(this.state.placa)) {
             alert("error")
             this.setState({ placa: '' });
             document.getElementById("placa").value = "";
