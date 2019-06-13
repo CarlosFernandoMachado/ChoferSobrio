@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Table, Card, Alert, Button } from 'react-bootstrap';
+import { Jumbotron, Container, Table, Card, Alert } from 'react-bootstrap';
 import './Historial.css'
 import firebase from '../config/config';
 

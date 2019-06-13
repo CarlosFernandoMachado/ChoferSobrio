@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Table, Card, Alert, Form, Button, Col, InputGroup } from 'react-bootstrap';
+import { Jumbotron, Container, Table, Card, Alert, Button, } from 'react-bootstrap';
 import './Visualizar.css'
 import firebase from '../config/config';
-import Crear from '../Crear_C_G_C/Crear';
 
 export default class VisualizarGerente extends Component {
 
@@ -58,11 +57,7 @@ export default class VisualizarGerente extends Component {
         Object.keys(gerentes).forEach((key, index) => {
             const pedido = gerentes[key];
             if (index !== 0) {
-
-
                 const { nombre, correo, telefono, identidad } = pedido;
-
-
                 gerentesJSX.push(
                     <tr key={index}>
                         <td>{nombre}</td>
@@ -83,15 +78,10 @@ export default class VisualizarGerente extends Component {
 
     eliminar(keyPedido) {
         if (window.confirm(' Se eliminara la cuenta')) {
-
-
             const database = firebase.database();
             const { gerentes } = this.state;
-
             const gerentesRes = gerentes.map(a => Object.assign({}, a));
             database.ref(`gerente/${keyPedido}/`).remove();
-            var correo = this.state.infoGerente.correo;
-            var id = 0;
         }
     }
 

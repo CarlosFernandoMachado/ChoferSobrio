@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Table, Card, Alert, Form, Button ,Col,InputGroup} from 'react-bootstrap';
+import { Jumbotron, Container, Table, Card, Alert, Button} from 'react-bootstrap';
 import './Visualizar.css'
 import firebase from '../config/config';
-import Crear from '../Crear_C_G_C/Crear';
 
 export default class VisualizarChofer extends Component {
 
@@ -12,7 +11,7 @@ export default class VisualizarChofer extends Component {
             infochofer: {},
             choferes: [],
         };
-      
+
         this.mostrarchoferes = this.mostrarchoferes.bind(this);
         this.eliminar = this.eliminar.bind(this);
     }
@@ -57,11 +56,7 @@ export default class VisualizarChofer extends Component {
         Object.keys(choferes).forEach((key, index) => {
             const pedido = choferes[key];
             if (index !== 0) {
-
-
                 const { nombre, correo, telefono, identidad } = pedido;
-
-
                 choferesJSX.push(
                     <tr key={index}>
                         <td>{nombre}</td>
@@ -82,17 +77,10 @@ export default class VisualizarChofer extends Component {
 
     eliminar(keyPedido) {
         if (window.confirm(' Se eliminara la cuenta')) {
-
-
             const database = firebase.database();
             const { choferes } = this.state;
-
             const choferesRes = choferes.map(a => Object.assign({}, a));
             database.ref(`chofer/${keyPedido}/`).remove();
-            console.log(this.state.infochofer.correo)
-            
-            var correo = this.state.infochofer.correo;
-            var id = 0;
         }
     }
 
@@ -106,7 +94,7 @@ export default class VisualizarChofer extends Component {
                 </Jumbotron>
                 <Card border="light">
                     <Alert variant="secondary">
-                   
+
                         <Table responsive>
                             <thead>
                                 <tr>
@@ -114,15 +102,15 @@ export default class VisualizarChofer extends Component {
                                     <th>Identidad</th>
                                     <th>Telefono</th>
                                     <th>Correo</th>
-                                    
+
                                 </tr>
                             </thead>
                             <tbody id="table_body">
-                            {this.mostrarchoferes()}
+                                {this.mostrarchoferes()}
                             </tbody>
                         </Table>
-                        
-                       
+
+
                     </Alert>
                 </Card>
             </Container>

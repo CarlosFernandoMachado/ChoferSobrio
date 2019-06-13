@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Table, Card, Alert, Dropdown, Button } from 'react-bootstrap';
+import { Jumbotron, Container, Table, Card, Alert, Button } from 'react-bootstrap';
 import './MiPerfil.css'
 import firebase from '../config/config';
 

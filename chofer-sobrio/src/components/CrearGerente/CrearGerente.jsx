@@ -34,7 +34,7 @@ export default class CrearGerente extends Component {
             document.getElementById("nombre").value = "";
 
         }
-        if (length !== 8  || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
+        if (length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
 
             this.setState({ telefono: '' });
             document.getElementById("telefono").value = "";
@@ -107,7 +107,7 @@ export default class CrearGerente extends Component {
                                         onChange={this.handleChange}
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Ingrese su Telefono Correctamente 8 digitos 
+                                        Ingrese su Telefono Correctamente 8 digitos
                             </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={Col} md="4" controlId="validationCustomID">

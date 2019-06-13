@@ -1,8 +1,6 @@
 import React , {Component} from 'react';
-import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
 import  {Form, Button,Container}  from 'react-bootstrap';
-import { FormGroup, Label, Input } from 'reactstrap';
+import { Input } from 'reactstrap';
 import './Password_olvidada.css';
 import firebase from 'firebase';
 //import { resetPassword } from '../config/auth';

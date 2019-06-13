@@ -1,5 +1,5 @@
 import React , {Component} from 'react'
-import { Jumbotron, Container, Card, Alert  } from 'react-bootstrap';
+import { Jumbotron, Container, Alert  } from 'react-bootstrap';
 import './Seguridad.css'
 
 export default class Seguridad extends Component{

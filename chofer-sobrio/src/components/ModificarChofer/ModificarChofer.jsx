@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
-import DatePicker from "react-datepicker";
 import { registerLocale, setDefaultLocale } from "react-datepicker"
-import TimePicker from 'react-time-picker';
 import firebase from '../config/config';
 import "react-datepicker/dist/react-datepicker.css";
 import Crear from '../Crear_C_G_C/Crear';
-import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert, Dropdown } from 'react-bootstrap';
+import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from 'react-bootstrap';
 import es from 'date-fns/locale/es';
 import './ModificarChofer.css';
-import { th } from 'date-fns/esm/locale';
 
 registerLocale('es', es);
 setDefaultLocale('es');

@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
 import { Form, Button, Container } from 'react-bootstrap';
-import { FormGroup, Label, Input } from 'reactstrap';
 import './Eliminar_Cuenta.css';
 import Crear from '../Crear_C_G_C/Crear';
-import { Jumbotron, Col, InputGroup, Card, Alert, Dropdown } from 'react-bootstrap';
+import { Jumbotron, Card, Alert } from 'react-bootstrap';
 import firebase from 'firebase';
 
 
@@ -13,10 +10,10 @@ export default class Eliminar_Cuenta extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id:'',
-            correo:'',
+            id: '',
+            correo: '',
             password: '',
-            listo:0
+            listo: 0
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -24,41 +21,41 @@ export default class Eliminar_Cuenta extends Component {
     handleChange(event) {
         this.setState({ password: event.target.value });
     }
-    
+
 
     handleSubmit(event) {
-        
-        const user = JSON.parse(localStorage.getItem('user')); 
+
+        const user = JSON.parse(localStorage.getItem('user'));
         var password = this.state.password;
         var rootRef = firebase.database().ref().child("chofer");
-            rootRef.on("child_added", snap => {
-                var id = 0
-              
-                var correo = snap.child("correo").val();
-               
+        rootRef.on("child_added", snap => {
+            var id = 0
 
-                if (correo == user.email) {
-                    firebase.database().ref().child('chofer').orderByChild('correo').equalTo(user.email).on("value", function(snapshot) {
-                        console.log(snapshot.val());
-                        snapshot.forEach(function(data) {
-                            id = data.key;
+            var correo = snap.child("correo").val();
 
-                        });
+
+            if (correo == user.email) {
+                firebase.database().ref().child('chofer').orderByChild('correo').equalTo(user.email).on("value", function (snapshot) {
+                    console.log(snapshot.val());
+                    snapshot.forEach(function (data) {
+                        id = data.key;
+
                     });
-                   
-                    this.setState({
-                        id: id,
-                      
-                    });
-                    event.preventDefault();
-                  
-                }
+                });
 
-            });
-            if (window.confirm(' Se eliminara su cuenta, lamentamos mucho que tengas que irte, esperamos que sea un nos vemos y regreses 😢')) 
-            this.setState({listo:"true"});
-       
-        
+                this.setState({
+                    id: id,
+
+                });
+                event.preventDefault();
+
+            }
+
+        });
+        if (window.confirm(' Se eliminara su cuenta, lamentamos mucho que tengas que irte, esperamos que sea un nos vemos y regreses 😢'))
+            this.setState({ listo: "true" });
+
+
     }
 
     render() {
@@ -72,13 +69,13 @@ export default class Eliminar_Cuenta extends Component {
                 <Card border="ligth">
                     <Alert variant="secondary">
                         <Form
-                            onSubmit={ e => this.handleSubmit(e) }>
+                            onSubmit={e => this.handleSubmit(e)}>
                             <Form.Row>
-                               
+
                             </Form.Row>
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Eliminar Cuenta
-                                <Crear validado={ this.state.listo } datos={ [this.state.id] } funcion={ "eliminar_chofer" } />
+                                <Crear validado={this.state.listo} datos={[this.state.id]} funcion={"eliminar_chofer"} />
                                 </Button>
 
                             </div>

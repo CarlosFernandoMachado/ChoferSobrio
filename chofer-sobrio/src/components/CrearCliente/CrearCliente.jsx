@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert, Dropdown } from 'react-bootstrap';
 import './CrearCliente.css'
-import { Link } from 'react-router-dom';
-import Home from '../Home/Home'
 import Crear from '../Crear_C_G_C/Crear';
 
 export default class Precios extends Component {

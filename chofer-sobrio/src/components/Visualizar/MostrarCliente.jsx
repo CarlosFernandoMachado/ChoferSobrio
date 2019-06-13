@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Table, Card, Alert, Form, Button, Col, InputGroup } from 'react-bootstrap';
+import { Jumbotron, Container, Table, Card, Alert, Button} from 'react-bootstrap';
 import './Visualizar.css'
 import firebase from '../config/config';
-import Crear from '../Crear_C_G_C/Crear';
 
 export default class VisualizarCliente extends Component {
 
@@ -59,11 +58,7 @@ export default class VisualizarCliente extends Component {
         Object.keys(clientes).forEach((key, index) => {
             const pedido = clientes[key];
             if (index !== 0) {
-
-
                 const { nombre, correo, telefono, marca, color_vehiculo,placa } = pedido;
-
-
                 clientesJSX.push(
                     <tr key={index}>
                         <td>{nombre}</td>
@@ -72,7 +67,6 @@ export default class VisualizarCliente extends Component {
                         <td>{marca}</td>
                         <td>{color_vehiculo}</td>
                         <td>{placa}</td>
-                        
                         <td>
                             <Button variant="danger" onClick={() => this.eliminar(key)}>Eliminar</Button>
                         </td>
@@ -87,15 +81,10 @@ export default class VisualizarCliente extends Component {
 
     eliminar(keyPedido) {
         if (window.confirm(' Se eliminara la cuenta')) {
-
-
             const database = firebase.database();
             const { clientes } = this.state;
-
             const clientesRes = clientes.map(a => Object.assign({}, a));
             database.ref(`cliente/${keyPedido}/`).remove();
-            var correo = this.state.infocliente.correo;
-            var id = 0;
         }
     }
 

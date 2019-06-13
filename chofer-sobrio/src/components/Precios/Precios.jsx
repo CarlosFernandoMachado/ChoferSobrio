@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Card, Alert } from 'react-bootstrap';
+import { Jumbotron, Container, Alert } from 'react-bootstrap';
 import './Precios.css'
 
 export default class Precios extends Component {

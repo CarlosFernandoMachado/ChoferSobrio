@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import ReactDOM from 'react-dom';
 import { Form, Button, Container } from 'react-bootstrap';
-import { FormGroup, Label, Input } from 'reactstrap';
 import './Eliminar_Cuenta.css';
 import Crear from '../Crear_C_G_C/Crear';
-import { Jumbotron, Col, InputGroup, Card, Alert, Dropdown } from 'react-bootstrap';
+import { Jumbotron, Card, Alert } from 'react-bootstrap';
 import firebase from 'firebase';
 
 
