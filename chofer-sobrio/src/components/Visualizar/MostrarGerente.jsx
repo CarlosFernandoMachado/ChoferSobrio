@@ -80,7 +80,6 @@ export default class VisualizarGerente extends Component {
         if (window.confirm(' Se eliminara la cuenta')) {
             const database = firebase.database();
             const { gerentes } = this.state;
-            const gerentesRes = gerentes.map(a => Object.assign({}, a));
             database.ref(`gerente/${keyPedido}/`).remove();
         }
     }

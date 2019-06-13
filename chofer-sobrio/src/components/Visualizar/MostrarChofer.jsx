@@ -79,7 +79,6 @@ export default class VisualizarChofer extends Component {
         if (window.confirm(' Se eliminara la cuenta')) {
             const database = firebase.database();
             const { choferes } = this.state;
-            const choferesRes = choferes.map(a => Object.assign({}, a));
             database.ref(`chofer/${keyPedido}/`).remove();
         }
     }

@@ -83,7 +83,6 @@ export default class VisualizarCliente extends Component {
         if (window.confirm(' Se eliminara la cuenta')) {
             const database = firebase.database();
             const { clientes } = this.state;
-            const clientesRes = clientes.map(a => Object.assign({}, a));
             database.ref(`cliente/${keyPedido}/`).remove();
         }
     }
