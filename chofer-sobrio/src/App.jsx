@@ -32,6 +32,7 @@ import feedback from './components/feedback/feedback';
 import ListarFeedback from './components/feedback/ListarFeedback';
 import Eliminar_Cuenta_Chofer from './components/Eliminar_Cuenta/Eliminar_Cuenta_Chofer';
 import Historial from './components/Historial/Historial';
+import Info from './components/Nosotros/Info';
 
 class App extends Component {
   constructor(props) {
@@ -116,8 +117,9 @@ class App extends Component {
           {backdrop}
           <main style={{ marginTop: '64px' }}>
             <div>
+              <Route exact path="/conocenos" component={Info}></Route>
               <Route exact path="/feedback" component={feedback}></Route>
-              <Chofer exact path="/listarfeedback" permisos={permisos} component={ListarFeedback}></Chofer>
+              <Gerente exact path="/listarfeedback" permisos={permisos} component={ListarFeedback}></Gerente>
               <Route exact path="/" component={Home}></Route>
               <Route exact path="/precios" component={Precios}></Route>
               <Route exact path="/seguridad" component={Seguridad}></Route>

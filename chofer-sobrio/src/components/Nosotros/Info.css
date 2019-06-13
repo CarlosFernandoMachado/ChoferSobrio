@@ -1,0 +1,18 @@
+.jumbo-boy{
+    background:yellow;
+    border: 1px;
+    outline-width: thin; 
+    border-radius: 20px; 
+    text-align: center;
+}
+
+.outer-div{
+    text-align: center;
+    align-content: center;
+}
+
+
+.inner-div{
+    display: inline-block;
+    text-align: center;
+}
