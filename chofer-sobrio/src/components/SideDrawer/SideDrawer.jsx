@@ -88,17 +88,6 @@ class SideDrawer extends React.Component {
 
         const menu = [];
         let key = 0;
-        if (isGerente) {
-            menu.push((
-                <Link key={key++} to="/CrearGerente">
-                    <Button onClick={props.hide}>Crear Gerente</Button>
-                </Link>
-            ), (
-                <Link key={key++} to="/CrearChofer">
-                    <Button onClick={props.hide}>Crear Chofer</Button>
-                </Link>
-            ));
-        }
 
         if (isChofer || isGerente) {
             menu.push(
@@ -110,72 +99,54 @@ class SideDrawer extends React.Component {
 
         if (isGerente) {
             menu.push(
-                <Link key={key++} to="/MostrarChofer">
-                    <Button onClick={props.hide}>Mostrar Chofer</Button>
-                </Link>
-            );
-        }
-
-        if (isGerente) {
-            menu.push(
+                <Link key={key++} to="/Historial">
+                    <Button onClick={props.hide}>Historial de reservaciones</Button>
+                </Link>,
+                <Link key={key++} to="/CrearChofer">
+                    <Button onClick={props.hide}>Crear Chofer</Button>
+                </Link>,
+                <Link key={key++} to="/CrearGerente">
+                    <Button onClick={props.hide}>Crear Gerente</Button>
+                </Link>,
                 <Link key={key++} to="/MostrarCliente">
-                    <Button onClick={props.hide}>Mostrar Cliente</Button>
-                </Link>
-            );
-        }
-
-        if (isGerente) {
-            menu.push(
+                    <Button onClick={props.hide}>Listar Clientes</Button>
+                </Link>,
+                <Link key={key++} to="/MostrarChofer">
+                    <Button onClick={props.hide}>Listar Choferes</Button>
+                </Link>,
                 <Link key={key++} to="/MostrarGerente">
-                    <Button onClick={props.hide}>Mostrar Gerente</Button>
-                </Link>
-            );
-        }
-
-        if (isGerente) {
-            menu.push(
+                    <Button onClick={props.hide}>Listar Gerentes</Button>
+                </Link>,
                 <Link key={key++} to="/ModificarGerente">
-                    <Button onClick={props.hide}>Modificar Informacion</Button>
-                </Link>
-            );
-        }
-
-        if (isGerente) {
-            menu.push(
+                    <Button onClick={props.hide}>Modificar mi cuenta</Button>
+                </Link>,
                 <Link key={key++} to="/EliminarCuentaGerente">
-                    <Button onClick={props.hide}>Eliminar Cuenta</Button>
-                </Link>
+                    <Button onClick={props.hide}>Eliminar mi cuenta</Button>
+                </Link>,
             );
         }
 
         if (isChofer) {
             menu.push(
-                <Link key={key++} to="/EliminarCuentaChofer">
-                    <Button onClick={props.hide}>Eliminar Cuenta</Button>
-                </Link>
-            );
-        }
-
-        if (isChofer) {
-            menu.push(
+                <Link key={key++} to="/miperfil">
+                    <Button onClick={props.hide}>Mis Reservaciones</Button>
+                </Link>,
                 <Link key={key++} to="/ModificarChofer">
-                    <Button onClick={props.hide}>Modificar Informacion</Button>
-                </Link>
-            );
-        }
-
-        if (isCliente) {
-            menu.push(
-                <Link key={key++} to="/EliminarCuentaCliente">
-                    <Button onClick={props.hide}>Eliminar Cuenta</Button>
-                </Link>
+                    <Button onClick={props.hide}>Modificar mi cuenta</Button>
+                </Link>,
+                <Link key={key++} to="/EliminarCuentaChofer">
+                    <Button onClick={props.hide}>Eliminar mi cuenta</Button>
+                </Link>,
             );
         }
 
         if (isCliente) {
             menu.push(
                 <Link key={key++} to="/ModificarCliente">
-                    <Button onClick={props.hide}>Modificar Informacion</Button>
+                    <Button onClick={props.hide}>Modificar mi cuenta</Button>
+                </Link>,
+                <Link key={key++} to="/EliminarCuentaCliente">
+                    <Button onClick={props.hide}>Eliminar mi cuenta</Button>
                 </Link>
             );
         }

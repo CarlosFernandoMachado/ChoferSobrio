@@ -79,38 +79,6 @@ class Toolbar extends React.Component {
 
         let key = 0;
         const menu = [];
-        if (isGerente) {
-            menu.push(
-                <Dropdown.Item key={key++}>
-                    <Link to="/Historial">
-                        <Button>Historial de Reservaciones</Button>
-                    </Link>
-                </Dropdown.Item>,
-            );
-            menu.push((
-                <Dropdown.Item key={key++}>
-                    <Link to="/CrearGerente">
-                        <Button> Crear Gerente</Button>
-                    </Link>
-                </Dropdown.Item>
-            ), (
-                <Dropdown.Item key={key++}>
-                    <Link to="/CrearChofer">
-                        <Button> Crear Chofer</Button>
-                    </Link>
-                </Dropdown.Item>
-            ));
-        }
-
-        if(isGerente){
-            menu.push(
-                <Dropdown.Item key={key++}>
-                    <Link to="/listarfeedback">
-                        <Button>Feedback </Button>
-                    </Link>
-                </Dropdown.Item>
-            );
-        }
 
         if (isChofer || isGerente) {
             menu.push(
@@ -118,57 +86,55 @@ class Toolbar extends React.Component {
                     <Link to="/reservaciones">
                         <Button>Reservaciones </Button>
                     </Link>
-                </Dropdown.Item>,
-                  <Dropdown.Item key={key++}>
-                  <Link to="/miperfil">
-                      <Button>Mis Reservaciones </Button>
-                  </Link>
-              </Dropdown.Item>,
+                </Dropdown.Item>
             );
         }
 
         if (isGerente) {
             menu.push(
                 <Dropdown.Item key={key++}>
-                    <Link to="/MostrarChofer">
-                        <Button>Mostrar Chofer</Button>
+                    <Link to="/Historial">
+                        <Button>Historial de Reservaciones</Button>
                     </Link>
                 </Dropdown.Item>,
-            );
-        }
-
-        if (isGerente) {
-            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/CrearChofer">
+                        <Button> Crear Chofer</Button>
+                    </Link>
+                </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
+                    <Link to="/CrearGerente">
+                        <Button> Crear Gerente</Button>
+                    </Link>
+                </Dropdown.Item>,
                 <Dropdown.Item key={key++}>
                     <Link to="/MostrarCliente">
                         <Button>Mostrar Cliente</Button>
                     </Link>
                 </Dropdown.Item>,
-            );
-        }
-
-        if (isGerente) {
-            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/MostrarChofer">
+                        <Button>Mostrar Chofer</Button>
+                    </Link>
+                </Dropdown.Item>,
                 <Dropdown.Item key={key++}>
                     <Link to="/MostrarGerente">
                         <Button>Mostrar Gerente</Button>
                     </Link>
                 </Dropdown.Item>,
-            );
-        }
-
-        if (isGerente) {
-            menu.push(
                 <Dropdown.Item key={key++}>
-                    <Link to="/EliminarCuentaGerente">
-                        <Button>Eliminar Gerente</Button>
+                    <Link to="/listarfeedback">
+                        <Button>Feedback Recibido</Button>
                     </Link>
                 </Dropdown.Item>,
-            );
-            menu.push(
                 <Dropdown.Item key={key++}>
                     <Link to="/ModificarGerente">
-                        <Button>Modificar Gerente</Button>
+                        <Button>Modificar mi cuenta</Button>
+                    </Link>
+                </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
+                    <Link to="/EliminarCuentaGerente">
+                        <Button>Eliminar mi cuenta</Button>
                     </Link>
                 </Dropdown.Item>,
             );
@@ -177,15 +143,18 @@ class Toolbar extends React.Component {
         if (isChofer) {
             menu.push(
                 <Dropdown.Item key={key++}>
-                    <Link to="/EliminarCuentaChofer">
-                        <Button>Eliminar Chofer</Button>
+                    <Link to="/miperfil">
+                        <Button>Mis Reservaciones</Button>
                     </Link>
                 </Dropdown.Item>,
-            );
-            menu.push(
                 <Dropdown.Item key={key++}>
                     <Link to="/ModificarChofer">
-                        <Button>Modificar Chofer</Button>
+                        <Button>Modificar mi cuenta</Button>
+                    </Link>
+                </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
+                    <Link to="/EliminarCuentaChofer">
+                        <Button>Eliminar mi cuenta</Button>
                     </Link>
                 </Dropdown.Item>,
             );
@@ -195,14 +164,14 @@ class Toolbar extends React.Component {
             menu.push(
                 <Dropdown.Item key={key++}>
                     <Link to="/EliminarCuentaCliente">
-                        <Button>Eliminar Cliente</Button>
+                        <Button>Eliminar mi cuenta</Button>
                     </Link>
                 </Dropdown.Item>,
             );
             menu.push(
                 <Dropdown.Item key={key++}>
                     <Link to="/ModificarCliente">
-                        <Button>Modificar Cliente</Button>
+                        <Button>Modificar mi cuenta</Button>
                     </Link>
                 </Dropdown.Item>,
             );
