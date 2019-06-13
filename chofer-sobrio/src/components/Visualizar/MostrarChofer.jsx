@@ -9,101 +9,94 @@ export default class VisualizarChofer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: '',
-            correo: '',
-            listo: 0,
-            validated: 0,
-            informacion: []
+            infochofer: {},
+            choferes: [],
         };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+      
+        this.mostrarchoferes = this.mostrarchoferes.bind(this);
+        this.eliminar = this.eliminar.bind(this);
     }
-
-    componentDidMount() {
-        this.loaddata();
-    }
-    componentWillUnmount() {
-        document.getElementById('table_body').innerHTML = '';
-    }
-    
-    handleChange(event) {
-        this.setState({ [event.target.name]: event.target.value });
-    }
-
-    handleSubmit(event) {
-        
-        const user = JSON.parse(localStorage.getItem('user')); 
-        var password = this.state.password;
-        var rootRef = firebase.database().ref().child("chofer");
-            rootRef.on("child_added", snap => {
-                var id = 0
-              
-                var correo = snap.child("correo").val();
-               
-
-                                     firebase.database().ref().child('chofer').orderByChild('correo').equalTo(this.state.correo).on("value", function(snapshot) {
-                        console.log(snapshot.val());
-                        snapshot.forEach(function(data) {
-                            id = data.key;
-
-                        });
-                    });
-                   
-                    this.setState({
-                        id: id,
-                      
-                    });
-                    event.preventDefault();
-                  
-                
-
+    async componentDidMount() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            const info = await firebase.database().ref('/chofer').once('value').then((snap) => {
+                const choferlist = snap.val();
+                let infochofer;
+                Object.keys(choferlist).forEach((key, index) => {
+                    const chofer = choferlist[key];
+                    if (chofer.correo === user.email) {
+                        chofer.index = index;
+                        infochofer = chofer;
+                    }
+                });
+                return infochofer;
             });
-            
-            if (window.confirm(' Se eliminara la cuenta')) {
-            this.setState({listo:"true"});
-            }   
+
+            // gerentes
+            this.dbRefchofer = firebase.database().ref('/chofer');
+            this.dbCallbackchofer = this.dbRefchofer.on('value', snap => this.setState({ choferes: snap.val() }));
+
+            this.setState({
+                infochofer: info,
+            });
+        }
     }
-    loaddata = () => {
-        var rootRef = firebase.database().ref().child("chofer");
-        rootRef.on("child_added", snap => {
 
-            var nombre = snap.child("nombre").val();
-            var identidad = snap.child("identidad").val();
-            var telefono = snap.child("telefono").val();
-            var correo = snap.child("correo").val();
-            //en var eliminar @Jean agregara el nodo superior para poder eliminar al usuario
-            var eliminar;
-            //
-            var data = [];
-            data.push(nombre);
-            data.push(identidad);
-            data.push(telefono);
-            data.push(correo);
+    componentWillUnmount() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            this.dbRefchofer.off('value', this.dbCallbackchofer);
+        }
+    }
+
+    mostrarchoferes() {
+        const { choferes, infochofer } = this.state;
+
+        const choferesJSX = [];
+
+        Object.keys(choferes).forEach((key, index) => {
+            const pedido = choferes[key];
+            if (index !== 0) {
 
 
-            var tr = document.createElement("tr");
-            /* Just in case de arruinarlo
-            for (var i = 0; i < data.length; i++) {
-                var td = document.createElement("td");
+                const { nombre, correo, telefono, identidad } = pedido;
 
-                td.textContent = data[i];
-                tr.appendChild(td);
-            }*/
 
-            for (var i = 0; i < data.length; i++) {
-                var td = document.createElement("td");
-                var button = document.createElement("p");
-                button.innerHTML = "<input class='btn btn-primary' type='submit' value='Eliminar'></input>";
-                td.appendChild(button);
-                td.textContent = data[i];
-                tr.appendChild(td);
+                choferesJSX.push(
+                    <tr key={index}>
+                        <td>{nombre}</td>
+                        <td>{telefono}</td>
+                        <td>{correo}</td>
+                        <td>{identidad}</td>
+                        <td>
+                            <Button variant="danger" onClick={() => this.eliminar(key)}>Eliminar</Button>
+                        </td>
+                    </tr>
+                );
             }
+        })
 
-            var tabla = document.getElementById("table_body");
-            tabla.appendChild(tr);
+        return choferesJSX;
+    }
 
-        });
-    };
+
+    eliminar(keyPedido) {
+        if (window.confirm(' Se eliminara la cuenta')) {
+
+
+            const database = firebase.database();
+            const { choferes } = this.state;
+
+            const choferesRes = choferes.map(a => Object.assign({}, a));
+            database.ref(`chofer/${keyPedido}/`).remove();
+            console.log(this.state.infochofer.correo)
+            
+            var correo = this.state.infochofer.correo;
+            var id = 0;
+        }
+    }
+
+
     render() {
         return (
             <Container>
@@ -125,39 +118,10 @@ export default class VisualizarChofer extends Component {
                                 </tr>
                             </thead>
                             <tbody id="table_body">
+                            {this.mostrarchoferes()}
                             </tbody>
                         </Table>
-                        <Form
-
-                        onSubmit={ e => this.handleSubmit(e) }>
-                        <Form.Row>
-                            <Form.Group as={ Col } md="4" controlId="validationCustomID">
-                                <Form.Label>Correo</Form.Label>
-                                <InputGroup>
-                                    <Form.Control
-                                        type="email"
-                                        placeholder="ejemplo@correo.com"
-                                        required
-                                        name="correo"
-                                        pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9_]+(?:\.[a-zA-Z0-9-]+)*$"
-                                        id="correo"
-                                        value={ this.state.value }
-                                        onChange={ this.handleChange }
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        Ingrese su Correo Correctamente (correo@gmail.com)
-                </Form.Control.Feedback>
-                                </InputGroup>
-                            </Form.Group>
-                        </Form.Row>
-                        <div className="text-center">
-                            <Button type="submit" variant="warning" >Eliminar Chofer 
-                        <Crear validado={ this.state.listo } datos={ [this.state.id] } funcion={ "eliminar_chofer" } />
-                            </Button>
-    
-                        </div>
-    
-                    </Form>
+                        
                        
                     </Alert>
                 </Card>

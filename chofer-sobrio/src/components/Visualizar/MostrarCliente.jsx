@@ -9,103 +9,97 @@ export default class VisualizarCliente extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: '',
-            correo: '',
-            listo: 0,
-            validated: 0,
-            informacion: []
+           clientes:[],
+           infocliente:{}
         };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        
+        this.mostrarclientes = this.mostrarclientes.bind(this);
+        this.eliminar = this.eliminar.bind(this);
+        
     }
-
-    componentDidMount() {
-        this.loaddata();
-    }
-    componentWillUnmount() {
-        document.getElementById('table_body').innerHTML = '';
-    }
-    handleChange(event) {
-        this.setState({ [event.target.name]: event.target.value });
-    }
-
-    handleSubmit(event) {
-
+    
+    async componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
-        var password = this.state.password;
-        var rootRef = firebase.database().ref().child("cliente");
-        rootRef.on("child_added", snap => {
-            var id = 0
-
-            var correo = snap.child("correo").val();
-
-
-            firebase.database().ref().child('cliente').orderByChild('correo').equalTo(this.state.correo).on("value", function(snapshot) {
-                console.log(snapshot.val());
-                snapshot.forEach(function(data) {
-                    id = data.key;
-
+        if (user) {
+            const info = await firebase.database().ref('/cliente').once('value').then((snap) => {
+                const clientelist = snap.val();
+                let infocliente;
+                Object.keys(clientelist).forEach((key, index) => {
+                    const cliente = clientelist[key];
+                    if (cliente.correo === user.email) {
+                        cliente.index = index;
+                        infocliente = cliente;
+                    }
                 });
+                return infocliente;
             });
+
+            // gerentes
+            this.dbRefcliente = firebase.database().ref('/cliente');
+            this.dbCallbackcliente = this.dbRefcliente.on('value', snap => this.setState({ clientes: snap.val() }));
 
             this.setState({
-                id: id,
-
+                infocliente: info,
             });
-            event.preventDefault();
-
-
-
-        });
-
-        if (window.confirm(' Se eliminara la cuenta')) {
-            this.setState({ listo: "true" });
         }
     }
 
+    componentWillUnmount() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            this.dbRefcliente.off('value', this.dbCallbackcliente);
+        }
+    }
+
+    mostrarclientes() {
+        const { clientes, infocliente } = this.state;
+
+        const clientesJSX = [];
+
+        Object.keys(clientes).forEach((key, index) => {
+            const pedido = clientes[key];
+            if (index !== 0) {
 
 
-    loaddata = () => {
-        var rootRef = firebase.database().ref().child("cliente");
-        rootRef.on("child_added", snap => {
+                const { nombre, correo, telefono, marca, color_vehiculo,placa } = pedido;
 
-            var nombre = snap.child("nombre").val();
-            var telefono = snap.child("telefono").val();
-            var correo = snap.child("correo").val();
-            var placa = snap.child("placa").val();
-            var marca = snap.child("marca").val();
-            var color = snap.child("color").val();
-            //en var eliminar @Jean agregara el nodo superior para poder eliminar al usuario
-            var eliminar;
-            //
-            var data = [];
-            data.push(nombre);
-            data.push(telefono);
-            data.push(correo);
-            data.push(placa);
-            data.push(marca);
-            data.push(color);
-            var tr = document.createElement("tr");
-            /* just in case lo arruine todo
-            for (var i = 0; i < data.length; i++) {
-                var td = document.createElement("td");
 
-                td.textContent = data[i];
-                tr.appendChild(td);
-            }*/
-            for (var i = 0; i < data.length; i++) {
-                var td = document.createElement("td");
-                var button = document.createElement("p");
-                button.innerHTML = "<input class='btn btn-primary' type='submit' value='Eliminar'></input>";
-                td.appendChild(button);
-                td.textContent = data[i];
-                tr.appendChild(td);
+                clientesJSX.push(
+                    <tr key={index}>
+                        <td>{nombre}</td>
+                        <td>{telefono}</td>
+                        <td>{correo}</td>
+                        <td>{marca}</td>
+                        <td>{color_vehiculo}</td>
+                        <td>{placa}</td>
+                        
+                        <td>
+                            <Button variant="danger" onClick={() => this.eliminar(key)}>Eliminar</Button>
+                        </td>
+                    </tr>
+                );
             }
-            var tabla = document.getElementById("table_body");
-            tabla.appendChild(tr);
+        })
 
-        });
-    };
+        return clientesJSX;
+    }
+
+
+    eliminar(keyPedido) {
+        if (window.confirm(' Se eliminara la cuenta')) {
+
+
+            const database = firebase.database();
+            const { clientes } = this.state;
+
+            const clientesRes = clientes.map(a => Object.assign({}, a));
+            database.ref(`cliente/${keyPedido}/`).remove();
+            var correo = this.state.infocliente.correo;
+            var id = 0;
+        }
+    }
+
+   
     render() {
         return (
             <Container>
@@ -128,39 +122,10 @@ export default class VisualizarCliente extends Component {
                                 </tr>
                             </thead>
                             <tbody id="table_body">
+                            {this.mostrarclientes()}
                             </tbody>
                         </Table>
-                        <Form
-
-                        onSubmit={ e => this.handleSubmit(e) }>
-                        <Form.Row>
-                            <Form.Group as={ Col } md="4" controlId="validationCustomID">
-                                <Form.Label>Correo</Form.Label>
-                                <InputGroup>
-                                    <Form.Control
-                                        type="email"
-                                        placeholder="ejemplo@correo.com"
-                                        required
-                                        name="correo"
-                                        pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9_]+(?:\.[a-zA-Z0-9-]+)*$"
-                                        id="correo"
-                                        value={ this.state.value }
-                                        onChange={ this.handleChange }
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        Ingrese su Correo Correctamente (correo@gmail.com)
-                </Form.Control.Feedback>
-                                </InputGroup>
-                            </Form.Group>
-                        </Form.Row>
-                        <div className="text-center">
-                            <Button type="submit" variant="warning" >Eliminar Cliente
-                        <Crear validado={ this.state.listo } datos={ [this.state.id] } funcion={ "eliminar_cliente" } />
-                            </Button>
-
-                        </div>
-
-                    </Form>
+                       
                     </Alert>
                 </Card>
             </Container>
