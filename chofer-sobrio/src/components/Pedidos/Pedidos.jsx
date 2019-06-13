@@ -11,6 +11,7 @@ export default class Precios extends Component {
         this.state = {
             infoChofer: {},
             pedidos: [],
+            permisos: props.permisos,
         };
 
         this.mostrarPedidos = this.mostrarPedidos.bind(this);
@@ -71,7 +72,7 @@ export default class Precios extends Component {
         var year = tommorrow.getFullYear()
         var today2 = dd + '/' + mm + '/' + yyyy;
         tommorrow = day + '/' + month + '/' + year;
-        const { pedidos, infoChofer } = this.state;
+        const { pedidos, infoChofer, permisos } = this.state;
 
         const pedidosJSX = [];
 
@@ -88,9 +89,7 @@ export default class Precios extends Component {
                         <td>{destino}</td>
                         <td>{fecha}</td>
                         <td>{hora}</td>
-                        <td>
-                            <Button variant="info" onClick={() => this.reservar(key)}>Reservar</Button>
-                        </td>
+                        {permisos.chofer ? <td><Button variant="info" onClick={() => this.reservar(key)}>Reservar</Button></td> : null}
                     </tr>
                 );
             }
@@ -100,6 +99,7 @@ export default class Precios extends Component {
     }    
     
     render() {
+        const { permisos } = this.state;
         return (
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
@@ -117,7 +117,7 @@ export default class Precios extends Component {
                                     <th>Destino</th>
                                     <th>Fecha</th>
                                     <th>Hora</th>
-                                    <th>Accion</th>
+                                    {permisos.chofer ? <th>Accion</th> : null}
                                 </tr>
                             </thead>
                             <tbody id="table_body">

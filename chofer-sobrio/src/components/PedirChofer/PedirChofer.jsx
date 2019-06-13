@@ -274,7 +274,7 @@ export default class Precios extends Component {
                                              <Dropdown.Item eventKey='Suzuki' onSelect={this.handleSelectMarca}>
                                                 Suzuki
                                              </Dropdown.Item>
-                                            <Dropdown.Item eventKey='Toyota'>
+                                            <Dropdown.Item eventKey='Toyota' onSelect={this.handleSelectMarca}>
                                                 Toyota
                                              </Dropdown.Item>
                                              <Dropdown.Item eventKey='Volkswagen' onSelect={this.handleSelectMarca}>
@@ -415,7 +415,6 @@ export default class Precios extends Component {
                                 <Button type="submit" variant="warning" >Pedir chofer
                                     <Crear validado={this.state.listo} datos={[this.state.color, this.state.destino, this.state.date, this.state.hora, this.state.marca, this.state.nombre, this.state.placa, this.state.telefono, this.state.ubicacion_actual]} funcion={"Crearpedido"} />
                                 </Button>
-
                             </div>
 
                         </Form>

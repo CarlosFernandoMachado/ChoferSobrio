@@ -18,7 +18,7 @@ import ModificarChofer from './components/ModificarChofer/ModificarChofer'
 import ModificarGerente from './components/ModificarGerente/ModificarGerente'
 import IniciarSesion from './components/IniciarSesion/IniciarSesion';
 import Password_olvidada from './components/Password_olvidada/Password_olvidada';
-import { Gerente, Chofer, Cliente } from './routes';
+import { Gerente, Chofer, Cliente, GerenteChofer } from './routes';
 import ModificarContrasenaChofer from './components/ModificarContrasena/ModificarContrasenaChofer';
 import ModificarContrasenaCliente from './components/ModificarContrasena/ModificarContrasenaCliente';
 import ModificarContrasenaGerente from './components/ModificarContrasena/ModificarContrasenaGerente';
@@ -128,7 +128,7 @@ class App extends Component {
               <Gerente exact path="/CrearGerente" permisos={permisos} component={CrearGerente}></Gerente>
               <Gerente exact path="/CrearChofer" permisos={permisos} component={CrearChofer}></Gerente>
               <Gerente exact path="/Historial" permisos={permisos} component={Historial}></Gerente>
-              <Route exact path="/reservaciones" permisos={permisos} component={Pedidos}></Route>
+              <GerenteChofer exact path="/reservaciones" permisos={permisos} component={Pedidos}></GerenteChofer>
               <Chofer exact path="/miperfil" permisos={permisos} component={MiPerfil}></Chofer>
               <Route exact path="/CrearCliente" component={CrearCliente}></Route>
               <Route exact path="/iniciarSesion" component={IniciarSesion}></Route>
