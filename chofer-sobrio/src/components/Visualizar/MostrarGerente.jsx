@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Table, Card, Alert, Form, Button ,Col,InputGroup} from 'react-bootstrap';
+import { Jumbotron, Container, Table, Card, Alert, Form, Button, Col, InputGroup } from 'react-bootstrap';
 import './Visualizar.css'
 import firebase from '../config/config';
 import Crear from '../Crear_C_G_C/Crear';
@@ -9,108 +9,98 @@ export default class VisualizarGerente extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: '',
-            correo: '',
-            listo: 0,
-            validated: 0,
-            informacion: []
+            infoGerente: {},
+            gerentes: [],
         };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+
+        this.mostrargerentes = this.mostrargerentes.bind(this);
+        this.eliminar = this.eliminar.bind(this);
     }
 
-    componentDidMount() {
-        this.loaddata();
-    }
-    componentWillUnmount() {
-        document.getElementById('table_body').innerHTML = '';
-    }
-    handleChange(event) {
-        this.setState({ [event.target.name]: event.target.value });
-    }
-
-    handleSubmit(event) {
-        
-        const user = JSON.parse(localStorage.getItem('user')); 
-        var password = this.state.password;
-        var rootRef = firebase.database().ref().child("gerente");
-            rootRef.on("child_added", snap => {
-                var id = 0
-              
-                var correo = snap.child("correo").val();
-               
-
-                                     firebase.database().ref().child('gerente').orderByChild('correo').equalTo(this.state.correo).on("value", function(snapshot) {
-                        console.log(snapshot.val());
-                        snapshot.forEach(function(data) {
-                            id = data.key;
-
-                        });
-                    });
-                   
-                    this.setState({
-                        id: id,
-                      
-                    });
-                    event.preventDefault();
-                  
-                
-
+    async componentDidMount() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            const info = await firebase.database().ref('/gerente').once('value').then((snap) => {
+                const gerentelist = snap.val();
+                let infoGerente;
+                Object.keys(gerentelist).forEach((key, index) => {
+                    const gerente = gerentelist[key];
+                    if (gerente.correo === user.email) {
+                        gerente.index = index;
+                        infoGerente = gerente;
+                    }
+                });
+                return infoGerente;
             });
-            
-            if (window.confirm(' Se eliminara la cuenta')) {
-            this.setState({listo:"true"});
-            }   
+
+            // gerentes
+            this.dbRefGerente = firebase.database().ref('/gerente');
+            this.dbCallbackGerente = this.dbRefGerente.on('value', snap => this.setState({ gerentes: snap.val() }));
+
+            this.setState({
+                infoGerente: info,
+            });
+        }
     }
 
-    loaddata = () => {
-        var rootRef = firebase.database().ref().child("gerente");
-        rootRef.on("child_added", snap => {
+    componentWillUnmount() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            this.dbRefGerente.off('value', this.dbCallbackGerente);
+        }
+    }
 
-            var nombre = snap.child("nombre").val();
-            var identidad = snap.child("identidad").val();
-            var telefono = snap.child("telefono").val();
-            var correo = snap.child("correo").val();
-            //en var eliminar @Jean agregara el nodo superior para poder eliminar al usuario
-            var eliminar;
-            //
-            var data = [];
-            data.push(nombre);
-            data.push(identidad);
-            data.push(telefono);
-            data.push(correo);
+    mostrargerentes() {
+        const { gerentes, infoGerente } = this.state;
+
+        const gerentesJSX = [];
+
+        Object.keys(gerentes).forEach((key, index) => {
+            const pedido = gerentes[key];
+            if (index !== 0) {
 
 
-            var tr = document.createElement("tr");
+                const { nombre, correo, telefono, identidad } = pedido;
 
-            /*
-            for (var i = 0; i < data.length; i++) {
-                var td = document.createElement("td");
 
-                td.textContent = data[i];
-                tr.appendChild(td);
-            }*/
-
-            for (var i = 0; i < data.length; i++) {
-                var td = document.createElement("td");
-                var button = document.createElement("p");
-                button.innerHTML = "<input class='btn btn-primary' type='submit' value='Eliminar'></input>";
-                td.appendChild(button);
-                td.textContent = data[i];
-                tr.appendChild(td);
+                gerentesJSX.push(
+                    <tr key={index}>
+                        <td>{nombre}</td>
+                        <td>{telefono}</td>
+                        <td>{correo}</td>
+                        <td>{identidad}</td>
+                        <td>
+                            <Button variant="danger" onClick={() => this.eliminar(key)}>Eliminar</Button>
+                        </td>
+                    </tr>
+                );
             }
+        })
 
-            var tabla = document.getElementById("table_body");
-            tabla.appendChild(tr);
+        return gerentesJSX;
+    }
 
-        });
-    };
+
+    eliminar(keyPedido) {
+        if (window.confirm(' Se eliminara la cuenta')) {
+
+
+            const database = firebase.database();
+            const { gerentes } = this.state;
+
+            const gerentesRes = gerentes.map(a => Object.assign({}, a));
+            database.ref(`gerente/${keyPedido}/`).remove();
+            var correo = this.state.infoGerente.correo;
+            var id = 0;
+        }
+    }
+
     render() {
         return (
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
-                    <h1>Chofer Sobrio</h1>
-                    <h5>Datos de los Gerentes</h5>
+                    <h1>gerente Sobrio</h1>
+                    <h5>Visualizar Gerente</h5>
                 </Jumbotron>
                 <Card border="light">
                     <Alert variant="secondary">
@@ -118,46 +108,15 @@ export default class VisualizarGerente extends Component {
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
-                                    <th>Identidad</th>
                                     <th>Telefono</th>
                                     <th>Correo</th>
-                                    
+                                    <th>Identidad</th>
                                 </tr>
                             </thead>
                             <tbody id="table_body">
+                                {this.mostrargerentes()}
                             </tbody>
                         </Table>
-                        <Form
-
-                            onSubmit={ e => this.handleSubmit(e) }>
-                            <Form.Row>
-                                <Form.Group as={ Col } md="4" controlId="validationCustomID">
-                                    <Form.Label>Correo</Form.Label>
-                                    <InputGroup>
-                                        <Form.Control
-                                            type="email"
-                                            placeholder="ejemplo@correo.com"
-                                            required
-                                            name="correo"
-                                            pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9_]+(?:\.[a-zA-Z0-9-]+)*$"
-                                            id="correo"
-                                            value={ this.state.value }
-                                            onChange={ this.handleChange }
-                                        />
-                                        <Form.Control.Feedback type="invalid">
-                                            Ingrese su Correo Correctamente (correo@gmail.com)
-                    </Form.Control.Feedback>
-                                    </InputGroup>
-                                </Form.Group>
-                            </Form.Row>
-                            <div className="text-center">
-                                <Button type="submit" variant="warning" >Eliminar Gerente
-                            <Crear validado={ this.state.listo } datos={ [this.state.id] } funcion={ "eliminar_gerente" } />
-                                </Button>
-
-                            </div>
-
-                        </Form>
                     </Alert>
                 </Card>
             </Container>
