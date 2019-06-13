@@ -8,28 +8,62 @@ export default class ListarFeedback extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            informacion: []
+            infoGerente: {},
+            comentarios: [],
         };
+
+        this.mostrarComentarios = this.mostrarComentarios.bind(this);
     }
 
-    componentDidMount() {
-        this.loaddata();
+    async componentDidMount() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            const info = await firebase.database().ref('/gerente').once('value').then((snap) => {
+                const gerentelist = snap.val();
+                let infoGerente;
+                Object.keys(gerentelist).forEach((key, index) => {
+                    const gerente = gerentelist[key];
+                    if (gerente.correo === user.email) {
+                        gerente.index = index;
+                        infoGerente = gerente;
+                    }
+                });
+                return infoGerente;
+            });
+
+            this.dbRefcomentario = firebase.database().ref('/comentarios');
+            this.dbCallbackcomentario = this.dbRefcomentario.on('value', snap => this.setState({ comentarios: snap.val() }));
+
+            this.setState({
+                infoGerente: info,
+            });
+        }
     }
 
-    loaddata = () => {
-        var rootRef = firebase.database().ref().child("comentarios");
-        rootRef.on("child_added", snap => {
-            var comentario = snap.child("contenido").val();
-            var tr = document.createElement("tr");
+    componentWillUnmount() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            this.dbRefcomentario.off('value', this.dbCallbackcomentario);
+        }
+    }
 
-                var td = document.createElement("td");
-                td.textContent = comentario;
-                tr.appendChild(td);
-            
-            var tabla = document.getElementById("table_body");
-            tabla.appendChild(tr);
-        });
-    };
+    mostrarComentarios() {
+        const { comentarios, infoGerente } = this.state;
+        const comentarioJSX = [];
+        Object.keys(comentarios).forEach((key, index) => {
+            const pedido = comentarios[key];
+            if (index !== 0) {
+                const { contenido } = pedido;
+                comentarioJSX.push(
+                    <tr key={index}>
+                        <td>{contenido}</td>
+                    </tr>
+                );
+            }
+        })
+        return comentarioJSX;
+    }
+
     render() {
         return (
             <Container>
@@ -42,10 +76,11 @@ export default class ListarFeedback extends Component {
                         <Table responsive>
                             <thead>
                                 <tr>
-                                    <th>Comentario</th>
+                                    <th>comentario</th>
                                 </tr>
                             </thead>
                             <tbody id="table_body">
+                                {this.mostrarComentarios()}
                             </tbody>
                         </Table>
                     </Alert>

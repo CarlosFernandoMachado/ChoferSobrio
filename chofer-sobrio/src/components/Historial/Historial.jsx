@@ -50,31 +50,28 @@ export default class Precios extends Component {
 
     mostrarHistorial() {
         const { historial, infoGerente } = this.state;
-
         const historialJSX = [];
-
         Object.keys(historial).forEach((key, index) => {
             const pedido = historial[key];
-            const {chofer, id_chofer, cliente, color, destino, fecha, hora_pedido, hora_final, marca, placa, ubicacion} = pedido;
-
-            historialJSX.push(
-                <tr key={index}>
-                    <td>{chofer}</td>
-                    <td>{id_chofer}</td>
-                    <td>{cliente}</td>
-                    <td>{color}</td>
-                    <td>{destino}</td>
-                    <td>{fecha}</td>
-                    <td>{hora_pedido}</td>
-                    <td>{hora_final}</td>
-                    <td>{marca}</td>
-                    <td>{placa}</td>
-                    <td>{ubicacion}</td>
-                </tr>
-            );
-
+            if (index !== 0) {
+                const { chofer, id_chofer, cliente, color, destino, fecha, hora_pedido, hora_final, marca, placa, ubicacion } = pedido;
+                historialJSX.push(
+                    <tr key={index}>
+                        <td>{chofer}</td>
+                        <td>{id_chofer}</td>
+                        <td>{cliente}</td>
+                        <td>{color}</td>
+                        <td>{destino}</td>
+                        <td>{fecha}</td>
+                        <td>{hora_pedido}</td>
+                        <td>{hora_final}</td>
+                        <td>{marca}</td>
+                        <td>{placa}</td>
+                        <td>{ubicacion}</td>
+                    </tr>
+                );
+            }
         })
-
         return historialJSX;
     }
 

@@ -77,7 +77,7 @@ export default class Precios extends Component {
 
         Object.keys(pedidos).forEach((key, index) => {
             const pedido = pedidos[key];
-            if ( (pedido.fecha === today2 || pedido.fecha === tommorrow) && pedido.estado === "Disponible") {
+            if ( (pedido.fecha === today2 || pedido.fecha === tommorrow) && pedido.estado === "Disponible" && index !== 0) {
                 const { nombre, telefono, ubicacion, destino, hora, fecha} = pedido;
 
                 pedidosJSX.push(

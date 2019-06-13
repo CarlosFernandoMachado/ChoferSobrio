@@ -118,7 +118,7 @@ export default class Precios extends Component {
 
         Object.keys(pedidos).forEach((key, index) => {
             const pedido = pedidos[key];
-            if (pedido.idchofer === infoChofer.identidad && pedido.estado === "Ocupado") {
+            if (pedido.idchofer === infoChofer.identidad && pedido.estado === "Ocupado" && index !== 0) {
                 const { color, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, mensaje } = pedido;
 
                 let msjBoton = '';
