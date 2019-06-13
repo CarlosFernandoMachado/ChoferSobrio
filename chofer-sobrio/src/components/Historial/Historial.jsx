@@ -55,16 +55,18 @@ export default class Precios extends Component {
 
         Object.keys(historial).forEach((key, index) => {
             const pedido = historial[key];
-            const {chofer, cliente, color, destino, fecha, hora, marca, placa, ubicacion} = pedido;
+            const {chofer, id_chofer, cliente, color, destino, fecha, hora_pedido, hora_final, marca, placa, ubicacion} = pedido;
 
             historialJSX.push(
                 <tr key={index}>
                     <td>{chofer}</td>
+                    <td>{id_chofer}</td>
                     <td>{cliente}</td>
                     <td>{color}</td>
                     <td>{destino}</td>
                     <td>{fecha}</td>
-                    <td>{hora}</td>
+                    <td>{hora_pedido}</td>
+                    <td>{hora_final}</td>
                     <td>{marca}</td>
                     <td>{placa}</td>
                     <td>{ubicacion}</td>
@@ -89,11 +91,13 @@ export default class Precios extends Component {
                             <thead>
                                 <tr>
                                     <th>Chofer</th>
+                                    <th>Identidad Chofer</th>
                                     <th>Cliente</th>
                                     <th>Color</th>
                                     <th>Destino</th>
                                     <th>Fecha</th>
-                                    <th>Hora</th>
+                                    <th>Hora Pedido</th>
+                                    <th>Hora Terminada</th>
                                     <th>Marca</th>
                                     <th>Placa</th>
                                     <th>ubicacion</th>

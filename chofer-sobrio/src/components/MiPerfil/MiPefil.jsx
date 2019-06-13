@@ -80,10 +80,35 @@ export default class Precios extends Component {
         const database = firebase.database();
         const { pedidos } = this.state;
 
+        var today = new Date();
+        var time = today.getHours() + 1 + ":" + today.getMinutes() + ":" + today.getSeconds();
+        alert("son las: "+time);
         const pedidosRes = pedidos.map(a => Object.assign({}, a));
         pedidosRes[keyPedido].estado = 'Finalizado';
         database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
-
+        var nombre = this.state.infoChofer.nombre;
+        var idchofer = this.state.infoChofer.identidad;
+        var id = 0;
+        var n = database.ref('/referencias/').once('value').then(function (snapshot) {
+            id = (snapshot.val() && snapshot.val().id_historial) || 'Anonymous';
+            id++;
+            database.ref('Historial/' + id).set({
+                chofer: nombre,
+                id_chofer: idchofer,
+                cliente: pedidosRes[keyPedido].nombre,
+                color: pedidosRes[keyPedido].color,
+                destino: pedidosRes[keyPedido].destino,
+                fecha: pedidosRes[keyPedido].fecha,
+                hora_pedido: pedidosRes[keyPedido].hora,
+                hora_final: time,
+                marca: pedidosRes[keyPedido].marca,
+                placa: pedidosRes[keyPedido].placa,
+                ubicacion: pedidosRes[keyPedido].ubicacion,        
+            });
+            database.ref('referencias/').update({
+                id_historial: id
+            });
+        })
     }
 
     mostrarPedidos() {
