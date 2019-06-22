@@ -3,6 +3,7 @@ import Chofer from './Chofer';
 import Gerente from './Gerente'; 
 import GerenteChofer from './GerenteChofer'; 
 import Cliente from './Cliente'; 
+import Cualquiera from './Cualquiera'; 
 
 export {
     Autenticado,
@@ -10,4 +11,5 @@ export {
     Gerente,
     GerenteChofer,
     Cliente,
+    Cualquiera,
 };

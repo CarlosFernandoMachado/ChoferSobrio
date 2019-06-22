@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-pascal-case */
 import React, { Component } from 'react'
 import { Jumbotron, Container, Table, Card, Alert, Button } from 'react-bootstrap';
+import ReactTable from 'react-table';
 import './Pedidos.css'
 import firebase from '../config/config';
 
@@ -8,13 +9,45 @@ export default class Precios extends Component {
 
     constructor(props) {
         super(props);
+
+        this.columnas = [{
+            Header: 'Nombre',
+            accessor: 'nombre',
+            maxWidth: 200,
+        }, {
+            Header: 'Telefono',
+            accessor: 'telefono',
+            maxWidth: 150,
+        }, {
+            Header: 'Ubicacion',
+            accessor: 'ubicacion',
+            maxWidth: 150,
+        }, {
+            Header: 'Destino',
+            accessor: 'destino',
+            maxWidth: 200,
+        }, {
+            Header: 'Fecha',
+            accessor: 'fecha',
+            maxWidth: 100,
+        }, {
+            Header: 'Hora',
+            accessor: 'hora',
+            maxWidth: 100,
+        }, {
+            Header: 'Accion',
+            accessor: 'accion',
+            maxWidth: 100,
+            filterable: false,
+        }];
+
         this.state = {
             infoChofer: {},
             pedidos: [],
             permisos: props.permisos,
         };
 
-        this.mostrarPedidos = this.mostrarPedidos.bind(this);
+        this.obtenerPedidos = this.obtenerPedidos.bind(this);
         this.reservar = this.reservar.bind(this);
     }
 
@@ -61,7 +94,7 @@ export default class Precios extends Component {
         database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
     }
 
-    mostrarPedidos() {
+    obtenerPedidos() {
         var today = new Date();
         var dd = today.getDate();
         var mm = today.getMonth() + 1; //January is 0!
@@ -72,34 +105,27 @@ export default class Precios extends Component {
         var year = tommorrow.getFullYear()
         var today2 = dd + '/' + mm + '/' + yyyy;
         tommorrow = day + '/' + month + '/' + year;
-        const { pedidos, infoChofer, permisos } = this.state;
+        const { pedidos, permisos } = this.state;
 
-        const pedidosJSX = [];
+        const listaPedidos = [];
 
         Object.keys(pedidos).forEach((key, index) => {
             const pedido = pedidos[key];
             if ( (pedido.fecha === today2 || pedido.fecha === tommorrow) && pedido.estado === "Disponible" && index !== 0) {
-                const { nombre, telefono, ubicacion, destino, hora, fecha} = pedido;
 
-                pedidosJSX.push(
-                    <tr key={index}>
-                        <td>{nombre}</td>
-                        <td>{telefono}</td>
-                        <td>{ubicacion}</td>
-                        <td>{destino}</td>
-                        <td>{fecha}</td>
-                        <td>{hora}</td>
-                        {permisos.chofer ? <td><Button variant="info" onClick={() => this.reservar(key)}>Reservar</Button></td> : null}
-                    </tr>
-                );
+                if (permisos.chofer) {
+                    pedido.accion = <Button variant="info" onClick={() => this.reservar(key)}>Reservar</Button>;
+                }
+
+                listaPedidos.push(pedido);
             }
-        })
+        });
 
-        return pedidosJSX;
+        return listaPedidos;
     }    
     
     render() {
-        const { permisos } = this.state;
+        const pedidos = this.obtenerPedidos();
         return (
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
@@ -108,22 +134,13 @@ export default class Precios extends Component {
                 </Jumbotron>
                 <Card border="light">
                     <Alert variant="secondary">
-                        <Table responsive>
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Telefono</th>
-                                    <th>Ubicacion</th>
-                                    <th>Destino</th>
-                                    <th>Fecha</th>
-                                    <th>Hora</th>
-                                    {permisos.chofer ? <th>Accion</th> : null}
-                                </tr>
-                            </thead>
-                            <tbody id="table_body">
-                                {this.mostrarPedidos()}
-                            </tbody>
-                        </Table>
+                        <h3>Pedidos</h3>
+                        <br />
+                        <ReactTable
+                            data={pedidos}
+                            columns={this.columnas}
+                            filterable
+                        />
                     </Alert>
                 </Card>
             </Container>
