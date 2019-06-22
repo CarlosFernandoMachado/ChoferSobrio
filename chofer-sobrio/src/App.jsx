@@ -52,40 +52,40 @@ class App extends Component {
     const user = JSON.parse(localStorage.getItem('user'));
 
     if (user) {
+      this.setState({ user });
+
       // gerentes
       this.dbRefGerentes = firebase.database().ref('/gerente');
       this.dbCallbackGerentes = this.dbRefGerentes.on('value', (snap) => {
-          const gerentes = snap.val();
-          let isGerente = false;
-          Object.keys(gerentes).forEach(key => {
-              isGerente = isGerente || gerentes[key].correo === user.email;
-          });
-          this.setState({ isGerente });
+        const gerentes = snap.val();
+        let isGerente = false;
+        Object.keys(gerentes).forEach(key => {
+          isGerente = isGerente || gerentes[key].correo === user.email;
+        });
+        this.setState({ isGerente });
       });
 
       // choferes
       this.dbRefChoferes = firebase.database().ref('/chofer');
       this.dbCallbackChoferes = this.dbRefChoferes.on('value', (snap) => {
-          const choferes = snap.val();
-          let isChofer = false;
-          Object.keys(choferes).forEach(key => {
-              isChofer = isChofer || choferes[key].correo === user.email;
-          });
-          this.setState({ isChofer });
+        const choferes = snap.val();
+        let isChofer = false;
+        Object.keys(choferes).forEach(key => {
+          isChofer = isChofer || choferes[key].correo === user.email;
+        });
+        this.setState({ isChofer });
       });
 
       // clientes
       this.dbRefClientes = firebase.database().ref('/cliente');
       this.dbCallbackClientes = this.dbRefClientes.on('value', (snap) => {
-          const clientes = snap.val();
-          let isCliente = false;
-          Object.keys(clientes).forEach(key => {
-              isCliente = isCliente || clientes[key].correo === user.email;
-          });
-          this.setState({ isCliente });
+        const clientes = snap.val();
+        let isCliente = false;
+        Object.keys(clientes).forEach(key => {
+          isCliente = isCliente || clientes[key].correo === user.email;
+        });
+        this.setState({ isCliente });
       });
-
-      this.setState({ user });
     }
   }
 
@@ -112,7 +112,11 @@ class App extends Component {
   render() {
     const { isGerente, isChofer, isCliente } = this.state;
 
-    const permisos = { isGerente, isChofer, isCliente };
+    let permisos = {
+      gerente: isGerente,
+      chofer: isChofer,
+      cliente: isCliente
+    };
 
     let backdrop;
     if (this.state.sideDrawerOpen) {
