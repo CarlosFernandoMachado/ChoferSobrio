@@ -25,7 +25,7 @@ export default class Password_olvidada extends Component {
     handleSubmit(event) {
         
         const user = JSON.parse(localStorage.getItem('user')); 
-        var password = this.state.password;
+        
         var rootRef = firebase.database().ref().child("gerente");
             rootRef.on("child_added", snap => {
                 var id = 0
@@ -33,7 +33,7 @@ export default class Password_olvidada extends Component {
                 var correo = snap.child("correo").val();
                
 
-                if (correo == user.email) {
+                if (correo === user.email) {
                     firebase.database().ref().child('gerente').orderByChild('correo').equalTo(user.email).on("value", function(snapshot) {
                         console.log(snapshot.val());
                         snapshot.forEach(function(data) {
