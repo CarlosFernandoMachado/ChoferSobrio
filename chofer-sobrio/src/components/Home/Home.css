@@ -1,6 +1,4 @@
-
-
-.button{
+.button {
     background-color: none;
     font-weight: 500;
     font-family: Roboto, sans-serif;
@@ -17,79 +15,80 @@
     z-index: 1;
 }
 
-.pedir{
+.pedir {
     background: yellow;
     color: black;
     outline: none;
 }
 
-.pedir:hover{
+.pedir:hover {
     background: yellow;
     color: black;
     outline: none;
 }
 
-.pedir:focus{
+.pedir:focus {
     background: yellow;
     color: black;
     outline: none;
 }
 
-.pedir:active{
+.pedir:active {
     background: yellow;
     color: black;
     outline: transparent;
 }
 
-.outer-div{
-    height: 330px;
-    width: 82.5%;
+.outer-div {
+    height: 350px;
+    width: 60vw;
     position: absolute;
     display: inline-block;
     text-align: center;
 }
 
-.jumbotron-div{
+.jumbotron-div {
     height: 70%;
     align-items: center;
 }
 
-.jumbo-boy{
-    background:yellow;
+.jumbo-boy {
+    background: yellow;
     border: 1px;
-    outline-width: thin; 
-    border-radius: 20px; 
+    outline-width: thin;
+    border-radius: 20px;
+    text-align: center;
 }
 
-.jumbo-boy h1{
+.jumbo-boy h1 {
     font-size: 45px;
 }
 
-.map-div{
+.map-div {
     height: 100%;
     width: 100%;
 }
 
-.button-div{
+.button-div {
     padding-top: 10px;
 }
 
-.invisible-div{
+.invisible-div {
     visibility: hidden;
     display: none;
 }
 
-@media (max-width: 768px){ 
-    .outer-div{
+@media (max-width: 768px) {
+    .outer-div {
         width: 93%;
     }
-    .jumbotron-div{
+    .jumbotron-div {
         height: 58%;
     }
-    .jumbo-boy{
-        border-radius: 10px; 
+    .jumbo-boy {
+        border-radius: 10px;
     }
-    .jumbo-boy h5{
+    .jumbo-boy h5 {
         font-size: 1.21rem;
     }
 }
