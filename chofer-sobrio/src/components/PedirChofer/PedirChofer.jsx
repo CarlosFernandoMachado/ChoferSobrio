@@ -400,7 +400,8 @@ export default class Precios extends Component {
                                         value={this.state.value}
                                         withPortal
                                         showTimeSelect                                
-                                        timeIntervals={30}
+                                        timeIntervals={15}
+                                        timeFormat="h:mm aa"
                                         dateFormat="MMMM d, yyyy h:mm aa"
                                         timeCaption="Hora"
                                         minTime={setHours(setMinutes(new Date(), this.state.cambiarHora.getMinutes()), this.state.cambiarHora.getHours())}
