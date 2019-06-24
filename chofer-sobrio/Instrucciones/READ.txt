@@ -11,3 +11,4 @@ npm i reactstrap
 npm i google-maps-react
 npm install --save styled-components
 npm install react-confirm-alert
+npm i react-table

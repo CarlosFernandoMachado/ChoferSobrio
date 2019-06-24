@@ -1,21 +1,49 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { Jumbotron, Container, Button} from 'react-bootstrap';
+import { Jumbotron, Container, Button } from 'react-bootstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './Home.css'
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          lat: 14.0818,
-          lon: -87.20681
+            lat: 14.0818,
+            lon: -87.20681,
+            mostrar: null,
+            gerente: props.permisos.gerente,
+            chofer: props.permisos.chofer,
+            cliente: props.permisos.cliente,
         };
+
+        this.toggleModal = this.toggleModal.bind(this);
       }
 
     componentDidMount() {
+        const { gerente, chofer, cliente } = this.state;
+
+        if (!localStorage.getItem('alertaLogin') && (gerente || chofer || cliente)) {
+            localStorage.setItem('alertaLogin', true);
+            this.setState({ mostrar: true });
+        } else {
+            this.setState({ mostrar: false });
+        }
         this.getLocation();
         this.renderMap();
     }
+
+    componentWillReceiveProps(nextProps) {
+        const { gerente, chofer, cliente } = nextProps.permisos;
+
+        let mostrar = gerente || chofer || cliente;
+
+        this.setState({
+            gerente,
+            chofer,
+            cliente,
+            mostrar,
+        });  
+      }
 
     componentDidUpdate(){
         this.renderMap();
@@ -48,7 +76,30 @@ export default class Home extends Component {
         this.setState({ lon: position.coords.longitude });
     }
 
+    toggleModal() {
+        const { mostrar } = this.state;
+        this.setState({ mostrar: !mostrar });
+        localStorage.setItem('alertaLogin', true);
+    }
+
     render() {
+        const { mostrar } = this.state;
+        const { gerente, chofer, cliente } = this.state;
+
+        let tipoUsuario = '';
+
+        if (gerente) {
+            tipoUsuario = 'Gerente';
+        }
+
+        if (chofer) {
+            tipoUsuario = 'Chofer';
+        }
+
+        if (cliente) {
+            tipoUsuario = 'Cliente';
+        }
+
         return (
             <Container>
                 <div className="outer-div">
@@ -70,8 +121,15 @@ export default class Home extends Component {
                     <div className="invisible-div">
                     </div>
                 </div>
+                <Modal isOpen={mostrar && !localStorage.getItem('alertaLogin')} toggle={this.toggleModal} className={this.props.className}>
+                    <ModalHeader toggle={this.toggle}>Enhorabuena!</ModalHeader>
+                    <ModalBody>Has iniciado sesion como {tipoUsuario}!</ModalBody>
+                    <ModalFooter>
+                        <Button color="secondary" block onClick={this.toggleModal}>Vale</Button>
+                    </ModalFooter>
+                    </Modal>
             </Container>
-        )
+        );
     }
 }
 

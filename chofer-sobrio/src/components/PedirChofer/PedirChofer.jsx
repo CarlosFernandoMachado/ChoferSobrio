@@ -8,6 +8,8 @@ import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Container, Col, Button, Form, Card, Alert, Dropdown } from 'react-bootstrap';
 import es from 'date-fns/locale/es';
 import './PedirChofer.css';
+import setMinutes from "date-fns/setMinutes";
+import setHours from "date-fns/setHours";
 
 registerLocale('es', es);
 setDefaultLocale('es');
@@ -30,10 +32,8 @@ export default class Precios extends Component {
             listo: 0,
             infoCliente: {},
             cambiarHora: new Date(),
-            now: new Date(),
         };
 
-        this.onChange = hora => this.setState({ hora });
         this.handleChange = this.handleChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.dateChange = this.dateChange.bind(this);
@@ -96,12 +96,11 @@ export default class Precios extends Component {
 
         if(date.getDate() == new Date().getDate()) {
             this.setState({
-                cambiarHora: new Date()
+                cambiarHora : new Date()
             });
         }else{
-            this.setState({
-                cambiarHora: '00:00'
-            });
+            this.state.cambiarHora.setHours('00');
+            this.state.cambiarHora.setMinutes('00');
         }
 
     }
@@ -118,6 +117,16 @@ export default class Precios extends Component {
     handleSubmit(event) {
         const form = event.currentTarget;
         this.setState({ date: (this.state.fecha.getDate() + '/' + (this.state.fecha.getMonth() + 1) + '/' + this.state.fecha.getFullYear()) });
+
+        if(this.state.fecha.getHours() < 10 && this.state.fecha.getMinutes() < 10){
+            this.setState({ hora: ('0'+this.state.fecha.getHours() + ':0' + this.state.fecha.getMinutes())});
+        } else if (this.state.fecha.getMinutes() < 10){
+            this.setState({ hora: (this.state.fecha.getHours() + ':0' + this.state.fecha.getMinutes())});
+        } else if (this.state.fecha.getHours() < 10){
+            this.setState({ hora: ('0'+this.state.fecha.getHours() + ':' + this.state.fecha.getMinutes())});
+        }else{
+            this.setState({ hora: (this.state.fecha.getHours() + ':' + this.state.fecha.getMinutes())});
+        }
 
 
         if (form.checkValidity() === false) {
@@ -389,25 +398,15 @@ export default class Precios extends Component {
                                         onChange={this.dateChange}
                                         minDate = {new Date()}
                                         value={this.state.value}
-                                        dateFormat="dd/MM/yyyy"
                                         withPortal
+                                        showTimeSelect                                
+                                        timeIntervals={15}
+                                        timeFormat="h:mm aa"
+                                        dateFormat="MMMM d, yyyy h:mm aa"
+                                        timeCaption="Hora"
+                                        minTime={setHours(setMinutes(new Date(), this.state.cambiarHora.getMinutes()), this.state.cambiarHora.getHours())}
+                                        maxTime={setHours(setMinutes(new Date(), 59), 23)}
                                     />
-                                </Form.Group>
-                                <Form.Group as={Col} md="4">
-                                    <Form.Label>Hora </Form.Label>
-                                    <TimePicker
-                                        onChange={this.onChange}
-                                        name="hora"
-                                        value={this.state.hora}
-                                        format="hh:mm a"
-                                        disableClock={true}
-                                        locale='es'
-                                        minTime={this.state.cambiarHora}
-                                        required
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        Ingrese la hora
-                            </Form.Control.Feedback>
                                 </Form.Group>
                             </Form.Row>
 

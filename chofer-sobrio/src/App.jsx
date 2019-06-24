@@ -18,7 +18,7 @@ import ModificarChofer from './components/ModificarChofer/ModificarChofer'
 import ModificarGerente from './components/ModificarGerente/ModificarGerente'
 import IniciarSesion from './components/IniciarSesion/IniciarSesion';
 import Password_olvidada from './components/Password_olvidada/Password_olvidada';
-import { Gerente, Chofer, Cliente, GerenteChofer } from './routes';
+import { Gerente, Chofer, Cliente, GerenteChofer, Cualquiera } from './routes';
 import ModificarContrasenaChofer from './components/ModificarContrasena/ModificarContrasenaChofer';
 import ModificarContrasenaCliente from './components/ModificarContrasena/ModificarContrasenaCliente';
 import ModificarContrasenaGerente from './components/ModificarContrasena/ModificarContrasenaGerente';
@@ -40,54 +40,62 @@ class App extends Component {
     this.state = {
       user: null,
       sideDrawerOpen: false,
-      permisos: null,
+      isGerente: false,
+      isChofer: false,
+      isCliente: false,
     };
     this.drawerToggleClickHandler = this.drawerToggleClickHandler.bind(this);
     this.backdropClickHandler = this.backdropClickHandler.bind(this);
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const user = JSON.parse(localStorage.getItem('user'));
 
     if (user) {
+      this.setState({ user });
+
       // gerentes
-      const isGerente = await firebase.database().ref('/gerente').once('value').then((snap) => {
-        let isGerente = false;
+      this.dbRefGerentes = firebase.database().ref('/gerente');
+      this.dbCallbackGerentes = this.dbRefGerentes.on('value', (snap) => {
         const gerentes = snap.val();
+        let isGerente = false;
         Object.keys(gerentes).forEach(key => {
           isGerente = isGerente || gerentes[key].correo === user.email;
         });
-        return isGerente;
+        this.setState({ isGerente });
       });
 
       // choferes
-      const isChofer = await firebase.database().ref('/chofer').once('value').then((snap) => {
-        let isChofer = false;
+      this.dbRefChoferes = firebase.database().ref('/chofer');
+      this.dbCallbackChoferes = this.dbRefChoferes.on('value', (snap) => {
         const choferes = snap.val();
+        let isChofer = false;
         Object.keys(choferes).forEach(key => {
           isChofer = isChofer || choferes[key].correo === user.email;
         });
-        return isChofer;
+        this.setState({ isChofer });
       });
 
       // clientes
-      const isCliente = await firebase.database().ref('/cliente').once('value').then((snap) => {
-        let isCliente = false;
+      this.dbRefClientes = firebase.database().ref('/cliente');
+      this.dbCallbackClientes = this.dbRefClientes.on('value', (snap) => {
         const clientes = snap.val();
+        let isCliente = false;
         Object.keys(clientes).forEach(key => {
-
           isCliente = isCliente || clientes[key].correo === user.email;
         });
-        return isCliente;
+        this.setState({ isCliente });
       });
+    }
+  }
 
-      const permisos = {
-        gerente: isGerente,
-        chofer: isChofer,
-        cliente: isCliente,
-      };
+  componentWillUnmount() {
+    const user = JSON.parse(localStorage.getItem('user'));
 
-      this.setState({ permisos, user });
+    if (user) {
+      this.dbRefGerentes.off('value', this.dbCallbackGerentes);
+      this.dbRefChoferes.off('value', this.dbCallbackChoferes);
+      this.dbRefClientes.off('value', this.dbCallbackClientes);
     }
   }
 
@@ -102,7 +110,13 @@ class App extends Component {
   };
 
   render() {
-    const { permisos } = this.state;
+    const { isGerente, isChofer, isCliente } = this.state;
+
+    let permisos = {
+      gerente: isGerente,
+      chofer: isChofer,
+      cliente: isCliente
+    };
 
     let backdrop;
     if (this.state.sideDrawerOpen) {
@@ -120,7 +134,7 @@ class App extends Component {
               <Route exact path="/conocenos" component={Info}></Route>
               <Route exact path="/feedback" component={feedback}></Route>
               <Gerente exact path="/listarfeedback" permisos={permisos} component={ListarFeedback}></Gerente>
-              <Route exact path="/" component={Home}></Route>
+              <Cualquiera exact path="/" permisos={permisos} component={Home}></Cualquiera>
               <Route exact path="/precios" component={Precios}></Route>
               <Route exact path="/seguridad" component={Seguridad}></Route>
               <Route exact path="/crear" component={Crear}></Route>
