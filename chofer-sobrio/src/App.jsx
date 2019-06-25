@@ -156,7 +156,7 @@ class App extends Component {
               <Route exact path="/precios" component={Precios}></Route>
               <Route exact path="/seguridad" component={Seguridad}></Route>
               <Route exact path="/crear" component={Crear}></Route>
-              <Cliente exact path="/pedirchofer" permisos={permisos} component={PedirChofer}></Cliente>
+              <Route exact path="/pedirchofer" permisos={permisos} component={PedirChofer}></Route>
               <Gerente exact path="/CrearGerente" permisos={permisos} component={CrearGerente}></Gerente>
               <Gerente exact path="/CrearChofer" permisos={permisos} component={CrearChofer}></Gerente>
               <Gerente exact path="/Historial" permisos={permisos} component={Historial}></Gerente>
