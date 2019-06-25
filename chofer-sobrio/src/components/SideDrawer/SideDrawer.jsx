@@ -147,7 +147,10 @@ class SideDrawer extends React.Component {
                 </Link>,
                 <Link key={key++} to="/EliminarCuentaCliente">
                     <Button onClick={props.hide}>Eliminar mi cuenta</Button>
-                </Link>
+                </Link>,
+                <Link key={key++} to="/MisReservaciones">
+                    <Button onClick={props.hide}>Mis Reservaciones</Button>
+                </Link>,
             );
         }
 
