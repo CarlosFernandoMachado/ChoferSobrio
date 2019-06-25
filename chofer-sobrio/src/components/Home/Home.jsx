@@ -17,7 +17,7 @@ export default class Home extends Component {
         };
 
         this.toggleModal = this.toggleModal.bind(this);
-      }
+    }
 
     componentDidMount() {
         const { gerente, chofer, cliente } = this.state;
@@ -28,7 +28,6 @@ export default class Home extends Component {
         } else {
             this.setState({ mostrar: false });
         }
-        this.getLocation();
         this.renderMap();
     }
 
@@ -42,11 +41,12 @@ export default class Home extends Component {
             chofer,
             cliente,
             mostrar,
-        });  
-      }
+        });
+    }
 
 
     renderMap = () => {
+        this.getLocation();
         loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyArotdf5MfhV5c3VmS_KrgosKN4fZgwnrE&callback=initMap")
         window.initMap = this.initMap
     }
@@ -54,10 +54,10 @@ export default class Home extends Component {
     initMap = () => {
         var lat = Number(parseFloat(this.state.lat).toFixed(4));
         var lon = Number(parseFloat(this.state.lon).toFixed(4));
-        var map = new window.google.maps.Map(document.getElementById('map'), {
-            center: { lat: lat, lng: lon },
-            zoom: 18
-        });
+        var tegucigalpa = { lat: lat, lng: lon };
+        var map = new window.google.maps.Map(
+            document.getElementById('map'), { zoom: 18, center: tegucigalpa });
+        var marker = new window.google.maps.Marker({ position: tegucigalpa, map: map });
     }
 
     getLocation = () => {
@@ -108,7 +108,8 @@ export default class Home extends Component {
                     </div>
                     <div className="map-div" id="map">
                     </div>
-                    <div className="button-div">
+                    <div className="button-div navbar">
+                        <Button className="pedir" onClick={this.renderMap}>Localizar</Button>
                         <Link to="/pedirchofer">
                             <div id="button">
                                 <Button className="pedir" >Pedir Chofer</Button>
@@ -124,7 +125,7 @@ export default class Home extends Component {
                     <ModalFooter>
                         <Button color="secondary" block onClick={this.toggleModal}>Vale</Button>
                     </ModalFooter>
-                    </Modal>
+                </Modal>
             </Container>
         );
     }

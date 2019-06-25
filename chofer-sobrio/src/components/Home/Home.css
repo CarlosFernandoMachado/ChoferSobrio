@@ -70,7 +70,22 @@
 }
 
 .button-div {
+    margin: auto;
     padding-top: 10px;
+    width: 25%;
+}
+.button-div ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.button-div li {
+    padding: 0 0.5rem;
+}
+
+.navbar {
+    flex-direction: row;
 }
 
 .invisible-div {

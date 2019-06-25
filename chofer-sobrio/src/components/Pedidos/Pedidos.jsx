@@ -1,9 +1,11 @@
 /* eslint-disable react/jsx-pascal-case */
 import React, { Component } from 'react'
 import { Jumbotron, Container, Card, Alert, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import ReactTable from 'react-table';
 import './Pedidos.css'
 import firebase from '../config/config';
+import mapa from '../Map/mapa';
 
 export default class Precios extends Component {
 
@@ -39,16 +41,24 @@ export default class Precios extends Component {
             accessor: 'accion',
             maxWidth: 100,
             filterable: false,
+        }, {
+            Header: 'Mapa',
+            accessor: 'mapa',
+            maxWidth: 100,
+            filterable: false,
         }];
 
         this.state = {
             infoChofer: {},
             pedidos: [],
             permisos: props.permisos,
+            lat: 14.0818,
+            lon: -87.20681,
         };
 
         this.obtenerPedidos = this.obtenerPedidos.bind(this);
         this.reservar = this.reservar.bind(this);
+        this.mostrarUbicacion = this.mostrarUbicacion.bind(this);
     }
 
     async componentDidMount() {
@@ -92,6 +102,7 @@ export default class Precios extends Component {
         pedidosRes[keyPedido].estado = 'Ocupado';
         pedidosRes[keyPedido].idchofer = this.state.infoChofer.identidad;
         delete pedidosRes[keyPedido].accion;
+        delete pedidosRes[keyPedido].mapa;
         database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
     }
 
@@ -113,10 +124,11 @@ export default class Precios extends Component {
 
         Object.keys(pedidos).forEach((key, index) => {
             const pedido = pedidos[key];
-            if ( (pedido.fecha === today2 || pedido.fecha === tommorrow) && pedido.estado === "Disponible" && index !== 0) {
+            if ((pedido.fecha === today2 || pedido.fecha === tommorrow) && pedido.estado === "Disponible" && index !== 0) {
 
                 if (permisos.chofer) {
                     pedido.accion = <Button variant="info" onClick={() => this.reservar(key)}>Reservar</Button>;
+                    pedido.mapa = <Button variant="info" onClick={() => this.mostrarUbicacion(key)}>Localizar</Button>;
                 }
 
                 listaPedidos.push(pedido);
@@ -124,8 +136,33 @@ export default class Precios extends Component {
         });
 
         return listaPedidos;
-    }    
-    
+    }
+
+    mostrarUbicacion(keyPedido) {
+        const { pedidos } = this.state;
+        const pedidosRes = pedidos.map(a => Object.assign({}, a));
+        var coordenadas = pedidosRes[keyPedido].ubicacion.split(",");
+        var latitud = Number(parseFloat(coordenadas[0]).toFixed(4));
+        var longitud = Number(parseFloat(coordenadas[1]).toFixed(4));
+        this.setState({ lat: latitud });
+        this.setState({ lon: longitud });
+        this.renderMap();
+    }
+
+    renderMap = () => {
+        loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyArotdf5MfhV5c3VmS_KrgosKN4fZgwnrE&callback=initMap")
+        window.initMap = this.initMap
+    }
+
+    initMap = () => {
+        var lat = Number(parseFloat(this.state.lat).toFixed(4));
+        var lon = Number(parseFloat(this.state.lon).toFixed(4));
+        var tegucigalpa = { lat: lat, lng: lon };
+        var map = new window.google.maps.Map(
+            document.getElementById('map'), { zoom: 18, center: tegucigalpa });
+        var marker = new window.google.maps.Marker({ position: tegucigalpa, map: map });
+    }
+
     render() {
         const pedidos = this.obtenerPedidos();
         return (
@@ -134,8 +171,8 @@ export default class Precios extends Component {
                     <h1>Chofer Sobrio</h1>
                     <h5>Reservaciones de hoy y mañana</h5>
                 </Jumbotron>
-                <Card border="light">
-                    <Alert variant="secondary">
+                <div className="outer-div">
+                    <div className="table-div">
                         <h3>Pedidos</h3>
                         <br />
                         <ReactTable
@@ -143,9 +180,20 @@ export default class Precios extends Component {
                             columns={this.columnas}
                             filterable
                         />
-                    </Alert>
-                </Card>
+                        <div className="spacer-div"/>
+                    </div>
+                    <div className="map-div" id="map">
+                    </div>
+                </div>
             </Container>
         )
     }
+}
+function loadScript(url) {
+    var index = window.document.getElementsByTagName("script")[0]
+    var script = window.document.createElement("script")
+    script.src = url
+    script.async = true
+    script.defer = true
+    index.parentNode.insertBefore(script, index)
 }

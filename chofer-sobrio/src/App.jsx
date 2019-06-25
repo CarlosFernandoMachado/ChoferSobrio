@@ -34,6 +34,7 @@ import Eliminar_Cuenta_Chofer from './components/Eliminar_Cuenta/Eliminar_Cuenta
 import Historial from './components/Historial/Historial';
 import Info from './components/Nosotros/Info';
 import MisReservaciones from './components/Mis_Reservaciones/MisReservaciones';
+import mapa from './components/Map/mapa';
 
 class App extends Component {
   constructor(props) {
@@ -44,6 +45,8 @@ class App extends Component {
       isGerente: false,
       isChofer: false,
       isCliente: false,
+      latitud: 14.0818,
+      longitud: -87.20681,
     };
     this.drawerToggleClickHandler = this.drawerToggleClickHandler.bind(this);
     this.backdropClickHandler = this.backdropClickHandler.bind(this);
@@ -88,6 +91,7 @@ class App extends Component {
         this.setState({ isCliente });
       });
     }
+    this.getLocation();
   }
 
   componentWillUnmount() {
@@ -109,6 +113,19 @@ class App extends Component {
   backdropClickHandler = () => {
     this.setState({ sideDrawerOpen: false });
   };
+
+  getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(this.showPosition);
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  }
+
+  showPosition = (position) => {
+    this.setState({ latitud: position.coords.latitude });
+    this.setState({ longitud: position.coords.longitude });
+  }
 
   render() {
     const { isGerente, isChofer, isCliente } = this.state;
@@ -144,6 +161,7 @@ class App extends Component {
               <Gerente exact path="/CrearChofer" permisos={permisos} component={CrearChofer}></Gerente>
               <Gerente exact path="/Historial" permisos={permisos} component={Historial}></Gerente>
               <GerenteChofer exact path="/reservaciones" permisos={permisos} component={Pedidos}></GerenteChofer>
+              <GerenteChofer exact path="/mapa" permisos={permisos} component={mapa} latitud={this.state.latitud} longitud={this.state.longitud}></GerenteChofer>
               <Chofer exact path="/miperfil" permisos={permisos} component={MiPerfil}></Chofer>
               <Route exact path="/CrearCliente" component={CrearCliente}></Route>
               <Route exact path="/iniciarSesion" component={IniciarSesion}></Route>

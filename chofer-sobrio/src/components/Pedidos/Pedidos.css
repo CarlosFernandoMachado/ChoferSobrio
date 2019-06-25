@@ -13,3 +13,25 @@
     margin: 10px;
     
 }
+
+.map-div {
+    height: 100%;
+    width: 100%;
+}
+
+.outer-div {
+    height: 330px;
+    width: 82.5%;
+    position: absolute;
+    display: inline-block;
+    text-align: center;
+}
+
+.table-div{
+    background-color: white;
+}
+
+.spacer-div{
+    padding: 10px;
+    background-color: black;
+}
