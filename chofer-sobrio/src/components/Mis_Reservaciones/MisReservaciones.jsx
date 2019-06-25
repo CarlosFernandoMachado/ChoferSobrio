@@ -1,20 +1,53 @@
 /* eslint-disable react/jsx-pascal-case */
 import React, { Component } from 'react'
 import { Jumbotron, Container, Table, Card, Alert, Button } from 'react-bootstrap';
-import './Pedidos.css'
+import ReactTable from 'react-table';
+import './MisReservaciones.css'
 import firebase from '../config/config';
 
-export default class Mis_Reservas extends Component {
+export default class MisReservaciones extends Component {
 
     constructor(props) {
         super(props);
+
+        this.columnas = [{
+            Header: 'Nombre',
+            accessor: 'nombre',
+            maxWidth: 200,
+        }, {
+            Header: 'Telefono',
+            accessor: 'telefono',
+            maxWidth: 150,
+        }, {
+            Header: 'Ubicacion',
+            accessor: 'ubicacion',
+            maxWidth: 150,
+        }, {
+            Header: 'Destino',
+            accessor: 'destino',
+            maxWidth: 200,
+        }, {
+            Header: 'Fecha',
+            accessor: 'fecha',
+            maxWidth: 100,
+        }, {
+            Header: 'Hora',
+            accessor: 'hora',
+            maxWidth: 100,
+        }, {
+            Header: 'Accion',
+            accessor: 'accion',
+            maxWidth: 100,
+            filterable: false,
+        }];
+
         this.state = {
-            infoCliente: {},
+            infoChofer: {},
             pedidos: [],
             permisos: props.permisos,
         };
 
-        this.mostrarPedidos = this.mostrarPedidos.bind(this);
+        this.obtenerPedidos = this.obtenerPedidos.bind(this);
         this.reservar = this.reservar.bind(this);
     }
 
@@ -22,16 +55,16 @@ export default class Mis_Reservas extends Component {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
             const info = await firebase.database().ref('/cliente').once('value').then((snap) => {
-                const clientlist = snap.val();
-                let infoCliente;
-                Object.keys(clientlist).forEach((key, index) => {
-                    const chofer = clientlist[key];
+                const choferlist = snap.val();
+                let infoChofer;
+                Object.keys(choferlist).forEach((key, index) => {
+                    const chofer = choferlist[key];
                     if (chofer.correo === user.email) {
                         chofer.index = index;
-                        infoCliente = chofer;
+                        infoChofer = chofer;
                     }
                 });
-                return infoCliente;
+                return infoChofer;
             });
 
             // pedidos
@@ -39,7 +72,7 @@ export default class Mis_Reservas extends Component {
             this.dbCallbackPedidos = this.dbRefPedidos.on('value', snap => this.setState({ pedidos: snap.val() }));
 
             this.setState({
-                infoCliente: info,
+                infoChofer: info,
             });
         }
     }
@@ -56,12 +89,12 @@ export default class Mis_Reservas extends Component {
         const { pedidos } = this.state;
 
         const pedidosRes = pedidos.map(a => Object.assign({}, a));
-        pedidosRes[keyPedido].estado = 'Ocupado';
-        pedidosRes[keyPedido].idchofer = this.state.infoCliente.identidad;
+        pedidosRes[keyPedido].estado = 'Disponible';
+        delete pedidosRes[keyPedido].accion;
         database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
     }
 
-    mostrarPedidos() {
+    obtenerPedidos() {
         var today = new Date();
         var dd = today.getDate();
         var mm = today.getMonth() + 1; //January is 0!
@@ -72,58 +105,40 @@ export default class Mis_Reservas extends Component {
         var year = tommorrow.getFullYear()
         var today2 = dd + '/' + mm + '/' + yyyy;
         tommorrow = day + '/' + month + '/' + year;
-        const { pedidos, infoCliente, permisos } = this.state;
+        const { pedidos, permisos } = this.state;
 
-        const pedidosJSX = [];
+        const listaPedidos = [];
 
         Object.keys(pedidos).forEach((key, index) => {
             const pedido = pedidos[key];
-            if ( (pedido.fecha === today2 || pedido.fecha === tommorrow) && pedido.estado === "Disponible" && index !== 0) {
-                const { nombre, telefono, ubicacion, destino, hora, fecha} = pedido;
+            if ((pedido.fecha === today2 || pedido.fecha === tommorrow) && pedido.estado === "Ocupado" && this.state.infoChofer.telefono === pedido.telefono && index !== 0) {
 
-                pedidosJSX.push(
-                    <tr key={index}>
-                        <td>{nombre}</td>
-                        <td>{telefono}</td>
-                        <td>{ubicacion}</td>
-                        <td>{destino}</td>
-                        <td>{fecha}</td>
-                        <td>{hora}</td>
-                        {permisos.chofer ? <td><Button variant="info" onClick={() => this.reservar(key)}>Reservar</Button></td> : null}
-                    </tr>
-                );
+                    pedido.accion = <Button variant="info" onClick={() => this.reservar(key)}>Cancelar</Button>;
+
+                listaPedidos.push(pedido);
             }
-        })
+        });
 
-        return pedidosJSX;
-    }    
-    
+        return listaPedidos;
+    }
+
     render() {
-        const { permisos } = this.state;
+        const pedidos = this.obtenerPedidos();
         return (
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
                     <h1>Chofer Sobrio</h1>
-                    <h5>Reservaciones de hoy y mañana</h5>
+                    <h5>Reservaciones Actuales</h5>
                 </Jumbotron>
                 <Card border="light">
                     <Alert variant="secondary">
-                        <Table responsive>
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Telefono</th>
-                                    <th>Ubicacion</th>
-                                    <th>Destino</th>
-                                    <th>Fecha</th>
-                                    <th>Hora</th>
-                                    {permisos.chofer ? <th>Accion</th> : null}
-                                </tr>
-                            </thead>
-                            <tbody id="table_body">
-                                {this.mostrarPedidos()}
-                            </tbody>
-                        </Table>
+                        <h3>Pedidos</h3>
+                        <br />
+                        <ReactTable
+                            data={pedidos}
+                            columns={this.columnas}
+                            filterable
+                        />
                     </Alert>
                 </Card>
             </Container>

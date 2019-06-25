@@ -175,6 +175,13 @@ class Toolbar extends React.Component {
                     </Link>
                 </Dropdown.Item>,
             );
+            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/MisReservaciones">
+                        <Button>Mis Reservaciones</Button>
+                    </Link>
+                </Dropdown.Item>,
+            );
         }
 
         let dropdown;

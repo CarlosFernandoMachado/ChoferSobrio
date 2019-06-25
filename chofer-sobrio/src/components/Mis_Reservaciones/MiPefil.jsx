@@ -22,14 +22,14 @@ export default class Precios extends Component {
     async componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
-            const info = await firebase.database().ref('/chofer').once('value').then((snap) => {
-                const choferlist = snap.val();
+            const info = await firebase.database().ref('/cliente').once('value').then((snap) => {
+                const clientelist = snap.val();
                 let infoCliente;
-                Object.keys(choferlist).forEach((key, index) => {
-                    const chofer = choferlist[key];
-                    if (chofer.correo === user.email) {
-                        chofer.index = index;
-                        infoCliente = chofer;
+                Object.keys(clientelist).forEach((key, index) => {
+                    const cliente = clientelist[key];
+                    if (cliente.telefono === user.telefono) {
+                        cliente.index = index;
+                        infoCliente = cliente;
                     }
                 });
                 return infoCliente;
@@ -77,7 +77,7 @@ export default class Precios extends Component {
     }
 
     finalizar(keyPedido) {
-        if (window.confirm('¿La reservacion ha concluido?')) {
+        if (window.confirm('¿Desea Cancelar?')) {
             const database = firebase.database();
             const { pedidos } = this.state;
 
@@ -119,7 +119,7 @@ export default class Precios extends Component {
 
         Object.keys(pedidos).forEach((key, index) => {
             const pedido = pedidos[key];
-            if (pedido.idchofer === infoCliente.identidad && pedido.estado === "Ocupado" && index !== 0) {
+            if (pedido.telefono === infoCliente.telefono && pedido.estado === "Ocupado" && index !== 0) {
                 const { color, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, mensaje } = pedido;
 
                 let msjBoton = '';

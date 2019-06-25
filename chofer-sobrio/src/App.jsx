@@ -33,6 +33,7 @@ import ListarFeedback from './components/feedback/ListarFeedback';
 import Eliminar_Cuenta_Chofer from './components/Eliminar_Cuenta/Eliminar_Cuenta_Chofer';
 import Historial from './components/Historial/Historial';
 import Info from './components/Nosotros/Info';
+import MisReservaciones from './components/Mis_Reservaciones/MisReservaciones';
 
 class App extends Component {
   constructor(props) {
@@ -159,6 +160,7 @@ class App extends Component {
               <Route exact path="/EliminarCuentaGerente" component={Eliminar_Cuenta}></Route>
               <Route exact path="/EliminarCuentaCliente" component={Eliminar_Cuenta_Cliente}></Route>
               <Route exact path="/EliminarCuentaChofer" component={Eliminar_Cuenta_Chofer}></Route>
+              <Route exact path="/MisReservaciones" component={MisReservaciones}></Route>
             </div>
           </main>
         </div>
