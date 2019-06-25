@@ -49,6 +49,7 @@ export default class MisReservaciones extends Component {
 
         this.obtenerPedidos = this.obtenerPedidos.bind(this);
         this.reservar = this.reservar.bind(this);
+        this.eliminar = this.eliminar.bind(this);
     }
 
     async componentDidMount() {
@@ -94,6 +95,14 @@ export default class MisReservaciones extends Component {
         database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
     }
 
+    eliminar(keyPedido) {
+        if (window.confirm(' Se cancelara su pedido')) {
+            const database = firebase.database();
+            const { clientes } = this.state;
+            database.ref(`pedido/${keyPedido}/`).remove();
+        }
+    }
+
     obtenerPedidos() {
         var today = new Date();
         var dd = today.getDate();
@@ -113,7 +122,7 @@ export default class MisReservaciones extends Component {
             const pedido = pedidos[key];
             if ((pedido.fecha === today2 || pedido.fecha === tommorrow) && pedido.estado === "Disponible" && this.state.infoChofer.telefono === pedido.telefono && index !== 0) {
 
-                    pedido.accion = <Button variant="info" onClick={() => this.reservar(key)}>Cancelar</Button>;
+                    pedido.accion = <Button variant="info" onClick={() => this.eliminar(key)}>Cancelar</Button>;
 
                 listaPedidos.push(pedido);
             }
