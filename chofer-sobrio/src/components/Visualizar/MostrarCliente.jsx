@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Table, Card, Alert, Button} from 'react-bootstrap';
+import { Jumbotron, Container, Card, Alert, Button } from 'react-bootstrap';
+import ReactTable from 'react-table';
 import './Visualizar.css'
 import firebase from '../config/config';
 
@@ -7,16 +8,49 @@ export default class VisualizarCliente extends Component {
 
     constructor(props) {
         super(props);
+
+        this.columnas = [{
+            Header: 'Nombre',
+            accessor: 'nombre',
+            maxWidth: 300,
+        }, {
+            Header: 'Telefono',
+            accessor: 'telefono',
+            maxWidth: 150,
+        }, {
+            Header: 'Correo',
+            accessor: 'correo',
+            maxWidth: 150,
+        }, {
+            Header: 'Marca',
+            accessor: 'marca',
+            maxWidth: 100,
+        }, {
+            Header: 'Color',
+            accessor: 'color',
+            maxWidth: 100,
+        }, {
+            Header: 'Placa',
+            accessor: 'placa',
+            maxWidth: 100,
+        }, {
+            Header: 'Accion',
+            accessor: 'accion',
+            maxWidth: 100,
+            filterable: false,
+        }];
+
         this.state = {
-           clientes:[],
-           infocliente:{}
+            clientes: [],
+            infocliente: {},
+            permisos: props.permisos,
         };
-        
+
         this.mostrarclientes = this.mostrarclientes.bind(this);
         this.eliminar = this.eliminar.bind(this);
-        
+
     }
-    
+
     async componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
@@ -51,31 +85,19 @@ export default class VisualizarCliente extends Component {
     }
 
     mostrarclientes() {
-        const { clientes, infocliente } = this.state;
+        const { clientes } = this.state;
 
-        const clientesJSX = [];
+        const usuarios = [];
 
         Object.keys(clientes).forEach((key, index) => {
             const pedido = clientes[key];
             if (index !== 0) {
-                const { nombre, correo, telefono, marca, color_vehiculo,placa } = pedido;
-                clientesJSX.push(
-                    <tr key={index}>
-                        <td>{nombre}</td>
-                        <td>{telefono}</td>
-                        <td>{correo}</td>
-                        <td>{marca}</td>
-                        <td>{color_vehiculo}</td>
-                        <td>{placa}</td>
-                        <td>
-                            <Button variant="danger" onClick={() => this.eliminar(key)}>Eliminar</Button>
-                        </td>
-                    </tr>
-                );
+                pedido.accion = <Button variant="danger" onClick={() => this.eliminar(key)}>Eliminar</Button>;
+                usuarios.push(pedido);
             }
         })
 
-        return clientesJSX;
+        return usuarios;
     }
 
 
@@ -83,12 +105,15 @@ export default class VisualizarCliente extends Component {
         if (window.confirm(' Se eliminara la cuenta')) {
             const database = firebase.database();
             const { clientes } = this.state;
+            const clientesRes = clientes.map(a => Object.assign({}, a));
+            delete clientesRes[keyPedido].accion;
             database.ref(`cliente/${keyPedido}/`).remove();
         }
     }
 
-   
+
     render() {
+        const pedidos = this.mostrarclientes();
         return (
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
@@ -97,23 +122,13 @@ export default class VisualizarCliente extends Component {
                 </Jumbotron>
                 <Card border="light">
                     <Alert variant="secondary">
-                        <Table responsive>
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Telefono</th>
-                                    <th>Correo</th>
-                                    <th>Placa</th>
-                                    <th>Marca</th>
-                                    <th>Color</th>
-                                    
-                                </tr>
-                            </thead>
-                            <tbody id="table_body">
-                            {this.mostrarclientes()}
-                            </tbody>
-                        </Table>
-                       
+                    <h3>Clientes Existentes</h3>
+                        <br />
+                        <ReactTable
+                            data={pedidos}
+                            columns={this.columnas}
+                            filterable
+                        />
                     </Alert>
                 </Card>
             </Container>

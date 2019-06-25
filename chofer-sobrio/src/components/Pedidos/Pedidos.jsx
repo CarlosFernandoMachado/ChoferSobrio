@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-pascal-case */
 import React, { Component } from 'react'
-import { Jumbotron, Container, Table, Card, Alert, Button } from 'react-bootstrap';
+import { Jumbotron, Container, Card, Alert, Button } from 'react-bootstrap';
 import ReactTable from 'react-table';
 import './Pedidos.css'
 import firebase from '../config/config';
@@ -106,6 +106,7 @@ export default class Precios extends Component {
         var year = tommorrow.getFullYear()
         var today2 = dd + '/' + mm + '/' + yyyy;
         tommorrow = day + '/' + month + '/' + year;
+
         const { pedidos, permisos } = this.state;
 
         const listaPedidos = [];

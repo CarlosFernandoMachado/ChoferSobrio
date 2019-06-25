@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Table, Card, Alert } from 'react-bootstrap';
+import { Jumbotron, Container, Card, Alert } from 'react-bootstrap';
+import ReactTable from 'react-table';
 import './Historial.css'
 import firebase from '../config/config';
 
@@ -7,9 +8,57 @@ export default class Precios extends Component {
 
     constructor(props) {
         super(props);
+
+        this.columnas = [{
+            Header: 'Chofer',
+            accessor: 'chofer',
+            maxWidth: 300,
+        }, {
+            Header: 'Identidad Chofer',
+            accessor: 'id_chofer',
+            maxWidth: 150,
+        }, {
+            Header: 'Cliente',
+            accessor: 'cliente',
+            maxWidth: 150,
+        }, {
+            Header: 'Color',
+            accessor: 'color',
+            maxWidth: 80,
+        }, {
+            Header: 'Destino',
+            accessor: 'destino',
+            maxWidth: 170,
+        }, {
+            Header: 'Fecha',
+            accessor: 'fecha',
+            maxWidth: 100,
+        }, {
+            Header: 'Hora Pedido',
+            accessor: 'hora_pedido',
+            maxWidth: 60,
+        }, {
+            Header: 'Hora Terminado',
+            accessor: 'hora_final',
+            maxWidth: 60,
+        }, {
+            Header: 'Marca',
+            accessor: 'marca',
+            maxWidth: 100,
+        }, {
+            Header: 'Placa',
+            accessor: 'placa',
+            maxWidth: 80,
+        }, {
+            Header: 'Ubicacion',
+            accessor: 'ubicacion',
+            maxWidth: 100,
+        }];
+
         this.state = {
             infoGerente: {},
             historial: [],
+            permisos: props.permisos,
         };
 
         this.mostrarHistorial = this.mostrarHistorial.bind(this);
@@ -49,33 +98,19 @@ export default class Precios extends Component {
     }
 
     mostrarHistorial() {
-        const { historial, infoGerente } = this.state;
-        const historialJSX = [];
+        const { historial } = this.state;
+        const reservaciones = [];
         Object.keys(historial).forEach((key, index) => {
             const pedido = historial[key];
             if (index !== 0) {
-                const { chofer, id_chofer, cliente, color, destino, fecha, hora_pedido, hora_final, marca, placa, ubicacion } = pedido;
-                historialJSX.push(
-                    <tr key={index}>
-                        <td>{chofer}</td>
-                        <td>{id_chofer}</td>
-                        <td>{cliente}</td>
-                        <td>{color}</td>
-                        <td>{destino}</td>
-                        <td>{fecha}</td>
-                        <td>{hora_pedido}</td>
-                        <td>{hora_final}</td>
-                        <td>{marca}</td>
-                        <td>{placa}</td>
-                        <td>{ubicacion}</td>
-                    </tr>
-                );
+                reservaciones.push(pedido);
             }
         })
-        return historialJSX;
+        return reservaciones;
     }
 
     render() {
+        const pedidos = this.mostrarHistorial();
         return (
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
@@ -84,26 +119,13 @@ export default class Precios extends Component {
                 </Jumbotron>
                 <Card border="light">
                     <Alert variant="secondary">
-                        <Table responsive>
-                            <thead>
-                                <tr>
-                                    <th>Chofer</th>
-                                    <th>Identidad Chofer</th>
-                                    <th>Cliente</th>
-                                    <th>Color</th>
-                                    <th>Destino</th>
-                                    <th>Fecha</th>
-                                    <th>Hora Pedido</th>
-                                    <th>Hora Terminada</th>
-                                    <th>Marca</th>
-                                    <th>Placa</th>
-                                    <th>ubicacion</th>
-                                </tr>
-                            </thead>
-                            <tbody id="table_body">
-                                {this.mostrarHistorial()}
-                            </tbody>
-                        </Table>
+                    <h3>Reservaciones Terminadas</h3>
+                        <br />
+                        <ReactTable
+                            data={pedidos}
+                            columns={this.columnas}
+                            filterable
+                        />
                     </Alert>
                 </Card>
             </Container>

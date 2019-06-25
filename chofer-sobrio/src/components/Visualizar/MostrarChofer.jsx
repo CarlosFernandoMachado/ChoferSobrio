@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Table, Card, Alert, Button} from 'react-bootstrap';
+import { Jumbotron, Container, Card, Alert, Button } from 'react-bootstrap';
+import ReactTable from 'react-table';
 import './Visualizar.css'
 import firebase from '../config/config';
 
@@ -7,9 +8,34 @@ export default class VisualizarChofer extends Component {
 
     constructor(props) {
         super(props);
+
+        this.columnas = [{
+            Header: 'Nombre',
+            accessor: 'nombre',
+            maxWidth: 300,
+        }, {
+            Header: 'Identidad',
+            accessor: 'identidad',
+            maxWidth: 150,
+        }, {
+            Header: 'Telefono',
+            accessor: 'telefono',
+            maxWidth: 150,
+        }, {
+            Header: 'Correo',
+            accessor: 'correo',
+            maxWidth: 300,
+        }, {
+            Header: 'Accion',
+            accessor: 'accion',
+            maxWidth: 100,
+            filterable: false,
+        }];
+
         this.state = {
             infochofer: {},
             choferes: [],
+            permisos: props.permisos,
         };
 
         this.mostrarchoferes = this.mostrarchoferes.bind(this);
@@ -49,29 +75,19 @@ export default class VisualizarChofer extends Component {
     }
 
     mostrarchoferes() {
-        const { choferes, infochofer } = this.state;
+        const { choferes } = this.state;
 
-        const choferesJSX = [];
+        const conductores = [];
 
         Object.keys(choferes).forEach((key, index) => {
             const pedido = choferes[key];
             if (index !== 0) {
-                const { nombre, correo, telefono, identidad } = pedido;
-                choferesJSX.push(
-                    <tr key={index}>
-                        <td>{nombre}</td>
-                        <td>{telefono}</td>
-                        <td>{correo}</td>
-                        <td>{identidad}</td>
-                        <td>
-                            <Button variant="danger" onClick={() => this.eliminar(key)}>Eliminar</Button>
-                        </td>
-                    </tr>
-                );
+                pedido.accion = <Button variant="danger" onClick={() => this.eliminar(key)}>Eliminar</Button>;
+                conductores.push(pedido);
             }
         })
 
-        return choferesJSX;
+        return conductores;
     }
 
 
@@ -79,12 +95,15 @@ export default class VisualizarChofer extends Component {
         if (window.confirm(' Se eliminara la cuenta')) {
             const database = firebase.database();
             const { choferes } = this.state;
+            const choferesRes = choferes.map(a => Object.assign({}, a));
+            delete choferesRes[keyPedido].accion;
             database.ref(`chofer/${keyPedido}/`).remove();
         }
     }
 
 
     render() {
+        const pedidos = this.mostrarchoferes();
         return (
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
@@ -93,23 +112,13 @@ export default class VisualizarChofer extends Component {
                 </Jumbotron>
                 <Card border="light">
                     <Alert variant="secondary">
-
-                        <Table responsive>
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Identidad</th>
-                                    <th>Telefono</th>
-                                    <th>Correo</th>
-
-                                </tr>
-                            </thead>
-                            <tbody id="table_body">
-                                {this.mostrarchoferes()}
-                            </tbody>
-                        </Table>
-
-
+                    <h3>Choferes Existentes</h3>
+                        <br />
+                        <ReactTable
+                            data={pedidos}
+                            columns={this.columnas}
+                            filterable
+                        />
                     </Alert>
                 </Card>
             </Container>

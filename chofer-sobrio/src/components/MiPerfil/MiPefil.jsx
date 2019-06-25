@@ -1,15 +1,66 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Table, Card, Alert, Button } from 'react-bootstrap';
+import { Jumbotron, Container, Card, Alert, Button } from 'react-bootstrap';
 import './MiPerfil.css'
+import ReactTable from 'react-table';
 import firebase from '../config/config';
 
 export default class Precios extends Component {
 
     constructor(props) {
         super(props);
+
+        this.columnas = [{
+            Header: 'Mensaje',
+            accessor: 'mensaje',
+            maxWidth: 200,
+            filterable: false,
+        }, {
+            Header: 'Accion',
+            accessor: 'accion',
+            maxWidth: 100,
+            filterable: false,
+        }, {
+            Header: 'Nombre',
+            accessor: 'nombre',
+            maxWidth: 100,
+        }, {
+            Header: 'Telefono',
+            accessor: 'telefono',
+            maxWidth: 100,
+        }, {
+            Header: 'Ubicacion',
+            accessor: 'ubicacion',
+            maxWidth: 100,
+        }, {
+            Header: 'Destino',
+            accessor: 'destino',
+            maxWidth: 100,
+        }, {
+            Header: 'Fecha',
+            accessor: 'fecha',
+            maxWidth: 100,
+        }, {
+            Header: 'Hora',
+            accessor: 'hora',
+            maxWidth: 50,
+        }, {
+            Header: 'Placa',
+            accessor: 'placa',
+            maxWidth: 100,
+        }, {
+            Header: 'Marca',
+            accessor: 'marca',
+            maxWidth: 100,
+        }, {
+            Header: 'Color',
+            accessor: 'color',
+            maxWidth: 60,
+        }];
+
         this.state = {
             infoChofer: {},
             pedidos: [],
+            permisos: props.permisos,
         };
 
         this.clickBoton = this.clickBoton.bind(this);
@@ -56,6 +107,7 @@ export default class Precios extends Component {
     clickBoton(mensaje, keyPedido) {
         const database = firebase.database();
         const { pedidos } = this.state;
+
         let mensajeRes = mensaje;
         let mensajeActual = mensaje;
 
@@ -71,6 +123,7 @@ export default class Precios extends Component {
 
 
         pedidosRes[keyPedido].mensaje = mensajeActual;
+        delete pedidosRes[keyPedido].accion;
         database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
         pedidosRes[keyPedido].mensaje = mensajeRes;
         this.setState({ pedidos: pedidosRes });
@@ -82,9 +135,11 @@ export default class Precios extends Component {
             const { pedidos } = this.state;
 
             var today = new Date();
-            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            var time = today.getHours() + ":" + today.getMinutes();
             const pedidosRes = pedidos.map(a => Object.assign({}, a));
             pedidosRes[keyPedido].estado = 'Finalizado';
+            delete pedidosRes[keyPedido].mensaje;
+            delete pedidosRes[keyPedido].accion;
             database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
             var nombre = this.state.infoChofer.nombre;
             var idchofer = this.state.infoChofer.identidad;
@@ -113,51 +168,34 @@ export default class Precios extends Component {
     }
 
     mostrarPedidos() {
-        const { pedidos, infoChofer } = this.state;
+        const { infoChofer, pedidos } = this.state;
 
-        const pedidosJSX = [];
+        const listapedidos = [];
 
         Object.keys(pedidos).forEach((key, index) => {
             const pedido = pedidos[key];
             if (pedido.idchofer === infoChofer.identidad && pedido.estado === "Ocupado" && index !== 0) {
-                const { color, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, mensaje } = pedido;
-
                 let msjBoton = '';
 
-                if (mensaje === undefined || mensaje === 'ninguno' || mensaje === this.mensajes[1]) {
+                if (pedido.mensaje === undefined || pedido.mensaje === 'ninguno' || pedido.mensaje === this.mensajes[1]) {
                     msjBoton = this.mensajes[1];
-                } else if (mensaje === this.mensajes[2]) {
+                } else if (pedido.mensaje === this.mensajes[2]) {
                     msjBoton = this.mensajes[2];
-                } else if (mensaje === this.mensajes[3]) {
+                } else if (pedido.mensaje === this.mensajes[3]) {
                     msjBoton = this.mensajes[3];
                 }
-
-                pedidosJSX.push(
-                    <tr key={index}>
-                        <td>
-                            <Button variant="info" onClick={() => this.clickBoton(msjBoton, key)}>{msjBoton}</Button>
-                        </td>
-                        <td>
-                            <Button variant="danger" onClick={() => this.finalizar(key)}>Finalizar</Button>
-                        </td>
-                        <td>{nombre}</td>
-                        <td>{telefono}</td>
-                        <td>{ubicacion}</td>
-                        <td>{destino}</td>
-                        <td>{fecha}</td>
-                        <td>{hora}</td>
-                        <td>{placa}</td>
-                        <td>{marca}</td>
-                        <td>{color}</td>
-                    </tr>
-                );
+                    pedido.mensaje = <Button variant="info" onClick={() => this.clickBoton(msjBoton, key)}>{msjBoton}</Button>;
+                    pedido.accion = <Button variant="danger" onClick={() => this.finalizar(key)}>Finalizar</Button>;
+                
+                    listapedidos.push(pedido);
             }
         })
 
-        return pedidosJSX;
+        return listapedidos;
     }
 
     render() {
+        const pedidos = this.mostrarPedidos();
         return (
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
@@ -166,26 +204,13 @@ export default class Precios extends Component {
                 </Jumbotron>
                 <Card border="light">
                     <Alert variant="secondary">
-                        <Table responsive>
-                            <thead>
-                                <tr>
-                                    <th>Mensaje</th>
-                                    <th>Accion</th>
-                                    <th>Nombre</th>
-                                    <th>Telefono</th>
-                                    <th>Ubicacion</th>
-                                    <th>Destino</th>
-                                    <th>Fecha</th>
-                                    <th>Hora</th>
-                                    <th>Placa</th>
-                                    <th>Marca</th>
-                                    <th>Color</th>
-                                </tr>
-                            </thead>
-                            <tbody id="table_body">
-                                {this.mostrarPedidos()}
-                            </tbody>
-                        </Table>
+                        <h3>Mis Reservaciones</h3>
+                        <br />
+                        <ReactTable
+                            data={pedidos}
+                            columns={this.columnas}
+                            filterable
+                        />
                     </Alert>
                 </Card>
             </Container>

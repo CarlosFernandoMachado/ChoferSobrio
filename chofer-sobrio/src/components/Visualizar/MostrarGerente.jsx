@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Table, Card, Alert, Button, } from 'react-bootstrap';
+import { Jumbotron, Container, Card, Alert, Button, } from 'react-bootstrap';
+import ReactTable from 'react-table';
 import './Visualizar.css'
 import firebase from '../config/config';
 
@@ -7,9 +8,34 @@ export default class VisualizarGerente extends Component {
 
     constructor(props) {
         super(props);
+
+        this.columnas = [{
+            Header: 'Nombre',
+            accessor: 'nombre',
+            maxWidth: 300,
+        }, {
+            Header: 'Identidad',
+            accessor: 'identidad',
+            maxWidth: 150,
+        }, {
+            Header: 'Telefono',
+            accessor: 'telefono',
+            maxWidth: 150,
+        }, {
+            Header: 'Correo',
+            accessor: 'correo',
+            maxWidth: 300,
+        }, {
+            Header: 'Accion',
+            accessor: 'accion',
+            maxWidth: 100,
+            filterable: false,
+        }];
+
         this.state = {
             infoGerente: {},
             gerentes: [],
+            permisos: props.permisos,
         };
 
         this.mostrargerentes = this.mostrargerentes.bind(this);
@@ -50,29 +76,19 @@ export default class VisualizarGerente extends Component {
     }
 
     mostrargerentes() {
-        const { gerentes, infoGerente } = this.state;
+        const { gerentes } = this.state;
 
-        const gerentesJSX = [];
+        const dueños = [];
 
         Object.keys(gerentes).forEach((key, index) => {
             const pedido = gerentes[key];
             if (index !== 0) {
-                const { nombre, correo, telefono, identidad } = pedido;
-                gerentesJSX.push(
-                    <tr key={index}>
-                        <td>{nombre}</td>
-                        <td>{telefono}</td>
-                        <td>{correo}</td>
-                        <td>{identidad}</td>
-                        <td>
-                            <Button variant="danger" onClick={() => this.eliminar(key)}>Eliminar</Button>
-                        </td>
-                    </tr>
-                );
+                pedido.accion = <Button variant="danger" onClick={() => this.eliminar(key)}>Eliminar</Button>;
+                dueños.push(pedido);                
             }
         })
 
-        return gerentesJSX;
+        return dueños;
     }
 
 
@@ -80,11 +96,14 @@ export default class VisualizarGerente extends Component {
         if (window.confirm(' Se eliminara la cuenta')) {
             const database = firebase.database();
             const { gerentes } = this.state;
+            const gerentesRes = gerentes.map(a => Object.assign({}, a));
+            delete gerentesRes[keyPedido].accion;
             database.ref(`gerente/${keyPedido}/`).remove();
         }
     }
 
     render() {
+        const pedidos = this.mostrargerentes();
         return (
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
@@ -93,19 +112,13 @@ export default class VisualizarGerente extends Component {
                 </Jumbotron>
                 <Card border="light">
                     <Alert variant="secondary">
-                        <Table responsive>
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Telefono</th>
-                                    <th>Correo</th>
-                                    <th>Identidad</th>
-                                </tr>
-                            </thead>
-                            <tbody id="table_body">
-                                {this.mostrargerentes()}
-                            </tbody>
-                        </Table>
+                    <h3>Gerentes Existentes</h3>
+                        <br />
+                        <ReactTable
+                            data={pedidos}
+                            columns={this.columnas}
+                            filterable
+                        />
                     </Alert>
                 </Card>
             </Container>
