@@ -45,9 +45,6 @@ export default class Home extends Component {
         });  
       }
 
-    componentDidUpdate(){
-        this.renderMap();
-    }
 
     renderMap = () => {
         loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyArotdf5MfhV5c3VmS_KrgosKN4fZgwnrE&callback=initMap")
