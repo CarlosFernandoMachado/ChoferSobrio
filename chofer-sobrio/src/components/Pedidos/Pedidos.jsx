@@ -91,6 +91,7 @@ export default class Precios extends Component {
         const pedidosRes = pedidos.map(a => Object.assign({}, a));
         pedidosRes[keyPedido].estado = 'Ocupado';
         pedidosRes[keyPedido].idchofer = this.state.infoChofer.identidad;
+        delete pedidosRes[keyPedido].accion;
         database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
     }
 
