@@ -175,6 +175,9 @@ class SideDrawer extends React.Component {
                     <Link to="/seguridad">
                         <Button onClick={props.hide}> Seguridad</Button>
                     </Link>
+                    <Link to="/PreguntasFrecuentes">
+                        <Button onClick={props.hide}> Preguntas Frecuentes</Button>
+                    </Link>
                     {menu}
                 </ul>
             </nav>

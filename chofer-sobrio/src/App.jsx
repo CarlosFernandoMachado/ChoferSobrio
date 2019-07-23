@@ -35,6 +35,7 @@ import Historial from './components/Historial/Historial';
 import Info from './components/Nosotros/Info';
 import MisReservaciones from './components/Mis_Reservaciones/MisReservaciones';
 import mapa from './components/Map/mapa';
+import PreguntasFrecuentes from './components/Preguntas_Frecuentes/Preguntas_Frecuentes';
 
 class App extends Component {
   constructor(props) {
@@ -179,6 +180,7 @@ class App extends Component {
               <Route exact path="/EliminarCuentaCliente" component={Eliminar_Cuenta_Cliente}></Route>
               <Route exact path="/EliminarCuentaChofer" component={Eliminar_Cuenta_Chofer}></Route>
               <Route exact path="/MisReservaciones" component={MisReservaciones}></Route>
+              <Route exact path="/PreguntasFrecuentes" component={PreguntasFrecuentes}></Route>
             </div>
           </main>
         </div>
