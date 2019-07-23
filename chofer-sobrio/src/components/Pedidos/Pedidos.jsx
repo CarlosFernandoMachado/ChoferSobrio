@@ -96,14 +96,30 @@ export default class Precios extends Component {
 
     reservar(keyPedido) {
         const database = firebase.database();
-        const { pedidos } = this.state;
+        const { pedidos, infoChofer } = this.state;
+        const { identidad } = infoChofer;
+        let tienePedido = false;
 
-        const pedidosRes = pedidos.map(a => Object.assign({}, a));
-        pedidosRes[keyPedido].estado = 'Ocupado';
-        pedidosRes[keyPedido].idchofer = this.state.infoChofer.identidad;
-        delete pedidosRes[keyPedido].accion;
-        delete pedidosRes[keyPedido].mapa;
-        database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
+        // revisar si ya tiene pedidos
+        Object.keys(pedidos).forEach((key) => {
+            const pedido = pedidos[key];
+            if (pedido.estado === "Finalizado") {
+                return;
+            }
+
+            if (!tienePedido && identidad === pedido.idchofer) {
+                tienePedido = true;
+            }
+        });
+
+        if (!tienePedido) {
+            const pedidosRes = pedidos.map(a => Object.assign({}, a));
+            pedidosRes[keyPedido].estado = 'Ocupado';
+            pedidosRes[keyPedido].idchofer = this.state.infoChofer.identidad;
+            delete pedidosRes[keyPedido].accion;
+            delete pedidosRes[keyPedido].mapa;
+            database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
+        }
     }
 
     obtenerPedidos() {
