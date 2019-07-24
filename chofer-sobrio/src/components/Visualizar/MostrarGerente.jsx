@@ -25,7 +25,11 @@ export default class VisualizarGerente extends Component {
             Header: 'Correo',
             accessor: 'correo',
             maxWidth: 300,
-        }, {
+        },{
+            Header: 'Estado',
+            accessor: 'estado',
+            maxWidth: 300,
+        },{
             Header: 'Accion',
             accessor: 'accion',
             maxWidth: 100,
@@ -98,8 +102,12 @@ export default class VisualizarGerente extends Component {
             const { gerentes } = this.state;
             const gerentesRes = gerentes.map(a => Object.assign({}, a));
             delete gerentesRes[keyPedido].accion;
-            database.ref(`gerente/${keyPedido}/`).remove();
+            var estadocuenta = "inactivo"
+            database.ref('gerente/' + keyPedido).update({
+               estado:estadocuenta
+            });
         }
+        window.location = "/";
     }
 
     render() {

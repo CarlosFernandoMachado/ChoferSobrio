@@ -29,6 +29,10 @@ export default class VisualizarCliente extends Component {
             Header: 'Color',
             accessor: 'color',
             maxWidth: 100,
+        },{
+            Header: 'Estado',
+            accessor: 'estado',
+            maxWidth: 300,
         }, {
             Header: 'Placa',
             accessor: 'placa',
@@ -105,9 +109,11 @@ export default class VisualizarCliente extends Component {
         if (window.confirm(' Se eliminara la cuenta')) {
             const database = firebase.database();
             const { clientes } = this.state;
-            const clientesRes = clientes.map(a => Object.assign({}, a));
-            delete clientesRes[keyPedido].accion;
-            database.ref(`cliente/${keyPedido}/`).remove();
+           
+            var estadocuenta="inactiva"
+            database.ref('cliente/' + keyPedido).update({
+                estado:estadocuenta
+             });
         }
     }
 

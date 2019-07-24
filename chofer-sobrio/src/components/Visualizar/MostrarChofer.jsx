@@ -21,6 +21,10 @@ export default class VisualizarChofer extends Component {
             Header: 'Telefono',
             accessor: 'telefono',
             maxWidth: 150,
+        },{
+            Header: 'Estado',
+            accessor: 'estado',
+            maxWidth: 300,
         }, {
             Header: 'Correo',
             accessor: 'correo',
@@ -93,11 +97,15 @@ export default class VisualizarChofer extends Component {
 
     eliminar(keyPedido) {
         if (window.confirm(' Se eliminara la cuenta')) {
+            
             const database = firebase.database();
             const { choferes } = this.state;
             const choferesRes = choferes.map(a => Object.assign({}, a));
             delete choferesRes[keyPedido].accion;
-            database.ref(`chofer/${keyPedido}/`).remove();
+            var estadocuenta="inactiva"
+            database.ref('chofer/' + keyPedido).update({
+                estado:estadocuenta
+             });
         }
     }
 

@@ -242,6 +242,7 @@ export default class Crear extends Component {
             name = this.props.datos[1];
             telephone = this.props.datos[2];
             email = this.props.datos[3];
+            var estadocuenta = "activo"
             id = 0;
             var estado = 0;
             var estado2 = 0;
@@ -262,23 +263,24 @@ export default class Crear extends Component {
                             id++;
                             database.ref('gerente/' + id).set({
                                 correo: email,
+                                estado: estadocuenta,
                                 identidad: identity,
                                 nombre: name,
                                 telefono: telephone
-            
+
                             });
                             database.ref('referencias/').update({
                                 id_gerente: id
                             });
                         })
-            
+
                         setTimeout(redirigir, 1000);
                     }
                 });
 
             });
-            
-         
+
+
         }
         if (this.props.validado && this.props.funcion === "Crearpedido") {
             var database = Fire.database();
@@ -291,6 +293,7 @@ export default class Crear extends Component {
             plate = this.props.datos[6];
             telephone = this.props.datos[7];
             location = this.props.datos[8];
+
             id = 0;
             n = database.ref('/referencias/').once('value').then(function (snapshot) {
                 id = (snapshot.val() && snapshot.val().id_pedido) || 'Anonymous';
@@ -324,6 +327,7 @@ export default class Crear extends Component {
             plate = this.props.datos[3];
             telephone = this.props.datos[4];
             email = this.props.datos[5];
+            var estadocuenta = "activo"
             var estado = 0;
             var estado2 = 0;
             id = 0;
@@ -344,6 +348,7 @@ export default class Crear extends Component {
                             database.ref('cliente/' + id).set({
                                 color_vehiculo: colour,
                                 correo: email,
+                                estado: estadocuenta,
                                 marca: brand,
                                 nombre: name,
                                 placa: plate,
@@ -374,11 +379,11 @@ export default class Crear extends Component {
             email = this.props.datos[3];
             id = 0;
 
-
+            var estadocuenta = "activo"
 
             var estado = 0;
             var estado2 = 0;
-           
+
             Fire.database().ref('chofer').orderByChild('identidad').equalTo(identity).once('value').then(function (snapshot) {
                 estado = snapshot.exists()
                 Fire.database().ref('chofer').orderByChild('correo').equalTo(email).once('value').then(function (snapshot) {
@@ -395,10 +400,11 @@ export default class Crear extends Component {
                             id++;
                             database.ref('chofer/' + id).set({
                                 correo: email,
+                                estado: "activo",
                                 identidad: identity,
                                 nombre: name,
                                 telefono: telephone
-            
+
                             });
                             database.ref('referencias/').update({
                                 id_chofer: id
@@ -416,7 +422,7 @@ export default class Crear extends Component {
 
 
 
-            
+
         }
         if (this.props.validado && this.props.funcion === "CrearComentario") {
             database = Fire.database();
@@ -505,20 +511,40 @@ export default class Crear extends Component {
         }
         if (this.props.validado && this.props.funcion === "eliminar_chofer") {
 
+            var estadocuenta = "inactivo"
             id = this.props.datos[0]
-            this.Eliminarchofer(id);
+            database = Fire.database();
+
+            database.ref('chofer/' + id).update({
+               estado:estadocuenta
+            });
             setTimeout(redirigir, 1000);
         }
         if (this.props.validado && this.props.funcion === "eliminar_cliente") {
 
+            var estadocuenta = "inactivo"
             id = this.props.datos[0]
-            this.Eliminarcliente(id);
+            database = Fire.database();
+
+            database.ref('cliente/' + id).update({
+               estado:estadocuenta
+            });
+
+
+         
             setTimeout(redirigir, 1000);
         }
         if (this.props.validado && this.props.funcion === "eliminar_gerente") {
+            var estadocuenta = "inactivo"
+            id = this.props.datos[4]
+            database = Fire.database();
 
-            id = this.props.datos[0]
-            this.EliminarGerente(id);
+            database.ref('gerente/' + id).update({
+               estado:estadocuenta
+            });
+
+
+         
             setTimeout(redirigir, 1000);
         }
 

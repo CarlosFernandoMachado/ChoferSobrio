@@ -65,9 +65,13 @@ class App extends Component {
         const gerentes = snap.val();
         let isGerente = false;
         Object.keys(gerentes).forEach(key => {
-          isGerente = isGerente || gerentes[key].correo === user.email;
+          isGerente = isGerente || (gerentes[key].correo === user.email && gerentes[key].estado === "activo");
         });
+        
         this.setState({ isGerente });
+       
+
+        
       });
 
       // choferes
@@ -76,7 +80,7 @@ class App extends Component {
         const choferes = snap.val();
         let isChofer = false;
         Object.keys(choferes).forEach(key => {
-          isChofer = isChofer || choferes[key].correo === user.email;
+          isChofer = isChofer ||(choferes[key].correo === user.email && choferes[key].estado === "activo");
         });
         this.setState({ isChofer });
       });
@@ -87,7 +91,7 @@ class App extends Component {
         const clientes = snap.val();
         let isCliente = false;
         Object.keys(clientes).forEach(key => {
-          isCliente = isCliente || clientes[key].correo === user.email;
+          isCliente = isCliente || (clientes[key].correo === user.email && clientes[key].estado === "activo");;
         });
         this.setState({ isCliente });
       });
@@ -130,7 +134,7 @@ class App extends Component {
 
   render() {
     const { isGerente, isChofer, isCliente } = this.state;
-
+    
     let permisos = {
       gerente: isGerente,
       chofer: isChofer,
