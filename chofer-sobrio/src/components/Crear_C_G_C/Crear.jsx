@@ -221,6 +221,23 @@ export default class Crear extends Component {
         var database = Fire.database();
         database.ref('pedido/' + id).remove();
     }
+
+    async tienePedido(numId, database) {
+        // ver si tiene reservaciones
+        const tieneP = await database.ref('/pedido').once('value').then((snap) => {
+            const pedidos = snap.val();
+            let tiene = false;
+            Object.keys(pedidos).forEach((key) => {
+                const pedido = pedidos[key];
+                if (pedido.estado === 'Ocupado' && pedido.idchofer === numId) {
+                    tiene = true;
+                }
+            });
+            return tiene;
+        });
+        return tieneP;
+    }
+    
     render() {
         var databse = null;
         var n = null;
@@ -512,13 +529,17 @@ export default class Crear extends Component {
         if (this.props.validado && this.props.funcion === "eliminar_chofer") {
 
             var estadocuenta = "inactivo"
-            id = this.props.datos[0]
+            const [ id, numId ] = this.props.datos;
             database = Fire.database();
 
-            database.ref('chofer/' + id).update({
-               estado:estadocuenta
+            this.tienePedido(numId, database).then((tieneP) => {
+                if (!tieneP) {
+                    database.ref('chofer/' + id).update({
+                        estado: estadocuenta,
+                    });
+                    setTimeout(redirigir, 1000);
+                }
             });
-            setTimeout(redirigir, 1000);
         }
         if (this.props.validado && this.props.funcion === "eliminar_cliente") {
 

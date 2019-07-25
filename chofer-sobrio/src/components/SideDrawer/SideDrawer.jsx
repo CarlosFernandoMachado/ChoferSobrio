@@ -140,6 +140,14 @@ class SideDrawer extends React.Component {
             );
         }
 
+        if (!isChofer && !isGerente) {
+            menu.push(
+                <Link to="/PedirChofer">
+                    <Button onClick={props.hide}> Pedir Chofer</Button>
+                </Link>
+            );
+        }
+
         if (isCliente) {
             menu.push(
                 <Link key={key++} to="/ModificarCliente">

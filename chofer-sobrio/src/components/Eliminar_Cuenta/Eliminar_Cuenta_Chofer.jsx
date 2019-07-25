@@ -11,6 +11,7 @@ export default class Eliminar_Cuenta extends Component {
         super(props);
         this.state = {
             id: '',
+            numId: '',
             correo: '',
             password: '',
             listo: 0
@@ -30,6 +31,7 @@ export default class Eliminar_Cuenta extends Component {
         rootRef.on("child_added", snap => {
             var id = 0
 
+            const numId = snap.val().identidad;
             var correo = snap.child("correo").val();
 
 
@@ -44,7 +46,7 @@ export default class Eliminar_Cuenta extends Component {
 
                 this.setState({
                     id: id,
-
+                    numId,
                 });
                 event.preventDefault();
 
@@ -74,7 +76,7 @@ export default class Eliminar_Cuenta extends Component {
                             </Form.Row>
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Eliminar Cuenta
-                                <Crear validado={this.state.listo} datos={[this.state.id]} funcion={"eliminar_chofer"} />
+                                <Crear validado={this.state.listo} datos={[this.state.id, this.state.numId]} funcion={"eliminar_chofer"} />
                                 </Button>
 
                             </div>
