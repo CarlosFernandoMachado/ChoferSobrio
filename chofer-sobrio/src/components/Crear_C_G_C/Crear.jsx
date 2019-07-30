@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
 import './Crear.css'
 import Fire from '../config/config';
+import firebase from 'firebase';
+export const firebaseAuth = firebase.auth;
 
+function logout() {
+    return firebaseAuth().signOut();
+}
 
 function redirigir() {
     window.location = "/";
@@ -247,7 +252,7 @@ export default class Crear extends Component {
         });
         return tieneP;
     }
-    
+
     render() {
         var databse = null;
         var n = null;
@@ -565,7 +570,7 @@ export default class Crear extends Component {
         if (this.props.validado && this.props.funcion === "eliminar_chofer") {
 
             var estadocuenta = "inactivo"
-            const [ id, numId ] = this.props.datos;
+            const [id, numId] = this.props.datos;
             database = Fire.database();
 
             this.tienePedido(numId, database).then((tieneP) => {
@@ -584,24 +589,24 @@ export default class Crear extends Component {
             database = Fire.database();
 
             database.ref('cliente/' + id).update({
-               estado:estadocuenta
+                estado: estadocuenta
             });
 
 
-         
+
             setTimeout(redirigir, 1000);
         }
         if (this.props.validado && this.props.funcion === "eliminar_gerente") {
             var estadocuenta = "inactivo"
-            id = this.props.datos[4]
+            id = this.props.datos[0]
+
             database = Fire.database();
 
             database.ref('gerente/' + id).update({
-               estado:estadocuenta
+                estado: estadocuenta
             });
 
 
-         
             setTimeout(redirigir, 1000);
         }
 

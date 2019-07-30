@@ -1,0 +1,200 @@
+import React, { Component } from 'react';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { Form, Button, Container } from 'react-bootstrap';
+import './activarcuentas.css';
+import Crear from '../Crear_C_G_C/Crear';
+import { Jumbotron, Card, Alert } from 'react-bootstrap';
+import firebase from 'firebase';
+import { logout } from '../config/auth';
+
+
+export default class Password_olvidada extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isGerente: false,
+            isChofer: false,
+            isCliente: false,
+            id: "",
+            password: '',
+            listo: 0
+        };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    handleChange(event) {
+        this.setState({ password: event.target.value });
+    }
+
+    activarchofer() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (window.confirm('desea activar su cuenta de chofer de nuevo?')) {
+            firebase.database().ref().child('chofer').orderByChild('correo').equalTo(user.email).on("value", function (snapshot) {
+                console.log(snapshot.val());
+                snapshot.forEach(function (data) {
+                    var id = data.key;
+                    var database = firebase.database();
+
+                    database.ref('chofer/' + id).update({
+                        estado: "activo"
+                    });
+
+
+                });
+            });
+
+            this.setState({ isChofer: true })
+        }
+    }
+    activarcliente() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (window.confirm('desea activar su cuenta de cliente de nuevo?')) {
+            firebase.database().ref().child('cliente').orderByChild('correo').equalTo(user.email).on("value", function (snapshot) {
+                console.log(snapshot.val());
+                snapshot.forEach(function (data) {
+                    var id = data.key;
+                    var database = firebase.database();
+
+                    database.ref('cliente/' + id).update({
+                        estado: "activo"
+                    });
+
+
+                });
+            });
+
+            this.setState({ isCliente: true })
+        }
+    }
+    activargerente() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (window.confirm('desea activar su cuenta de Gerente nuevo?')) {
+            firebase.database().ref().child('gerente').orderByChild('correo').equalTo(user.email).on("value", function (snapshot) {
+                console.log(snapshot.val());
+                snapshot.forEach(function (data) {
+                    var id = data.key;
+                    var database = firebase.database();
+
+                    database.ref('gerente/' + id).update({
+                        estado: "activo"
+                    });
+
+
+                });
+            });
+
+            this.setState({ isGerente: true })
+        } else {
+            this.setState({ isGerente: false })
+        }
+
+    }
+
+    
+    
+
+
+    handleSubmit(event) {
+       
+        
+      
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        if (user) {
+            this.setState({ user });
+
+            // gerentes
+            this.dbRefGerentes = firebase.database().ref('/gerente');
+            this.dbCallbackGerentes = this.dbRefGerentes.on('value', (snap) => {
+                const gerentes = snap.val();
+                let isGerente = false;
+                var flag = 0
+
+                Object.keys(gerentes).forEach(key => {
+                    if (isGerente = isGerente || (gerentes[key].correo === user.email && gerentes[key].estado === "activo")) {
+                        this.setState({ isGerente });
+                    } else if ((gerentes[key].correo === user.email && gerentes[key].estado === "inactivo")) {
+
+                        this.activargerente()
+                    }
+
+                    ;
+                });
+
+
+
+
+
+
+
+            });
+            // choferes
+            this.dbRefChoferes = firebase.database().ref('/chofer');
+            this.dbCallbackChoferes = this.dbRefChoferes.on('value', (snap) => {
+                const choferes = snap.val();
+                let isChofer = false;
+                Object.keys(choferes).forEach(key => {
+                    if (isChofer = isChofer || (choferes[key].correo === user.email && choferes[key].estado === "activo")) {
+                        this.setState({ isChofer });
+                    } else if ((choferes[key].correo === user.email && choferes[key].estado === "inactivo")) {
+                        this.activarchofer()
+                    };
+
+                });
+
+
+
+            });
+
+            // clientes
+            this.dbRefClientes = firebase.database().ref('/cliente');
+            this.dbCallbackClientes = this.dbRefClientes.on('value', (snap) => {
+                const clientes = snap.val();
+                let isCliente = false;
+                Object.keys(clientes).forEach(key => {
+                    if (isCliente = isCliente || (clientes[key].correo === user.email && clientes[key].estado === "activo")) {
+                        this.setState({ isCliente });
+                    } else if ((clientes[key].correo === user.email && clientes[key].estado === "inactivo")) {
+                        this.activarcliente()
+                    };
+                });
+
+
+
+            });
+        }
+
+
+
+    }
+
+    render() {
+        return (
+            <Container>
+                <Jumbotron className="jumbo-boy" fluid>
+                    <h1>Chofer Sobrio</h1>
+                    <h5>Activar tus cuentas</h5>
+                </Jumbotron>
+
+                <Card border="ligth">
+                    <Alert variant="secondary">
+                        <Form
+                            onSubmit={e => this.handleSubmit(e)}>
+                            <Form.Row>
+
+                            </Form.Row>
+                            <div className="text-center">
+                                <Button type="submit" variant="warning" >Activar Cuentas
+
+                                </Button>
+
+                            </div>
+
+                        </Form>
+                    </Alert>
+                </Card>
+
+            </Container>
+        )
+    }
+}

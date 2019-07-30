@@ -95,7 +95,7 @@ export default class VisualizarCliente extends Component {
 
         Object.keys(clientes).forEach((key, index) => {
             const pedido = clientes[key];
-            if (index !== 0) {
+            if (index !== 0 &&  clientes[key].estado==="activo") {
                 pedido.accion = <Button variant="danger" onClick={() => this.eliminar(key)}>Eliminar</Button>;
                 usuarios.push(pedido);
             }
@@ -110,7 +110,7 @@ export default class VisualizarCliente extends Component {
             const database = firebase.database();
             const { clientes } = this.state;
            
-            var estadocuenta="inactiva"
+            var estadocuenta="inactivo"
             database.ref('cliente/' + keyPedido).update({
                 estado:estadocuenta
              });

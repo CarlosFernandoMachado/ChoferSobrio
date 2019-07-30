@@ -7,6 +7,7 @@ import Seguridad from './components/Seguridad/Seguridad';
 import Toolbar from './components/Toolbar/Toolbar';
 import Crear from './components/Crear_C_G_C/Crear'
 import SideDrawer from './components/SideDrawer/SideDrawer';
+import activarcuentas from './components/activarcuentas/activarcuentas';
 import Backdrop from './components/Backdrop/Backdrop';
 import PedirChofer from './components/PedirChofer/PedirChofer';
 import CrearGerente from './components/CrearGerente/CrearGerente';
@@ -169,6 +170,7 @@ class App extends Component {
               <GerenteChofer exact path="/mapa" permisos={permisos} component={mapa} latitud={this.state.latitud} longitud={this.state.longitud}></GerenteChofer>
               <Chofer exact path="/miperfil" permisos={permisos} component={MiPerfil}></Chofer>
               <Route exact path="/CrearCliente" component={CrearCliente}></Route>
+              <Route exact path="/activarcuentas" component={activarcuentas}></Route>
               <Route exact path="/iniciarSesion" component={IniciarSesion}></Route>
               <Route exact path="/Password_olvidada" component={Password_olvidada}></Route>
               <Route exact path="/ModificarContrasenaChofer" component={ModificarContrasenaChofer}></Route>
