@@ -195,6 +195,16 @@ export default class Crear extends Component {
             mensaje: 'ninguno',
         });
     }
+    Crearcarro(id,color_vehiculo,email,marca_v,placa_v) {
+        var database = Fire.database();
+        database.ref('carro/' + id).set({
+            color: color_vehiculo,
+            correo: email,
+            marca: marca_v,
+            placa: placa_v,
+        });
+    }
+
     Leerpedido(userId) {
         var database = Fire.database();
         var n = database.ref('/pedido/' + userId).once('value').then(function (snapshot) {
@@ -299,6 +309,31 @@ export default class Crear extends Component {
 
 
         }
+
+        if (this.props.validado && this.props.funcion === "Crearcarro") {
+            var database = Fire.database();
+            colour = this.props.datos[0];
+            email = this.props.datos[1];
+            brand = this.props.datos[2];
+            plate = this.props.datos[3]
+
+            id = 0;
+            n = database.ref('/referencias/').once('value').then(function (snapshot) {
+                id = (snapshot.val() && snapshot.val().id_carro) || 'Anonymous';
+                id++;
+                database.ref('carro/' + id).set({
+                    color: colour,
+                    correo: email,
+                    marca: brand,
+                    placa: plate,
+                });
+                database.ref('referencias/').update({
+                    id_carro: id
+                });
+            })
+            setTimeout(redirigir, 1000);
+        }
+        
         if (this.props.validado && this.props.funcion === "Crearpedido") {
             var database = Fire.database();
             colour = this.props.datos[0];
@@ -336,6 +371,7 @@ export default class Crear extends Component {
             })
             setTimeout(redirigir, 1000);
         }
+        
         if (this.props.validado && this.props.funcion === "crear_cliente") {
             database = Fire.database();
             colour = this.props.datos[0];
