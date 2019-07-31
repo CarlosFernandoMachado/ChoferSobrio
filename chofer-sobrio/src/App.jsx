@@ -37,6 +37,7 @@ import Info from './components/Nosotros/Info';
 import MisReservaciones from './components/Mis_Reservaciones/MisReservaciones';
 import mapa from './components/Map/mapa';
 import PreguntasFrecuentes from './components/Preguntas_Frecuentes/Preguntas_Frecuentes';
+import MostrarCarros from './components/Visualizar/MostrarCarros';
 
 class App extends Component {
   constructor(props) {
@@ -187,6 +188,7 @@ class App extends Component {
               <Route exact path="/EliminarCuentaChofer" component={Eliminar_Cuenta_Chofer}></Route>
               <Route exact path="/MisReservaciones" component={MisReservaciones}></Route>
               <Route exact path="/PreguntasFrecuentes" component={PreguntasFrecuentes}></Route>
+              <Route exact path ="/MostrarCarros" component={MostrarCarros}></Route>
             </div>
           </main>
         </div>
