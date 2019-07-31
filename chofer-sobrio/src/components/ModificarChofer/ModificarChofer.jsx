@@ -227,9 +227,16 @@ export default class ModificarChofer extends Component {
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         Ingrese su teléfono(8 digitos)
-                            </Form.Control.Feedback>
+                                    </Form.Control.Feedback>
                                 </Form.Group>
-                               
+                                <Form.Group as={ Col } md="3">
+                                    <div className="text-left">
+                                        <Button  type="submit" variant="danger" >Cambiar contraseña
+                                        <Crear validado={ this.state.listo } datos={ [0, 0] } funcion={ "password_chofer" } />
+                                        </Button>
+                                    </div>
+                                   
+                                </Form.Group>
                               
                           
                             </Form.Row>

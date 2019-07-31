@@ -532,6 +532,10 @@ export default class Crear extends Component {
             this.modificargerente(id, identity, name, telephone, email);
             setTimeout(redirigir, 1000);
         }
+        if(this.props.validado && this.props.funcion === "password_gerente"){
+            alert("Entroooo wey");
+            this.update_password_cliente();
+        }
         if (this.props.validado && this.props.funcion === "modificar_chofer") {
             database = Fire.database();
             identity = this.props.datos[0];
@@ -541,6 +545,10 @@ export default class Crear extends Component {
             id = this.props.datos[4]
             this.modificarchofer(id, identity, name, telephone, email);
             setTimeout(redirigir, 1000);
+        }
+        if(this.props.validado && this.props.funcion === "password_chofer"){
+            alert("Entroooo wey");
+            this.update_password_cliente();
         }
         if (this.props.validado && this.props.funcion === "eliminar_chofer") {
 
