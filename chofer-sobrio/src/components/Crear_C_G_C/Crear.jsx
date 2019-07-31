@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './Crear.css'
 import Fire from '../config/config';
-
+//import firebaseAuth from '../config/config';
 
 function redirigir() {
     window.location = "/";
@@ -86,6 +86,18 @@ export default class Crear extends Component {
             contraseña: ""
         });
     }
+    update_password_cliente= () => {
+        const email = Fire.auth().currentUser.email;
+        Fire.auth().signOut().then(function() {
+            console.log('Signed Out');
+          }, function(error) {
+            console.error('Sign Out Error', error);
+          });
+        Fire.auth().sendPasswordResetEmail(email)
+        .then(function() {
+            alert('Se ha enviado un link de cambio de contrasena a '+ email);
+        });
+      }
     modificarcontraseñagerente(id, contraseña) {
         var database = Fire.database();
         database.ref('gerente/' + id).update({
@@ -504,6 +516,10 @@ export default class Crear extends Component {
             id = this.props.datos[6];
             this.modificarcliente(id, colour, brand, name, plate, telephone, email)
             setTimeout(redirigir, 1000);
+        }
+        if(this.props.validado && this.props.funcion === "password_cliente"){
+            alert("Entroooo wey");
+            this.update_password_cliente();
         }
 
         if (this.props.validado && this.props.funcion === "modificar_gerente") {
