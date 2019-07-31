@@ -17,51 +17,75 @@ class Toolbar extends React.Component {
             isCliente: false,
         };
     }
+    
 
     componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
 
         if (user) {
-          this.setState({ user });
-    
-          // gerentes
-          this.dbRefGerentes = firebase.database().ref('/gerente');
-          this.dbCallbackGerentes = this.dbRefGerentes.on('value', (snap) => {
-            const gerentes = snap.val();
-            let isGerente = false;
-            Object.keys(gerentes).forEach(key => {
-              isGerente = isGerente || (gerentes[key].correo === user.email && gerentes[key].estado === "activo");
+            this.setState({ user });
+
+            // gerentes
+            this.dbRefGerentes = firebase.database().ref('/gerente');
+            this.dbCallbackGerentes = this.dbRefGerentes.on('value', (snap) => {
+                const gerentes = snap.val();
+                let isGerente = false;
+                var flag = 0
+
+                Object.keys(gerentes).forEach(key => {
+                    if (isGerente = isGerente || (gerentes[key].correo === user.email && gerentes[key].estado === "activo")) {
+                        this.setState({ isGerente });
+                    } else if ((gerentes[key].correo === user.email && gerentes[key].estado === "inactivo")) {
+
+                        
+                    }
+
+                    ;
+                });
+
+
+
+
+
+
+
             });
-            
-            this.setState({ isGerente });
-           
-    
-            
-          });
-    
-          // choferes
-          this.dbRefChoferes = firebase.database().ref('/chofer');
-          this.dbCallbackChoferes = this.dbRefChoferes.on('value', (snap) => {
-            const choferes = snap.val();
-            let isChofer = false;
-            Object.keys(choferes).forEach(key => {
-              isChofer = isChofer ||(choferes[key].correo === user.email && choferes[key].estado === "activo");
+            // choferes
+            this.dbRefChoferes = firebase.database().ref('/chofer');
+            this.dbCallbackChoferes = this.dbRefChoferes.on('value', (snap) => {
+                const choferes = snap.val();
+                let isChofer = false;
+                Object.keys(choferes).forEach(key => {
+                    if (isChofer = isChofer || (choferes[key].correo === user.email && choferes[key].estado === "activo")) {
+                        this.setState({ isChofer });
+                    } else if ((choferes[key].correo === user.email && choferes[key].estado === "inactivo")) {
+                      
+                    };
+
+                });
+
+
+
             });
-            this.setState({ isChofer });
-          });
-    
-          // clientes
-          this.dbRefClientes = firebase.database().ref('/cliente');
-          this.dbCallbackClientes = this.dbRefClientes.on('value', (snap) => {
-            const clientes = snap.val();
-            let isCliente = false;
-            Object.keys(clientes).forEach(key => {
-              isCliente = isCliente || (clientes[key].correo === user.email && clientes[key].estado === "activo");;
+
+            // clientes
+            this.dbRefClientes = firebase.database().ref('/cliente');
+            this.dbCallbackClientes = this.dbRefClientes.on('value', (snap) => {
+                const clientes = snap.val();
+                let isCliente = false;
+                Object.keys(clientes).forEach(key => {
+                    if (isCliente = isCliente || (clientes[key].correo === user.email && clientes[key].estado === "activo")) {
+                        this.setState({ isCliente });
+                    } else if ((clientes[key].correo === user.email && clientes[key].estado === "inactivo")) {
+                       
+                    };
+                });
+
+
+
             });
-            this.setState({ isCliente });
-          });
         }
-      
+
     }
 
     componentWillUnmount() {
@@ -145,6 +169,8 @@ class Toolbar extends React.Component {
                     </Link>
                 </Dropdown.Item>,
             );
+        } else {
+
         }
 
         if (isChofer) {
@@ -225,6 +251,9 @@ class Toolbar extends React.Component {
 
                         <Link to="/precios">
                             <Button className="navbar-item"> Precios</Button>
+                        </Link>
+                        <Link to="/activarcuentas">
+                            <Button className="navbar-item"> Activar Cuentas</Button>
                         </Link>
                         <Link to="/seguridad">
                             <Button className="navbar-item"> Seguridad</Button>

@@ -55,6 +55,7 @@ export default class Eliminar_Cuenta extends Component {
         });
         if (window.confirm(' Se eliminara su cuenta, lamentamos mucho que tengas que irte, esperamos que sea un nos vemos y regreses 😢'))
             this.setState({ listo: "true" });
+            
 
 
     }

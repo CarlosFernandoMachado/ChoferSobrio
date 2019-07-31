@@ -85,7 +85,7 @@ export default class VisualizarChofer extends Component {
 
         Object.keys(choferes).forEach((key, index) => {
             const pedido = choferes[key];
-            if (index !== 0) {
+            if (index !== 0 && choferes[key].estado =="activo") {
                 pedido.accion = <Button variant="danger" onClick={() => this.eliminar(key)}>Eliminar</Button>;
                 conductores.push(pedido);
             }
@@ -102,7 +102,7 @@ export default class VisualizarChofer extends Component {
             const { choferes } = this.state;
             const choferesRes = choferes.map(a => Object.assign({}, a));
             delete choferesRes[keyPedido].accion;
-            var estadocuenta="inactiva"
+            var estadocuenta="inactivo"
             database.ref('chofer/' + keyPedido).update({
                 estado:estadocuenta
              });

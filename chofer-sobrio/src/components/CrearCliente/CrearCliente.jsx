@@ -30,9 +30,6 @@ export default class Precios extends Component {
 
     }
 
-
-    
-
     handleSelect(evtKey) {
         this.setState({ Color: evtKey });
     }
@@ -53,11 +50,6 @@ export default class Precios extends Component {
         var rex = /[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i;
         var n = 0;
         
-        
-       
-
-
-
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
@@ -89,23 +81,13 @@ export default class Precios extends Component {
             } else if (this.state.color == 'Seleccione el color de su vehículo.') {
                 this.setState({ validated: 'false' });
             } else {
-
-
-                
-                   
                     this.setState({ validated: 'true' });
                     event.preventDefault();
                     this.setState({ listo: 'true' });
-                
-
-
-
             }
-
         }
         event.preventDefault();
         this.setState({ validated: 'false' });
-
 
     }
 
@@ -136,10 +118,8 @@ export default class Precios extends Component {
                             noValidate
                             validated={validated}
                             onSubmit={e => this.handleSubmit(e)}
-
-
-
                         >
+                            
                             <Form.Row>
                                 <Form.Group as={Col} md="4" >
                                     <Form.Label>Color de vehículo:</Form.Label>
@@ -148,7 +128,7 @@ export default class Precios extends Component {
                                             {this.state.Color}
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
-                                            <Dropdown.Item eventKey='Amarillo'>
+                                            <Dropdown.Item eventKey='Amarillo' onSelect={this.handleSelect}>
                                                 Amarillo
                                              </Dropdown.Item>
                                             <Dropdown.Item eventKey='Azul' onSelect={this.handleSelect}>
@@ -339,9 +319,8 @@ export default class Precios extends Component {
                             </Form.Row>
                             <div className="text-center">
                                 <Button type="submit" variant="warning" > Registrarse</Button>
+                                <Crear validado = {this.state.listo} datos={[this.state.Color,this.state.correo,this.state.Marca,this.state.Placa]} funcion={"Crearcarro"}/>
                                 <Crear validado={this.state.listo} datos={[this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo]} funcion={"crear_cliente"} />
-
-
                             </div>
 
 

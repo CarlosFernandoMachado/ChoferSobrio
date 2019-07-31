@@ -5,6 +5,7 @@ import './Eliminar_Cuenta.css';
 import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Card, Alert } from 'react-bootstrap';
 import firebase from 'firebase';
+import { logout } from '../config/auth';
 
 
 export default class Password_olvidada extends Component {
@@ -51,8 +52,9 @@ export default class Password_olvidada extends Component {
                 }
 
             });
-            if (window.confirm(' Se eliminara su cuenta, lamentamos mucho que tengas que irte, esperamos que sea un nos vemos y regreses 😢')) 
+            if (window.confirm(' Se eliminara su cuenta, lamentamos mucho que tengas que irte, esperamos que sea un nos vemos y regreses 😢')) {
             this.setState({listo:"true"});
+            }
        
     }
 
@@ -72,7 +74,7 @@ export default class Password_olvidada extends Component {
                               
                             </Form.Row>
                             <div className="text-center">
-                                <Button type="submit" variant="warning" >Eliminar Cuenta gerente
+                                <Button type="submit" onClick={logout} variant="warning" >Eliminar Cuenta gerente
                                 <Crear validado={ this.state.listo } datos={ [this.state.id] } funcion={ "eliminar_gerente" } />
                                 </Button>
 
