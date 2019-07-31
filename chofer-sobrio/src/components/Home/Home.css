@@ -15,6 +15,17 @@
     z-index: 1;
 }
 
+.wrapper{
+    position: relative;
+}
+
+.over_map{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 5;
+}
+
 .pedir {
     background: yellow;
     color: black;
