@@ -88,11 +88,7 @@ export default class Crear extends Component {
     }
     update_password_cliente= () => {
         const email = Fire.auth().currentUser.email;
-        Fire.auth().signOut().then(function() {
-            console.log('Signed Out');
-          }, function(error) {
-            console.error('Sign Out Error', error);
-          });
+     
         Fire.auth().sendPasswordResetEmail(email)
         .then(function() {
             alert('Se ha enviado un link de cambio de contrasena a '+ email);
