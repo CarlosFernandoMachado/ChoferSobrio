@@ -283,19 +283,14 @@ export default class Crear extends Component {
                 estado = snapshot.exists()
                 Fire.database().ref('gerente').orderByChild('correo').equalTo(email).once('value').then(function (snapshot) {
                     estado2 = snapshot.exists()
-                    if (estado === true && estado2 === true) {
-                        alert("identidad y correo invalido, ya existe")
+                    if (estado === true) {
+                        alert("identidad invalida, ya existe")
                         /*setTimeout(redirigircreargerente, 1000)*/
                         document.getElementById("identidad").value = "";
-                        document.getElementById("correo").value = "";
                     } else if (estado2 === true) {
                         alert("correo invalido, ya existe")
                         /*setTimeout(redirigircreargerente, 1000)*/
                         document.getElementById("correo").value = "";
-                    } else if (estado === true) {
-                        alert("identidad invalida, ya existe")
-                        /*setTimeout(redirigircreargerente, 1000)*/
-                        document.getElementById("identidad").value = "";
                     } else {
                         n = database.ref('/referencias/').once('value').then(function (snapshot) {
                             id = (snapshot.val() && snapshot.val().id_gerente) || 'Anonymous';
@@ -400,18 +395,14 @@ export default class Crear extends Component {
                 estado = snapshot.exists()
                 Fire.database().ref('cliente').orderByChild('correo').equalTo(email).once('value').then(function (snapshot) {
                     estado2 = snapshot.exists()
-                    if ( (estado === true && estado2 === true) ) {
-                        alert("Placa y Correo invalidos, ya existen")
+                    if ( (estado === true) ) {
+                        alert("Placa invalida, ya existe")
                         /*setTimeout(redirigircrearcliente, 1000)*/
                         document.getElementById("Placa").value = "";
-                        document.getElementById("correo").value = "";
                     } else if (estado2 === true) {
                         alert("correo invalido, ya existe")
                         /*setTimeout(redirigircrearcliente, 1000)*/
                         document.getElementById("correo").value = "";
-                    }else if(estado === true){
-                        alert("Placa invalida, ya existe")
-                        document.getElementById("Placa").value = "";
                     } else {
                         n = database.ref('/referencias/').once('value').then(function (snapshot) {
                             id = (snapshot.val() && snapshot.val().id_cliente) || 'Anonymous';
