@@ -572,7 +572,7 @@ export default class Crear extends Component {
 
         if (this.props.validado && this.props.funcion === "eliminar_gerente") {
             var estadocuenta = "inactivo"
-            id = this.props.datos[4]
+            id = this.props.datos[0]
             database = Fire.database();
 
             database.ref('gerente/' + id).update({
