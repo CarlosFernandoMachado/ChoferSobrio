@@ -34,7 +34,9 @@ export default class VisualizarCarros extends Component {
 
     async componentDidMount() {
             this.dbRefCarros = firebase.database().ref('/carro');
-            this.dbCallbackCarros = this.dbRefCarros.on('value', snap => this.setState({ carros: snap.val() }));    
+            this.dbCallbackCarros = this.dbRefCarros.on('value', snap => this.setState({ carros: snap.val() }));
+
+        
     }
 
     componentWillUnmount() {

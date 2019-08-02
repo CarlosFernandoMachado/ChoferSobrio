@@ -178,6 +178,17 @@ export default class Crear extends Component {
 
         });
     }
+
+    modificarcarro(id, color_vehiculo, marca, placa) {
+        var database = Fire.database();
+        
+        database.ref('cliente/' + id).update({
+            color_vehiculo: color_vehiculo,
+            marca: marca,
+            placa: placa,
+
+        });
+    }
     Eliminarcliente(id) {
         var database = Fire.database();
         database.ref('cliente/' + id).remove();
@@ -551,6 +562,15 @@ export default class Crear extends Component {
             id = this.props.datos[6];
             this.modificarcliente(id, colour, brand, name, plate, telephone, email)
             setTimeout(redirigir, 1000);
+        }
+
+        if (this.props.funcion === "modificarcarro") {
+            database = Fire.database();
+            id = this.props.datos[0];
+            colour= this.props.datos[1];
+            brand = this.props.datos[2];
+            plate = this.props.datos[3];
+            this.modificarcarro(id, colour, brand, plate)
         }
 
         if (this.props.validado && this.props.funcion === "modificar_gerente") {

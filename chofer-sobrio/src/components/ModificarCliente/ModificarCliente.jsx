@@ -36,7 +36,6 @@ export default class ModificarCliente extends Component {
         
     }
     async componentDidMount() {
-        console.log ("se hace loco")
         const user = JSON.parse(localStorage.getItem('user'));
         this.getLocation();
         var cont = 0;
