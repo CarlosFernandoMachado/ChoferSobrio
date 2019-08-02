@@ -39,7 +39,7 @@ import mapa from './components/Map/mapa';
 import PreguntasFrecuentes from './components/Preguntas_Frecuentes/Preguntas_Frecuentes';
 import MostrarCarros from './components/Visualizar/MostrarCarros';
 import SeleccionarCarro from './components/PedirChofer/SeleccionarCarro';
-
+import Nuestra_Info from './components/Nuestra_Info/Nuestra_Info';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -191,6 +191,7 @@ class App extends Component {
               <Route exact path="/PreguntasFrecuentes" component={PreguntasFrecuentes}></Route>
               <Route exact path ="/MostrarCarros" component={MostrarCarros}></Route>
               <Route exact path ="/SeleccionarCarro" component={SeleccionarCarro}></Route>
+              <Route exact path="/NuestraInfo" component={Nuestra_Info}></Route>
             </div>
           </main>
         </div>

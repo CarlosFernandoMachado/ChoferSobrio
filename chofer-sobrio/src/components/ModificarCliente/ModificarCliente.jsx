@@ -6,6 +6,7 @@ import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Container, Col, Button, Form, Card, Alert, Dropdown } from 'react-bootstrap';
 import es from 'date-fns/locale/es';
 import './ModificarCliente.css';
+//import Popup from '../cambiar_contraseña/cambiar_contraseña';  
 
 registerLocale('es', es);
 setDefaultLocale('es');
@@ -77,9 +78,7 @@ export default class ModificarCliente extends Component {
 
         }
     }
-
-    
-
+  
     
     getLocation = () => {
         if (navigator.geolocation) {
@@ -330,7 +329,7 @@ export default class ModificarCliente extends Component {
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         Ingrese la placa de su vehiculo
-                        </Form.Control.Feedback>
+                                    </Form.Control.Feedback>
                                 </Form.Group>
 
                                 <Form.Group as={ Col } md="4">
@@ -383,13 +382,23 @@ export default class ModificarCliente extends Component {
                                         </Dropdown.Menu>
 
                                     </Dropdown>
+                                    
                                 </Form.Group>
+                                
                             </Form.Row>
                             <Form.Row>
-
+                            <Form.Group as={ Col } md="3">
+                                <div className="text-left">
+                                    <Button  type="submit" variant="danger" >Cambiar contraseña
+                                    <Crear validado={ this.state.listo } datos={ [0, 0] } funcion={ "password_cliente" } />
+                                    </Button>
+                                </div>
+                                   
+                            </Form.Group>
+                            </Form.Row>
+                            <Form.Row> 
                             </Form.Row>
                             <Form.Row>
-
 
                             </Form.Row>
 

@@ -1,12 +1,7 @@
 import React, { Component } from 'react'
 import './Crear.css'
 import Fire from '../config/config';
-import firebase from 'firebase';
-export const firebaseAuth = firebase.auth;
-
-function logout() {
-    return firebaseAuth().signOut();
-}
+//import firebaseAuth from '../config/config';
 
 function redirigir() {
     window.location = "/";
@@ -22,6 +17,7 @@ function redirigircreargerente() {
 }
 
 export default class Crear extends Component {
+    
     Crearchofer(id, identidad, name, number, email) {
         var database = Fire.database();
         database.ref('chofer/' + id).set({
@@ -40,11 +36,10 @@ export default class Crear extends Component {
         var database = Fire.database();
         var n = database.ref('/chofer/' + userId).once('value').then(function (snapshot) {
             var username = (snapshot.val() && snapshot.val().nombre) || 'Anonymous';
-
         })
-
         return n;
     }
+
     modificarchofer(id, id2, name, number, email) {
         var database = Fire.database();
         database.ref('chofer/' + id).update({
@@ -52,55 +47,64 @@ export default class Crear extends Component {
             nombre: name,
             telefono: number,
             correo: email,
-
         });
     }
+
     modificarvalidacionchofer(id, validado) {
         var database = Fire.database();
         database.ref('chofer/' + id).update({
-
             validado: validado
-
         });
     }
+
     modificarvalidacioncliente(id, validado) {
         var database = Fire.database();
         database.ref('cliente/' + id).update({
-
             validado: validado
-
         });
     }
+
     modificarvalidaciongerente(id, validado) {
         var database = Fire.database();
         database.ref('gerente/' + id).update({
-
             validado: validado
-
         });
     }
+
     modificarcontraseñachofer(id, contraseña) {
         var database = Fire.database();
         database.ref('chofer/' + id).update({
             contraseña: ""
         });
     }
+
     modificarcontraseñacliente(id, contraseña) {
         var database = Fire.database();
         database.ref('cliente/' + id).update({
             contraseña: ""
         });
     }
+
+    update_password_cliente= () => {
+        const email = Fire.auth().currentUser.email;
+        Fire.auth().sendPasswordResetEmail(email)
+        .then(function() {
+            alert('Se ha enviado un link de cambio de contrasena a '+ email);
+        });
+      }
+
     modificarcontraseñagerente(id, contraseña) {
         var database = Fire.database();
         database.ref('gerente/' + id).update({
             contraseña: ""
         });
     }
+
     Eliminarchofer(id) {
         var database = Fire.database();
         database.ref('chofer/' + id).remove();
     }
+
     Creargerente(id, identidad, name, number, email) {
         var database = Fire.database();
         database.ref('gerente/' + id).set({
@@ -108,22 +112,21 @@ export default class Crear extends Component {
             nombre: name,
             telefono: number,
             correo: email
-
         });
         Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
             Fire.auth().sendPasswordResetEmail(email).the(
                 alert("Se te ha enviado un correo de confirmación."))
         );
     }
+
     Leergerente(userId) {
         var database = Fire.database();
         var n = database.ref('/gerente/' + userId).once('value').then(function (snapshot) {
             var username = (snapshot.val() && snapshot.val().nombre) || 'Anonymous';
-
         })
-
         return n;
     }
+
     modificargerente(id, id2, name, number, email) {
         var database = Fire.database();
         database.ref('gerente/' + id).update({
@@ -133,10 +136,12 @@ export default class Crear extends Component {
             correo: email
         });
     }
+
     EliminarGerente(id) {
         var database = Fire.database();
         database.ref('gerente/' + id).remove();
     }
+
     Crearcliente(id, color_vehiculo, marca, nombre, placa, telefono, email) {
         var database = Fire.database();
         //window.alert("se registrara usuario");
@@ -149,20 +154,13 @@ export default class Crear extends Component {
             telefono: telefono,
             correo: email
         });
-
-
-
-
-
     }
+
     Leercliente(userId) {
         var database = Fire.database();
         var n = database.ref('/cliente/' + userId).once('value').then(function (snapshot) {
             var id = (snapshot.val() && snapshot.val().nombre) || 'Anonymous';
-
         })
-
-
         return n;
     }
 
@@ -179,16 +177,7 @@ export default class Crear extends Component {
         });
     }
 
-    modificarcarro(id, color_vehiculo, marca, placa) {
-        var database = Fire.database();
-        
-        database.ref('cliente/' + id).update({
-            color_vehiculo: color_vehiculo,
-            marca: marca,
-            placa: placa,
 
-        });
-    }
     Eliminarcliente(id) {
         var database = Fire.database();
         database.ref('cliente/' + id).remove();
@@ -211,15 +200,6 @@ export default class Crear extends Component {
             mensaje: 'ninguno',
         });
     }
-    Crearcarro(id,color_vehiculo,email,marca_v,placa_v) {
-        var database = Fire.database();
-        database.ref('carro/' + id).set({
-            color: color_vehiculo,
-            correo: email,
-            marca: marca_v,
-            placa: placa_v,
-        });
-    }
 
     Leerpedido(userId) {
         var database = Fire.database();
@@ -229,6 +209,7 @@ export default class Crear extends Component {
         })
         return n;
     }
+
     modificarpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion) {
         var database = Fire.database();
         database.ref('pedido/' + id).set({
@@ -243,6 +224,7 @@ export default class Crear extends Component {
             ubicacion: ubicacion
         });
     }
+
     Eliminarpedido(id) {
         var database = Fire.database();
         database.ref('pedido/' + id).remove();
@@ -263,7 +245,7 @@ export default class Crear extends Component {
         });
         return tieneP;
     }
-
+    
     render() {
         var databse = null;
         var n = null;
@@ -279,6 +261,7 @@ export default class Crear extends Component {
         var brand;
         var plate;
         var location;
+
         if (this.props.validado && this.props.funcion === "crear_gerente") {
             database = Fire.database();
             identity = this.props.datos[0];
@@ -295,11 +278,11 @@ export default class Crear extends Component {
                 Fire.database().ref('gerente').orderByChild('correo').equalTo(email).once('value').then(function (snapshot) {
                     estado2 = snapshot.exists()
                     if (estado === true) {
-                        alert("identidad invalida, ya existe")
+                        alert("identidad invalida ya existe")
                         /*setTimeout(redirigircreargerente, 1000)*/
                         document.getElementById("identidad").value = "";
                     } else if (estado2 === true) {
-                        alert("correo invalido, ya existe")
+                        alert("correo invalido ya existe")
                         /*setTimeout(redirigircreargerente, 1000)*/
                         document.getElementById("correo").value = "";
                     } else {
@@ -312,46 +295,17 @@ export default class Crear extends Component {
                                 identidad: identity,
                                 nombre: name,
                                 telefono: telephone
-
                             });
                             database.ref('referencias/').update({
                                 id_gerente: id
                             });
                         })
-
                         setTimeout(redirigir, 1000);
                     }
                 });
-
             });
-
-
         }
 
-        if (this.props.validado && this.props.funcion === "Crearcarro") {
-            var database = Fire.database();
-            colour = this.props.datos[0];
-            email = this.props.datos[1];
-            brand = this.props.datos[2];
-            plate = this.props.datos[3]
-
-            id = 0;
-            n = database.ref('/referencias/').once('value').then(function (snapshot) {
-                id = (snapshot.val() && snapshot.val().id_carro) || 'Anonymous';
-                id++;
-                database.ref('carro/' + id).set({
-                    color: colour,
-                    correo: email,
-                    marca: brand,
-                    placa: plate,
-                });
-                database.ref('referencias/').update({
-                    id_carro: id
-                });
-            })
-            /*setTimeout(redirigir, 1000);*/
-        }
-        
         if (this.props.validado && this.props.funcion === "Crearpedido") {
             var database = Fire.database();
             colour = this.props.datos[0];
@@ -387,9 +341,8 @@ export default class Crear extends Component {
                     id_pedido: id
                 });
             })
-            /*setTimeout(redirigir, 1000);*/
+            setTimeout(redirigir, 1000);
         }
-        
         if (this.props.validado && this.props.funcion === "crear_cliente") {
             database = Fire.database();
             colour = this.props.datos[0];
@@ -406,12 +359,12 @@ export default class Crear extends Component {
                 estado = snapshot.exists()
                 Fire.database().ref('cliente').orderByChild('correo').equalTo(email).once('value').then(function (snapshot) {
                     estado2 = snapshot.exists()
-                    if ( (estado === true) ) {
-                        alert("Placa invalida, ya existe")
+                    if (estado === true) {
+                        alert("placa invalida ya existe")
                         /*setTimeout(redirigircrearcliente, 1000)*/
                         document.getElementById("Placa").value = "";
                     } else if (estado2 === true) {
-                        alert("correo invalido, ya existe")
+                        alert("correo invalido ya existe")
                         /*setTimeout(redirigircrearcliente, 1000)*/
                         document.getElementById("correo").value = "";
                     } else {
@@ -440,10 +393,9 @@ export default class Crear extends Component {
                         setTimeout(redirigir, 1000);
                     }
                 });
-
             });
-
         }
+
         if (this.props.validado && this.props.funcion === "crear_chofer") {
             database = Fire.database();
             identity = this.props.datos[0];
@@ -451,9 +403,7 @@ export default class Crear extends Component {
             telephone = this.props.datos[2];
             email = this.props.datos[3];
             id = 0;
-
             var estadocuenta = "activo"
-
             var estado = 0;
             var estado2 = 0;
 
@@ -462,12 +412,12 @@ export default class Crear extends Component {
                 Fire.database().ref('chofer').orderByChild('correo').equalTo(email).once('value').then(function (snapshot) {
                     estado2 = snapshot.exists()
                     if (estado === true) {
-                        /*alert("identidad invalida ya existe")
-                        setTimeout(redirigircrearchofer, 1000)*/
+                        alert("identidad invalida ya existe")
+                        /*setTimeout(redirigircrearchofer, 1000)*/
                         document.getElementById("identidad").value = "";
                     } else if (estado2 === true) {
-                        /*alert("correo invalido ya existe")
-                        setTimeout(redirigircrearchofer, 1000)*/
+                        alert("correo invalido ya existe")
+                        /*setTimeout(redirigircrearchofer, 1000)*/
                         document.getElementById("correo").value = "";
                     } else {
                         n = database.ref('/referencias/').once('value').then(function (snapshot) {
@@ -479,7 +429,6 @@ export default class Crear extends Component {
                                 identidad: identity,
                                 nombre: name,
                                 telefono: telephone
-
                             });
                             database.ref('referencias/').update({
                                 id_chofer: id
@@ -491,14 +440,9 @@ export default class Crear extends Component {
                         setTimeout(redirigir, 1000);
                     }
                 });
-
             });
-
-
-
-
-
         }
+
         if (this.props.validado && this.props.funcion === "CrearComentario") {
             database = Fire.database();
             var comentario = this.props.datos;
@@ -508,7 +452,6 @@ export default class Crear extends Component {
                 id++;
                 database.ref('comentarios/' + id).set({
                     contenido: comentario
-
                 });
                 database.ref('referencias/').update({
                     id_comentarios: id
@@ -516,6 +459,7 @@ export default class Crear extends Component {
             });
             setTimeout(redirigir, 1000);
         }
+
         if (this.props.validado && this.props.funcion === "crearhistorial") {
             database = Fire.database();
             var driver = this.props.datos[0];
@@ -564,13 +508,10 @@ export default class Crear extends Component {
             setTimeout(redirigir, 1000);
         }
 
-        if (this.props.funcion === "modificarcarro") {
-            database = Fire.database();
-            id = this.props.datos[0];
-            colour= this.props.datos[1];
-            brand = this.props.datos[2];
-            plate = this.props.datos[3];
-            this.modificarcarro(id, colour, brand, plate)
+
+        if(this.props.validado && this.props.funcion === "password_cliente"){
+            /*alert("Entroooo wey");*/
+            this.update_password_cliente();
         }
 
         if (this.props.validado && this.props.funcion === "modificar_gerente") {
@@ -583,6 +524,12 @@ export default class Crear extends Component {
             this.modificargerente(id, identity, name, telephone, email);
             setTimeout(redirigir, 1000);
         }
+
+        if(this.props.validado && this.props.funcion === "password_gerente"){
+            /*alert("Entroooo wey");*/
+            this.update_password_cliente();
+        }
+
         if (this.props.validado && this.props.funcion === "modificar_chofer") {
             database = Fire.database();
             identity = this.props.datos[0];
@@ -593,10 +540,15 @@ export default class Crear extends Component {
             this.modificarchofer(id, identity, name, telephone, email);
             setTimeout(redirigir, 1000);
         }
-        if (this.props.validado && this.props.funcion === "eliminar_chofer") {
 
+        if(this.props.validado && this.props.funcion === "password_chofer"){
+            alert("Entroooo wey");
+            this.update_password_cliente();
+        }
+
+        if (this.props.validado && this.props.funcion === "eliminar_chofer") {
             var estadocuenta = "inactivo"
-            const [id, numId] = this.props.datos;
+            const [ id, numId ] = this.props.datos;
             database = Fire.database();
 
             this.tienePedido(numId, database).then((tieneP) => {
@@ -608,34 +560,28 @@ export default class Crear extends Component {
                 }
             });
         }
-        if (this.props.validado && this.props.funcion === "eliminar_cliente") {
 
+        if (this.props.validado && this.props.funcion === "eliminar_cliente") {
             var estadocuenta = "inactivo"
             id = this.props.datos[0]
             database = Fire.database();
 
             database.ref('cliente/' + id).update({
-                estado: estadocuenta
+               estado:estadocuenta
             });
-
-
-
             setTimeout(redirigir, 1000);
         }
+
         if (this.props.validado && this.props.funcion === "eliminar_gerente") {
             var estadocuenta = "inactivo"
             id = this.props.datos[0]
-
             database = Fire.database();
 
             database.ref('gerente/' + id).update({
-                estado: estadocuenta
+               estado:estadocuenta
             });
-
-
             setTimeout(redirigir, 1000);
         }
-
 
 
         return (

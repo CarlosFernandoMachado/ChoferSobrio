@@ -228,7 +228,13 @@ export default class ModificarGerente extends Component {
                                         Ingrese su teléfono(8 digitos)
                             </Form.Control.Feedback>
                                 </Form.Group>
-
+                                <Form.Group as={ Col } md="3">
+                                    <div className="text-left">
+                                        <Button  type="submit" variant="danger" >Cambiar contraseña
+                                        <Crear validado={ this.state.listo } datos={ [0, 0] } funcion={ "password_gerente" } />
+                                        </Button>
+                                    </div>  
+                                </Form.Group>
 
 
                             </Form.Row>

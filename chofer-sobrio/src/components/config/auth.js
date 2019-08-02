@@ -30,6 +30,14 @@ export function verificar(){
        alert("No se pudo enviar el correo de vericacion");
       });
 }
+export function update_passsword(password_nueva){
+  var user = firebaseAuth.auth().currentUser;
+  return user.updatePassword(password_nueva).then(() => {
+    alert("Se actualizo su contrasena crack maquina fiera tifon");
+  }, (error) => {
+    alert("No se actualizo su contrasena crack maquina fiera tifon");
+  });
+}
 
 export function saveUser(user) {
   return db
