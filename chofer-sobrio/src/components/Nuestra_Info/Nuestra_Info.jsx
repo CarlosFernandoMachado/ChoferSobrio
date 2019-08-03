@@ -22,9 +22,6 @@ export default class Precios extends Component {
                             hogares.
       </Card.Text>
                         </Card.Body>
-                        <Card.Footer>
-                            <small className="text-muted">Last updated 3 mins ago</small>
-                        </Card.Footer>
                     </Card>
                     <Card>
 
@@ -39,9 +36,6 @@ export default class Precios extends Component {
         content.{' '}
                             </Card.Text>
                         </Card.Body>
-                        <Card.Footer>
-                            <small className="text-muted">Last updated 3 mins ago</small>
-                        </Card.Footer>
                     </Card>
                     <Card>
 
@@ -56,9 +50,6 @@ export default class Precios extends Component {
                                 <p>Honestidad</p>
                             </Card.Text>
                         </Card.Body>
-                        <Card.Footer>
-                            <small className="text-muted">Last updated 3 mins ago</small>
-                        </Card.Footer>
                     </Card>
                 </CardDeck>
                 <p></p>
@@ -72,6 +63,19 @@ export default class Precios extends Component {
                             <p>L. 90 extra por desvíos a otros destinos fuera del trayecto principal. (Ejemplo: Ir a dejar a un amigo a otro lugar)</p>
                             <p>L. 180 lempiras a cualquier parte de Tegucigalpa, del punto de recogida al punto de destino.</p>
                             <p>Aceptamos pagos en efectivo y todas las tarjetas de crédito.</p>
+                        </Card.Text>
+
+                    </Card.Body>
+                </Card>
+                <p></p>
+                <Card>
+                    <Card.Header as="h5">Conoce nuestra seguridad</Card.Header>
+                    <Card.Body>
+
+                        <Card.Text>
+
+                            <p>Una vez solicites tu chofer se te enviara a tu WhatsApp la fotografía y licencia de conducir del chofer que atenderá tu trayecto.</p>
+                            <p>La empresa se hace responsable por cualquier daño a su vehículo y para ofrecer esta garantía el chofer instala una cámara de seguridad en el vidrio frontal del vehículo que graba todo el trayecto, Si no está conforme con el servicio usted puede solicitar este video dentro de las 24 horas siguientes a la prestación del servicio, para hacer sus reclamos por daños causados por nuestro chofer a su vehículo.</p>
                         </Card.Text>
 
                     </Card.Body>
