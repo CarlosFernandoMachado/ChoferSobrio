@@ -13,6 +13,8 @@ export default class CrearChofer extends Component {
             correo: '',
             validated: '',
             listo: 0,
+            telefono2:'',
+            telefono3:''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -108,6 +110,36 @@ export default class CrearChofer extends Component {
                                         Ingrese su Telefono Correctamente 8 digitos (0-9)
                             </Form.Control.Feedback>
                                 </Form.Group>
+                                <Form.Group as={ Col } md="4" controlId="validationCustom02">
+                                    <Form.Label>Telefono 2 (Opcional)</Form.Label>
+                                    <Form.Control
+                                        
+                                        type="number"
+                                        id="telefono2"
+                                        name="telefono2"
+                                        placeholder="_ _ _ _ _ _ _ _"
+                                        value={ this.state.value }
+                                        onChange={ this.handleChange }
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Ingrese su Telefono Correctamente 8 digitos (0-9)
+                            </Form.Control.Feedback>
+                                </Form.Group>
+                                <Form.Group as={ Col } md="4" controlId="validationCustom02">
+                                    <Form.Label>Telefono 3 (Opcional)</Form.Label>
+                                    <Form.Control
+                                      
+                                        type="number"
+                                        id="telefono3"
+                                        name="telefono3"
+                                        placeholder="_ _ _ _ _ _ _ _"
+                                        value={ this.state.value }
+                                        onChange={ this.handleChange }
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Ingrese su Telefono Correctamente 8 digitos (0-9)
+                            </Form.Control.Feedback>
+                                </Form.Group>
                                 <Form.Group as={ Col } md="4" controlId="validationCustomID">
                                     <Form.Label>Identidad</Form.Label>
                                     <InputGroup>
@@ -143,7 +175,7 @@ export default class CrearChofer extends Component {
                             </Form.Row>
                             <div class="text-center">
                                 <Button type="submit" variant="warning" >Crear chofer</Button>
-                                <Crear validado={ this.state.listo } datos={ [this.state.identidad, this.state.nombre, this.state.telefono, this.state.correo] } funcion={ "crear_chofer" } />
+                                <Crear validado={ this.state.listo } datos={ [this.state.identidad, this.state.nombre, this.state.telefono, this.state.correo,this.state.telefono2,this.state.telefono3] } funcion={ "crear_chofer" } />
                             </div>
                         </Form>
                     </Alert>

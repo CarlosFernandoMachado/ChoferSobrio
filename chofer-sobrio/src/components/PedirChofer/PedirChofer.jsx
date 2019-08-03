@@ -10,11 +10,12 @@ import es from 'date-fns/locale/es';
 import './PedirChofer.css';
 import setMinutes from "date-fns/setMinutes";
 import setHours from "date-fns/setHours";
+import { Link } from 'react-router-dom';
 
 registerLocale('es', es);
 setDefaultLocale('es');
 
-export default class Precios extends Component {
+export default class PedirChofer extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -41,6 +42,15 @@ export default class Precios extends Component {
         this.handleSelectMarca = this.handleSelectMarca.bind(this);
     }
 
+    CrearCarro(color,marca,placa) {
+        this.setState({
+            color: color,
+            marca: marca,
+            placa: placa,
+        });
+        
+    }
+
     async componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
         this.getLocation();
@@ -57,8 +67,6 @@ export default class Precios extends Component {
                 });
                 return infoCliente;
             });
-
-            console.log(info);
 
             this.setState({
                 nombre: info.nombre,
@@ -415,6 +423,9 @@ export default class Precios extends Component {
                                     <Crear validado={this.state.listo} datos={[this.state.color, this.state.destino, this.state.date, this.state.hora, this.state.marca, this.state.nombre, this.state.placa, this.state.telefono, this.state.ubicacion_actual]} funcion={"Crearpedido"} />
                                 </Button>
                             </div>
+                            <Link to="/SeleccionarCarro">
+                                <Button type="submit" variant="warning">Seleccionar carro registrado</Button>
+                             </Link>
 
                         </Form>
                     </Alert>

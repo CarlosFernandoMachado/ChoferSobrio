@@ -19,7 +19,9 @@ export default class Precios extends Component {
             validated: '',
             listo: 0,
             clientes: [],
-            infocliente: {}
+            infocliente: {},
+            telefono2:'',
+            telefono3:''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -314,13 +316,47 @@ export default class Precios extends Component {
                                     <Form.Control.Feedback type="invalid">
                                         Numero de telefono invalido siga el formato indicado 8 digitos numericos
                             </Form.Control.Feedback>
+                              
+                                </Form.Group>
+                                <Form.Group as={Col} md="4">
+                                    <Form.Label>Telefono 2 (Opcional)</Form.Label>
+                                    <Form.Control
+                                        
+                                        type="number"
+                                        name="telefono2"
+                                        placeholder="_ _ _ _ _ _ _ _"
+                                        value={this.state.value}
+                                        onChange={this.handleChange}
+                                        id="telefono2"
+
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Numero de telefono invalido siga el formato indicado 8 digitos numericos
+                            </Form.Control.Feedback>
+                                </Form.Group>
+                                
+                                <Form.Group as={Col} md="4">
+                                    <Form.Label>Telefono 3 (Opcional)</Form.Label>
+                                    <Form.Control
+                                        
+                                        type="number"
+                                        name="telefono3"
+                                        placeholder="_ _ _ _ _ _ _ _"
+                                        value={this.state.value}
+                                        onChange={this.handleChange}
+                                        id="telefono3"
+
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Numero de telefono invalido siga el formato indicado 8 digitos numericos
+                            </Form.Control.Feedback>
                                 </Form.Group>
 
                             </Form.Row>
                             <div className="text-center">
                                 <Button type="submit" variant="warning" > Registrarse</Button>
                                 <Crear validado = {this.state.listo} datos={[this.state.Color,this.state.correo,this.state.Marca,this.state.Placa]} funcion={"Crearcarro"}/>
-                                <Crear validado={this.state.listo} datos={[this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo]} funcion={"crear_cliente"} />
+                                <Crear validado={this.state.listo} datos={[this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo, this.state.telefono2,this.state.telefono3]} funcion={"crear_cliente"} />
                             </div>
 
 

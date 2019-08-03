@@ -21,9 +21,13 @@ export default class VisualizarChofer extends Component {
             Header: 'Telefono',
             accessor: 'telefono',
             maxWidth: 150,
-        },{
-            Header: 'Estado',
-            accessor: 'estado',
+        }, {
+            Header: 'Telefono 2',
+            accessor: 'telefono2',
+            maxWidth: 300,
+        }, {
+            Header: 'Telefono 3 ',
+            accessor: 'telefono3',
             maxWidth: 300,
         }, {
             Header: 'Correo',

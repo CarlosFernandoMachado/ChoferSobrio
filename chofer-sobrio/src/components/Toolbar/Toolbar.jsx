@@ -225,6 +225,14 @@ class Toolbar extends React.Component {
                     </Link>
                 </Dropdown.Item>,
             );
+
+            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/MostrarCarros">
+                        <Button>Mis Carros</Button>
+                    </Link>
+                </Dropdown.Item>,
+            );
         }
 
         let dropdown;
@@ -258,19 +266,8 @@ class Toolbar extends React.Component {
                         <Link to="/NuestraInfo">
                             <Button className="navbar-item"> Nuestra Info</Button>
                         </Link>
-
-                        <Link to="/conocenos">
-                            <Button className="navbar-item"> Conocenos</Button>
-                        </Link>
-
-                        <Link to="/precios">
-                            <Button className="navbar-item"> Precios</Button>
-                        </Link>
                         <Link to="/activarcuentas">
                             <Button className="navbar-item"> Activar Cuentas</Button>
-                        </Link>
-                        <Link to="/seguridad">
-                            <Button className="navbar-item"> Seguridad</Button>
                         </Link>
                         <Link to="/feedback">
                             <Button className="navbar-item"> Tu opinion </Button>

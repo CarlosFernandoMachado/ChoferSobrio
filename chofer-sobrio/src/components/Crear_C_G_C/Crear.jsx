@@ -17,7 +17,7 @@ function redirigircreargerente() {
 }
 
 export default class Crear extends Component {
-    
+
     Crearchofer(id, identidad, name, number, email) {
         var database = Fire.database();
         database.ref('chofer/' + id).set({
@@ -40,13 +40,15 @@ export default class Crear extends Component {
         return n;
     }
 
-    modificarchofer(id, id2, name, number, email) {
+    modificarchofer(id, id2, name, number, email, telefono2, telefono3) {
         var database = Fire.database();
         database.ref('chofer/' + id).update({
             identidad: id2,
             nombre: name,
             telefono: number,
             correo: email,
+            telefono2: telefono2,
+            telefono3: telefono3
         });
     }
 
@@ -85,13 +87,13 @@ export default class Crear extends Component {
         });
     }
 
-    update_password_cliente= () => {
+   /* update_password_cliente = () => {
         const email = Fire.auth().currentUser.email;
         Fire.auth().sendPasswordResetEmail(email)
-        .then(function() {
-            alert('Se ha enviado un link de cambio de contrasena a '+ email);
-        });
-      }
+            .then(function () {
+                alert('Se ha enviado un link de cambio de contrasena a ' + email);
+            });
+    }*/
 
     modificarcontraseñagerente(id, contraseña) {
         var database = Fire.database();
@@ -127,13 +129,15 @@ export default class Crear extends Component {
         return n;
     }
 
-    modificargerente(id, id2, name, number, email) {
+    modificargerente(id, id2, name, number, email,telefono2,telefono3) {
         var database = Fire.database();
         database.ref('gerente/' + id).update({
             identidad: id2,
             nombre: name,
             telefono: number,
-            correo: email
+            correo: email,
+            telefono2:telefono2,
+            telefono3:telefono3
         });
     }
 
@@ -164,7 +168,7 @@ export default class Crear extends Component {
         return n;
     }
 
-    modificarcliente(id, color_vehiculo, marca, nombre, placa, telefono, email) {
+    modificarcliente(id, color_vehiculo, marca, nombre, placa, telefono, email,telefono2,telefono3) {
         var database = Fire.database();
         database.ref('cliente/' + id).update({
             color_vehiculo: color_vehiculo,
@@ -172,10 +176,13 @@ export default class Crear extends Component {
             nombre: nombre,
             placa: placa,
             telefono: telefono,
-            correo: email
+            correo: email,
+            telefono2:telefono2,
+            telefono3:telefono3
 
         });
     }
+
 
     Eliminarcliente(id) {
         var database = Fire.database();
@@ -244,7 +251,7 @@ export default class Crear extends Component {
         });
         return tieneP;
     }
-    
+
     render() {
         var databse = null;
         var n = null;
@@ -267,6 +274,8 @@ export default class Crear extends Component {
             name = this.props.datos[1];
             telephone = this.props.datos[2];
             email = this.props.datos[3];
+            var telefono2 = this.props.datos[4];
+            var telefono3 = this.props.datos[5];
             var estadocuenta = "activo"
             id = 0;
             var estado = 0;
@@ -293,7 +302,9 @@ export default class Crear extends Component {
                                 estado: estadocuenta,
                                 identidad: identity,
                                 nombre: name,
-                                telefono: telephone
+                                telefono: telephone,
+                                telefono2: telefono2,
+                                telefono3: telefono3
                             });
                             database.ref('referencias/').update({
                                 id_gerente: id
@@ -350,6 +361,8 @@ export default class Crear extends Component {
             plate = this.props.datos[3];
             telephone = this.props.datos[4];
             email = this.props.datos[5];
+            var telefono2 = this.props.datos[6]
+            var telefono3 = this.props.datos[7]
             var estadocuenta = "activo"
             var estado = 0;
             var estado2 = 0;
@@ -377,7 +390,9 @@ export default class Crear extends Component {
                                 marca: brand,
                                 nombre: name,
                                 placa: plate,
-                                telefono: telephone
+                                telefono: telephone,
+                                telefono2: telefono2,
+                                telefono3: telefono3
                             });
                             database.ref('referencias/').update({
                                 id_cliente: id
@@ -401,6 +416,8 @@ export default class Crear extends Component {
             name = this.props.datos[1];
             telephone = this.props.datos[2];
             email = this.props.datos[3];
+            var telefono2 = this.props.datos[4];
+            var telefono3 = this.props.datos[5];
             id = 0;
             var estadocuenta = "activo"
             var estado = 0;
@@ -408,6 +425,7 @@ export default class Crear extends Component {
 
             Fire.database().ref('chofer').orderByChild('identidad').equalTo(identity).once('value').then(function (snapshot) {
                 estado = snapshot.exists()
+               
                 Fire.database().ref('chofer').orderByChild('correo').equalTo(email).once('value').then(function (snapshot) {
                     estado2 = snapshot.exists()
                     if (estado === true) {
@@ -427,7 +445,9 @@ export default class Crear extends Component {
                                 estado: "activo",
                                 identidad: identity,
                                 nombre: name,
-                                telefono: telephone
+                                telefono: telephone,
+                                telefono2: telefono2,
+                                telefono3: telefono3
                             });
                             database.ref('referencias/').update({
                                 id_chofer: id
@@ -503,14 +523,17 @@ export default class Crear extends Component {
             telephone = this.props.datos[4];
             email = this.props.datos[5];
             id = this.props.datos[6];
-            this.modificarcliente(id, colour, brand, name, plate, telephone, email)
+            var telefono2= this.props.datos[7];
+            var telefono3 = this.props.datos[8];
+            this.modificarcliente(id, colour, brand, name, plate, telephone, email,telefono2,telefono3)
             setTimeout(redirigir, 1000);
         }
 
-        if(this.props.validado && this.props.funcion === "password_cliente"){
-            /*alert("Entroooo wey");*/
+
+        /*if (this.props.validado && this.props.funcion === "password_cliente") {
+        
             this.update_password_cliente();
-        }
+        }*/
 
         if (this.props.validado && this.props.funcion === "modificar_gerente") {
             database = Fire.database();
@@ -518,15 +541,16 @@ export default class Crear extends Component {
             name = this.props.datos[1];
             telephone = this.props.datos[2];
             email = this.props.datos[3];
-            id = this.props.datos[4]
-            this.modificargerente(id, identity, name, telephone, email);
+            id = this.props.datos[4];
+            var telefono2 = this.props.datos[5];
+            var telefono3 = this.props.datos[6];
+            this.modificargerente(id, identity, name, telephone, email,telefono2,telefono3);
             setTimeout(redirigir, 1000);
         }
 
-        if(this.props.validado && this.props.funcion === "password_gerente"){
-            /*alert("Entroooo wey");*/
+        /*if (this.props.validado && this.props.funcion === "password_gerente") {
             this.update_password_cliente();
-        }
+        }*/
 
         if (this.props.validado && this.props.funcion === "modificar_chofer") {
             database = Fire.database();
@@ -534,19 +558,20 @@ export default class Crear extends Component {
             name = this.props.datos[1];
             telephone = this.props.datos[2];
             email = this.props.datos[3];
-            id = this.props.datos[4]
-            this.modificarchofer(id, identity, name, telephone, email);
+            id = this.props.datos[4];
+            var telefono2 = this.props.datos[5];
+            var telefono3 = this.props.datos[6]
+            this.modificarchofer(id, identity, name, telephone, email, telefono2, telefono3);
             setTimeout(redirigir, 1000);
         }
 
-        if(this.props.validado && this.props.funcion === "password_chofer"){
-            alert("Entroooo wey");
+        /*if (this.props.validado && this.props.funcion === "password_chofer") {
             this.update_password_cliente();
-        }
+        }*/
 
         if (this.props.validado && this.props.funcion === "eliminar_chofer") {
             var estadocuenta = "inactivo"
-            const [ id, numId ] = this.props.datos;
+            const [id, numId] = this.props.datos;
             database = Fire.database();
 
             this.tienePedido(numId, database).then((tieneP) => {
@@ -565,7 +590,7 @@ export default class Crear extends Component {
             database = Fire.database();
 
             database.ref('cliente/' + id).update({
-               estado:estadocuenta
+                estado: estadocuenta
             });
             setTimeout(redirigir, 1000);
         }
@@ -576,7 +601,7 @@ export default class Crear extends Component {
             database = Fire.database();
 
             database.ref('gerente/' + id).update({
-               estado:estadocuenta
+                estado: estadocuenta
             });
             setTimeout(redirigir, 1000);
         }

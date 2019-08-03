@@ -22,6 +22,8 @@ export default class ModificarGerente extends Component {
             validated: '',
             listo: 0,
             infoCliente: {},
+            telefono2:'',
+            telefono3:''
 
         };
 
@@ -48,6 +50,8 @@ export default class ModificarGerente extends Component {
                 var identidad = snap.child("identidad").val();
                 var telefono = snap.child("telefono").val();
                 var correo = snap.child("correo").val();
+                var telefono2 = snap.child("telefono2").val();
+                var telefono3 = snap.child("telefono3").val();
 
 
 
@@ -65,7 +69,9 @@ export default class ModificarGerente extends Component {
                         nombre: nombre,
                         correo: correo,
                         telefono: telefono,
-                        identidad: identidad
+                        identidad: identidad,
+                        telefono2:telefono2,
+                        telefono3:telefono3
                     });
                 }
 
@@ -114,7 +120,13 @@ export default class ModificarGerente extends Component {
         }
 
     }
-
+    update_password = () => {
+        const email = firebase.auth().currentUser.email;
+        firebase.auth().sendPasswordResetEmail(email)
+            .then(function () {
+                alert('Se ha enviado un link de cambio de contrasena a ' + email);
+            });
+    }
     handleSelect(evtKey) {
         this.setState({ color: evtKey });
     }
@@ -228,11 +240,39 @@ export default class ModificarGerente extends Component {
                                         Ingrese su teléfono(8 digitos)
                             </Form.Control.Feedback>
                                 </Form.Group>
+                                <Form.Group as={ Col } md="4">
+                                    <Form.Label>Telefono 2 (Opcional)</Form.Label>
+                                    <Form.Control
+                                        
+                                        type="number"
+                                        name="telefono2"
+                                        placeholder="_ _ _ _ _ _ _ _"
+                                        value={ this.state.telefono2 }
+                                        onChange={ this.handleChange }
+                                        id="telefono2"
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Ingrese su teléfono(8 digitos)
+                            </Form.Control.Feedback>
+                                </Form.Group>
+                                <Form.Group as={ Col } md="4">
+                                    <Form.Label>Telefono 3 (Opcional)</Form.Label>
+                                    <Form.Control
+                                        
+                                        type="number"
+                                        name="telefono3"
+                                        placeholder="_ _ _ _ _ _ _ _"
+                                        value={ this.state.telefono3 }
+                                        onChange={ this.handleChange }
+                                        id="telefono3"
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Ingrese su teléfono(8 digitos)
+                            </Form.Control.Feedback>
+                                </Form.Group>
                                 <Form.Group as={ Col } md="3">
                                     <div className="text-left">
-                                        <Button  type="submit" variant="danger" >Cambiar contraseña
-                                        <Crear validado={ this.state.listo } datos={ [0, 0] } funcion={ "password_gerente" } />
-                                        </Button>
+                                        <Button  type="submit" variant="danger" onClick={this.update_password}>Cambiar contraseña</Button>
                                     </div>  
                                 </Form.Group>
 
@@ -248,7 +288,7 @@ export default class ModificarGerente extends Component {
 
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Guardar
-                                <Crear validado={ this.state.listo } datos={ [this.state.identidad, this.state.nombre, this.state.telefono, this.state.correo, this.state.id] } funcion={ "modificar_gerente" } />
+                                <Crear validado={ this.state.listo } datos={ [this.state.identidad, this.state.nombre, this.state.telefono, this.state.correo, this.state.id,this.state.telefono2,this.state.telefono3] } funcion={ "modificar_gerente" } />
                                 </Button>
 
                             </div>

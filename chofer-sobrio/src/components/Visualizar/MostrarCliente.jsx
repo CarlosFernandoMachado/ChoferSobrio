@@ -17,6 +17,14 @@ export default class VisualizarCliente extends Component {
             Header: 'Telefono',
             accessor: 'telefono',
             maxWidth: 150,
+        },{
+            Header: 'Telefono 2',
+            accessor: 'telefono2',
+            maxWidth: 300,
+        }, {
+            Header: 'Telefono 3 ',
+            accessor: 'telefono3',
+            maxWidth: 300,
         }, {
             Header: 'Correo',
             accessor: 'correo',
@@ -29,10 +37,6 @@ export default class VisualizarCliente extends Component {
             Header: 'Color',
             accessor: 'color',
             maxWidth: 100,
-        },{
-            Header: 'Estado',
-            accessor: 'estado',
-            maxWidth: 300,
         }, {
             Header: 'Placa',
             accessor: 'placa',
