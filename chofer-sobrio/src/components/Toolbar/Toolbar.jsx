@@ -256,13 +256,6 @@ class Toolbar extends React.Component {
                             <Button className="navbar-item"> Nuestra Info</Button>
                         </Link>
 
-                        <Link to="/conocenos">
-                            <Button className="navbar-item"> Conocenos</Button>
-                        </Link>
-
-                        <Link to="/precios">
-                            <Button className="navbar-item"> Precios</Button>
-                        </Link>
                         <Link to="/activarcuentas">
                             <Button className="navbar-item"> Activar Cuentas</Button>
                         </Link>
