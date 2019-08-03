@@ -26,6 +26,7 @@ import ModificarContrasenaGerente from './components/ModificarContrasena/Modific
 import MostrarChofer from './components/Visualizar/MostrarChofer';
 import MostrarCliente from './components/Visualizar/MostrarCliente';
 import MostrarGerente from './components/Visualizar/MostrarGerente';
+import PerfilChofer from './components/MiPerfil/PerfilChofer';
 import MiPerfil from './components/MiPerfil/MiPefil';
 import Eliminar_Cuenta from './components/Eliminar_Cuenta/Eliminar_Cuenta';
 import Eliminar_Cuenta_Cliente from './components/Eliminar_Cuenta/Eliminar_Cuenta_Cliente';
@@ -186,6 +187,7 @@ class App extends Component {
               <Route exact path="/EliminarCuentaGerente" component={Eliminar_Cuenta}></Route>
               <Route exact path="/EliminarCuentaCliente" component={Eliminar_Cuenta_Cliente}></Route>
               <Route exact path="/EliminarCuentaChofer" component={Eliminar_Cuenta_Chofer}></Route>
+              <Cliente exact path="/Perfil_Chofer" permisos={permisos} component={PerfilChofer}></Cliente>
               <Route exact path="/MisReservaciones" component={MisReservaciones}></Route>
               <Route exact path="/PreguntasFrecuentes" component={PreguntasFrecuentes}></Route>
               <Route exact path="/NuestraInfo" component={Nuestra_Info}></Route>

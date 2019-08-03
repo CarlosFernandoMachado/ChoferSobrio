@@ -196,11 +196,12 @@ class Toolbar extends React.Component {
         if (isCliente) {
             menu.push(
                 <Dropdown.Item key={key++}>
-                    <Link to="/EliminarCuentaCliente">
-                        <Button>Eliminar mi cuenta</Button>
+                    <Link to="/Perfil_Chofer">
+                        <Button>Ver perfil del Chofer</Button>
                     </Link>
                 </Dropdown.Item>,
             );
+
             menu.push(
                 <Dropdown.Item key={key++}>
                     <Link to="/ModificarCliente">
@@ -208,10 +209,19 @@ class Toolbar extends React.Component {
                     </Link>
                 </Dropdown.Item>,
             );
+            
             menu.push(
                 <Dropdown.Item key={key++}>
                     <Link to="/MisReservaciones">
                         <Button>Mis Reservaciones</Button>
+                    </Link>
+                </Dropdown.Item>,
+            );
+
+            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/EliminarCuentaCliente">
+                        <Button>Eliminar mi cuenta</Button>
                     </Link>
                 </Dropdown.Item>,
             );
