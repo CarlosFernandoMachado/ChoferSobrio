@@ -25,6 +25,8 @@ export default class ModificarCliente extends Component {
             validated: '',
             listo: 0,
             infoCliente: {},
+            telefono2:'',
+            telefono3:''
 
         };
 
@@ -51,6 +53,9 @@ export default class ModificarCliente extends Component {
                 var correo = snap.child("correo").val();
                 var color = snap.child("color_vehiculo").val();
                 var placa = snap.child("placa").val();
+                var telefono2 = snap.child("telefono2").val();
+                var telefono3 = snap.child("telefono3").val();
+
 
                 if (correo == user.email) {
                     firebase.database().ref().child('cliente').orderByChild('correo').equalTo(user.email).on("value", function(snapshot) {
@@ -69,6 +74,8 @@ export default class ModificarCliente extends Component {
                         marca: marca,
                         color: color,
                         placa: placa,
+                        telefono2:telefono2,
+                        telefono3:telefono3
                     });
                 }
 
@@ -230,6 +237,36 @@ export default class ModificarCliente extends Component {
                                         value={ this.state.telefono }
                                         onChange={ this.handleChange }
                                         id="telefono"
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Ingrese su teléfono(8 digitos)
+                            </Form.Control.Feedback>
+                                </Form.Group>
+                                <Form.Group as={ Col } md="4">
+                                    <Form.Label>Telefono 2 (Opcional)</Form.Label>
+                                    <Form.Control
+                                        
+                                        type="number"
+                                        name="telefono2"
+                                        placeholder="_ _ _ _ _ _ _ _"
+                                        value={ this.state.telefono2 }
+                                        onChange={ this.handleChange }
+                                        id="telefono2"
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Ingrese su teléfono(8 digitos)
+                            </Form.Control.Feedback>
+                                </Form.Group>
+                                <Form.Group as={ Col } md="4">
+                                    <Form.Label>Telefono 3 (Opcional)</Form.Label>
+                                    <Form.Control
+                                        
+                                        type="number"
+                                        name="telefono3"
+                                        placeholder="_ _ _ _ _ _ _ _"
+                                        value={ this.state.telefono3 }
+                                        onChange={ this.handleChange }
+                                        id="telefono3"
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         Ingrese su teléfono(8 digitos)
@@ -405,7 +442,7 @@ export default class ModificarCliente extends Component {
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Guardar
                                 
-                                <Crear validado={ this.state.listo } datos={ [this.state.color, this.state.marca, this.state.nombre, this.state.placa, this.state.telefono, this.state.correo, this.state.id] } funcion={ "modificar_cliente" } />
+                                <Crear validado={ this.state.listo } datos={ [this.state.color, this.state.marca, this.state.nombre, this.state.placa, this.state.telefono, this.state.correo, this.state.id,this.state.telefono2,this.state.telefono3] } funcion={ "modificar_cliente" } />
                                 </Button>
 
                             </div>

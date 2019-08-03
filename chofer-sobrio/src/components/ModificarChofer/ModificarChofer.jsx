@@ -22,6 +22,8 @@ export default class ModificarChofer extends Component {
             validated: '',
             listo: 0,
             infoCliente: {},
+            telefono2:'',
+            telefono3:''
             
         };
 
@@ -48,6 +50,8 @@ export default class ModificarChofer extends Component {
                 var identidad = snap.child("identidad").val();
                 var telefono = snap.child("telefono").val();
                 var correo = snap.child("correo").val();
+                var telefono2  = snap.child("telefono2").val();
+                var telefono3  = snap.child("telefono3").val();
                
 
                 if (correo == user.email) {
@@ -64,7 +68,9 @@ export default class ModificarChofer extends Component {
                         nombre: nombre,
                         correo: correo,
                         telefono: telefono,
-                       identidad:identidad
+                       identidad:identidad,
+                       telefono2:telefono2,
+                       telefono3:telefono3
                     });
                 }
 
@@ -229,6 +235,36 @@ export default class ModificarChofer extends Component {
                                         Ingrese su teléfono(8 digitos)
                                     </Form.Control.Feedback>
                                 </Form.Group>
+                                <Form.Group as={Col} md="4">
+                                    <Form.Label>Telefono 2(Opcional)</Form.Label>
+                                    <Form.Control
+                                      
+                                        type="number"
+                                        name="telefono2"
+                                        placeholder="_ _ _ _ _ _ _ _"
+                                        value={this.state.telefono2}
+                                        onChange={this.handleChange}
+                                        id="telefono2"
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Ingrese su teléfono(8 digitos)
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                                <Form.Group as={Col} md="4">
+                                    <Form.Label>Telefono 3 (Opcional)</Form.Label>
+                                    <Form.Control
+                                        
+                                        type="number"
+                                        name="telefono3"
+                                        placeholder="_ _ _ _ _ _ _ _"
+                                        value={this.state.telefono3}
+                                        onChange={this.handleChange}
+                                        id="telefono3"
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Ingrese su teléfono(8 digitos)
+                                    </Form.Control.Feedback>
+                                </Form.Group>
                                 <Form.Group as={ Col } md="3">
                                     <div className="text-left">
                                         <Button  type="submit" variant="danger" >Cambiar contraseña
@@ -250,7 +286,7 @@ export default class ModificarChofer extends Component {
 
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Guardar
-                                <Crear validado={this.state.listo} datos={[ this.state.identidad,this.state.nombre, this.state.telefono, this.state.correo,this.state.id]} funcion={"modificar_chofer"} />
+                                <Crear validado={this.state.listo} datos={[ this.state.identidad,this.state.nombre, this.state.telefono, this.state.correo,this.state.id,this.state.telefono2,this.state.telefono3]} funcion={"modificar_chofer"} />
                                 </Button>
 
                             </div>
