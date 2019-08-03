@@ -86,7 +86,13 @@ export default class ModificarCliente extends Component {
         }
     }
   
-    
+    update_password = () => {
+        const email = firebase.auth().currentUser.email;
+        firebase.auth().sendPasswordResetEmail(email)
+            .then(function () {
+                alert('Se ha enviado un link de cambio de contrasena a ' + email);
+            });
+    }
     getLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(this.showPosition);
@@ -426,9 +432,7 @@ export default class ModificarCliente extends Component {
                             <Form.Row>
                             <Form.Group as={ Col } md="3">
                                 <div className="text-left">
-                                    <Button  type="submit" variant="danger" >Cambiar contraseña
-                                    <Crear validado={ this.state.listo } datos={ [0, 0] } funcion={ "password_cliente" } />
-                                    </Button>
+                                    <Button  type="submit" variant="danger" onClick={this.update_password}>Cambiar contraseña</Button>
                                 </div>
                                    
                             </Form.Group>

@@ -87,13 +87,13 @@ export default class Crear extends Component {
         });
     }
 
-    update_password_cliente = () => {
+   /* update_password_cliente = () => {
         const email = Fire.auth().currentUser.email;
         Fire.auth().sendPasswordResetEmail(email)
             .then(function () {
                 alert('Se ha enviado un link de cambio de contrasena a ' + email);
             });
-    }
+    }*/
 
     modificarcontraseñagerente(id, contraseña) {
         var database = Fire.database();
@@ -530,10 +530,10 @@ export default class Crear extends Component {
         }
 
 
-        if (this.props.validado && this.props.funcion === "password_cliente") {
-            /*alert("Entroooo wey");*/
+        /*if (this.props.validado && this.props.funcion === "password_cliente") {
+        
             this.update_password_cliente();
-        }
+        }*/
 
         if (this.props.validado && this.props.funcion === "modificar_gerente") {
             database = Fire.database();
@@ -548,10 +548,9 @@ export default class Crear extends Component {
             setTimeout(redirigir, 1000);
         }
 
-        if (this.props.validado && this.props.funcion === "password_gerente") {
-            /*alert("Entroooo wey");*/
+        /*if (this.props.validado && this.props.funcion === "password_gerente") {
             this.update_password_cliente();
-        }
+        }*/
 
         if (this.props.validado && this.props.funcion === "modificar_chofer") {
             database = Fire.database();
@@ -566,10 +565,9 @@ export default class Crear extends Component {
             setTimeout(redirigir, 1000);
         }
 
-        if (this.props.validado && this.props.funcion === "password_chofer") {
-            alert("Entroooo wey");
+        /*if (this.props.validado && this.props.funcion === "password_chofer") {
             this.update_password_cliente();
-        }
+        }*/
 
         if (this.props.validado && this.props.funcion === "eliminar_chofer") {
             var estadocuenta = "inactivo"
