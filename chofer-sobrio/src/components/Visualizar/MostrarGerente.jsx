@@ -21,13 +21,17 @@ export default class VisualizarGerente extends Component {
             Header: 'Telefono',
             accessor: 'telefono',
             maxWidth: 150,
+        },{
+            Header: 'Telefono 2',
+            accessor: 'telefono2',
+            maxWidth: 300,
+        }, {
+            Header: 'Telefono 3 ',
+            accessor: 'telefono3',
+            maxWidth: 300,
         }, {
             Header: 'Correo',
             accessor: 'correo',
-            maxWidth: 300,
-        },{
-            Header: 'Estado',
-            accessor: 'estado',
             maxWidth: 300,
         },{
             Header: 'Accion',
