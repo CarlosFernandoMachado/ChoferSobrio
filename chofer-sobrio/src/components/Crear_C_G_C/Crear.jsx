@@ -425,7 +425,7 @@ export default class Crear extends Component {
 
             Fire.database().ref('chofer').orderByChild('identidad').equalTo(identity).once('value').then(function (snapshot) {
                 estado = snapshot.exists()
-                alert(estado)
+               
                 Fire.database().ref('chofer').orderByChild('correo').equalTo(email).once('value').then(function (snapshot) {
                     estado2 = snapshot.exists()
                     if (estado === true) {
