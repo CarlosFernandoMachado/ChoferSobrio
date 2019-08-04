@@ -83,9 +83,9 @@ export default class PerfilChofer extends Component {
                         <Alert variant="secondary">
                             <h3>Perfil</h3>
                             <br />
-                            <h4>{correo}</h4>
-                            <h4>{nombre}</h4>
-                            <h4>{telefono}</h4>
+                            <h4><strong><u> Correo</u>:</strong> {correo}</h4>
+                            <h4><strong><u>Nombre</u>: </strong>{nombre}</h4>
+                            <h4><strong><u>Telefono</u>: </strong>{telefono}</h4>
                         </Alert>
                     </Card>
                 </Container>
