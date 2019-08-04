@@ -3,6 +3,7 @@ import { Jumbotron, Container, Card, Alert, Button } from 'react-bootstrap';
 import ReactTable from 'react-table';
 import './Visualizar.css'
 import firebase from '../config/config';
+import { Link } from 'react-router-dom';
 
 export default class VisualizarCarros extends Component {
 
@@ -78,6 +79,12 @@ export default class VisualizarCarros extends Component {
                             columns={this.columnas}
                             filterable
                         />
+                        <div className="text-center">
+                        <Link to="/AgregarCarro">
+                                <Button type="submit" variant="warning">Agregar</Button>
+                        </Link>
+                            </div>
+                       
                     </Alert>
                 </Card>
             </Container>
