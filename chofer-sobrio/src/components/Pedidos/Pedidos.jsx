@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-pascal-case */
 import React, { Component } from 'react'
-import { Jumbotron, Container, Card, Alert, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Jumbotron, Container, Button } from 'react-bootstrap';
 import ReactTable from 'react-table';
 import './Pedidos.css'
 import firebase from '../config/config';
@@ -109,6 +108,7 @@ export default class Precios extends Component {
 
             if (!tienePedido && identidad === pedido.idchofer) {
                 tienePedido = true;
+                alert("Tiene un pedido pendiente");
             }
         });
 

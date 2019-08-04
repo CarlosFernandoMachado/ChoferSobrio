@@ -580,6 +580,8 @@ export default class Crear extends Component {
                         estado: estadocuenta,
                     });
                     setTimeout(redirigir, 1000);
+                }else{
+                    alert("No puede eliminar la cuenta porque tiene pedido pendiente");
                 }
             });
         }

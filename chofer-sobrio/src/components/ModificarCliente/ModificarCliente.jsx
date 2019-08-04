@@ -177,7 +177,7 @@ export default class ModificarCliente extends Component {
             document.getElementById("color").value = "";
 
         }
-        alert(form.checkValidity())
+        /*alert(form.checkValidity())*/
         if (form.checkValidity() === false) {
 
             this.setState({ validated: 'false' });
