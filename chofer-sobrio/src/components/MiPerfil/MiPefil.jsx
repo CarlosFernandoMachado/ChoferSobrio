@@ -108,24 +108,11 @@ export default class Precios extends Component {
         const database = firebase.database();
         const { pedidos } = this.state;
 
-        let mensajeRes = mensaje;
-        let mensajeActual = mensaje;
-
         const pedidosRes = pedidos.map(a => Object.assign({}, a));
-        if (mensaje === undefined || mensaje === 'ninguno') {
-            mensajeActual = this.mensajes[1];
-        } else if (mensaje === this.mensajes[1]) {
-            mensajeRes = this.mensajes[2];
-        } else if (mensaje === this.mensajes[2]) {
-            mensajeRes = this.mensajes[3];
-        } else if (mensaje === this.mensajes[3]) {
-        }
 
-
-        pedidosRes[keyPedido].mensaje = mensajeActual;
+        pedidosRes[keyPedido].mensaje = mensaje;
         delete pedidosRes[keyPedido].accion;
         database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
-        pedidosRes[keyPedido].mensaje = mensajeRes;
         this.setState({ pedidos: pedidosRes });
     }
 
@@ -175,19 +162,22 @@ export default class Precios extends Component {
         Object.keys(pedidos).forEach((key, index) => {
             const pedido = pedidos[key];
             if (pedido.idchofer === infoChofer.identidad && pedido.estado === "Ocupado" && index !== 0) {
-                let msjBoton = '';
+                let msjBoton = React.isValidElement(pedido.mensaje) ? pedido.mensaje.props.children : '';
 
-                if (pedido.mensaje === undefined || pedido.mensaje === 'ninguno' || pedido.mensaje === this.mensajes[1]) {
+                if (pedido.mensaje === undefined || pedido.mensaje === 'ninguno') {
                     msjBoton = this.mensajes[1];
-                } else if (pedido.mensaje === this.mensajes[2]) {
+                } else if (pedido.mensaje === this.mensajes[1]) {
                     msjBoton = this.mensajes[2];
-                } else if (pedido.mensaje === this.mensajes[3]) {
+                } else if (pedido.mensaje === this.mensajes[2]) {
                     msjBoton = this.mensajes[3];
+                } else if (pedido.mensaje === this.mensajes[3]) {
+                    msjBoton = 'Finalice';
                 }
-                    pedido.mensaje = <Button variant="info" onClick={() => this.clickBoton(msjBoton, key)}>{msjBoton}</Button>;
-                    pedido.accion = <Button variant="danger" onClick={() => this.finalizar(key)}>Finalizar</Button>;
-                
-                    listapedidos.push(pedido);
+
+                pedido.mensaje = <Button variant="info" onClick={() => this.clickBoton(msjBoton, key)}>{msjBoton}</Button>;
+                pedido.accion = <Button variant="danger" onClick={() => this.finalizar(key)}>Finalizar</Button>;
+            
+                listapedidos.push(pedido);
             }
         })
 

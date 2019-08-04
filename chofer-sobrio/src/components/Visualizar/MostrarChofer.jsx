@@ -99,17 +99,30 @@ export default class VisualizarChofer extends Component {
     }
 
 
-    eliminar(keyPedido) {
-        if (window.confirm(' Se eliminara la cuenta')) {
-            
-            const database = firebase.database();
-            const { choferes } = this.state;
-            const choferesRes = choferes.map(a => Object.assign({}, a));
-            delete choferesRes[keyPedido].accion;
-            var estadocuenta="inactivo"
-            database.ref('chofer/' + keyPedido).update({
-                estado:estadocuenta
-             });
+    async eliminar(keyChofer) {
+        const database = firebase.database();
+
+        const idChofer = await database.ref(`/chofer/${keyChofer}`).once('value').then(snap => snap.val().identidad);
+
+        // ver si tiene reservaciones
+        const tieneP = await database.ref('/pedido').once('value').then((snap) => {
+            const pedidos = snap.val();
+            let tiene = false;
+            Object.keys(pedidos).forEach((key) => {
+                const pedido = pedidos[key];
+                if (pedido.estado === 'Ocupado' && pedido.idchofer === idChofer) {
+                    tiene = true;
+                }
+            });
+            return tiene;
+        });
+
+        if (tieneP) {
+            window.alert('No se puede eliminar, el chofer tiene pedidos!');
+        } else if (window.confirm(' Se eliminara la cuenta')) {
+            database.ref('chofer/' + keyChofer).update({
+                estado: 'inactivo'
+            });
         }
     }
 
