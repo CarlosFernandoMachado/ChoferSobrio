@@ -68,10 +68,10 @@ export default class PerfilChofer extends Component {
     }
 
     render() {
-        const { tiene } = this.state;
+        const { tiene, infoChofer } = this.state;
 
-        if (tiene) {
-            const { correo, nombre, telefono } = this.state.infoChofer;
+        if (tiene && infoChofer) {
+            const { correo, nombre, telefono } = infoChofer;
 
             return (
                 <Container>
