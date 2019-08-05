@@ -108,7 +108,8 @@ export default class Home extends Component {
                     </div>
                     <div className="map-div" id="map">
                     </div>
-                    <div className="navbar" style={{ width: 250, margin: 'auto' }}>
+
+                    <div className="navbar-home" >
                         <Button className="pedir" onClick={this.renderMap}>Localizar</Button>
                         <Link to="/pedirchofer">
                             <div id="button">
@@ -116,6 +117,7 @@ export default class Home extends Component {
                             </div>
                         </Link>
                     </div>
+                    
                     <div className="invisible-div">
                     </div>
                 </div>

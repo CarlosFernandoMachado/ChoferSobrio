@@ -1,20 +1,3 @@
-.button {
-    background-color: none;
-    font-weight: 500;
-    font-family: Roboto, sans-serif;
-    padding: 1px 2px;
-    box-sizing: border-box;
-    top: 5px;
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    border-radius: 5px;
-    left: 50%;
-    max-width: 375px;
-    position: absolute;
-    transform: translateX(-50%);
-    width: calc(100% - 10px);
-    z-index: 1;
-}
-
 .wrapper{
     position: relative;
 }
@@ -27,27 +10,34 @@
 }
 
 .pedir {
-    background: yellow;
     color: black;
     outline: none;
+    margin: 0 1rem;
+    background-color: #FFF017;
+    border-color: black;
+    width: 120px;
+    height: 40px;
 }
 
 .pedir:hover {
     background: yellow;
     color: black;
     outline: none;
+    border-color: black;
 }
 
 .pedir:focus {
     background: yellow;
     color: black;
     outline: none;
+    border-color: black;
 }
 
 .pedir:active {
     background: yellow;
     color: black;
     outline: transparent;
+    border-color: black;
 }
 
 .outer-div {
@@ -80,23 +70,17 @@
     width: 100%;
 }
 
-.button-div {
-    margin: auto;
-    padding-top: 10px;
-    width: 25%;
-}
-.button-div ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
 
-.button-div li {
-    padding: 0 0.5rem;
-}
-
-.navbar {
+.navbar-home {
+    display: flex;
     flex-direction: row;
+    position: fixed;
+    width:200px;
+    height:40px;
+    bottom:30px;
+    right:25%;
+    left:50%;
+    margin-left:-150px;
 }
 
 .invisible-div {
@@ -116,5 +100,14 @@
     }
     .jumbo-boy h5 {
         font-size: 1.21rem;
+    }
+    .navbar-home{
+        left: auto;
+    }
+
+    .pedir{
+        width: 120px;
+        height: 40px;
+        margin: 0 0.3rem;
     }
 }
