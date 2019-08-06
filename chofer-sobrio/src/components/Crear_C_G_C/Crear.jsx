@@ -385,7 +385,7 @@ export default class Crear extends Component {
                     id_carro: id
                 });
             })
-            setTimeout(redirigir, 1000);
+            /*setTimeout(redirigir, 1000);*/
         }
 
         if (this.props.validado && this.props.funcion === "crear_cliente") {
