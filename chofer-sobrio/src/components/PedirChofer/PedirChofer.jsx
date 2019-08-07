@@ -30,6 +30,7 @@ export default class PedirChofer extends Component {
             hora: '23:00',
             validated: '',
             date: '',
+            isCliente: false,
             listo: 0,
             infoCliente: {},
             cambiarHora: new Date(),
@@ -41,6 +42,7 @@ export default class PedirChofer extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSelectMarca = this.handleSelectMarca.bind(this);
     }
+
 
     CrearCarro(color,marca,placa) {
         this.setState({
@@ -76,6 +78,7 @@ export default class PedirChofer extends Component {
                 placa: info.placa,
             });
         }
+    
     }
 
     getLocation = () => {
