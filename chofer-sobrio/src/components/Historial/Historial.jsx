@@ -49,10 +49,6 @@ export default class Precios extends Component {
             Header: 'Placa',
             accessor: 'placa',
             maxWidth: 80,
-        }, {
-            Header: 'Ubicacion',
-            accessor: 'ubicacion',
-            maxWidth: 100,
         }];
 
         this.state = {

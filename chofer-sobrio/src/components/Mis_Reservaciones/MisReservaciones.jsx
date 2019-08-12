@@ -19,10 +19,6 @@ export default class MisReservaciones extends Component {
             accessor: 'telefono',
             maxWidth: 150,
         }, {
-            Header: 'Ubicacion',
-            accessor: 'ubicacion',
-            maxWidth: 150,
-        }, {
             Header: 'Destino',
             accessor: 'destino',
             maxWidth: 200,
