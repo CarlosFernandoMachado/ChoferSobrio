@@ -6,7 +6,7 @@ import { Jumbotron, Card, Alert } from 'react-bootstrap';
 import firebase from 'firebase';
 
 
-export default class Eliminar_Cuenta extends Component {
+export default class EliminarCuentaTotal_Chofer extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -53,7 +53,7 @@ export default class Eliminar_Cuenta extends Component {
             }
 
         });
-        if (window.confirm(' Se desactivara su cuenta, lamentamos mucho que tengas que irte, esperamos que sea un nos vemos y regreses 😢'))
+        if (window.confirm(' Se eliminara su cuenta, lamentamos mucho que tengas que irte, esperamos que sea un nos vemos y regreses 😢'))
             this.setState({ listo: "true" });
             
 
@@ -65,7 +65,7 @@ export default class Eliminar_Cuenta extends Component {
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
                     <h1>Chofer Sobrio</h1>
-                    <h5>Desactivacion de Cuenta</h5>
+                    <h5>Eliminacion de Cuenta</h5>
                 </Jumbotron>
 
                 <Card border="ligth">
@@ -76,8 +76,8 @@ export default class Eliminar_Cuenta extends Component {
 
                             </Form.Row>
                             <div className="text-center">
-                                <Button type="submit" variant="warning" >Desactivar Cuenta
-                                <Crear validado={this.state.listo} datos={[this.state.id, this.state.numId]} funcion={"eliminar_chofer"} />
+                                <Button type="submit" variant="warning" >Eliminar Cuenta
+                                <Crear validado={this.state.listo} datos={[this.state.id, this.state.numId]} funcion={"eliminar_chofer_t"} />
                                 </Button>
 
                             </div>
