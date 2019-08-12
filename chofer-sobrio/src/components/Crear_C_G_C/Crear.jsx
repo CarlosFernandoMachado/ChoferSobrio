@@ -16,6 +16,12 @@ function redirigircreargerente() {
     window.location = "/CrearGerente";
 }
 
+function redirigirPagoTarjeta(producto) {
+    console.log(producto);
+    const urlPago = 'https://checkout.baccredomatic.com/ODQyMDQwMWQwNGU3M2Y2OTU5My42ODAxNTY1NDU1OTY4';
+    window.location = urlPago;
+}
+
 export default class Crear extends Component {
 
     Crearchofer(id, identidad, name, number, email) {
@@ -189,7 +195,7 @@ export default class Crear extends Component {
         database.ref('cliente/' + id).remove();
     }
 
-    Crearpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion) {
+    Crearpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, pagoTarjeta) {
         var database = Fire.database();
         database.ref('pedido/' + id).set({
             color: color_vehiculo,
@@ -204,6 +210,7 @@ export default class Crear extends Component {
             estado: "Disponible",
             idchofer: 0,
             mensaje: 'ninguno',
+            pagoTarjeta: pagoTarjeta,
         });
     }
 
@@ -227,7 +234,7 @@ export default class Crear extends Component {
         return n;
     }
 
-    modificarpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion) {
+    modificarpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, pagoTarjeta) {
         var database = Fire.database();
         database.ref('pedido/' + id).set({
             color: color_vehiculo,
@@ -238,7 +245,8 @@ export default class Crear extends Component {
             nombre: nombre,
             placa: placa,
             telefono: telefono,
-            ubicacion: ubicacion
+            ubicacion: ubicacion,
+            pagoTarjeta: pagoTarjeta,
         });
     }
 
@@ -278,6 +286,7 @@ export default class Crear extends Component {
         var brand;
         var plate;
         var location;
+        var pagoTarjeta;
 
         if (this.props.validado && this.props.funcion === "crear_gerente") {
             database = Fire.database();
@@ -338,6 +347,7 @@ export default class Crear extends Component {
             plate = this.props.datos[6];
             telephone = this.props.datos[7];
             location = this.props.datos[8];
+            pagoTarjeta = this.props.datos[9];
 
             id = 0;
             n = database.ref('/referencias/').once('value').then(function (snapshot) {
@@ -356,13 +366,21 @@ export default class Crear extends Component {
                     estado: 'Disponible',
                     idchofer: 0,
                     mensaje: 'ninguno',
+                    pagoTarjeta: pagoTarjeta,
 
                 });
                 database.ref('referencias/').update({
                     id_pedido: id
                 });
             })
-            setTimeout(redirigir, 1000);
+            if(pagoTarjeta)
+            {
+                redirigirPagoTarjeta('standard');
+            }
+            else
+            {
+                setTimeout(redirigir, 1000);
+            }
         }
 
         if (this.props.validado && this.props.funcion === "Crearcarro") {
