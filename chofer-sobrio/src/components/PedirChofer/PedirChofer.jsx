@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import DatePicker from "react-datepicker";
 import { registerLocale, setDefaultLocale } from "react-datepicker"
-import TimePicker from 'react-time-picker';
 import firebase from '../config/config';
 import "react-datepicker/dist/react-datepicker.css";
 import Crear from '../Crear_C_G_C/Crear';
@@ -10,6 +9,7 @@ import es from 'date-fns/locale/es';
 import './PedirChofer.css';
 import setMinutes from "date-fns/setMinutes";
 import setHours from "date-fns/setHours";
+import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
 import { Link } from 'react-router-dom';
 
 registerLocale('es', es);
@@ -34,6 +34,7 @@ export default class PedirChofer extends Component {
             listo: 0,
             infoCliente: {},
             cambiarHora: new Date(),
+            pagoTarjeta: false,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -41,16 +42,7 @@ export default class PedirChofer extends Component {
         this.dateChange = this.dateChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSelectMarca = this.handleSelectMarca.bind(this);
-    }
-
-
-    CrearCarro(color,marca,placa) {
-        this.setState({
-            color: color,
-            marca: marca,
-            placa: placa,
-        });
-        
+        this.handlePagoTarjeta = this.handlePagoTarjeta.bind(this);
     }
 
     async componentDidMount() {
@@ -124,6 +116,10 @@ export default class PedirChofer extends Component {
         this.setState({ marca: evtKey });
     }
 
+    handlePagoTarjeta() {
+        var checked = document.getElementById('pagoTarjeta').checked;
+        this.setState({ pagoTarjeta: checked});
+    }
 
     handleSubmit(event) {
         const form = event.currentTarget;
@@ -419,15 +415,26 @@ export default class PedirChofer extends Component {
                                         maxTime={setHours(setMinutes(new Date(), 59), 23)}
                                     />
                                 </Form.Group>
+                                <Form.Group as={Col} md="4">
+                                <Form.Label>Pago</Form.Label>
+                                    <Form.Check 
+                                    type="checkbox" 
+                                    label="Tarjeta de Crédito/Débito" 
+                                    onChange={this.handlePagoTarjeta}
+                                    id="pagoTarjeta"
+                                    />
+                                </Form.Group>
                             </Form.Row>
-
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Pedir chofer
-                                    <Crear validado={this.state.listo} datos={[this.state.color, this.state.destino, this.state.date, this.state.hora, this.state.marca, this.state.nombre, this.state.placa, this.state.telefono, this.state.ubicacion_actual]} funcion={"Crearpedido"} />
+                                    <Crear validado={this.state.listo} datos={[this.state.color, this.state.destino, this.state.date, this.state.hora, this.state.marca, this.state.nombre, this.state.placa, this.state.telefono, this.state.ubicacion_actual, this.state.pagoTarjeta ]} funcion={"Crearpedido"} />
                                 </Button>
                             </div>
                             <Link to="/SeleccionarCarro">
                                 <Button type="submit" variant="warning">Seleccionar carro registrado</Button>
+                             </Link>
+                             <Link to="/MostrarTelefono">
+                                <Button type="submit" variant="warning">Seleccionar teléfono registrado</Button>
                              </Link>
 
                         </Form>
