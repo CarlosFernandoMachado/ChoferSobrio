@@ -5,10 +5,9 @@ import './Eliminar_Cuenta.css';
 import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Card, Alert } from 'react-bootstrap';
 import firebase from 'firebase';
-import { logout } from '../config/auth';
 
 
-export default class Password_olvidada extends Component {
+export default class EliminarCuentaTotal_Cliente extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -24,10 +23,10 @@ export default class Password_olvidada extends Component {
     }
 
     handleSubmit(event) {
-        
+       
         const user = JSON.parse(localStorage.getItem('user')); 
         
-        var rootRef = firebase.database().ref().child("gerente");
+        var rootRef = firebase.database().ref().child("cliente");
             rootRef.on("child_added", snap => {
                 var id = 0
               
@@ -35,7 +34,7 @@ export default class Password_olvidada extends Component {
                
 
                 if (correo === user.email) {
-                    firebase.database().ref().child('gerente').orderByChild('correo').equalTo(user.email).on("value", function(snapshot) {
+                    firebase.database().ref().child('cliente').orderByChild('correo').equalTo(user.email).on("value", function(snapshot) {
                         console.log(snapshot.val());
                         snapshot.forEach(function(data) {
                             id = data.key;
@@ -52,9 +51,11 @@ export default class Password_olvidada extends Component {
                 }
 
             });
-            if (window.confirm(' Se desactivara su cuenta, lamentamos mucho que tengas que irte, esperamos que sea un nos vemos y regreses 😢')) {
-            this.setState({listo:"true"});
-            }
+            if (window.confirm(' Se eliminara su cuenta, lamentamos mucho que tengas que irte, esperamos que sea un nos vemos y regreses 😢')){
+                firebase.auth().currentUser.delete()
+                this.setState({listo:"true"});
+            } 
+            
        
     }
 
@@ -63,7 +64,7 @@ export default class Password_olvidada extends Component {
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
                     <h1>Chofer Sobrio</h1>
-                    <h5>Desactivacion de Cuenta</h5>
+                    <h5>Eliminacion de Cuentas</h5>
                 </Jumbotron>
 
                 <Card border="ligth">
@@ -71,11 +72,11 @@ export default class Password_olvidada extends Component {
                         <Form
                             onSubmit={e => this.handleSubmit(e)}>
                             <Form.Row>
-                              
+                                
                             </Form.Row>
                             <div className="text-center">
-                                <Button type="submit" onClick={logout} variant="warning" >Desactivar cuenta gerente
-                                <Crear validado={ this.state.listo } datos={ [this.state.id] } funcion={ "eliminar_gerente" } />
+                                <Button type="submit" variant="warning" >Eliminar Mi Cuenta
+                                <Crear validado={ this.state.listo } datos={ [this.state.id] } funcion={ "eliminar_cliente_t" } />
                                 </Button>
 
                             </div>

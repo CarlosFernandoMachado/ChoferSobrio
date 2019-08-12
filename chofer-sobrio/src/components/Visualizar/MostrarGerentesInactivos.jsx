@@ -4,7 +4,7 @@ import ReactTable from 'react-table';
 import './Visualizar.css'
 import firebase from '../config/config';
 
-export default class VisualizarGerente extends Component {
+export default class VisualizarGerenteInactivo extends Component {
 
     constructor(props) {
         super(props);
@@ -47,7 +47,7 @@ export default class VisualizarGerente extends Component {
         };
 
         this.mostrargerentes = this.mostrargerentes.bind(this);
-        this.eliminar = this.eliminar.bind(this);
+        this.activar = this.activar.bind(this);
     }
 
     async componentDidMount() {
@@ -90,8 +90,8 @@ export default class VisualizarGerente extends Component {
 
         Object.keys(gerentes).forEach((key, index) => {
             const pedido = gerentes[key];
-            if (index !== 0 && gerentes[key].estado =="activo") {
-                pedido.accion = <Button variant="danger" onClick={() => this.eliminar(key)}>Eliminar</Button>;
+            if (index !== 0  && gerentes[key].estado =="inactivo") {
+                pedido.accion = <Button variant="success" onClick={() => this.activar(key)}>Activar</Button>;
                 dueños.push(pedido);                
             }
         })
@@ -100,18 +100,18 @@ export default class VisualizarGerente extends Component {
     }
 
 
-    eliminar(keyPedido) {
-        if (window.confirm(' Se eliminara la cuenta')) {
+    activar(keyPedido) {
+        if (window.confirm(' Esta seguro que desea activar esta cuenta?')) {
             const database = firebase.database();
             const { gerentes } = this.state;
             const gerentesRes = gerentes.map(a => Object.assign({}, a));
             delete gerentesRes[keyPedido].accion;
-            var estadocuenta = "inactivo"
+            var estadocuenta = "activo"
             database.ref('gerente/' + keyPedido).update({
                estado:estadocuenta
             });
         }
-       
+     
     }
 
     render() {
@@ -120,11 +120,11 @@ export default class VisualizarGerente extends Component {
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
                     <h1>gerente Sobrio</h1>
-                    <h5>Visualizar Gerente</h5>
+                    <h5>Visualizar GerentsS</h5>
                 </Jumbotron>
                 <Card border="light">
                     <Alert variant="secondary">
-                    <h3>Gerentes Existentes</h3>
+                    <h3>Gerentes Inactivos</h3>
                         <br />
                         <ReactTable
                             data={pedidos}

@@ -26,10 +26,15 @@ import ModificarContrasenaGerente from './components/ModificarContrasena/Modific
 import MostrarChofer from './components/Visualizar/MostrarChofer';
 import MostrarCliente from './components/Visualizar/MostrarCliente';
 import MostrarGerente from './components/Visualizar/MostrarGerente';
+import MostrarGerentesInactivos from './components/Visualizar/MostrarGerentesInactivos';
+import MostrarChoferesInactivos from './components/Visualizar/MostrarChoferesInactivos.jsx';
 import PerfilChofer from './components/MiPerfil/PerfilChofer';
 import MiPerfil from './components/MiPerfil/MiPefil';
 import Eliminar_Cuenta from './components/Eliminar_Cuenta/Eliminar_Cuenta';
 import Eliminar_Cuenta_Cliente from './components/Eliminar_Cuenta/Eliminar_Cuenta_Cliente';
+import EliminarCuentaTotal_Cliente from './components/Eliminar_Cuenta/EliminarCuentaTotal_Cliente';
+import EliminarCuentaTotal_Chofer from './components/Eliminar_Cuenta/EliminarCuentaTotal_Chofer';
+import EliminarCuentaTotal_Gerente from './components/Eliminar_Cuenta/EliminarCuentaTotal_Gerente';
 import feedback from './components/feedback/feedback';
 import ListarFeedback from './components/feedback/ListarFeedback';
 import Eliminar_Cuenta_Chofer from './components/Eliminar_Cuenta/Eliminar_Cuenta_Chofer';
@@ -185,11 +190,17 @@ class App extends Component {
               <Route exact path="/MostrarChofer" component={MostrarChofer}></Route>
               <Route exact path="/MostrarCliente" component={MostrarCliente}></Route>
               <Route exact path="/MostrarGerente" component={MostrarGerente}></Route>
+              <Route exact path="/MostrarGerentesInactivos" component={MostrarGerentesInactivos}></Route>
+              <Route exact path="/MostrarChoferesInactivos" component={MostrarChoferesInactivos}></Route>
+              
               <Route exact path="/ModificarGerente" component={ModificarGerente}></Route>
               <Route exact path="/ModificarChofer" component={ModificarChofer}></Route>
               <Route exact path="/ModificarCliente" component={ModificarCliente}></Route>
               <Route exact path="/EliminarCuentaGerente" component={Eliminar_Cuenta}></Route>
               <Route exact path="/EliminarCuentaCliente" component={Eliminar_Cuenta_Cliente}></Route>
+              <Route exact path="/EliminarCuentaTotal_Cliente" component={EliminarCuentaTotal_Cliente}></Route>
+              <Route exact path="/EliminarCuentaTotal_Chofer" component={EliminarCuentaTotal_Chofer}></Route>
+              <Route exact path="/EliminarCuentaTotal_Gerente" component={EliminarCuentaTotal_Gerente}></Route>
               <Route exact path="/EliminarCuentaChofer" component={Eliminar_Cuenta_Chofer}></Route>
               <Cliente exact path="/Perfil_Chofer" permisos={permisos} component={PerfilChofer}></Cliente>
               <Route exact path="/MisReservaciones" component={MisReservaciones}></Route>

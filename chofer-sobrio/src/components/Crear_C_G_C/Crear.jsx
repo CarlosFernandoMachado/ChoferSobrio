@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './Crear.css'
 import Fire from '../config/config';
+import firebase from '../config/config';
 //import firebaseAuth from '../config/config';
 
 function redirigir() {
@@ -93,13 +94,13 @@ export default class Crear extends Component {
         });
     }
 
-   /* update_password_cliente = () => {
-        const email = Fire.auth().currentUser.email;
-        Fire.auth().sendPasswordResetEmail(email)
-            .then(function () {
-                alert('Se ha enviado un link de cambio de contrasena a ' + email);
-            });
-    }*/
+    /* update_password_cliente = () => {
+         const email = Fire.auth().currentUser.email;
+         Fire.auth().sendPasswordResetEmail(email)
+             .then(function () {
+                 alert('Se ha enviado un link de cambio de contrasena a ' + email);
+             });
+     }*/
 
     modificarcontraseñagerente(id, contraseña) {
         var database = Fire.database();
@@ -135,15 +136,15 @@ export default class Crear extends Component {
         return n;
     }
 
-    modificargerente(id, id2, name, number, email,telefono2,telefono3) {
+    modificargerente(id, id2, name, number, email, telefono2, telefono3) {
         var database = Fire.database();
         database.ref('gerente/' + id).update({
             identidad: id2,
             nombre: name,
             telefono: number,
             correo: email,
-            telefono2:telefono2,
-            telefono3:telefono3
+            telefono2: telefono2,
+            telefono3: telefono3
         });
     }
 
@@ -174,7 +175,7 @@ export default class Crear extends Component {
         return n;
     }
 
-    modificarcliente(id, color_vehiculo, marca, nombre, placa, telefono, email,telefono2,telefono3) {
+    modificarcliente(id, color_vehiculo, marca, nombre, placa, telefono, email, telefono2, telefono3) {
         var database = Fire.database();
         database.ref('cliente/' + id).update({
             color_vehiculo: color_vehiculo,
@@ -183,8 +184,8 @@ export default class Crear extends Component {
             placa: placa,
             telefono: telefono,
             correo: email,
-            telefono2:telefono2,
-            telefono3:telefono3
+            telefono2: telefono2,
+            telefono3: telefono3
 
         });
     }
@@ -478,7 +479,7 @@ export default class Crear extends Component {
 
             Fire.database().ref('chofer').orderByChild('identidad').equalTo(identity).once('value').then(function (snapshot) {
                 estado = snapshot.exists()
-               
+
                 Fire.database().ref('chofer').orderByChild('correo').equalTo(email).once('value').then(function (snapshot) {
                     estado2 = snapshot.exists()
                     if (estado === true) {
@@ -576,9 +577,9 @@ export default class Crear extends Component {
             telephone = this.props.datos[4];
             email = this.props.datos[5];
             id = this.props.datos[6];
-            var telefono2= this.props.datos[7];
+            var telefono2 = this.props.datos[7];
             var telefono3 = this.props.datos[8];
-            this.modificarcliente(id, colour, brand, name, plate, telephone, email,telefono2,telefono3)
+            this.modificarcliente(id, colour, brand, name, plate, telephone, email, telefono2, telefono3)
             setTimeout(redirigir, 1000);
         }
 
@@ -597,7 +598,7 @@ export default class Crear extends Component {
             id = this.props.datos[4];
             var telefono2 = this.props.datos[5];
             var telefono3 = this.props.datos[6];
-            this.modificargerente(id, identity, name, telephone, email,telefono2,telefono3);
+            this.modificargerente(id, identity, name, telephone, email, telefono2, telefono3);
             setTimeout(redirigir, 1000);
         }
 
@@ -633,7 +634,22 @@ export default class Crear extends Component {
                         estado: estadocuenta,
                     });
                     setTimeout(redirigir, 1000);
-                }else{
+                } else {
+                    alert("No puede desactivar la cuenta porque tiene pedido pendiente");
+                }
+            });
+        }
+        if (this.props.validado && this.props.funcion === "eliminar_chofer_t") {
+            var estadocuenta = "inactivo"
+            const [id, numId] = this.props.datos;
+            database = Fire.database();
+
+            this.tienePedido(numId, database).then((tieneP) => {
+                if (!tieneP) {
+                    var database = Fire.database();
+                    database.ref('chofer/' + id).remove();
+                    setTimeout(redirigir, 1000);
+                } else {
                     alert("No puede eliminar la cuenta porque tiene pedido pendiente");
                 }
             });
@@ -649,6 +665,47 @@ export default class Crear extends Component {
             });
             setTimeout(redirigir, 1000);
         }
+        if (this.props.validado && this.props.funcion === "eliminar_cliente_t") {
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            var cont = 0;
+            if (user) {
+
+                var rootRef = firebase.database().ref().child("carro");
+                rootRef.on("child_added", snap => {
+
+
+
+                    firebase.database().ref().child('carro').orderByChild('correo').equalTo(user.email).on("value", function (snapshot) {
+                        console.log(snapshot.val());
+                        snapshot.forEach(function (data) {
+                            var id2 = data.key;
+                            var database = Fire.database();
+                            database.ref('carro/' + id2).remove();
+                        });
+                    });
+
+
+
+
+                });
+
+
+
+            }
+
+
+
+            id = this.props.datos[0]
+            database = Fire.database();
+           
+
+           
+
+            this.Eliminarcliente(id);
+            
+            setTimeout(redirigir, 1000);
+        }
 
         if (this.props.validado && this.props.funcion === "eliminar_gerente") {
             var estadocuenta = "inactivo"
@@ -658,6 +715,14 @@ export default class Crear extends Component {
             database.ref('gerente/' + id).update({
                 estado: estadocuenta
             });
+            setTimeout(redirigir, 1000);
+        }
+        if (this.props.validado && this.props.funcion === "eliminar_gerente_t") {
+           
+            id = this.props.datos[0]
+            database = Fire.database();
+
+            this.EliminarGerente(id);
             setTimeout(redirigir, 1000);
         }
 

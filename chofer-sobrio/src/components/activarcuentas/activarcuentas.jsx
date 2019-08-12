@@ -103,49 +103,6 @@ export default class Password_olvidada extends Component {
         if (user) {
             this.setState({ user });
 
-            // gerentes
-            this.dbRefGerentes = firebase.database().ref('/gerente');
-            this.dbCallbackGerentes = this.dbRefGerentes.on('value', (snap) => {
-                const gerentes = snap.val();
-                let isGerente = false;
-                var flag = 0
-
-                Object.keys(gerentes).forEach(key => {
-                    if (isGerente = isGerente || (gerentes[key].correo === user.email && gerentes[key].estado === "activo")) {
-                        this.setState({ isGerente });
-                    } else if ((gerentes[key].correo === user.email && gerentes[key].estado === "inactivo")) {
-
-                        this.activargerente()
-                    }
-
-                    ;
-                });
-
-
-
-
-
-
-
-            });
-            // choferes
-            this.dbRefChoferes = firebase.database().ref('/chofer');
-            this.dbCallbackChoferes = this.dbRefChoferes.on('value', (snap) => {
-                const choferes = snap.val();
-                let isChofer = false;
-                Object.keys(choferes).forEach(key => {
-                    if (isChofer = isChofer || (choferes[key].correo === user.email && choferes[key].estado === "activo")) {
-                        this.setState({ isChofer });
-                    } else if ((choferes[key].correo === user.email && choferes[key].estado === "inactivo")) {
-                        this.activarchofer()
-                    };
-
-                });
-
-
-
-            });
-
             // clientes
             this.dbRefClientes = firebase.database().ref('/cliente');
             this.dbCallbackClientes = this.dbRefClientes.on('value', (snap) => {

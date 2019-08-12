@@ -95,10 +95,8 @@ export default class Home extends Component {
 
         if (cliente) {
             tipoUsuario = 'Cliente';
-        }
-
-        return (
-            <Container>
+            return(
+                <Container>
                 <div className="outer-div">
                     <div className="jumbotron-div">
                         <Jumbotron className="jumbo-boy" fluid>
@@ -108,7 +106,7 @@ export default class Home extends Component {
                     </div>
                     <div className="map-div" id="map">
                     </div>
-
+                    
                     <div className="navbar-home" >
                         <Button className="pedir" onClick={this.renderMap}>Localizar</Button>
                         <Link to="/pedirchofer">
@@ -129,7 +127,40 @@ export default class Home extends Component {
                     </ModalFooter>
                 </Modal>
             </Container>
-        );
+
+            );
+        }else{
+            return(
+                <Container>
+                <div className="outer-div">
+                    <div className="jumbotron-div">
+                        <Jumbotron className="jumbo-boy" fluid>
+                            <h1>Chofer Sobrio</h1>
+                            <h5>Vuelve sin esquelas y sin accidentes a casa</h5>
+                        </Jumbotron>
+                    </div>
+                    <div className="map-div" id="map">
+                    </div>
+                    
+                   
+                    
+                    <div className="invisible-div">
+                    </div>
+                </div>
+                <Modal isOpen={mostrar && !localStorage.getItem('alertaLogin')} toggle={this.toggleModal} className={this.props.className}>
+                    <ModalHeader toggle={this.toggle}>Enhorabuena!</ModalHeader>
+                    <ModalBody>Has iniciado sesion como {tipoUsuario}!</ModalBody>
+                    <ModalFooter>
+                        <Button color="secondary" block onClick={this.toggleModal}>Vale</Button>
+                    </ModalFooter>
+                </Modal>
+            </Container>
+
+            );
+            
+        }
+
+        
     }
 }
 

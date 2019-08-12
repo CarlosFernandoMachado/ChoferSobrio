@@ -8,7 +8,7 @@ import firebase from 'firebase';
 import { logout } from '../config/auth';
 
 
-export default class Password_olvidada extends Component {
+export default class EliminarCuentaTotal_Gerente extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -52,7 +52,7 @@ export default class Password_olvidada extends Component {
                 }
 
             });
-            if (window.confirm(' Se desactivara su cuenta, lamentamos mucho que tengas que irte, esperamos que sea un nos vemos y regreses 😢')) {
+            if (window.confirm(' Se eliminara su cuenta, lamentamos mucho que tengas que irte, esperamos que sea un nos vemos y regreses 😢')) {
             this.setState({listo:"true"});
             }
        
@@ -63,7 +63,7 @@ export default class Password_olvidada extends Component {
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
                     <h1>Chofer Sobrio</h1>
-                    <h5>Desactivacion de Cuenta</h5>
+                    <h5>Eliminacion de Cuenta</h5>
                 </Jumbotron>
 
                 <Card border="ligth">
@@ -74,8 +74,8 @@ export default class Password_olvidada extends Component {
                               
                             </Form.Row>
                             <div className="text-center">
-                                <Button type="submit" onClick={logout} variant="warning" >Desactivar cuenta gerente
-                                <Crear validado={ this.state.listo } datos={ [this.state.id] } funcion={ "eliminar_gerente" } />
+                                <Button type="submit" onClick={logout} variant="warning" >Eliminar Cuenta gerente
+                                <Crear validado={ this.state.listo } datos={ [this.state.id] } funcion={ "eliminar_gerente_t" } />
                                 </Button>
 
                             </div>

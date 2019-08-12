@@ -17,7 +17,7 @@ class Toolbar extends React.Component {
             isCliente: false,
         };
     }
-    
+
 
     componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
@@ -37,7 +37,7 @@ class Toolbar extends React.Component {
                         this.setState({ isGerente });
                     } else if ((gerentes[key].correo === user.email && gerentes[key].estado === "inactivo")) {
 
-                        
+
                     }
 
                     ;
@@ -59,7 +59,7 @@ class Toolbar extends React.Component {
                     if (isChofer = isChofer || (choferes[key].correo === user.email && choferes[key].estado === "activo")) {
                         this.setState({ isChofer });
                     } else if ((choferes[key].correo === user.email && choferes[key].estado === "inactivo")) {
-                      
+
                     };
 
                 });
@@ -77,7 +77,7 @@ class Toolbar extends React.Component {
                     if (isCliente = isCliente || (clientes[key].correo === user.email && clientes[key].estado === "activo")) {
                         this.setState({ isCliente });
                     } else if ((clientes[key].correo === user.email && clientes[key].estado === "inactivo")) {
-                       
+
                     };
                 });
 
@@ -164,10 +164,25 @@ class Toolbar extends React.Component {
                     </Link>
                 </Dropdown.Item>,
                 <Dropdown.Item key={key++}>
-                    <Link to="/EliminarCuentaGerente">
-                        <Button>Eliminar mi cuenta</Button>
+                    <Link to="/MostrarGerentesInactivos">
+                        <Button>Mostrar Gerentes Inactivos</Button>
                     </Link>
                 </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
+                    <Link to="/MostrarChoferesInactivos">
+                        <Button>Mostrar Choferes Inactivos</Button>
+                    </Link>
+                </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
+                    <Link to="/EliminarCuentaGerente">
+                        <Button>Desactivar mi cuenta Gerente</Button>
+                    </Link>
+                </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
+                <Link to="/EliminarCuentaTotal_Gerente">
+                    <Button>Eliminar mi cuenta Gerente</Button>
+                </Link>
+            </Dropdown.Item>
             );
         } else {
 
@@ -187,9 +202,14 @@ class Toolbar extends React.Component {
                 </Dropdown.Item>,
                 <Dropdown.Item key={key++}>
                     <Link to="/EliminarCuentaChofer">
-                        <Button>Eliminar mi cuenta</Button>
+                        <Button>Desactivar mi cuenta chofer</Button>
                     </Link>
                 </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
+                    <Link to="/EliminarCuentaTotal_Chofer">
+                        <Button>Eliminar mi cuenta chofer</Button>
+                    </Link>
+                </Dropdown.Item>
             );
         }
 
@@ -209,7 +229,7 @@ class Toolbar extends React.Component {
                     </Link>
                 </Dropdown.Item>,
             );
-            
+
             menu.push(
                 <Dropdown.Item key={key++}>
                     <Link to="/MisReservaciones">
@@ -221,10 +241,18 @@ class Toolbar extends React.Component {
             menu.push(
                 <Dropdown.Item key={key++}>
                     <Link to="/EliminarCuentaCliente">
-                        <Button>Eliminar mi cuenta</Button>
+                        <Button>Desactivar Mi Cuenta Cliente</Button>
                     </Link>
                 </Dropdown.Item>,
             );
+            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/EliminarCuentaTotal_Cliente">
+                        <Button>Eliminar Mi Cuenta cliente</Button>
+                    </Link>
+                </Dropdown.Item>,
+            );
+
 
             menu.push(
                 <Dropdown.Item key={key++}>
