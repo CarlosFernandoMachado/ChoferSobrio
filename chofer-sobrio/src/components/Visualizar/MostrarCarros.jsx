@@ -4,6 +4,8 @@ import ReactTable from 'react-table';
 import './Visualizar.css'
 import firebase from '../config/config';
 import { Link } from 'react-router-dom';
+import { FiTrash2 } from "react-icons/fi";
+import { MdCreate } from "react-icons/md";
 
 export default class VisualizarCarros extends Component {
 
@@ -13,7 +15,7 @@ export default class VisualizarCarros extends Component {
         this.columnas = [{
             Header: 'Color',
             accessor: 'color',
-            maxWidth: 300,
+            maxWidth: 150,
         }, {
             Header: 'Marca',
             accessor: 'marca',
@@ -22,6 +24,16 @@ export default class VisualizarCarros extends Component {
             Header: 'Placa',
             accessor: 'placa',
             maxWidth: 150,
+        }, {
+            Header: '',
+            accessor: 'remove',
+            maxWidth: 70,
+            filterable: false,
+        }, {
+            Header: '',
+            accessor: 'change',
+            maxWidth: 70,
+            filterable: false,
         }];
 
         this.state = {
@@ -47,14 +59,28 @@ export default class VisualizarCarros extends Component {
         }
     }
 
+    eliminarcarro(key){
+        if (window.confirm('Se eliminara el carro de su cuenta.')) {
+            const database = firebase.database();
+            database.ref(`carro/${key}/`).remove();
+        }
+    }
+
     mostrarcarros() {
         const { carros } = this.state;
         const user = JSON.parse(localStorage.getItem('user'));
         const car = [];
 
         Object.keys(carros).forEach((key, index) => {
+            const carro = carros[key];
             if (index !== 0 &&  carros[key].correo==user.email) {
-                car.push(carros[key]);
+                carro.remove =  <Button variant="danger" onClick={() => this.eliminarcarro(key)}  ><FiTrash2/>
+                                </Button>
+                carro.change =  <Link to="/PedirChofer">
+                                    <Button variant="success"><MdCreate/>
+                                    </Button>
+                                 </Link>
+                car.push(carro);
             }
         })
 
