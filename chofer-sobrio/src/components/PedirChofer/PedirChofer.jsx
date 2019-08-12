@@ -426,9 +426,8 @@ export default class PedirChofer extends Component {
                                         maxTime={setHours(setMinutes(new Date(), 59), 23)}
                                     />
                                 </Form.Group>
-                            </Form.Row>
-                            <Form.Row>
                                 <Form.Group as={Col} md="4">
+                                <Form.Label>Pago</Form.Label>
                                     <Form.Check 
                                     type="checkbox" 
                                     label="Tarjeta de Crédito/Débito" 
