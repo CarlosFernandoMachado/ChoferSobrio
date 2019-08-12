@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import DatePicker from "react-datepicker";
 import { registerLocale, setDefaultLocale } from "react-datepicker"
-import TimePicker from 'react-time-picker';
 import firebase from '../config/config';
 import "react-datepicker/dist/react-datepicker.css";
 import Crear from '../Crear_C_G_C/Crear';
@@ -41,16 +40,6 @@ export default class PedirChofer extends Component {
         this.dateChange = this.dateChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSelectMarca = this.handleSelectMarca.bind(this);
-    }
-
-
-    CrearCarro(color,marca,placa) {
-        this.setState({
-            color: color,
-            marca: marca,
-            placa: placa,
-        });
-        
     }
 
     async componentDidMount() {
@@ -428,6 +417,9 @@ export default class PedirChofer extends Component {
                             </div>
                             <Link to="/SeleccionarCarro">
                                 <Button type="submit" variant="warning">Seleccionar carro registrado</Button>
+                             </Link>
+                             <Link to="/MostrarTelefono">
+                                <Button type="submit" variant="warning">Seleccionar teléfono registrado</Button>
                              </Link>
 
                         </Form>
