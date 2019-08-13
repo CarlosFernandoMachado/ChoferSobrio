@@ -28,10 +28,6 @@ export default class Precios extends Component {
             accessor: 'telefono',
             maxWidth: 100,
         }, {
-            Header: 'Ubicacion',
-            accessor: 'ubicacion',
-            maxWidth: 100,
-        }, {
             Header: 'Destino',
             accessor: 'destino',
             maxWidth: 100,
