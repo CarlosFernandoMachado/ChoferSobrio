@@ -63,7 +63,16 @@ export default class VisualizarCarros extends Component {
         if (window.confirm('Se eliminara el carro de su cuenta.')) {
             const database = firebase.database();
             database.ref(`carro/${key}/`).remove();
+            
         }
+    }
+
+    modificarcarro(key){
+        const database = firebase.database();
+
+        database.ref('carro/' + key).update({
+            cambio: "si",
+         });
     }
 
     mostrarcarros() {
@@ -76,8 +85,8 @@ export default class VisualizarCarros extends Component {
             if (index !== 0 &&  carros[key].correo==user.email) {
                 carro.remove =  <Button variant="danger" onClick={() => this.eliminarcarro(key)}  ><FiTrash2/>
                                 </Button>
-                carro.change =  <Link to="/PedirChofer">
-                                    <Button variant="success"><MdCreate/>
+                carro.change =  <Link to="/ModificarCarro">
+                                    <Button variant="success" onClick={() => this.modificarcarro(key)}><MdCreate/>
                                     </Button>
                                  </Link>
                 car.push(carro);

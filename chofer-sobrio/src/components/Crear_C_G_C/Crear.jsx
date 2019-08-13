@@ -251,6 +251,15 @@ export default class Crear extends Component {
         });
     }
 
+    modificarCarro(key,colour,brand,plate){
+        var database = Fire.database();
+        database.ref('carro/' + key).update({
+            color: colour,
+            marca: brand,
+            placa: plate,
+         });
+    }
+
     Eliminarpedido(id) {
         var database = Fire.database();
         database.ref('pedido/' + id).remove();
@@ -399,12 +408,12 @@ export default class Crear extends Component {
                     marca: brand,
                     placa: plate,
                     correo: email,
+                    cambio: "no",
                 });
                 database.ref('referencias/').update({
                     id_carro: id
                 });
             })
-            /*setTimeout(redirigir, 1000);*/
         }
 
         if (this.props.validado && this.props.funcion === "crear_cliente") {
@@ -580,6 +589,17 @@ export default class Crear extends Component {
             var telefono2 = this.props.datos[7];
             var telefono3 = this.props.datos[8];
             this.modificarcliente(id, colour, brand, name, plate, telephone, email, telefono2, telefono3)
+            setTimeout(redirigir, 1000);
+        }
+
+        if (this.props.validado && this.props.funcion === "modificar_carro") {
+            database = Fire.database();
+            id = this.props.datos[0];
+            brand = this.props.datos[1];
+            plate = this.props.datos[2];
+            colour = this.props.datos[3];
+            this.modificarCarro(id,colour,brand,plate)
+            alert("Modificado correctamente");
             setTimeout(redirigir, 1000);
         }
 

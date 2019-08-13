@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
-import { registerLocale, setDefaultLocale } from "react-datepicker"
 import firebase from '../config/config';
 import "react-datepicker/dist/react-datepicker.css";
 import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Container, Col, Button, Form, Card, Alert, Dropdown } from 'react-bootstrap';
-import es from 'date-fns/locale/es';
-import './PedirChofer.css';
 
 export default class PedirChofer extends Component {
     constructor(props) {
@@ -18,6 +15,7 @@ export default class PedirChofer extends Component {
             listo: 0,
             infoCliente: {},
             correo: '',
+            keyCar: '',
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -26,14 +24,38 @@ export default class PedirChofer extends Component {
         this.handleSelectMarca = this.handleSelectMarca.bind(this);
     }
 
-
     async componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
-        
         if (user) {
-            this.state.correo = user.email;
+            const info = await firebase.database().ref('/carro').once('value').then((snap) => {
+                const carros = snap.val();
+                let infoCarro;
+                Object.keys(carros).forEach(key => {
+                    const carro = carros[key];
+                    if (carro.correo === user.email && carro.cambio==="si") {
+                        infoCarro = carro;
+                        this.modificarCambio(key);
+                        this.setState({keyCar: key});
+                    }
+                });
+                return infoCarro;
+            });
 
+            this.setState({
+                marca: info.marca,
+                color: info.color,
+                placa: info.placa,
+            });
         }
+    
+    }
+
+    modificarCambio(key){
+        const database = firebase.database();
+
+        database.ref('carro/' + key).update({
+            cambio: "no",
+         });
     }
 
     handleChange(event) {
@@ -64,7 +86,7 @@ export default class PedirChofer extends Component {
                 this.setState({ placa: '' });
                 document.getElementById("placa").value = "";
                 this.setState({ validated: 'false' });
-            }else if (this.state.marca == 'Seleccione la marca de su vehículo.') {
+            } else if (this.state.marca == 'Seleccione la marca de su vehículo.') {
                 this.setState({ validated: 'false' });
             } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.marca)) {
                 /*Caracteres especiales*/
@@ -79,7 +101,6 @@ export default class PedirChofer extends Component {
             } else if (this.state.color == 'Seleccione el color de su vehículo.') {
                 this.setState({ validated: 'false' });
             } else{
-                alert("Carro registrado");
                 this.setState({ validated: 'true' });
                 event.preventDefault();
                 this.setState({ listo: 'true' });
@@ -254,8 +275,8 @@ export default class PedirChofer extends Component {
                                 </Form.Group>
                             </Form.Row>
                             <div className="text-center">
-                                <Button type="submit" variant="warning" >Agregar Carro
-                                    <Crear validado = {this.state.listo} datos={[this.state.color,this.state.correo,this.state.marca,this.state.placa]} funcion={"Crearcarro"}/>
+                                <Button type="submit" variant="warning" >Modificar Carro
+                                    <Crear validado = {this.state.listo} datos={[this.state.keyCar,this.state.marca,this.state.placa,this.state.color]} funcion={"modificar_carro"}/>
                                 </Button>
                             </div>
 

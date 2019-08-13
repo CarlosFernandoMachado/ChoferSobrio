@@ -48,6 +48,7 @@ import SeleccionarCarro from './components/PedirChofer/SeleccionarCarro';
 import AgregarCarro from './components/PedirChofer/AgregarCarro';
 import Nuestra_Info from './components/Nuestra_Info/Nuestra_Info';
 import MostrarTelefono from './components/PedirChofer/MostrarTelefono';
+import ModificarCarro from './components/Visualizar/ModificarCarro';
 
 class App extends Component {
   constructor(props) {
@@ -210,6 +211,7 @@ class App extends Component {
               <Route exact path ="/AgregarCarro" component={AgregarCarro}></Route>
               <Route exact path="/NuestraInfo" component={Nuestra_Info}></Route>
               <Route exact path="/MostrarTelefono" component={MostrarTelefono}></Route>
+              <Route exact path="/ModificarCarro" component={ModificarCarro}></Route>
             </div>
           </main>
         </div>
