@@ -7,10 +7,17 @@ import './Home.css'
 export default class Home extends Component {
     constructor(props) {
         super(props);
+        let logged = false;
+
+        if (localStorage.getItem('user')) {
+            logged = true;
+        }
+
         this.state = {
             lat: 14.0818,
             lon: -87.20681,
             mostrar: null,
+            logged,
             gerente: props.permisos.gerente,
             chofer: props.permisos.chofer,
             cliente: props.permisos.cliente,
@@ -30,7 +37,6 @@ export default class Home extends Component {
             } else {
                 this.setState({ mostrar: false });
             }
-
         }
         this.renderMap();
     }
@@ -85,7 +91,7 @@ export default class Home extends Component {
     }
 
     render() {
-        const { gerente, chofer, cliente, listo, mostrar } = this.state;
+        const { gerente, chofer, cliente, listo, mostrar, logged } = this.state;
 
         if (!listo) {
             return (
@@ -118,7 +124,7 @@ export default class Home extends Component {
             tipoUsuario = 'Cliente';
         }
 
-        if (!tipoUsuario) {
+        if (!tipoUsuario && logged) {
             return <Redirect to="/CrearCliente" />;
         }
 
@@ -133,7 +139,7 @@ export default class Home extends Component {
                     </div>
                     <div className="map-div" id="map"></div>
                     
-                    {tipoUsuario !== 'Cliente' ? null : (
+                    {tipoUsuario !== 'Cliente' && logged ? null : (
                         <div className="navbar-home">
                             <Button className="pedir" onClick={this.renderMap}>Localizar</Button>
                             <Link to="/pedirchofer">
