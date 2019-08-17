@@ -28,20 +28,12 @@ export default class GestionPreguntas extends Component {
             </Card>
             <Card className="text-center" bg="dark" text="white" border="warning" style={{ margin:'16px' }}>
                     <Card.Body>
-                    <Card.Title>Modifica una pregunta.</Card.Title>
+                    <Card.Title>Modifica o elimina una pregunta.</Card.Title>
                      <Card.Text>
-                         Puedes corregir cualquier pregunta con esta opción.
+                         Puedes corregir o eliminar cualquier pregunta con esta opción.
                      </Card.Text>
-                     <Link to="/CrearPregunta">
-                                <Button type="submit" variant="warning">Modificar</Button>
-                        </Link>
-                 </Card.Body>
-            </Card>
-            <Card className="text-center" bg="dark" text="white" border="warning" style={{ margin:'16px' }}>
-                    <Card.Body>
-                    <Card.Title>Elimina una pregunta.</Card.Title>
-                     <Link to="/CrearPregunta">
-                                <Button type="submit" variant="warning">Eliminar</Button>
+                     <Link to="/MostrarPreguntas">
+                                <Button type="submit" variant="warning">Ver opción</Button>
                         </Link>
                  </Card.Body>
             </Card>

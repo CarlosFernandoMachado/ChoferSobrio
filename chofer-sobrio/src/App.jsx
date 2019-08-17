@@ -51,6 +51,8 @@ import MostrarTelefono from './components/PedirChofer/MostrarTelefono';
 import ModificarCarro from './components/Visualizar/ModificarCarro';
 import CrearPregunta from './components/Preguntas_Frecuentes/CrearPregunta';
 import GestionPreguntas from './components/Preguntas_Frecuentes/GestionPreguntas';
+import MostrarPreguntas from './components/Preguntas_Frecuentes/MostrarPreguntas';
+import ModificarPregunta from './components/Preguntas_Frecuentes/ModificarPregunta';
 
 class App extends Component {
   constructor(props) {
@@ -216,6 +218,8 @@ class App extends Component {
               <Route exact path="/ModificarCarro" component={ModificarCarro}></Route>
               <Route exact path="/CrearPregunta" component={CrearPregunta}></Route>
               <Route exact path="/GestionPreguntas" component={GestionPreguntas}></Route>
+              <Route exact path="/MostrarPreguntas" component={MostrarPreguntas}></Route>
+              <Route exact path="/ModificarPregunta" component={ModificarPregunta}></Route>
             </div>
           </main>
         </div>
