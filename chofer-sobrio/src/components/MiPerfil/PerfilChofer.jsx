@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Jumbotron, Container, Card, Alert} from 'react-bootstrap';
+import { CardBody, Card as CardStrap, CardTitle } from 'reactstrap';
+
 import firebase from '../config/config';
 import './PerfilChofer.css';
 
@@ -70,6 +72,10 @@ export default class PerfilChofer extends Component {
     render() {
         const { tiene, infoChofer } = this.state;
 
+        const imagen = infoChofer.imagen ? (
+            <img className="rounded-circle mx-auto d-block" width="20%" src={infoChofer.imagen} alt="Foto de perfil" />
+            ) : null;
+
         if (tiene && infoChofer) {
             const { correo, nombre, telefono } = infoChofer;
 
@@ -83,7 +89,8 @@ export default class PerfilChofer extends Component {
                         <Alert variant="secondary">
                             <h3>Perfil</h3>
                             <br />
-                            <h4><strong><u> Correo</u>:</strong> {correo}</h4>
+                            {imagen}
+                            <h4><strong><u>Correo</u>:</strong> {correo}</h4>
                             <h4><strong><u>Nombre</u>: </strong>{nombre}</h4>
                             <h4><strong><u>Telefono</u>: </strong>{telefono}</h4>
                         </Alert>

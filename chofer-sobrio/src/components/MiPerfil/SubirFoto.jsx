@@ -1,109 +1,92 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container, Card, Alert} from 'react-bootstrap';
+import FileBase64 from 'react-file-base64';
+import { Jumbotron, Container, Button, Card, Alert } from 'react-bootstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import firebase from '../config/config';
 import './SubirFoto.css';
 
 export default class SubirFoto extends Component {
-
     constructor(props) {
         super(props);
-
         this.state = {
-            tiene: true,
             infoChofer: {},
-            permisos: props.permisos,
+            file: {},
+            mostrar: false,
         };
+
+        this.toggleModal = this.toggleModal.bind(this);
     }
 
     async componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
+
         if (user) {
-            const cliente = await firebase.database().ref('/cliente').once('value').then((snap) => {
-                const clientes = snap.val();
-                let cliente;
-                Object.keys(clientes).forEach((key, index) => {
-                    const tCliente = clientes[key];
-                    if (tCliente.correo === user.email) {
-                        tCliente.index = index;
-                        cliente = tCliente;
+            const chofer = await firebase.database().ref('/chofer').once('value').then((snap) => {
+                const choferes = snap.val();
+                let chofer;
+                Object.keys(choferes).forEach((key) => {
+                    const tChofer = choferes[key];
+                    if (tChofer.correo === user.email) {
+                        tChofer.index = key;
+                        chofer = tChofer;
                     }
                 });
-                return cliente;
+                return chofer;
             });
 
-            const infoPedido = await firebase.database().ref('/pedido').once('value').then((snap) => {
-                const pedidoList = snap.val();
-                let infoPedido;
-                Object.keys(pedidoList).forEach((key, index) => {
-                    const pedido = pedidoList[key];
-                    if (pedido.estado === 'Ocupado' && pedido.placa === cliente.placa) {
-                        pedido.index = index;
-                        infoPedido = pedido;
-                    }
-                });
-                return infoPedido;
+            this.setState({
+                infoChofer: chofer,
             });
-
-            if (!infoPedido) {
-                this.setState({ tiene: false });
-            } else {
-                const chofer = await firebase.database().ref('/chofer').once('value').then((snap) => {
-                    const choferes = snap.val();
-                    let chofer;
-                    Object.keys(choferes).forEach((key, index) => {
-                        const tChofer = choferes[key];
-                        if (tChofer.identidad === infoPedido.idchofer) {
-                            tChofer.index = index;
-                            chofer = tChofer;
-                        }
-                    });
-                    return chofer;
-                });
-
-                this.setState({
-                    infoChofer: chofer,
-                });
-            }
         }
     }
 
+    getFiles(file) {
+        const { infoChofer } = this.state;
+        const infoChoferRes = { ...infoChofer };
+
+        infoChoferRes.imagen = file.base64;
+        firebase.database().ref(`/chofer/${infoChofer.index}`).set(infoChoferRes);
+
+        this.setState({
+            file: file,
+            infoChofer: infoChoferRes,
+            mostrar: true,
+
+        });
+    }
+
+    toggleModal() {
+        const { mostrar } = this.state;
+        this.setState({ mostrar: !mostrar });
+    }
+
     render() {
-        const { tiene, infoChofer } = this.state;
+        const { mostrar } = this.state;
 
-        if (tiene && infoChofer) {
-            const { correo, nombre, telefono } = infoChofer;
-
-            return (
-                <Container>
-                    <Jumbotron className="jumbo-boy" fluid>
-                        <h1>Chofer Sobrio</h1>
-                        <h5>Perfil del Chofer</h5>
-                    </Jumbotron>
-                    <Card border="light">
-                        <Alert variant="secondary">
-                            <h3>Perfil</h3>
-                            <br />
-                            <h4><strong><u> Correo</u>:</strong> {correo}</h4>
-                            <h4><strong><u>Nombre</u>: </strong>{nombre}</h4>
-                            <h4><strong><u>Telefono</u>: </strong>{telefono}</h4>
-                        </Alert>
-                    </Card>
-                </Container>
-            );
-        } else {
-            return (
-                <Container>
-                    <Jumbotron className="jumbo-boy" fluid>
-                        <h1>Chofer Sobrio</h1>
-                        <h5>Perfil del Chofer</h5>
-                    </Jumbotron>
-                    <Card border="light">
-                        <Alert variant="secondary">
-                            <h3>No tiene pedidos.</h3>
-                        </Alert>
-                    </Card>
-                </Container>
-            );
-        }
+        return (
+            <Container>
+                <Jumbotron className="jumbo-boy" fluid>
+                    <h1>Chofer Sobrio</h1>
+                    <h5>Subir foto de Chofer</h5>
+                </Jumbotron>
+                <Card border="light">
+                    <Alert variant="secondary">
+                        <h3>Subir foto</h3>
+                        <br />
+                        <FileBase64
+                            multiple={false}
+                            onDone={this.getFiles.bind(this)}
+                        />
+                    </Alert>
+                </Card>
+                <Modal isOpen={mostrar} toggle={this.toggleModal} className={this.props.className}>
+                    <ModalHeader toggle={this.toggle}>Enhorabuena!</ModalHeader>
+                    <ModalBody>Se guardo la foto!</ModalBody>
+                    <ModalFooter>
+                        <Button color="secondary" block onClick={this.toggleModal}>Vale</Button>
+                    </ModalFooter>
+                </Modal>
+            </Container>
+        );
     }
 }
