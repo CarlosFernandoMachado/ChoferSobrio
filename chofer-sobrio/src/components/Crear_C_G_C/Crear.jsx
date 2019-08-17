@@ -542,6 +542,25 @@ export default class Crear extends Component {
             setTimeout(redirigir, 1000);
         }
 
+        if (this.props.validado && this.props.funcion === "crear_pregunta") {
+            database = Fire.database();
+            var pregunta = this.props.datos[0];
+            var respuesta = this.props.datos[1];
+            id = 0;
+            n = database.ref('/referencias/').once('value').then(function (snapshot) {
+                id = (snapshot.val() && snapshot.val().id_pregunta) || 'Anonymous';
+                id++;
+                database.ref('preguntafrecuente/' + id).set({
+                    pregunta: pregunta,
+                    respuesta: respuesta,
+                });
+                database.ref('referencias/').update({
+                    id_pregunta: id
+                });
+            });
+            setTimeout(redirigir, 1000);
+        }
+
         if (this.props.validado && this.props.funcion === "crearhistorial") {
             database = Fire.database();
             var driver = this.props.datos[0];

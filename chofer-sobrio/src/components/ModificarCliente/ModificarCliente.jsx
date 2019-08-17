@@ -184,6 +184,7 @@ export default class ModificarCliente extends Component {
             this.setState({ validated: 'true' });
             event.preventDefault();
             this.setState({ listo: 'true' });
+            alert("Su información ha sido modificada.");
         }
         event.preventDefault();
         this.setState({ validated: 'false' });
@@ -274,7 +275,7 @@ export default class ModificarCliente extends Component {
                                             { this.state.marca }
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
-                                            <Dropdown.Item eventKey='BMW' onSelect={ this.handleSelect }>
+                                            <Dropdown.Item eventKey='BMW' onSelect={ this.handleSelectMarca }>
                                                 BMW
                                              </Dropdown.Item>
                                             <Dropdown.Item eventKey='Chevrolet' onSelect={ this.handleSelectMarca }>

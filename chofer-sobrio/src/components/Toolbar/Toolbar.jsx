@@ -178,6 +178,11 @@ class Toolbar extends React.Component {
                         <Button>Desactivar mi cuenta Gerente</Button>
                     </Link>
                 </Dropdown.Item>,
+                 <Dropdown.Item key={key++}>
+                 <Link to="/GestionPreguntas">
+                     <Button>Gestión de preguntas frecuentes</Button>
+                 </Link>
+             </Dropdown.Item>,
                 <Dropdown.Item key={key++}>
                 <Link to="/EliminarCuentaTotal_Gerente">
                     <Button>Eliminar mi cuenta Gerente</Button>
