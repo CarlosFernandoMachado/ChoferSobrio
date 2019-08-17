@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-pascal-case */
 import React, { Component } from 'react'
-import { Jumbotron, Container, Table, Card, Alert, Button } from 'react-bootstrap';
+import { Jumbotron, Container, Table, Card, Alert, Button,Form } from 'react-bootstrap';
 import ReactTable from 'react-table';
+
 import './historial_pedidos_cliente.css'
 import firebase from '../config/config';
 
@@ -47,7 +48,7 @@ export default class historial_pedidos_cliente extends Component {
         this.reservar = this.reservar.bind(this);
         this.eliminar = this.calificar.bind(this);
     }
-
+   
     async componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
@@ -118,7 +119,7 @@ export default class historial_pedidos_cliente extends Component {
             const pedido = pedidos[key];
             if ((pedido.fecha === today2 || pedido.fecha === tommorrow) && pedido.estado === "Finalizado" && this.state.infoChofer.telefono === pedido.telefono && index !== 0) {
 
-                    pedido.accion = <Button variant="info" onClick={() => this.calificar(key)}>Calificar</Button>;
+                    pedido.accion =   <Button variant="info" onClick={() => this.calificar(key)}>Calificar</Button>;
 
                 listaPedidos.push(pedido);
             }
@@ -146,6 +147,38 @@ export default class historial_pedidos_cliente extends Component {
                         />
                     </Alert>
                 </Card>
+                <div></div>
+                <div className="divForm">
+                    <Form>
+                        <Form.Row>
+                        <Form.Label className="titulo">Calificacion y comentario de servicio</Form.Label>
+                        </Form.Row>
+                        <Form.Row>\
+
+                        </Form.Row>
+                        <Form.Group controlId="exampleForm.ControlInput1">
+                            <Form.Label>Correo del cliente</Form.Label>
+                            <Form.Control type="email" placeholder="name@example.com" />
+                        </Form.Group>
+                        <Form.Group controlId="exampleForm.ControlSelect1">
+                            <Form.Label>Puntuacion</Form.Label>
+                            <Form.Control as="select">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group controlId="exampleForm.ControlTextarea1">
+                            <Form.Label>Comentario</Form.Label>
+                            <Form.Control as="textarea" rows="3" />
+                        </Form.Group>
+                        <Button variant="primary" type="submit">
+                            Finalizar calificacion
+                        </Button>
+                    </Form>
+                </div>
             </Container>
         )
     }
