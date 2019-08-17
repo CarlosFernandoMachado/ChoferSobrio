@@ -11,7 +11,6 @@ export default class Home extends Component {
             lat: 14.0818,
             lon: -87.20681,
             mostrar: null,
-            logged: false,
             gerente: props.permisos.gerente,
             chofer: props.permisos.chofer,
             cliente: props.permisos.cliente,
@@ -31,10 +30,7 @@ export default class Home extends Component {
             } else {
                 this.setState({ mostrar: false });
             }
-    
-            if (localStorage.getItem('user')) {
-                this.setState({ logged: true });
-            }
+
         }
         this.renderMap();
     }
@@ -89,7 +85,7 @@ export default class Home extends Component {
     }
 
     render() {
-        const { gerente, chofer, cliente, listo, mostrar, logged } = this.state;
+        const { gerente, chofer, cliente, listo, mostrar } = this.state;
 
         if (!listo) {
             return (
@@ -120,7 +116,9 @@ export default class Home extends Component {
 
         if (cliente) {
             tipoUsuario = 'Cliente';
-        } else if (logged && !tipoUsuario) {
+        }
+
+        if (!tipoUsuario) {
             return <Redirect to="/CrearCliente" />;
         }
 

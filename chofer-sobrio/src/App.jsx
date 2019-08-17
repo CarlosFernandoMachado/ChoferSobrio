@@ -29,6 +29,7 @@ import MostrarGerente from './components/Visualizar/MostrarGerente';
 import MostrarGerentesInactivos from './components/Visualizar/MostrarGerentesInactivos';
 import MostrarChoferesInactivos from './components/Visualizar/MostrarChoferesInactivos.jsx';
 import PerfilChofer from './components/MiPerfil/PerfilChofer';
+import SubirFoto from './components/MiPerfil/SubirFoto';
 import MiPerfil from './components/MiPerfil/MiPefil';
 import Eliminar_Cuenta from './components/Eliminar_Cuenta/Eliminar_Cuenta';
 import Eliminar_Cuenta_Cliente from './components/Eliminar_Cuenta/Eliminar_Cuenta_Cliente';
@@ -197,6 +198,7 @@ class App extends Component {
               <Gerente exact path="/Historial" permisos={permisos} component={Historial}></Gerente>
               <GerenteChofer exact path="/reservaciones" permisos={permisos} component={Pedidos}></GerenteChofer>
               <GerenteChofer exact path="/mapa" permisos={permisos} component={mapa} latitud={this.state.latitud} longitud={this.state.longitud}></GerenteChofer>
+              <Chofer exact path="/subirfoto" permisos={permisos} component={SubirFoto}></Chofer>
               <Chofer exact path="/miperfil" permisos={permisos} component={MiPerfil}></Chofer>
               <Route exact path="/CrearCliente" component={CrearCliente}></Route>
               <Route exact path="/activarcuentas" component={activarcuentas}></Route>
@@ -220,7 +222,7 @@ class App extends Component {
               <Route exact path="/EliminarCuentaTotal_Chofer" component={EliminarCuentaTotal_Chofer}></Route>
               <Route exact path="/EliminarCuentaTotal_Gerente" component={EliminarCuentaTotal_Gerente}></Route>
               <Route exact path="/EliminarCuentaChofer" component={Eliminar_Cuenta_Chofer}></Route>
-              <Cliente exact path="/Perfil_Chofer" permisos={permisos} component={PerfilChofer}></Cliente>
+              <Route exact path="/Perfil_Chofer" permisos={permisos} component={PerfilChofer}></Route>
               <Route exact path="/MisReservaciones" component={MisReservaciones}></Route>
               <Route exact path="/PreguntasFrecuentes" component={PreguntasFrecuentes}></Route>
               <Route exact path ="/MostrarCarros" component={MostrarCarros}></Route>

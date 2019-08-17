@@ -196,6 +196,11 @@ class Toolbar extends React.Component {
         if (isChofer) {
             menu.push(
                 <Dropdown.Item key={key++}>
+                    <Link to="/subirfoto">
+                        <Button>Subir foto</Button>
+                    </Link>
+                </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
                     <Link to="/miperfil">
                         <Button>Mis Reservaciones</Button>
                     </Link>
