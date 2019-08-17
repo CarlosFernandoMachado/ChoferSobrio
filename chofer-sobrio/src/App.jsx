@@ -63,6 +63,11 @@ class App extends Component {
       isGerente: false,
       isChofer: false,
       isCliente: false,
+
+      flagGerente: false,
+      flagChofer: false,
+      flagCliente: false,
+
       latitud: 14.0818,
       longitud: -87.20681,
     };
@@ -85,7 +90,7 @@ class App extends Component {
           isGerente = isGerente || (gerentes[key].correo === user.email && gerentes[key].estado === "activo");
         });
         
-        this.setState({ isGerente });
+        this.setState({ isGerente, flagGerente: true });
        
 
         
@@ -99,7 +104,7 @@ class App extends Component {
         Object.keys(choferes).forEach(key => {
           isChofer = isChofer ||(choferes[key].correo === user.email && choferes[key].estado === "activo");
         });
-        this.setState({ isChofer });
+        this.setState({ isChofer, flagChofer: true });
       });
 
       // clientes
@@ -110,7 +115,13 @@ class App extends Component {
         Object.keys(clientes).forEach(key => {
           isCliente = isCliente || (clientes[key].correo === user.email && clientes[key].estado === "activo");;
         });
-        this.setState({ isCliente });
+        this.setState({ isCliente, flagCliente: true });
+      });
+    } else {
+      this.setState({
+        flagGerente: true,
+        flagChofer: true,
+        flagCliente: true
       });
     }
     this.getLocation();
@@ -150,12 +161,13 @@ class App extends Component {
   }
 
   render() {
-    const { isGerente, isChofer, isCliente } = this.state;
+    const { isGerente, isChofer, isCliente, flagChofer, flagGerente, flagCliente } = this.state;
     
     let permisos = {
       gerente: isGerente,
       chofer: isChofer,
-      cliente: isCliente
+      cliente: isCliente,
+      listo: flagChofer && flagGerente && flagCliente
     };
 
     let backdrop;
