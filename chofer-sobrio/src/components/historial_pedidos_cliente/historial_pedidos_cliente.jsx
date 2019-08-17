@@ -5,7 +5,7 @@ import ReactTable from 'react-table';
 import './historial_pedidos_cliente.css'
 import firebase from '../config/config';
 
-export default class MisReservaciones extends Component {
+export default class historial_pedidos_cliente extends Component {
 
     constructor(props) {
         super(props);
@@ -45,7 +45,7 @@ export default class MisReservaciones extends Component {
 
         this.obtenerPedidos = this.obtenerPedidos.bind(this);
         this.reservar = this.reservar.bind(this);
-        this.eliminar = this.eliminar.bind(this);
+        this.eliminar = this.calificar.bind(this);
     }
 
     async componentDidMount() {
@@ -86,12 +86,12 @@ export default class MisReservaciones extends Component {
         const { pedidos } = this.state;
 
         const pedidosRes = pedidos.map(a => Object.assign({}, a));
-        pedidosRes[keyPedido].estado = 'Disponible';
+        pedidosRes[keyPedido].estado = 'Finalizado';
         delete pedidosRes[keyPedido].accion;
         database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
     }
 
-    eliminar(keyPedido) {
+    calificar(keyPedido) {
         if (window.confirm(' Se cancelara su pedido')) {
             const database = firebase.database();
             const { clientes } = this.state;
@@ -116,9 +116,9 @@ export default class MisReservaciones extends Component {
 
         Object.keys(pedidos).forEach((key, index) => {
             const pedido = pedidos[key];
-            if ((pedido.fecha === today2 || pedido.fecha === tommorrow) && pedido.estado === "Disponible" && this.state.infoChofer.telefono === pedido.telefono && index !== 0) {
+            if ((pedido.fecha === today2 || pedido.fecha === tommorrow) && pedido.estado === "Finalizado" && this.state.infoChofer.telefono === pedido.telefono && index !== 0) {
 
-                    pedido.accion = <Button variant="info" onClick={() => this.eliminar(key)}>Cancelar</Button>;
+                    pedido.accion = <Button variant="info" onClick={() => this.calificar(key)}>Calificar</Button>;
 
                 listaPedidos.push(pedido);
             }
@@ -133,11 +133,11 @@ export default class MisReservaciones extends Component {
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
                     <h1>Chofer Sobrio</h1>
-                    <h5>Reservaciones Actuales</h5>
+                    <h5>Historial de tus reservaciones</h5>
                 </Jumbotron>
                 <Card border="light">
                     <Alert variant="secondary">
-                        <h3>Pedidos</h3>
+                        <h3>Pedidos por calificar</h3>
                         <br />
                         <ReactTable
                             data={pedidos}
