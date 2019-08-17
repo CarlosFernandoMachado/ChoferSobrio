@@ -245,6 +245,14 @@ class Toolbar extends React.Component {
 
             menu.push(
                 <Dropdown.Item key={key++}>
+                    <Link to="/historial_pedidos_cliente">
+                        <Button>Historial de reservaciones</Button>
+                    </Link>
+                </Dropdown.Item>,
+            );
+
+            menu.push(
+                <Dropdown.Item key={key++}>
                     <Link to="/EliminarCuentaCliente">
                         <Button>Desactivar Mi Cuenta Cliente</Button>
                     </Link>
