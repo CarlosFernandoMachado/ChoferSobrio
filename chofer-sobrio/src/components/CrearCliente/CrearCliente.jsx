@@ -22,6 +22,7 @@ export default class Precios extends Component {
             infocliente: {},
             telefono2:'',
             telefono3:'',
+            contraseña:'',
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -89,7 +90,12 @@ export default class Precios extends Component {
                 this.setState({ validated: 'false' });
             } else if (this.state.color == 'Seleccione el color de su vehículo.') {
                 this.setState({ validated: 'false' });
-            } else {
+            } else if (this.state.contraseña.length<6){
+                this.setState({validated: 'false'});
+                this.setState({contraseña:''});
+                document.getElementById("contraseña").value="";
+                document.getElementById("contraseña").placeholder="Minimo 6 caracteres";
+            }else {
                     this.setState({ validated: 'true' });
                     event.preventDefault();
                     this.setState({ listo: 'true' });
@@ -356,12 +362,26 @@ export default class Precios extends Component {
                                         Numero de telefono invalido siga el formato indicado 8 digitos numericos
                             </Form.Control.Feedback>
                                 </Form.Group>
+                                <Form.Group as={Col} md="4" >
+                                    <Form.Label>Contraseña</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="text"
+                                        name="contraseña"
+                                        value={this.state.value}
+                                        onChange={this.handleChange}
+                                        id="contraseña"
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Ingrese contraseña (minimo 6 caracteres)
+                                </Form.Control.Feedback>
+                                </Form.Group>
 
                             </Form.Row>
                             <div className="text-center">
                                 <Button type="submit" variant="warning" > Registrarse</Button>
                                 <Crear validado = {this.state.listo} datos={[this.state.Color,this.state.correo,this.state.Marca,this.state.Placa]} funcion={"Crearcarro"}/>
-                                <Crear validado={this.state.listo} datos={[this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo, this.state.telefono2,this.state.telefono3]} funcion={"crear_cliente"} />
+                                <Crear validado={this.state.listo} datos={[this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo, this.state.telefono2,this.state.telefono3,this.state.contraseña]} funcion={"crear_cliente"} />
                             </div>
 
 

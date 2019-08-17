@@ -424,6 +424,7 @@ export default class Crear extends Component {
             plate = this.props.datos[3];
             telephone = this.props.datos[4];
             email = this.props.datos[5];
+            var my_contraseña=this.props.datos[8];
             var telefono2 = this.props.datos[6]
             var telefono3 = this.props.datos[7]
             var estadocuenta = "activo"
@@ -461,9 +462,7 @@ export default class Crear extends Component {
                                 id_cliente: id
                             });
                         });
-                        Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
-                            Fire.auth().sendPasswordResetEmail(email).then(
-                            ).catch()
+                        Fire.auth().createUserWithEmailAndPassword(email, my_contraseña).then(
                         ).catch();
                         alert("¡Usuario registrado exitosamente!");
 
