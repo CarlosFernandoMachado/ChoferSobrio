@@ -68,8 +68,15 @@ export default class Home extends Component {
         var tegucigalpa = { lat: lat, lng: lon };
         var map = new window.google.maps.Map(
             document.getElementById('map'), { zoom: 18, center: tegucigalpa });
-        var marker = new window.google.maps.Marker({ position: tegucigalpa, map: map });
+        var marker = new window.google.maps.Marker({ 
+            position: tegucigalpa, 
+            map: map,
+            draggable: true,
+            animation: window.google.maps.Animation.DROP
+        });
+
     }
+
 
     getLocation = () => {
         if (navigator.geolocation) {
