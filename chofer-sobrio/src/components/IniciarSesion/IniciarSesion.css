@@ -1,21 +1,22 @@
-.login-form{
-    width: 100%;
-    max-width: 330px;
-    padding: 15px;
-    margin: auto;
-    height: 100%;
-  }
-
-  #btn-color-picker{
-    background: yellow;
-    border-color: transparent; 
-    color: black;
-  }
-
-  .jumbo-boy{
-    background:yellow;
-    border: 1px;
-    outline-width: thin; 
-    border-radius: 20px; 
+.login-form {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+  height: 100%;
 }
-  
+
+#btn-color-picker {
+  background: yellow;
+  border-color: transparent;
+  color: black;
+}
+
+.jumbo-boy {
+  background: yellow;
+  border: 2px;
+  outline-width: thin;
+  border-radius: 20px;
+  align-self: auto;
+}
+

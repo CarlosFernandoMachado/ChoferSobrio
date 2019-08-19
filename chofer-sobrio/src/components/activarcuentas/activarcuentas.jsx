@@ -3,7 +3,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { Form, Button, Container } from 'react-bootstrap';
 import './activarcuentas.css';
 import Crear from '../Crear_C_G_C/Crear';
-import { Jumbotron, Card, Alert } from 'react-bootstrap';
+import { Jumbotron, Card, Alert, Image } from 'react-bootstrap';
 import firebase from 'firebase';
 import { logout } from '../config/auth';
 
@@ -134,11 +134,10 @@ export default class Password_olvidada extends Component {
                 </Jumbotron>
 
                 <Card border="ligth">
-                    <Alert variant="secondary">
                         <Form
                             onSubmit={e => this.handleSubmit(e)}>
                             <Form.Row>
-
+                                <Image src="src\components\activarcuentas\welcome.png" />
                             </Form.Row>
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Activar Cuentas
@@ -148,7 +147,6 @@ export default class Password_olvidada extends Component {
                             </div>
 
                         </Form>
-                    </Alert>
                 </Card>
 
             </Container>

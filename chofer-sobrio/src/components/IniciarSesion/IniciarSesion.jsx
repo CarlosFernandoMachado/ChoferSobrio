@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Jumbotron, Container } from 'react-bootstrap';
+import { Jumbotron, Container, Card } from 'react-bootstrap';
 import './IniciarSesion.css'
 import { Form } from 'reactstrap';
 import { Link } from 'react-router-dom';
@@ -55,13 +55,13 @@ export default class IniciarSesion extends Component {
 
         return (
             <Container>
-                <Jumbotron className="jumbo-boy" fluid>
+                {/*<Jumbotron className="jumbo-boy" fluid>
                     <h1>Chofer Sobrio</h1>
                     <h5>Inicia sesion</h5>
                 </Jumbotron>
-
+        */}
                 <Form className="login-form">
-                   {/* <FormGroup>
+                    {/* <FormGroup>
                         <Input type="email" placeholder="Correo" />
                     </FormGroup>
 
@@ -73,23 +73,26 @@ export default class IniciarSesion extends Component {
 
                     <div className="text-center pt-3"> O continuar con una red social</div>
                    */}
-                    
+
 
                     {/*<FacebookLoginButton className="mt-3 mb-3"/>*/
                         /* instalar npm i react-social-login-buttons*/
                     }
-
-                    <div className="text-center">
-                        <a href="/CrearCliente">Regístrate </a>
-                        <span className="p-2"> | </span>
-                        <Link to="/Password_olvidada"> Olvidé la contraseña</Link>
-                        <br/>
-                        {this.state.authed ? <Link to="/ModificarContrasenaCliente">Modificar contraseña</Link> : null }
-                    </div>
-
-                    <NavWrapper className="navbar navbar-expand-sm navbar-dark px-sm-5">
-                        {this.state.authed ? botonLogout : <Login />}
-                    </NavWrapper>
+                    <Card className="jumbo-boy">
+                        <Card.Title className="text-center">Chofer Sobrio</Card.Title>
+                        <Card.Subtitle className="mb-2 text-muted text-center">Inicia sesion</Card.Subtitle>
+                        <p></p>
+                        <NavWrapper className="navbar navbar-expand-sm navbar-dark px-sm-5">
+                            {this.state.authed ? botonLogout : <Login />}
+                        </NavWrapper>
+                        <div className="text-center">
+                            <a href="/CrearCliente">Regístrate </a>
+                            <span className="p-2"> | </span>
+                            <Link to="/Password_olvidada"> Olvidé la contraseña</Link>
+                            <br />
+                            {this.state.authed ? <Link to="/ModificarContrasenaCliente">Modificar contraseña</Link> : null}
+                        </div>
+                    </Card>
                 </Form>
             </Container>
         )
