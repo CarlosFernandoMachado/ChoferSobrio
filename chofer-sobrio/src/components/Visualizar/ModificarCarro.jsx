@@ -104,6 +104,7 @@ export default class PedirChofer extends Component {
                 this.setState({ validated: 'true' });
                 event.preventDefault();
                 this.setState({ listo: 'true' });
+                alert("Carro modificado");
             }
         }
         event.preventDefault();
@@ -133,7 +134,7 @@ export default class PedirChofer extends Component {
                                             {this.state.marca}
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
-                                            <Dropdown.Item eventKey='BMW' onSelect={this.handleSelect}>
+                                            <Dropdown.Item eventKey='BMW' onSelect={this.handleSelectMarca}>
                                                 BMW
                                              </Dropdown.Item>
                                              <Dropdown.Item eventKey='Chevrolet' onSelect={this.handleSelectMarca}>

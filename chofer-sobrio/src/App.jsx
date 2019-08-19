@@ -29,6 +29,7 @@ import MostrarGerente from './components/Visualizar/MostrarGerente';
 import MostrarGerentesInactivos from './components/Visualizar/MostrarGerentesInactivos';
 import MostrarChoferesInactivos from './components/Visualizar/MostrarChoferesInactivos.jsx';
 import PerfilChofer from './components/MiPerfil/PerfilChofer';
+import SubirFoto from './components/MiPerfil/SubirFoto';
 import MiPerfil from './components/MiPerfil/MiPefil';
 import Eliminar_Cuenta from './components/Eliminar_Cuenta/Eliminar_Cuenta';
 import Eliminar_Cuenta_Cliente from './components/Eliminar_Cuenta/Eliminar_Cuenta_Cliente';
@@ -49,6 +50,11 @@ import AgregarCarro from './components/PedirChofer/AgregarCarro';
 import Nuestra_Info from './components/Nuestra_Info/Nuestra_Info';
 import MostrarTelefono from './components/PedirChofer/MostrarTelefono';
 import ModificarCarro from './components/Visualizar/ModificarCarro';
+import CrearPregunta from './components/Preguntas_Frecuentes/CrearPregunta';
+import GestionPreguntas from './components/Preguntas_Frecuentes/GestionPreguntas';
+import MostrarPreguntas from './components/Preguntas_Frecuentes/MostrarPreguntas';
+import ModificarPregunta from './components/Preguntas_Frecuentes/ModificarPregunta';
+import historial_pedidos_cliente from './components/historial_pedidos_cliente/historial_pedidos_cliente';
 
 class App extends Component {
   constructor(props) {
@@ -59,6 +65,11 @@ class App extends Component {
       isGerente: false,
       isChofer: false,
       isCliente: false,
+
+      flagGerente: false,
+      flagChofer: false,
+      flagCliente: false,
+
       latitud: 14.0818,
       longitud: -87.20681,
     };
@@ -81,7 +92,7 @@ class App extends Component {
           isGerente = isGerente || (gerentes[key].correo === user.email && gerentes[key].estado === "activo");
         });
         
-        this.setState({ isGerente });
+        this.setState({ isGerente, flagGerente: true });
        
 
         
@@ -95,7 +106,7 @@ class App extends Component {
         Object.keys(choferes).forEach(key => {
           isChofer = isChofer ||(choferes[key].correo === user.email && choferes[key].estado === "activo");
         });
-        this.setState({ isChofer });
+        this.setState({ isChofer, flagChofer: true });
       });
 
       // clientes
@@ -106,7 +117,13 @@ class App extends Component {
         Object.keys(clientes).forEach(key => {
           isCliente = isCliente || (clientes[key].correo === user.email && clientes[key].estado === "activo");;
         });
-        this.setState({ isCliente });
+        this.setState({ isCliente, flagCliente: true });
+      });
+    } else {
+      this.setState({
+        flagGerente: true,
+        flagChofer: true,
+        flagCliente: true
       });
     }
     this.getLocation();
@@ -146,12 +163,13 @@ class App extends Component {
   }
 
   render() {
-    const { isGerente, isChofer, isCliente } = this.state;
+    const { isGerente, isChofer, isCliente, flagChofer, flagGerente, flagCliente } = this.state;
     
     let permisos = {
       gerente: isGerente,
       chofer: isChofer,
-      cliente: isCliente
+      cliente: isCliente,
+      listo: flagChofer && flagGerente && flagCliente
     };
 
     let backdrop;
@@ -180,6 +198,7 @@ class App extends Component {
               <Gerente exact path="/Historial" permisos={permisos} component={Historial}></Gerente>
               <GerenteChofer exact path="/reservaciones" permisos={permisos} component={Pedidos}></GerenteChofer>
               <GerenteChofer exact path="/mapa" permisos={permisos} component={mapa} latitud={this.state.latitud} longitud={this.state.longitud}></GerenteChofer>
+              <Chofer exact path="/subirfoto" permisos={permisos} component={SubirFoto}></Chofer>
               <Chofer exact path="/miperfil" permisos={permisos} component={MiPerfil}></Chofer>
               <Route exact path="/CrearCliente" component={CrearCliente}></Route>
               <Route exact path="/activarcuentas" component={activarcuentas}></Route>
@@ -203,7 +222,7 @@ class App extends Component {
               <Route exact path="/EliminarCuentaTotal_Chofer" component={EliminarCuentaTotal_Chofer}></Route>
               <Route exact path="/EliminarCuentaTotal_Gerente" component={EliminarCuentaTotal_Gerente}></Route>
               <Route exact path="/EliminarCuentaChofer" component={Eliminar_Cuenta_Chofer}></Route>
-              <Cliente exact path="/Perfil_Chofer" permisos={permisos} component={PerfilChofer}></Cliente>
+              <Route exact path="/Perfil_Chofer" permisos={permisos} component={PerfilChofer}></Route>
               <Route exact path="/MisReservaciones" component={MisReservaciones}></Route>
               <Route exact path="/PreguntasFrecuentes" component={PreguntasFrecuentes}></Route>
               <Route exact path ="/MostrarCarros" component={MostrarCarros}></Route>
@@ -212,6 +231,11 @@ class App extends Component {
               <Route exact path="/NuestraInfo" component={Nuestra_Info}></Route>
               <Route exact path="/MostrarTelefono" component={MostrarTelefono}></Route>
               <Route exact path="/ModificarCarro" component={ModificarCarro}></Route>
+              <Route exact path="/CrearPregunta" component={CrearPregunta}></Route>
+              <Route exact path="/GestionPreguntas" component={GestionPreguntas}></Route>
+              <Route exact path="/MostrarPreguntas" component={MostrarPreguntas}></Route>
+              <Route exact path="/ModificarPregunta" component={ModificarPregunta}></Route>
+              <Route exact path="/historial_pedidos_cliente" component={historial_pedidos_cliente}></Route>
             </div>
           </main>
         </div>

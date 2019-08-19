@@ -178,6 +178,11 @@ class Toolbar extends React.Component {
                         <Button>Desactivar mi cuenta Gerente</Button>
                     </Link>
                 </Dropdown.Item>,
+                 <Dropdown.Item key={key++}>
+                 <Link to="/GestionPreguntas">
+                     <Button>Gestión de preguntas frecuentes</Button>
+                 </Link>
+             </Dropdown.Item>,
                 <Dropdown.Item key={key++}>
                 <Link to="/EliminarCuentaTotal_Gerente">
                     <Button>Eliminar mi cuenta Gerente</Button>
@@ -190,6 +195,11 @@ class Toolbar extends React.Component {
 
         if (isChofer) {
             menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/subirfoto">
+                        <Button>Subir foto</Button>
+                    </Link>
+                </Dropdown.Item>,
                 <Dropdown.Item key={key++}>
                     <Link to="/miperfil">
                         <Button>Mis Reservaciones</Button>
@@ -234,6 +244,14 @@ class Toolbar extends React.Component {
                 <Dropdown.Item key={key++}>
                     <Link to="/MisReservaciones">
                         <Button>Mis Reservaciones</Button>
+                    </Link>
+                </Dropdown.Item>,
+            );
+
+            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/historial_pedidos_cliente">
+                        <Button>Historial de reservaciones</Button>
                     </Link>
                 </Dropdown.Item>,
             );

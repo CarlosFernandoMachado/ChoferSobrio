@@ -13,3 +13,4 @@ npm install --save styled-components
 npm install react-confirm-alert
 npm i react-table
 npm install react-icons --save
+npm i react-file-base64

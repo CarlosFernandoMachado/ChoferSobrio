@@ -260,6 +260,16 @@ export default class Crear extends Component {
          });
     }
 
+    modificarPregunta(key,question, answer){
+        var database = Fire.database();
+        database.ref('preguntafrecuente/' + key).update({
+            pregunta: question,
+            respuesta: answer,
+         });
+         alert("La pregunta ha sido modificada, por favor accede a preguntas frecuentes para verificar el cambio.");
+
+    }
+
     Eliminarpedido(id) {
         var database = Fire.database();
         database.ref('pedido/' + id).remove();
@@ -297,6 +307,8 @@ export default class Crear extends Component {
         var plate;
         var location;
         var pagoTarjeta;
+        var question;
+        var answer;
 
         if (this.props.validado && this.props.funcion === "crear_gerente") {
             database = Fire.database();
@@ -424,6 +436,7 @@ export default class Crear extends Component {
             plate = this.props.datos[3];
             telephone = this.props.datos[4];
             email = this.props.datos[5];
+            var my_contraseña=this.props.datos[8];
             var telefono2 = this.props.datos[6]
             var telefono3 = this.props.datos[7]
             var estadocuenta = "activo"
@@ -461,9 +474,7 @@ export default class Crear extends Component {
                                 id_cliente: id
                             });
                         });
-                        Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
-                            Fire.auth().sendPasswordResetEmail(email).then(
-                            ).catch()
+                        Fire.auth().createUserWithEmailAndPassword(email, my_contraseña).then(
                         ).catch();
                         alert("¡Usuario registrado exitosamente!");
 
@@ -542,6 +553,26 @@ export default class Crear extends Component {
             setTimeout(redirigir, 1000);
         }
 
+        if (this.props.validado && this.props.funcion === "crear_pregunta") {
+            database = Fire.database();
+            var pregunta = this.props.datos[0];
+            var respuesta = this.props.datos[1];
+            id = 0;
+            n = database.ref('/referencias/').once('value').then(function (snapshot) {
+                id = (snapshot.val() && snapshot.val().id_pregunta) || 'Anonymous';
+                id++;
+                database.ref('preguntafrecuente/' + id).set({
+                    pregunta: pregunta,
+                    respuesta: respuesta,
+                    cambio: "0",
+                });
+                database.ref('referencias/').update({
+                    id_pregunta: id
+                });
+            });
+            setTimeout(redirigir, 1000);
+        }
+
         if (this.props.validado && this.props.funcion === "crearhistorial") {
             database = Fire.database();
             var driver = this.props.datos[0];
@@ -602,6 +633,16 @@ export default class Crear extends Component {
             alert("Modificado correctamente");
             setTimeout(redirigir, 1000);
         }
+
+        if (this.props.validado && this.props.funcion === "modificar_pregunta") {
+            database = Fire.database();
+            id = this.props.datos[0];
+            question = this.props.datos[1];
+            answer = this.props.datos[2];
+            this.modificarPregunta(id,question,answer)
+            setTimeout(redirigir, 1000);
+        }
+
 
 
         /*if (this.props.validado && this.props.funcion === "password_cliente") {

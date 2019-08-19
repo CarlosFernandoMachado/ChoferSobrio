@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Jumbotron, Container, Button } from 'react-bootstrap';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './Home.css'
@@ -7,39 +7,50 @@ import './Home.css'
 export default class Home extends Component {
     constructor(props) {
         super(props);
+        let logged = false;
+
+        if (localStorage.getItem('user')) {
+            logged = true;
+        }
+
         this.state = {
             lat: 14.0818,
             lon: -87.20681,
             mostrar: null,
+            logged,
             gerente: props.permisos.gerente,
             chofer: props.permisos.chofer,
             cliente: props.permisos.cliente,
+            listo: props.permisos.listo
         };
 
         this.toggleModal = this.toggleModal.bind(this);
     }
 
     componentDidMount() {
-        const { gerente, chofer, cliente } = this.state;
+        const { gerente, chofer, cliente, listo } = this.state;
 
-        if (!localStorage.getItem('alertaLogin') && (gerente || chofer || cliente)) {
-            localStorage.setItem('alertaLogin', true);
-            this.setState({ mostrar: true });
-        } else {
-            this.setState({ mostrar: false });
+        if (listo) {
+            if (!localStorage.getItem('alertaLogin') && (gerente || chofer || cliente)) {
+                localStorage.setItem('alertaLogin', true);
+                this.setState({ mostrar: true });
+            } else {
+                this.setState({ mostrar: false });
+            }
         }
         this.renderMap();
     }
 
     componentWillReceiveProps(nextProps) {
-        const { gerente, chofer, cliente } = nextProps.permisos;
+        const { gerente, chofer, cliente, listo } = nextProps.permisos;
 
-        let mostrar = gerente || chofer || cliente;
+        let mostrar = (gerente || chofer || cliente) && listo;
 
         this.setState({
             gerente,
             chofer,
             cliente,
+            listo,
             mostrar,
         });
     }
@@ -57,8 +68,15 @@ export default class Home extends Component {
         var tegucigalpa = { lat: lat, lng: lon };
         var map = new window.google.maps.Map(
             document.getElementById('map'), { zoom: 18, center: tegucigalpa });
-        var marker = new window.google.maps.Marker({ position: tegucigalpa, map: map });
+        var marker = new window.google.maps.Marker({ 
+            position: tegucigalpa, 
+            map: map,
+            draggable: true,
+            animation: window.google.maps.Animation.DROP
+        });
+
     }
+
 
     getLocation = () => {
         if (navigator.geolocation) {
@@ -80,8 +98,24 @@ export default class Home extends Component {
     }
 
     render() {
-        const { mostrar } = this.state;
-        const { gerente, chofer, cliente } = this.state;
+        const { gerente, chofer, cliente, listo, mostrar, logged } = this.state;
+
+        if (!listo) {
+            return (
+                <Container>
+                    <div className="outer-div">
+                        <div className="jumbotron-div">
+                            <Jumbotron className="jumbo-boy" fluid>
+                                <h1>Chofer Sobrio</h1>
+                                <h5>Cargando...</h5>
+                            </Jumbotron>
+                        </div>
+                        <div className="map-div" id="map"></div>
+                        <div className="invisible-div"></div>
+                    </div>
+                </Container>
+            );
+        }
 
         let tipoUsuario = '';
 
@@ -95,72 +129,45 @@ export default class Home extends Component {
 
         if (cliente) {
             tipoUsuario = 'Cliente';
-            return(
-                <Container>
-                <div className="outer-div">
-                    <div className="jumbotron-div">
-                        <Jumbotron className="jumbo-boy" fluid>
-                            <h1>Chofer Sobrio</h1>
-                            <h5>Vuelve sin esquelas y sin accidentes a casa</h5>
-                        </Jumbotron>
-                    </div>
-                    <div className="map-div" id="map">
-                    </div>
-                    
-                    <div className="navbar-home" >
-                        <Button className="pedir" onClick={this.renderMap}>Localizar</Button>
-                        <Link to="/pedirchofer">
-                            <div id="button">
-                                <Button className="pedir" >Pedir Chofer</Button>
-                            </div>
-                        </Link>
-                    </div>
-                    
-                    <div className="invisible-div">
-                    </div>
-                </div>
-                <Modal isOpen={mostrar && !localStorage.getItem('alertaLogin')} toggle={this.toggleModal} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>Enhorabuena!</ModalHeader>
-                    <ModalBody>Has iniciado sesion como {tipoUsuario}!</ModalBody>
-                    <ModalFooter>
-                        <Button color="secondary" block onClick={this.toggleModal}>Vale</Button>
-                    </ModalFooter>
-                </Modal>
-            </Container>
-
-            );
-        }else{
-            return(
-                <Container>
-                <div className="outer-div">
-                    <div className="jumbotron-div">
-                        <Jumbotron className="jumbo-boy" fluid>
-                            <h1>Chofer Sobrio</h1>
-                            <h5>Vuelve sin esquelas y sin accidentes a casa</h5>
-                        </Jumbotron>
-                    </div>
-                    <div className="map-div" id="map">
-                    </div>
-                    
-                   
-                    
-                    <div className="invisible-div">
-                    </div>
-                </div>
-                <Modal isOpen={mostrar && !localStorage.getItem('alertaLogin')} toggle={this.toggleModal} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>Enhorabuena!</ModalHeader>
-                    <ModalBody>Has iniciado sesion como {tipoUsuario}!</ModalBody>
-                    <ModalFooter>
-                        <Button color="secondary" block onClick={this.toggleModal}>Vale</Button>
-                    </ModalFooter>
-                </Modal>
-            </Container>
-
-            );
-            
         }
 
-        
+        if (!tipoUsuario && logged) {
+            return <Redirect to="/CrearCliente" />;
+        }
+
+        return (
+            <Container>
+                <div className="outer-div">
+                    <div className="jumbotron-div">
+                        <Jumbotron className="jumbo-boy" fluid>
+                            <h1>Chofer Sobrio</h1>
+                            <h5>Vuelve sin esquelas y sin accidentes a casa</h5>
+                        </Jumbotron>
+                    </div>
+                    <div className="map-div" id="map"></div>
+                    
+                    {tipoUsuario !== 'Cliente' && logged ? null : (
+                        <div className="navbar-home">
+                            <Button className="pedir" onClick={this.renderMap}>Localizar</Button>
+                            <Link to="/pedirchofer">
+                                <div id="button">
+                                    <Button className="pedir" >Pedir Chofer</Button>
+                                </div>
+                            </Link>
+                        </div>
+                    )}
+
+                    <div className="invisible-div"></div>
+                </div>
+                <Modal isOpen={mostrar && !localStorage.getItem('alertaLogin')} toggle={this.toggleModal} className={this.props.className}>
+                    <ModalHeader toggle={this.toggle}>Enhorabuena!</ModalHeader>
+                    <ModalBody>Has iniciado sesion como {tipoUsuario}!</ModalBody>
+                    <ModalFooter>
+                        <Button color="secondary" block onClick={this.toggleModal}>Vale</Button>
+                    </ModalFooter>
+                </Modal>
+            </Container>
+        );
     }
 }
 
