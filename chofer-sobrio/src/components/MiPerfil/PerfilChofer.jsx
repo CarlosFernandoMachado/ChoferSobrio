@@ -85,17 +85,30 @@ export default class PerfilChofer extends Component {
                         <h1>Chofer Sobrio</h1>
                         <h5>Perfil del Chofer</h5>
                     </Jumbotron>
-                    <Card border="light">
-                        <Alert variant="secondary">
-                            <h3>Perfil</h3>
-                            <br />
-                            {imagen}
-                            <h4><strong><u>Correo</u>:</strong> {correo}</h4>
-                            <h4><strong><u>Nombre</u>: </strong>{nombre}</h4>
-                            <h4><strong><u>Telefono</u>: </strong>{telefono}</h4>
-                        </Alert>
+
+                    <Card>
+                        <Card.Header as="h5">Perfil</Card.Header>
+                        <Card.Body>
+                            <Card.Text>
+                                {imagen}
+                                <p><br></br></p>
+                               <center>
+                                   <h><b>Correo:</b></h>
+                                    <p>{correo}</p>
+
+                                    <br></br>
+                                    <h><b>Nombre:</b></h>
+                                    <p>{nombre}</p>
+                                    
+                                    <br></br>
+                                    <h><b>Telefono:</b></h>
+                                    <p>{telefono}</p>
+                               </center>
+                            </Card.Text>
+                        </Card.Body>
                     </Card>
                 </Container>
+
             );
         } else {
             return (
@@ -114,3 +127,5 @@ export default class PerfilChofer extends Component {
         }
     }
 }
+
+

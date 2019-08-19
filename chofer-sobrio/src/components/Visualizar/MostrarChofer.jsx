@@ -133,7 +133,7 @@ export default class VisualizarChofer extends Component {
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
                     <h1>Chofer Sobrio</h1>
-                    <h5>Datos de los Choferes</h5>
+                    <h5>Visualizar los Choferes</h5>
                 </Jumbotron>
                 <Card border="light">
                     <Alert variant="secondary">
