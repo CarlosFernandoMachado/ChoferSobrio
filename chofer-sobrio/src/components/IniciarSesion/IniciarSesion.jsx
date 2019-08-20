@@ -90,7 +90,7 @@ export default class IniciarSesion extends Component {
                             <span className="p-2"> | </span>
                             <Link to="/Password_olvidada"> Olvidé la contraseña</Link>
                             <br />
-                            {this.state.authed ? <Link to="/ModificarContrasenaCliente">Modificar contraseña</Link> : null}
+                           
                         </div>
                     </Card>
                 </Form>
