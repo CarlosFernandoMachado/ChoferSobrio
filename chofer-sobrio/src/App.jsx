@@ -38,6 +38,7 @@ import EliminarCuentaTotal_Chofer from './components/Eliminar_Cuenta/EliminarCue
 import EliminarCuentaTotal_Gerente from './components/Eliminar_Cuenta/EliminarCuentaTotal_Gerente';
 import feedback from './components/feedback/feedback';
 import ListarFeedback from './components/feedback/ListarFeedback';
+import ComentariosChofer from './components/feedback/ComentariosChofer';
 import Eliminar_Cuenta_Chofer from './components/Eliminar_Cuenta/Eliminar_Cuenta_Chofer';
 import Historial from './components/Historial/Historial';
 import Info from './components/Nosotros/Info';
@@ -188,6 +189,7 @@ class App extends Component {
               <Route exact path="/conocenos" component={Info}></Route>
               <Route exact path="/feedback" component={feedback}></Route>
               <Gerente exact path="/listarfeedback" permisos={permisos} component={ListarFeedback}></Gerente>
+              <Gerente exact path="/comentarioschofer" permisos={permisos} component={ComentariosChofer}></Gerente>
               <Cualquiera exact path="/" permisos={permisos} component={Home}></Cualquiera>
               <Route exact path="/precios" component={Precios}></Route>
               <Route exact path="/seguridad" component={Seguridad}></Route>

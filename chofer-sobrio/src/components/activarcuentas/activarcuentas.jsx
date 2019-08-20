@@ -137,7 +137,7 @@ export default class Password_olvidada extends Component {
                         <Form
                             onSubmit={e => this.handleSubmit(e)}>
                             <Form.Row>
-                                <Image src="src\components\activarcuentas\welcome.png" />
+                                <Image src="/welcome.png" />
                             </Form.Row>
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Activar Cuentas
