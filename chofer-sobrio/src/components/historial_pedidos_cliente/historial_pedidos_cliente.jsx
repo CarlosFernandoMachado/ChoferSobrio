@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-pascal-case */
 import React, { Component } from 'react'
-import { Jumbotron, Container, Table, Card, Alert, Button,Form } from 'react-bootstrap';
+import { Jumbotron, Container, Table, Card, Alert, Button,Form, Dropdown, Col} from 'react-bootstrap';
 import ReactTable from 'react-table';
 
 import './historial_pedidos_cliente.css'
@@ -10,6 +10,7 @@ export default class historial_pedidos_cliente extends Component {
 
     constructor(props) {
         super(props);
+        this.state ={}
 
         this.columnas = [{
             Header: 'Nombre',
@@ -42,11 +43,17 @@ export default class historial_pedidos_cliente extends Component {
             infoChofer: {},
             pedidos: [],
             permisos: props.permisos,
+            id_chofer:"",
+            fecha_pedido:"",
+            puntuacion_pedido:1,
+            comentario_pedido:"",
+            key_pedido:"",
         };
 
         this.obtenerPedidos = this.obtenerPedidos.bind(this);
-        this.reservar = this.reservar.bind(this);
-        this.eliminar = this.calificar.bind(this);
+        this.handleSelectMarca = this.handleSelectMarca.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
    
     async componentDidMount() {
@@ -82,22 +89,53 @@ export default class historial_pedidos_cliente extends Component {
         }
     }
 
-    reservar(keyPedido) {
-        const database = firebase.database();
-        const { pedidos } = this.state;
-
-        const pedidosRes = pedidos.map(a => Object.assign({}, a));
-        pedidosRes[keyPedido].estado = 'Finalizado';
-        delete pedidosRes[keyPedido].accion;
-        database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
-    }
 
     calificar(keyPedido) {
-        if (window.confirm(' Se cancelara su pedido')) {
-            const database = firebase.database();
-            const { clientes } = this.state;
-            database.ref(`pedido/${keyPedido}/`).remove();
-        }
+        firebase.database().ref('/pedido').once('value').then((snap) => {
+            const pedidolist = snap.val();
+            Object.keys(pedidolist).forEach((key, index) => {
+                const pedido = pedidolist[key];
+                if (keyPedido === key) {
+                    this.setState({id_chofer:pedido.idchofer});
+                    this.setState({fecha_pedido:pedido.fecha});
+                    this.setState({key_pedido:keyPedido});
+                    document.getElementById("registro_fecha").value=pedido.fecha;
+                }
+            });
+        });
+    }
+
+    finalizar_calificacion(){
+        alert("entrooo");
+        const nuevo_feedback ={
+            comentario:this.state.comentario_pedido,
+            puntaje:this.state.puntuacion_pedido,
+            correo_cliente:this.state.infoChofer.correo,
+            id_chofer: this.state.id_chofer,
+            fecha: this.state.fecha_pedido
+        };
+        alert("creo el feed, ahora a va bd", this.state.puntuacion_pedido);
+        const dbRef = firebase.database().ref('Feedback');
+        const newFeddback = dbRef.push();
+        newFeddback.set(nuevo_feedback);
+
+        alert("Se guardo calificacion de pedido");
+        var database = firebase.database();
+        database.ref('pedido/' + this.state.key_pedido).update({
+            estado: "Calificado",
+         });
+        
+    }
+    handleSelect(evtKey) {
+        this.setState({ puntuacion_pedido: evtKey });
+    }
+
+    handleSelectMarca(evtKey) {
+        this.setState({ puntuacion_pedido: evtKey });
+    }
+    handleChange(event) {
+        this.setState({ [event.target.name]: event.target.value });
+        
     }
 
     obtenerPedidos() {
@@ -117,7 +155,7 @@ export default class historial_pedidos_cliente extends Component {
 
         Object.keys(pedidos).forEach((key, index) => {
             const pedido = pedidos[key];
-            if ((pedido.fecha === today2 || pedido.fecha === tommorrow) && pedido.estado === "Finalizado" && this.state.infoChofer.telefono === pedido.telefono && index !== 0) {
+            if ( pedido.estado === "Finalizado" && this.state.infoChofer.telefono === pedido.telefono ) {
 
                     pedido.accion =   <Button variant="info" onClick={() => this.calificar(key)}>Calificar</Button>;
 
@@ -156,25 +194,44 @@ export default class historial_pedidos_cliente extends Component {
                         <Form.Row>\
 
                         </Form.Row>
-                        <Form.Group controlId="exampleForm.ControlInput1">
+                        <Form.Group >
                             <Form.Label>Correo del cliente</Form.Label>
-                            <Form.Control type="email" placeholder="name@example.com" />
+                            <Form.Control id="registro_email_cliente" type="email" value={this.state.infoChofer.correo} />
                         </Form.Group>
-                        <Form.Group controlId="exampleForm.ControlSelect1">
+                        <Form.Group >
+                            <Form.Label>fecha</Form.Label>
+                            <Form.Control id ="registro_fecha" type="text" placeholder="" />
+                        </Form.Group>
+                        <Form.Group as={Col} md="4">
                             <Form.Label>Puntuacion</Form.Label>
-                            <Form.Control as="select">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            </Form.Control>
+                            <Dropdown>
+                                <Dropdown.Toggle variant="warning" id="dropdown-basic">
+                                    {this.state.puntuacion_pedido}
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item eventKey='1' onSelect={this.handleSelect}>
+                                        1
+                                    </Dropdown.Item>
+                                    <Dropdown.Item eventKey='2' onSelect={this.handleSelectMarca}>
+                                        2
+                                    </Dropdown.Item>
+                                    <Dropdown.Item eventKey='3' onSelect={this.handleSelectMarca}>
+                                        3
+                                    </Dropdown.Item>
+                                    <Dropdown.Item eventKey='4' onSelect={this.handleSelectMarca}>
+                                        4
+                                    </Dropdown.Item>
+                                    <Dropdown.Item eventKey='5' onSelect={this.handleSelectMarca}>
+                                        5
+                                    </Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
                         </Form.Group>
-                        <Form.Group controlId="exampleForm.ControlTextarea1">
+                        <Form.Group >
                             <Form.Label>Comentario</Form.Label>
-                            <Form.Control as="textarea" rows="3" />
+                            <Form.Control onChange={ this.handleChange } name="comentario_pedido"  id="comentario_pedido" as="textarea" rows="3" />
                         </Form.Group>
-                        <Button variant="primary" type="submit">
+                        <Button variant="primary" type="submit" onClick={()=>this.finalizar_calificacion()}>
                             Finalizar calificacion
                         </Button>
                     </Form>
