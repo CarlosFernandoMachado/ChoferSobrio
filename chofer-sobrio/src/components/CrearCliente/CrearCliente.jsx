@@ -210,7 +210,7 @@ export default class Precios extends Component {
                                             {this.state.Marca}
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
-                                            <Dropdown.Item eventKey='BMW' onSelect={this.handleSelect}>
+                                            <Dropdown.Item eventKey='BMW' onSelect={this.handleSelectMarca}>
                                                 BMW
                                              </Dropdown.Item>
                                             <Dropdown.Item eventKey='Chevrolet' onSelect={this.handleSelectMarca}>
