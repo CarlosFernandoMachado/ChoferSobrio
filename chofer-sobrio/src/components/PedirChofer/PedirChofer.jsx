@@ -35,6 +35,7 @@ export default class PedirChofer extends Component {
             infoCliente: {},
             cambiarHora: new Date(),
             pagoTarjeta: false,
+            paradas: ""
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -70,7 +71,7 @@ export default class PedirChofer extends Component {
                 placa: info.placa,
             });
         }
-    
+
     }
 
     getLocation = () => {
@@ -97,11 +98,11 @@ export default class PedirChofer extends Component {
             fecha: date
         });
 
-        if(date.getDate() == new Date().getDate()) {
+        if (date.getDate() == new Date().getDate()) {
             this.setState({
-                cambiarHora : new Date()
+                cambiarHora: new Date()
             });
-        }else{
+        } else {
             this.state.cambiarHora.setHours('00');
             this.state.cambiarHora.setMinutes('00');
         }
@@ -118,21 +119,21 @@ export default class PedirChofer extends Component {
 
     handlePagoTarjeta() {
         var checked = document.getElementById('pagoTarjeta').checked;
-        this.setState({ pagoTarjeta: checked});
+        this.setState({ pagoTarjeta: checked });
     }
 
     handleSubmit(event) {
         const form = event.currentTarget;
         this.setState({ date: (this.state.fecha.getDate() + '/' + (this.state.fecha.getMonth() + 1) + '/' + this.state.fecha.getFullYear()) });
 
-        if(this.state.fecha.getHours() < 10 && this.state.fecha.getMinutes() < 10){
-            this.setState({ hora: ('0'+this.state.fecha.getHours() + ':0' + this.state.fecha.getMinutes())});
-        } else if (this.state.fecha.getMinutes() < 10){
-            this.setState({ hora: (this.state.fecha.getHours() + ':0' + this.state.fecha.getMinutes())});
-        } else if (this.state.fecha.getHours() < 10){
-            this.setState({ hora: ('0'+this.state.fecha.getHours() + ':' + this.state.fecha.getMinutes())});
-        }else{
-            this.setState({ hora: (this.state.fecha.getHours() + ':' + this.state.fecha.getMinutes())});
+        if (this.state.fecha.getHours() < 10 && this.state.fecha.getMinutes() < 10) {
+            this.setState({ hora: ('0' + this.state.fecha.getHours() + ':0' + this.state.fecha.getMinutes()) });
+        } else if (this.state.fecha.getMinutes() < 10) {
+            this.setState({ hora: (this.state.fecha.getHours() + ':0' + this.state.fecha.getMinutes()) });
+        } else if (this.state.fecha.getHours() < 10) {
+            this.setState({ hora: ('0' + this.state.fecha.getHours() + ':' + this.state.fecha.getMinutes()) });
+        } else {
+            this.setState({ hora: (this.state.fecha.getHours() + ':' + this.state.fecha.getMinutes()) });
         }
 
 
@@ -148,7 +149,7 @@ export default class PedirChofer extends Component {
                 this.setState({ nombre: '' });
                 document.getElementById("nombre").value = "";
                 this.setState({ validated: 'false' });
-            }else if (this.state.placa.length != 7 || !/^[a+p+h+P+A+H][a-z+A-Z][a-z+A-Z][0-9][0-9][0-9][0-9]+$/.test(this.state.placa)) {
+            } else if (this.state.placa.length != 7 || !/^[a+p+h+P+A+H][a-z+A-Z][a-z+A-Z][0-9][0-9][0-9][0-9]+$/.test(this.state.placa)) {
                 /*Placa invalida*/
                 this.setState({ placa: '' });
                 document.getElementById("placa").value = "";
@@ -158,7 +159,7 @@ export default class PedirChofer extends Component {
                 this.setState({ destino: '' });
                 document.getElementById("destino").value = "";
                 this.setState({ validated: 'false' });
-            } else if (length != 8  || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
+            } else if (length != 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
                 this.setState({ telefono: '' });
                 document.getElementById("telefono").value = "";
                 this.setState({ validated: 'false' });
@@ -176,7 +177,7 @@ export default class PedirChofer extends Component {
                 this.setState({ validated: 'false' });
             } else if (this.state.color == 'Seleccione el color de su vehículo.') {
                 this.setState({ validated: 'false' });
-            } else{
+            } else {
                 alert("Pedido realizado");
                 this.setState({ validated: 'true' });
                 event.preventDefault();
@@ -242,61 +243,61 @@ export default class PedirChofer extends Component {
                                             <Dropdown.Item eventKey='BMW' onSelect={this.handleSelect}>
                                                 BMW
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Chevrolet' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Chevrolet' onSelect={this.handleSelectMarca}>
                                                 Chevrolet
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Ferrari' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Ferrari' onSelect={this.handleSelectMarca}>
                                                 Ferrari
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Ford' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Ford' onSelect={this.handleSelectMarca}>
                                                 Ford
                                             </Dropdown.Item>
                                             <Dropdown.Item eventKey='Honda' onSelect={this.handleSelectMarca}>
                                                 Honda
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Hyundai' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Hyundai' onSelect={this.handleSelectMarca}>
                                                 Hyundai
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Isuzu' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Isuzu' onSelect={this.handleSelectMarca}>
                                                 Isuzu
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Jaguar' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Jaguar' onSelect={this.handleSelectMarca}>
                                                 Jaguar
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Kia' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Kia' onSelect={this.handleSelectMarca}>
                                                 Kia
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Land Rover' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Land Rover' onSelect={this.handleSelectMarca}>
                                                 Land Rover
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Mazda' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Mazda' onSelect={this.handleSelectMarca}>
                                                 Mazda
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Mercedes Benz' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Mercedes Benz' onSelect={this.handleSelectMarca}>
                                                 Mercedes Benz
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Mitsubishi' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Mitsubishi' onSelect={this.handleSelectMarca}>
                                                 Mitsubishi
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Nissan' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Nissan' onSelect={this.handleSelectMarca}>
                                                 Nissan
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Range Rover' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Range Rover' onSelect={this.handleSelectMarca}>
                                                 Range Rover
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Renault' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Renault' onSelect={this.handleSelectMarca}>
                                                 Renault
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Suzuki' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Suzuki' onSelect={this.handleSelectMarca}>
                                                 Suzuki
                                              </Dropdown.Item>
                                             <Dropdown.Item eventKey='Toyota' onSelect={this.handleSelectMarca}>
                                                 Toyota
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Volkswagen' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Volkswagen' onSelect={this.handleSelectMarca}>
                                                 Volkswagen
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Volvo' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Volvo' onSelect={this.handleSelectMarca}>
                                                 Volvo
                                              </Dropdown.Item>
                                             <Form.Label>Otra marca:</Form.Label>
@@ -403,10 +404,10 @@ export default class PedirChofer extends Component {
                                     <DatePicker
                                         selected={this.state.fecha}
                                         onChange={this.dateChange}
-                                        minDate = {new Date()}
+                                        minDate={new Date()}
                                         value={this.state.value}
                                         withPortal
-                                        showTimeSelect                                
+                                        showTimeSelect
                                         timeIntervals={15}
                                         timeFormat="h:mm aa"
                                         dateFormat="MMMM d, yyyy h:mm aa"
@@ -415,27 +416,39 @@ export default class PedirChofer extends Component {
                                         maxTime={setHours(setMinutes(new Date(), 59), 23)}
                                     />
                                 </Form.Group>
+                                <Form.Group controlId="exampleForm.ControlTextarea1">
+                                    <Form.Label>Paradas</Form.Label>
+                                    <Form.Control as="textarea" rows="3" 
+                                     
+                                    
+                                     name="paradas"
+                                     value={this.state.value}
+                                     onChange={this.handleChange}
+                                     id="paradas"
+                                     />
+                                </Form.Group>
                                 <Form.Group as={Col} md="4">
-                                <Form.Label>Pago</Form.Label>
-                                    <Form.Check 
-                                    type="checkbox" 
-                                    label="Tarjeta de Crédito/Débito" 
-                                    onChange={this.handlePagoTarjeta}
-                                    id="pagoTarjeta"
+                                    <Form.Label>Pago</Form.Label>
+                                    <Form.Check
+                                        type="checkbox"
+                                        label="Tarjeta de Crédito/Débito"
+                                        onChange={this.handlePagoTarjeta}
+                                        id="pagoTarjeta"
                                     />
                                 </Form.Group>
                             </Form.Row>
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Pedir chofer
-                                    <Crear validado={this.state.listo} datos={[this.state.color, this.state.destino, this.state.date, this.state.hora, this.state.marca, this.state.nombre, this.state.placa, this.state.telefono, this.state.ubicacion_actual, this.state.pagoTarjeta ]} funcion={"Crearpedido"} />
+                                    <Crear validado={this.state.listo} datos={[this.state.color, this.state.destino, this.state.date, this.state.hora, this.state.marca, this.state.nombre, this.state.placa, this.state.telefono, this.state.ubicacion_actual, this.state.pagoTarjeta, this.state.paradas]} funcion={"Crearpedido"} />
                                 </Button>
                             </div>
                             <Link to="/SeleccionarCarro">
                                 <Button type="submit" variant="warning">Seleccionar carro registrado</Button>
-                             </Link>
-                             <Link to="/MostrarTelefono">
+                            </Link>
+                            <Link to="/MostrarTelefono">
                                 <Button type="submit" variant="warning">Seleccionar teléfono registrado</Button>
-                             </Link>
+                            </Link>
+                            
 
                         </Form>
                     </Alert>

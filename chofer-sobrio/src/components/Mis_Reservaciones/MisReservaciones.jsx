@@ -35,7 +35,8 @@ export default class MisReservaciones extends Component {
             accessor: 'accion',
             maxWidth: 100,
             filterable: false,
-        }];
+        }
+    ];
 
         this.state = {
             infoChofer: {},

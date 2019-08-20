@@ -196,7 +196,7 @@ export default class Crear extends Component {
         database.ref('cliente/' + id).remove();
     }
 
-    Crearpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, pagoTarjeta) {
+    Crearpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, pagoTarjeta,paradas) {
         var database = Fire.database();
         database.ref('pedido/' + id).set({
             color: color_vehiculo,
@@ -212,6 +212,7 @@ export default class Crear extends Component {
             idchofer: 0,
             mensaje: 'ninguno',
             pagoTarjeta: pagoTarjeta,
+            paradas:paradas
         });
     }
 
@@ -370,6 +371,8 @@ export default class Crear extends Component {
             telephone = this.props.datos[7];
             location = this.props.datos[8];
             pagoTarjeta = this.props.datos[9];
+            var paradas = this.props.datos[10];
+            
 
             id = 0;
             n = database.ref('/referencias/').once('value').then(function (snapshot) {
@@ -389,6 +392,7 @@ export default class Crear extends Component {
                     idchofer: 0,
                     mensaje: 'ninguno',
                     pagoTarjeta: pagoTarjeta,
+                    paradas: paradas
 
                 });
                 database.ref('referencias/').update({

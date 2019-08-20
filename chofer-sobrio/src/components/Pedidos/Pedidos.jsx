@@ -4,6 +4,7 @@ import { Jumbotron, Container, Button } from 'react-bootstrap';
 import ReactTable from 'react-table';
 import './Pedidos.css'
 import firebase from '../config/config';
+import swal from 'sweetalert';
 import mapa from '../Map/mapa';
 
 export default class Precios extends Component {
@@ -31,6 +32,11 @@ export default class Precios extends Component {
             Header: 'Hora',
             accessor: 'hora',
             maxWidth: 100,
+        },
+        {
+            Header: 'Paradas',
+            accessor: 'parada',
+            maxWidth: 100,
         }, {
             Header: 'Accion',
             accessor: 'accion',
@@ -39,6 +45,12 @@ export default class Precios extends Component {
         }, {
             Header: 'Mapa',
             accessor: 'mapa',
+            maxWidth: 100,
+            filterable: false,
+        },
+        {
+            Header: 'Ver paradas',
+            accessor: 'paradas',
             maxWidth: 100,
             filterable: false,
         }];
@@ -54,6 +66,7 @@ export default class Precios extends Component {
         this.obtenerPedidos = this.obtenerPedidos.bind(this);
         this.reservar = this.reservar.bind(this);
         this.mostrarUbicacion = this.mostrarUbicacion.bind(this);
+        this.mostrarparadas = this.mostrarparadas.bind(this);
     }
 
     async componentDidMount() {
@@ -67,6 +80,7 @@ export default class Precios extends Component {
                     if (chofer.correo === user.email) {
                         chofer.index = index;
                         infoChofer = chofer;
+                        
                     }
                 });
                 return infoChofer;
@@ -136,11 +150,16 @@ export default class Precios extends Component {
 
         Object.keys(pedidos).forEach((key, index) => {
             const pedido = pedidos[key];
+            
             if ((pedido.fecha === today2 || pedido.fecha === tommorrow) && pedido.estado === "Disponible" && index !== 0) {
-
+               var paradas12 = pedido.paradas;
+              
                 if (permisos.chofer) {
                     pedido.accion = <Button variant="info" onClick={() => this.reservar(key)}>Reservar</Button>;
                     pedido.mapa = <Button variant="info" onClick={() => this.mostrarUbicacion(key)}>Localizar</Button>;
+                    pedido.paradas = <Button variant="info" onClick={() => this.mostrarparadas(key,paradas12)}>Ver Paradas</Button>;
+                    
+                    
                 }
 
                 listaPedidos.push(pedido);
@@ -159,6 +178,12 @@ export default class Precios extends Component {
         this.setState({ lat: latitud });
         this.setState({ lon: longitud });
         this.renderMap();
+    }
+    mostrarparadas(keyPedido,paradas12) {
+       
+        swal("Las paradas son:", paradas12);
+       
+       
     }
 
     renderMap = () => {

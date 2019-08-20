@@ -25,7 +25,8 @@
     "react-time-picker": "^3.5.2",
     "reactstrap": "^8.0.0",
     "semantic-ui-react": "^0.87.1",
-    "styled-components": "^4.2.1"
+    "styled-components": "^4.2.1",
+    "sweetalert": "^2.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
