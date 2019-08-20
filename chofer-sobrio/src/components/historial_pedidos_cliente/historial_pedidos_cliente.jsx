@@ -111,7 +111,7 @@ export default class historial_pedidos_cliente extends Component {
     }
 
     finalizar_calificacion(){
-        alert("entrooo");
+        
         const nuevo_feedback ={
             comentario:this.state.comentario_pedido,
             puntaje:this.state.puntuacion_pedido,
@@ -119,7 +119,7 @@ export default class historial_pedidos_cliente extends Component {
             id_chofer: this.state.id_chofer,
             fecha: this.state.fecha_pedido
         };
-        alert("creo el feed, ahora a va bd");
+        
         const dbRef = firebase.database().ref('Feedback');
         const newFeddback = dbRef.push();
         newFeddback.set(nuevo_feedback);
