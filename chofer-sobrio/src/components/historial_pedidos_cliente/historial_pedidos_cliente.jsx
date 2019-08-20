@@ -1,6 +1,8 @@
 /* eslint-disable react/jsx-pascal-case */
 import React, { Component } from 'react'
-import { Jumbotron, Container, Table, Card, Alert, Button,Form, Dropdown, Col} from 'react-bootstrap';
+import { Jumbotron, Container, Table, Card, Alert, Button,Form, Dropdown,Col} from 'react-bootstrap';
+    import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+
 import ReactTable from 'react-table';
 
 import './historial_pedidos_cliente.css'
@@ -48,12 +50,14 @@ export default class historial_pedidos_cliente extends Component {
             puntuacion_pedido:1,
             comentario_pedido:"",
             key_pedido:"",
+            modal: false
         };
 
         this.obtenerPedidos = this.obtenerPedidos.bind(this);
         this.handleSelectMarca = this.handleSelectMarca.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.toggle = this.toggle.bind(this);
     }
    
     async componentDidMount() {
@@ -99,10 +103,11 @@ export default class historial_pedidos_cliente extends Component {
                     this.setState({id_chofer:pedido.idchofer});
                     this.setState({fecha_pedido:pedido.fecha});
                     this.setState({key_pedido:keyPedido});
-                    document.getElementById("registro_fecha").value=pedido.fecha;
+                   
                 }
             });
         });
+        this.toggle();
     }
 
     finalizar_calificacion(){
@@ -114,7 +119,7 @@ export default class historial_pedidos_cliente extends Component {
             id_chofer: this.state.id_chofer,
             fecha: this.state.fecha_pedido
         };
-        alert("creo el feed, ahora a va bd", this.state.puntuacion_pedido);
+        alert("creo el feed, ahora a va bd");
         const dbRef = firebase.database().ref('Feedback');
         const newFeddback = dbRef.push();
         newFeddback.set(nuevo_feedback);
@@ -126,6 +131,12 @@ export default class historial_pedidos_cliente extends Component {
          });
         
     }
+    toggle() {
+        this.setState(prevState => ({
+          modal: !prevState.modal
+        }));
+      }
+    
     handleSelect(evtKey) {
         this.setState({ puntuacion_pedido: evtKey });
     }
@@ -157,7 +168,7 @@ export default class historial_pedidos_cliente extends Component {
             const pedido = pedidos[key];
             if ( pedido.estado === "Finalizado" && this.state.infoChofer.telefono === pedido.telefono ) {
 
-                    pedido.accion =   <Button variant="info" onClick={() => this.calificar(key)}>Calificar</Button>;
+                    pedido.accion =   <Button variant="info"  onClick={() => this.calificar(key)}>Calificar</Button>;
 
                 listaPedidos.push(pedido);
             }
@@ -185,56 +196,59 @@ export default class historial_pedidos_cliente extends Component {
                         />
                     </Alert>
                 </Card>
-                <div></div>
-                <div className="divForm">
-                    <Form>
-                        <Form.Row>
-                        <Form.Label className="titulo">Calificacion y comentario de servicio</Form.Label>
-                        </Form.Row>
-                        <Form.Row>\
+                
+                <div> 
+                    <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                        <ModalHeader toggle={this.toggle}>Calificacion de servicio</ModalHeader>
+                        <ModalBody>
+                            <div className="divForm">
+                                <Form>
+                                    <Form.Row>
+                                    </Form.Row>
+                                    <Form.Row>
 
-                        </Form.Row>
-                        <Form.Group >
-                            <Form.Label>Correo del cliente</Form.Label>
-                            <Form.Control id="registro_email_cliente" type="email" value={this.state.infoChofer.correo} />
-                        </Form.Group>
-                        <Form.Group >
-                            <Form.Label>fecha</Form.Label>
-                            <Form.Control id ="registro_fecha" type="text" placeholder="" />
-                        </Form.Group>
-                        <Form.Group as={Col} md="4">
-                            <Form.Label>Puntuacion</Form.Label>
-                            <Dropdown>
-                                <Dropdown.Toggle variant="warning" id="dropdown-basic">
-                                    {this.state.puntuacion_pedido}
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    <Dropdown.Item eventKey='1' onSelect={this.handleSelect}>
-                                        1
-                                    </Dropdown.Item>
-                                    <Dropdown.Item eventKey='2' onSelect={this.handleSelectMarca}>
-                                        2
-                                    </Dropdown.Item>
-                                    <Dropdown.Item eventKey='3' onSelect={this.handleSelectMarca}>
-                                        3
-                                    </Dropdown.Item>
-                                    <Dropdown.Item eventKey='4' onSelect={this.handleSelectMarca}>
-                                        4
-                                    </Dropdown.Item>
-                                    <Dropdown.Item eventKey='5' onSelect={this.handleSelectMarca}>
-                                        5
-                                    </Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
-                        </Form.Group>
-                        <Form.Group >
-                            <Form.Label>Comentario</Form.Label>
-                            <Form.Control onChange={ this.handleChange } name="comentario_pedido"  id="comentario_pedido" as="textarea" rows="3" />
-                        </Form.Group>
-                        <Button variant="primary" type="submit" onClick={()=>this.finalizar_calificacion()}>
-                            Finalizar calificacion
-                        </Button>
-                    </Form>
+                                    </Form.Row>
+                                    <Form.Group as={Col} md="4">
+                                        <Form.Label>Puntuacion</Form.Label>
+                                        <Dropdown>
+                                            <Dropdown.Toggle variant="warning" id="dropdown-basic">
+                                                {this.state.puntuacion_pedido}
+                                            </Dropdown.Toggle>
+                                            <Dropdown.Menu>
+                                                <Dropdown.Item eventKey='1' onSelect={this.handleSelect}>
+                                                    1
+                                                </Dropdown.Item>
+                                                <Dropdown.Item eventKey='2' onSelect={this.handleSelectMarca}>
+                                                    2
+                                                </Dropdown.Item>
+                                                <Dropdown.Item eventKey='3' onSelect={this.handleSelectMarca}>
+                                                    3
+                                                </Dropdown.Item>
+                                                <Dropdown.Item eventKey='4' onSelect={this.handleSelectMarca}>
+                                                    4
+                                                </Dropdown.Item>
+                                                <Dropdown.Item eventKey='5' onSelect={this.handleSelectMarca}>
+                                                    5
+                                                </Dropdown.Item>
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+                                    </Form.Group>
+                                    <Form.Group >
+                                        <Form.Label>Comentario</Form.Label>
+                                        <Form.Control onChange={ this.handleChange } name="comentario_pedido"  id="comentario_pedido" as="textarea" rows="3" />
+                                    </Form.Group>
+                                    <Button variant="primary" type="submit" onClick={()=>this.finalizar_calificacion()}>
+                                        Finalizar calificacion
+                                    </Button>
+                                </Form>
+                    
+                            </div>
+                        </ModalBody>
+                        <ModalFooter>
+                          
+                            <Button color="secondary" onClick={this.toggle}>Cancelar</Button>
+                        </ModalFooter>
+                    </Modal>
                 </div>
             </Container>
         )

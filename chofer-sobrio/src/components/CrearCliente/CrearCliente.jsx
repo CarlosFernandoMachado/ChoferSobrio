@@ -366,7 +366,7 @@ export default class Precios extends Component {
                                     <Form.Label>Contraseña</Form.Label>
                                     <Form.Control
                                         required
-                                        type="text"
+                                        type="password"
                                         name="contraseña"
                                         value={this.state.value}
                                         onChange={this.handleChange}
