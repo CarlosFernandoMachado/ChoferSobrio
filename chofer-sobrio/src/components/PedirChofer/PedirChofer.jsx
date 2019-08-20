@@ -417,7 +417,7 @@ export default class PedirChofer extends Component {
                                     />
                                 </Form.Group>
                                 <Form.Group controlId="exampleForm.ControlTextarea1">
-                                    <Form.Label>Paradas</Form.Label>
+                                    <Form.Label>Paradas(Opcional)</Form.Label>
                                     <Form.Control as="textarea" rows="3" 
                                      
                                     
