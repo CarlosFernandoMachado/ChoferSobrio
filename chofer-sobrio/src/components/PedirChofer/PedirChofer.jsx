@@ -144,7 +144,7 @@ export default class PedirChofer extends Component {
         } else {
             var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
             /*VALIDACIONES*/
-            if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)) {
+            if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre) || /^\s+$/.test(this.state.nombre)) {
                 /*Caracteres especiales*/
                 this.setState({ nombre: '' });
                 document.getElementById("nombre").value = "";
@@ -154,7 +154,7 @@ export default class PedirChofer extends Component {
                 this.setState({ placa: '' });
                 document.getElementById("placa").value = "";
                 this.setState({ validated: 'false' });
-            } else if (!/^[a-z0-9A-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.destino)) {
+            } else if (!/^[a-z0-9A-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.destino) || /^\s+$/.test(this.state.destino)) {
                 /*Caracteres especiales*/
                 this.setState({ destino: '' });
                 document.getElementById("destino").value = "";
@@ -165,12 +165,12 @@ export default class PedirChofer extends Component {
                 this.setState({ validated: 'false' });
             } else if (this.state.marca == 'Seleccione la marca de su vehículo.') {
                 this.setState({ validated: 'false' });
-            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.marca)) {
+            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.marca) || /^\s+$/.test(this.state.marca)) {
                 /*Caracteres especiales*/
                 this.setState({ marca: 'Seleccione la marca de su vehículo.' });
                 document.getElementById("marcaField").value = "";
                 this.setState({ validated: 'false' });
-            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.color)) {
+            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.color) || /^\s+$/.test(this.state.color)) {
                 /*Caracteres especiales*/
                 this.setState({ color: 'Seleccione el color de su vehículo.' });
                 document.getElementById("colorField").value = "";
@@ -240,7 +240,7 @@ export default class PedirChofer extends Component {
                                             {this.state.marca}
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
-                                            <Dropdown.Item eventKey='BMW' onSelect={this.handleSelect}>
+                                            <Dropdown.Item eventKey='BMW' onSelect={this.handleSelectMarca}>
                                                 BMW
                                              </Dropdown.Item>
                                             <Dropdown.Item eventKey='Chevrolet' onSelect={this.handleSelectMarca}>

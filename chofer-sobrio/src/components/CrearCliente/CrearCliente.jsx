@@ -75,16 +75,16 @@ export default class Precios extends Component {
             } else if ( placa_cadena.length !== 7 || placa_cadena.match(rex) == null || !/^[a+p+h+P+A+H][a-z+A-Z][a-z+A-Z][0-9][0-9][0-9][0-9]+$/.test(this.state.Placa)) {
                 this.setState({ Placa: '' });
                 document.getElementById("Placa").value = "";
-            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)) {
+            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre) || /^\s+$/.test(this.state.nombre)) {
                 /*Caracteres especiales*/
                 this.setState({ nombre: '' });
                 document.getElementById("nombre").value = "";
-            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Marca)) {
+            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Marca) || /^\s+$/.test(this.state.Marca)) {
                 /*Caracteres especiales*/
                 this.setState({ Marca: 'Seleccione la marca de su vehículo.' });
                 document.getElementById("marcaField").value = "";
                 this.setState({ validated: 'false' });
-            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Color)) {
+            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Color) || /^\s+$/.test(this.state.Color)) {
                 this.setState({ Color: 'Seleccione el color de su vehículo.' });
                 document.getElementById("colorField").value = "";
                 this.setState({ validated: 'false' });

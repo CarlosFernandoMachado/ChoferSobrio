@@ -148,8 +148,8 @@ export default class ModificarCliente extends Component {
         var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
         var placa_cadena = this.state.placa;
         var rex = /[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i;
-        if (length !== 8  || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
 
+        if (length !== 8  || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
             this.setState({ telefono: '' });
             document.getElementById("telefono").value = "";
 
@@ -162,24 +162,24 @@ export default class ModificarCliente extends Component {
             document.getElementById("telefono3").value = "";   
             alert("Ha ingresado un número opcional invalido, por favor vuelve a ingresarlo y sigue el formato de 8 digitos o puedes dejar el campo vacio y continuar.");                     
         } else if (placa_cadena.length !== 7 || placa_cadena.match(rex) == null || !/^[a+p+h+P+A+H][a-z+A-Z][a-z+A-Z][0-9][0-9][0-9][0-9]+$/.test(this.state.placa)) {
-            alert("error")
             this.setState({ placa: '' });
             document.getElementById("placa").value = "";
-        } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)) {
+        } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre) || /^\s+$/.test(this.state.nombre)) {
             /*Caracteres especiales*/
             this.setState({ nombre: '' });
-            document.getElementById("nombre").value = "";
-
-        } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.marca)) {
+            document.getElementById("nombre").value = "";   
+        }else if (this.state.marca == 'Seleccione la marca de su vehículo.') {
+                this.setState({ validated: 'false' });
+        } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.marca) || /^\s+$/.test(this.state.marca)) {
             /*Caracteres especiales*/
-            this.setState({ marca: '' });
-            document.getElementById("marca").value = "";
-
-        } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.color)) {
+            this.setState({ marca: 'Seleccione la marca de su vehículo.' });
+            this.setState({ validated: 'false' });
+        } else if (this.state.color == 'Seleccione el color de su vehículo.') {
+            this.setState({ validated: 'false' });
+        } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.color) ||  /^\s+$/.test(this.state.color)) {
             /*Caracteres especiales*/
-            this.setState({ color: '' });
-            document.getElementById("color").value = "";
-
+            this.setState({ color: 'Seleccione el color de su vehículo.' });
+            this.setState({ validated: 'false' });
         }else {
             this.setState({ validated: 'true' });
             event.preventDefault();
