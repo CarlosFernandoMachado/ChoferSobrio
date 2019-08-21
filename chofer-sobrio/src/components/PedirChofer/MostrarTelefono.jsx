@@ -3,6 +3,8 @@ import { Jumbotron, Container, Card, Alert, Button } from 'react-bootstrap';
 import ReactTable from 'react-table';
 import firebase from '../config/config';
 import { Link } from 'react-router-dom';
+import { FaAngleDoubleLeft } from "react-icons/fa";
+
 
 export default class SeleccionarCarro extends Component {
 
@@ -174,6 +176,9 @@ export default class SeleccionarCarro extends Component {
                             filterable = {false}
                         />
                     </Alert>
+                    <Link to="/pedirchofer">
+                                <Button type="submit" variant="warning"> <FaAngleDoubleLeft/>Regresar</Button>
+                        </Link>
                 </Card>
             </Container>
         )

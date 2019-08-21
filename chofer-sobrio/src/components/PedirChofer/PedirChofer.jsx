@@ -11,6 +11,8 @@ import setMinutes from "date-fns/setMinutes";
 import setHours from "date-fns/setHours";
 import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
 import { Link } from 'react-router-dom';
+import { FaMobile } from "react-icons/fa";
+
 
 registerLocale('es', es);
 setDefaultLocale('es');
@@ -443,10 +445,10 @@ export default class PedirChofer extends Component {
                                 </Button>
                             </div>
                             <Link to="/SeleccionarCarro">
-                                <Button type="submit" variant="warning">Seleccionar carro registrado</Button>
+                                <Button type="submit" variant="warning"  style={{ margin:'16px' }}>Seleccionar carro</Button>
                             </Link>
                             <Link to="/MostrarTelefono">
-                                <Button type="submit" variant="warning">Seleccionar teléfono registrado</Button>
+                                <Button type="submit" variant="warning" style={{ margin:'16px' }}>Seleccionar teléfono</Button>
                             </Link>
                             
 
