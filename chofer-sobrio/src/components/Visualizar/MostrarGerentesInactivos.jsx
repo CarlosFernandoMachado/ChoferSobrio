@@ -120,7 +120,7 @@ export default class VisualizarGerenteInactivo extends Component {
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
                     <h1>gerente Sobrio</h1>
-                    <h5>Visualizar GerentsS</h5>
+                    <h5>Visualizar Gerentes</h5>
                 </Jumbotron>
                 <Card border="light">
                     <Alert variant="secondary">

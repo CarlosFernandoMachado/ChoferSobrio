@@ -9,9 +9,7 @@ import es from 'date-fns/locale/es';
 import './PedirChofer.css';
 import setMinutes from "date-fns/setMinutes";
 import setHours from "date-fns/setHours";
-import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
 import { Link } from 'react-router-dom';
-import { FaMobile } from "react-icons/fa";
 
 
 registerLocale('es', es);
@@ -100,7 +98,7 @@ export default class PedirChofer extends Component {
             fecha: date
         });
 
-        if (date.getDate() == new Date().getDate()) {
+        if (date.getDate() === new Date().getDate()) {
             this.setState({
                 cambiarHora: new Date()
             });
@@ -151,7 +149,7 @@ export default class PedirChofer extends Component {
                 this.setState({ nombre: '' });
                 document.getElementById("nombre").value = "";
                 this.setState({ validated: 'false' });
-            } else if (this.state.placa.length != 7 || !/^[a+p+h+P+A+H][a-z+A-Z][a-z+A-Z][0-9][0-9][0-9][0-9]+$/.test(this.state.placa)) {
+            } else if (this.state.placa.length !== 7 || !/^[a+p+h+P+A+H][a-z+A-Z][a-z+A-Z][0-9][0-9][0-9][0-9]+$/.test(this.state.placa)) {
                 /*Placa invalida*/
                 this.setState({ placa: '' });
                 document.getElementById("placa").value = "";
@@ -161,11 +159,11 @@ export default class PedirChofer extends Component {
                 this.setState({ destino: '' });
                 document.getElementById("destino").value = "";
                 this.setState({ validated: 'false' });
-            } else if (length != 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
+            } else if (length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
                 this.setState({ telefono: '' });
                 document.getElementById("telefono").value = "";
                 this.setState({ validated: 'false' });
-            } else if (this.state.marca == 'Seleccione la marca de su vehículo.') {
+            } else if (this.state.marca === 'Seleccione la marca de su vehículo.') {
                 this.setState({ validated: 'false' });
             } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.marca) || /^\s+$/.test(this.state.marca)) {
                 /*Caracteres especiales*/
@@ -177,7 +175,7 @@ export default class PedirChofer extends Component {
                 this.setState({ color: 'Seleccione el color de su vehículo.' });
                 document.getElementById("colorField").value = "";
                 this.setState({ validated: 'false' });
-            } else if (this.state.color == 'Seleccione el color de su vehículo.') {
+            } else if (this.state.color === 'Seleccione el color de su vehículo.') {
                 this.setState({ validated: 'false' });
             } else {
                 alert("Pedido realizado");

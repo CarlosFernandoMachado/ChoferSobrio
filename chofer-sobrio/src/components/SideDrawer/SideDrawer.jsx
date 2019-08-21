@@ -26,16 +26,9 @@ class SideDrawer extends React.Component {
                 const gerentes = snap.val();
                 let isGerente = false;
                 Object.keys(gerentes).forEach(key => {
-                    if (isGerente = isGerente || (gerentes[key].correo === user.email && gerentes[key].estado === "activo")) {
-                        this.setState({ isGerente });
-                    } else if ((gerentes[key].correo === user.email && gerentes[key].estado === "inactivo")) {
-
-
-                    }
-
-                    ;
+                    isGerente = isGerente || gerentes[key].correo === user.email;
                 });
-
+                this.setState({ isGerente });
             });
 
             // choferes
@@ -44,13 +37,9 @@ class SideDrawer extends React.Component {
                 const choferes = snap.val();
                 let isChofer = false;
                 Object.keys(choferes).forEach(key => {
-                    if (isChofer = isChofer || (choferes[key].correo === user.email && choferes[key].estado === "activo")) {
-                        this.setState({ isChofer });
-                    } else if ((choferes[key].correo === user.email && choferes[key].estado === "inactivo")) {
-
-                    };
-
+                    isChofer = isChofer || choferes[key].correo === user.email;
                 });
+                this.setState({ isChofer });
             });
 
             // clientes
@@ -59,12 +48,9 @@ class SideDrawer extends React.Component {
                 const clientes = snap.val();
                 let isCliente = false;
                 Object.keys(clientes).forEach(key => {
-                    if (isCliente = isCliente || (clientes[key].correo === user.email && clientes[key].estado === "activo")) {
-                        this.setState({ isCliente });
-                    } else if ((clientes[key].correo === user.email && clientes[key].estado === "inactivo")) {
-
-                    };
+                    isCliente = isCliente || clientes[key].correo === user.email;
                 });
+                this.setState({ isCliente });
             });
         }
     }
@@ -119,6 +105,9 @@ class SideDrawer extends React.Component {
                 <Link key={key++} to="/GestionPreguntas">
                     <Button onClick={props.hide}>Gestion de preguntas frecuentes</Button>
                 </Link>,
+                <Link key={key++} to="/comentarioschofer">
+                    <Button onClick={props.hide}>Mostrar Feedback de Clientes</Button>
+                </Link>,
                 <Link key={key++} to="/CrearChofer">
                     <Button onClick={props.hide}>Crear Chofer</Button>
                 </Link>,
@@ -137,43 +126,38 @@ class SideDrawer extends React.Component {
                 <Link key={key++} to="/ModificarGerente">
                     <Button onClick={props.hide}>Modificar mi cuenta</Button>
                 </Link>,
-                <Link to="/listarfeedback">
-                    <Button>Feedback Recibido</Button>
-                </Link>,
-                <Link to="/MostrarGerentesInactivos">
+                <Link key={key++} to="/MostrarGerentesInactivos">
                     <Button>Mostrar Gerentes Inactivos</Button>
                 </Link>,
-                <Link to="/MostrarChoferesInactivos">
+                <Link key={key++} to="/MostrarChoferesInactivos">
                     <Button>Mostrar Choferes Inactivos</Button>
                 </Link>,
                 <Link key={key++} to="/EliminarCuentaGerente">
-                    <Button onClick={props.hide}>Desactivar mi cuenta</Button>
+                    <Button>Desactivar mi cuenta Gerente</Button>
                 </Link>,
-               
-                <Link to="/EliminarCuentaTotal_Gerente">
-                    <Button>Eliminar mi cuenta Gerente</Button>
-                </Link>
+                <Link key={key++} to="/EliminarCuentaTotal_Gerente">
+                    <Button onClick={props.hide}>Eliminar mi cuenta</Button>
+                </Link>,
             );
         }
 
         if (isChofer) {
             menu.push(
-                <Link to="/subirfoto">
+                <Link key={key++} to="/subirfoto">
                     <Button>Subir foto</Button>
                 </Link>,
                 <Link key={key++} to="/miperfil">
                     <Button onClick={props.hide}>Mis Reservaciones</Button>
                 </Link>,
-
                 <Link key={key++} to="/ModificarChofer">
                     <Button onClick={props.hide}>Modificar mi cuenta</Button>
                 </Link>,
                 <Link key={key++} to="/EliminarCuentaChofer">
-                    <Button onClick={props.hide}>Desactivar mi cuenta Chofer</Button>
+                    <Button>Desactivar mi cuenta chofer</Button>
                 </Link>,
-                <Link to="/EliminarCuentaTotal_Chofer">
-                    <Button>Eliminar mi cuenta chofer</Button>
-                </Link>
+                <Link key={key++} to="/EliminarCuentaTotal_Chofer">
+                    <Button onClick={props.hide}>Eliminar mi cuenta</Button>
+                </Link>,
             );
         }
 
@@ -187,28 +171,27 @@ class SideDrawer extends React.Component {
 
         if (isCliente) {
             menu.push(
-                <Link key={key++} to="/Perfil_Chofer">
-                    <Button onClick={props.hide}>Ver perfil del Chofer</Button>
-                </Link>,
                 <Link key={key++} to="/MisReservaciones">
                     <Button onClick={props.hide}>Mis Reservaciones</Button>
                 </Link>,
-                <Link to="/historial_pedidos_cliente">
-                    <Button>Historial de reservaciones</Button>
+                <Link key={key++} to="/historial_pedidos_cliente">
+                    <Button onClick={props.hide}>Historial de reservaciones</Button>
                 </Link>,
-
+                <Link key={key++} to="/Perfil_Chofer">
+                    <Button onClick={props.hide}>Ver perfil del Chofer</Button>
+                </Link>,
                 <Link key={key++} to="/ModificarCliente">
                     <Button onClick={props.hide}>Modificar mi cuenta</Button>
                 </Link>,
                 <Link key={key++} to="/EliminarCuentaCliente">
-                    <Button onClick={props.hide}>Desactivar mi cuenta cliente</Button>
+                    <Button onClick={props.hide}>Desactivar Mi Cuenta Cliente</Button>
+                </Link>,
+                <Link key={key++} to="/EliminarCuentaTotal_Cliente">
+                    <Button onClick={props.hide}>Eliminar mi cuenta</Button>
                 </Link>,
                 <Link key={key++} to="/MostrarCarros">
                     <Button onClick={props.hide}>Mis Carros</Button>
                 </Link>,
-                <Link to="/EliminarCuentaTotal_Cliente">
-                    <Button>Eliminar Mi Cuenta cliente</Button>
-                </Link>
             );
         }
 
