@@ -272,7 +272,7 @@ export default class ModificarGerente extends Component {
                                 </Form.Group>
                                 <Form.Group as={ Col } md="3">
                                     <div className="text-left">
-                                        <Button  type="submit" variant="danger" onClick={this.update_password}>Cambiar contraseña</Button>
+                                        <Button   variant="danger" onClick={this.update_password}>Cambiar contraseña</Button>
                                     </div>  
                                 </Form.Group>
 
