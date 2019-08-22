@@ -10,21 +10,19 @@ export default class Password_olvidada extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            correo: ' '
+            correo:''
         };
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+       
     }
     handleChange(event) {
-        this.setState({correo: event.target.value});
-      }
+        this.setState({ [event.target.name]: event.target.value });
+    }
 
-    handleSubmit(event) {
-        event.preventDefault();
+    enviar() {
+        
         var email= this.state.correo;
-        firebase.auth()
-        .sendPasswordResetEmail(email)
-        .then(() => {
+        firebase.auth().sendPasswordResetEmail(email).then(() => {
             alert('Correo enviado a: ' + this.state.correo);
             console.log("Por favor checka tu email ");
         })
@@ -40,13 +38,13 @@ export default class Password_olvidada extends Component{
                 <Form onSubmit={this.handleSubmit} >
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Reestablecimiento de contraseña</Form.Label>
-                        <Input type="text" id="correo" placeholder="Enter email" 
+                        <Input type="text" name="correo" id="correo" placeholder="Enter email" 
                         value={this.state.correo} onChange ={this.handleChange}/>
                         <Form.Text className="text-muted">
                             Se enviará un correo con un link para reestablecer constraseña.
                         </Form.Text>
                     </Form.Group>
-                    <Button variant="primary" type="submit" value="submit">Enviar correo</Button>
+                    <Button variant="primary" onClick={this.enviar()} type="submit" value="submit">Enviar correo</Button>
                 </Form>
             </Container>
         )
