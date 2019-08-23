@@ -7,6 +7,9 @@ import firebase from '../config/config';
 function redirigir() {
     window.location = "/";
 }
+function redirigirsesion(){
+    window.location="/iniciarSesion";
+}
 function redirigircrearcliente() {
     window.location = "/CrearCliente";
 }
@@ -478,10 +481,25 @@ export default class Crear extends Component {
                                 id_cliente: id
                             });
                         });
+                        
                         Fire.auth().createUserWithEmailAndPassword(email, my_contraseña).then(
+                            Fire.auth().signInWithEmailAndPassword(email, my_contraseña).then(
+                            
+                            ).catch(),
                         ).catch();
-                        alert("¡Usuario registrado exitosamente!");
-
+                        Fire.auth().onAuthStateChanged(function(user) {
+                            if (user) {
+                                user.sendEmailVerification().then(
+                                    Fire.auth().signOut().then(
+                                        alert("¡Usuario registrado exitosamente! Se envio correo de verificacion")
+                                    ).catch()
+                                ).catch();
+                            } else {
+                                // No user is signed in.
+                            }
+                        });
+                       
+                           
                         setTimeout(redirigir, 1000);
                     }
                 });
