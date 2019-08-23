@@ -19,6 +19,14 @@ export default class MisReservaciones extends Component {
             accessor: 'telefono',
             maxWidth: 150,
         }, {
+            Header: 'Marca',
+            accessor: 'marca',
+            maxWidth: 150,
+        }, {
+            Header: 'Placa',
+            accessor: 'placa',
+            maxWidth: 150,
+        }, {
             Header: 'Destino',
             accessor: 'destino',
             maxWidth: 200,
@@ -36,7 +44,7 @@ export default class MisReservaciones extends Component {
             maxWidth: 100,
             filterable: false,
         }
-    ];
+        ];
 
         this.state = {
             infoChofer: {},
@@ -119,7 +127,7 @@ export default class MisReservaciones extends Component {
             const pedido = pedidos[key];
             if ((pedido.fecha === today2 || pedido.fecha === tommorrow) && pedido.estado === "Disponible" && this.state.infoChofer.telefono === pedido.telefono && index !== 0) {
 
-                    pedido.accion = <Button variant="info" onClick={() => this.eliminar(key)}>Cancelar</Button>;
+                pedido.accion = <Button variant="info" onClick={() => this.eliminar(key)}>Cancelar</Button>;
 
                 listaPedidos.push(pedido);
             }
