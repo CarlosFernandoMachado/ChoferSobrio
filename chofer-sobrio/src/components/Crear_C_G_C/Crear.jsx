@@ -197,6 +197,8 @@ export default class Crear extends Component {
     Eliminarcliente(id) {
         var database = Fire.database();
         database.ref('cliente/' + id).remove();
+        
+      
     }
 
     Crearpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, pagoTarjeta,paradas) {
@@ -788,7 +790,7 @@ export default class Crear extends Component {
 
             this.Eliminarcliente(id);
             
-            setTimeout(redirigir, 1000);
+            setTimeout(redirigirsesion, 1000);
         }
 
         if (this.props.validado && this.props.funcion === "eliminar_gerente") {
