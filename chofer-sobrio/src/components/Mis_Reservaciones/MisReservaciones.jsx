@@ -125,7 +125,7 @@ export default class MisReservaciones extends Component {
 
         Object.keys(pedidos).forEach((key, index) => {
             const pedido = pedidos[key];
-            if ((pedido.fecha === today2 || pedido.fecha === tommorrow) && pedido.estado === "Disponible" && this.state.infoChofer.telefono === pedido.telefono && index !== 0) {
+            if ((pedido.fecha === today2 || pedido.fecha === tommorrow) && pedido.estado === "Disponible" && this.state.infoChofer.correo === pedido.correo && index !== 0) {
 
                 pedido.accion = <Button variant="info" onClick={() => this.eliminar(key)}>Cancelar</Button>;
 

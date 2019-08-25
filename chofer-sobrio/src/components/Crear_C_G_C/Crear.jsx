@@ -375,7 +375,7 @@ export default class Crear extends Component {
             location = this.props.datos[8];
             pagoTarjeta = this.props.datos[9];
             var paradas = this.props.datos[10];
-            
+            var email12 = this.props.datos[11];
 
             id = 0;
             n = database.ref('/referencias/').once('value').then(function (snapshot) {
@@ -395,7 +395,8 @@ export default class Crear extends Component {
                     idchofer: 0,
                     mensaje: 'ninguno',
                     pagoTarjeta: pagoTarjeta,
-                    paradas: paradas
+                    paradas: paradas,
+                    correo: email12
 
                 });
                 database.ref('referencias/').update({
