@@ -485,11 +485,24 @@ export default class Crear extends Component {
                             });
                         });
                         
-                        Fire.auth().createUserWithEmailAndPassword(email, my_contraseña).then(
+                         /* Fire.auth().createUserWithEmailAndPassword(email, my_contraseña).then(
                             Fire.auth().signInWithEmailAndPassword(email, my_contraseña).then(
                             
                             ).catch(),
-                        ).catch();
+                        ).catch();*/
+                        Fire.auth().createUserWithEmailAndPassword(email, my_contraseña).then(function(user) {
+                            firebase.auth().signInWithEmailAndPassword(email, my_contraseña).catch(function(error) {
+                               console.log(error.code);
+                               console.log(error.message);
+                            });
+                          }).catch(function(error) {
+                            // Handle Errors here.
+                            var errorCode = error.code;
+                            var errorMessage = error.message;
+                            console.log('User did not sign up correctly');
+                            console.log(errorCode);
+                            console.console.log(errorMessage);
+                          });
                         Fire.auth().onAuthStateChanged(function(user) {
                             if (user) {
                                 user.sendEmailVerification().then(
