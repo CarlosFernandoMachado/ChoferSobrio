@@ -820,7 +820,7 @@ export default class Crear extends Component {
                             });
                         });
                     }
-                    id = this.props.datos[0]
+                    //id = this.props.datos[0]
                     database = Fire.database();
                     this.Eliminarcliente(id);
                     setTimeout(redirigirsesion, 1000);
