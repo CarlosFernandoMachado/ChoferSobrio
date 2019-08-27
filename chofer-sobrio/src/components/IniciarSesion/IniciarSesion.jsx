@@ -36,6 +36,7 @@ export default class IniciarSesion extends Component {
                 localStorage.clear();
             }
         });
+        this.forceUpdate() 
     }
 
     componentWillUnmount() {

@@ -35,7 +35,8 @@ export default class PedirChofer extends Component {
             infoCliente: {},
             cambiarHora: new Date(),
             pagoTarjeta: false,
-            paradas: ""
+            paradas: "",
+            correo:""
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -69,6 +70,7 @@ export default class PedirChofer extends Component {
                 marca: info.marca,
                 color: info.color_vehiculo,
                 placa: info.placa,
+                correo:info.correo
             });
         }
 
@@ -439,7 +441,7 @@ export default class PedirChofer extends Component {
                             </Form.Row>
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Pedir chofer
-                                    <Crear validado={this.state.listo} datos={[this.state.color, this.state.destino, this.state.date, this.state.hora, this.state.marca, this.state.nombre, this.state.placa, this.state.telefono, this.state.ubicacion_actual, this.state.pagoTarjeta, this.state.paradas]} funcion={"Crearpedido"} />
+                                    <Crear validado={this.state.listo} datos={[this.state.color, this.state.destino, this.state.date, this.state.hora, this.state.marca, this.state.nombre, this.state.placa, this.state.telefono, this.state.ubicacion_actual, this.state.pagoTarjeta, this.state.paradas,this.state.correo]} funcion={"Crearpedido"} />
                                 </Button>
                             </div>
                             <Link to="/SeleccionarCarro">

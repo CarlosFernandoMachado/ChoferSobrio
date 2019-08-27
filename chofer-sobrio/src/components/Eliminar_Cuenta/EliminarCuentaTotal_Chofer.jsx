@@ -53,8 +53,11 @@ export default class EliminarCuentaTotal_Chofer extends Component {
             }
 
         });
-        if (window.confirm(' Se eliminara su cuenta, lamentamos mucho que tengas que irte, esperamos que sea un nos vemos y regreses 😢'))
+        if (window.confirm(' Se eliminara su cuenta, lamentamos mucho que tengas que irte, esperamos que sea un nos vemos y regreses 😢')){
+            firebase.auth().currentUser.delete();
             this.setState({ listo: "true" });
+        }
+           
             
 
 

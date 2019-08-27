@@ -197,6 +197,8 @@ export default class Crear extends Component {
     Eliminarcliente(id) {
         var database = Fire.database();
         database.ref('cliente/' + id).remove();
+        
+      
     }
 
     Crearpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, pagoTarjeta,paradas) {
@@ -391,7 +393,7 @@ export default class Crear extends Component {
             location = this.props.datos[8];
             pagoTarjeta = this.props.datos[9];
             var paradas = this.props.datos[10];
-            
+            var email12 = this.props.datos[11];
 
             id = 0;
             n = database.ref('/referencias/').once('value').then(function (snapshot) {
@@ -411,7 +413,8 @@ export default class Crear extends Component {
                     idchofer: 0,
                     mensaje: 'ninguno',
                     pagoTarjeta: pagoTarjeta,
-                    paradas: paradas
+                    paradas: paradas,
+                    correo: email12
 
                 });
                 database.ref('referencias/').update({
@@ -498,11 +501,24 @@ export default class Crear extends Component {
                             });
                         });
                         
-                        Fire.auth().createUserWithEmailAndPassword(email, my_contraseña).then(
+                         /* Fire.auth().createUserWithEmailAndPassword(email, my_contraseña).then(
                             Fire.auth().signInWithEmailAndPassword(email, my_contraseña).then(
                             
                             ).catch(),
-                        ).catch();
+                        ).catch();*/
+                        Fire.auth().createUserWithEmailAndPassword(email, my_contraseña).then(function(user) {
+                            firebase.auth().signInWithEmailAndPassword(email, my_contraseña).catch(function(error) {
+                               console.log(error.code);
+                               console.log(error.message);
+                            });
+                          }).catch(function(error) {
+                            // Handle Errors here.
+                            var errorCode = error.code;
+                            var errorMessage = error.message;
+                            console.log('User did not sign up correctly');
+                            console.log(errorCode);
+                            console.console.log(errorMessage);
+                          });
                         Fire.auth().onAuthStateChanged(function(user) {
                             if (user) {
                                 user.sendEmailVerification().then(
@@ -817,7 +833,7 @@ export default class Crear extends Component {
 
             this.Eliminarcliente(id);
             
-            setTimeout(redirigir, 1000);
+            setTimeout(redirigirsesion, 1000);
         }
 
         if (this.props.validado && this.props.funcion === "eliminar_gerente") {

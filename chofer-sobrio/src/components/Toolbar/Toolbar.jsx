@@ -102,7 +102,7 @@ class Toolbar extends React.Component {
         const { isGerente, isChofer, isCliente } = this.state;
 
         let mensaje;
-        if (localStorage.getItem('user')) {
+        if (localStorage.getItem('user') || ( isChofer===true || isCliente===true || isGerente===true) ){
             mensaje = 'Cerrar sesion';
         } else {
             mensaje = 'Iniciar sesion';
