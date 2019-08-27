@@ -295,6 +295,22 @@ export default class Crear extends Component {
         return tieneP;
     }
 
+    async tienePedidoCli(placa, database) {
+        // ver si tiene reservaciones
+        const tienePCli = await database.ref('/pedido').once('value').then((snap) => {
+            const pedidosCli = snap.val();
+            let tieneCli = false;
+            Object.keys(pedidosCli).forEach((key) => {
+                const pedidoCli = pedidosCli[key];
+                if (pedidoCli.estado === 'Ocupado' && pedidoCli.placa === placa) {
+                    tieneCli = true;
+                }
+            });
+            return tieneCli;
+        });
+        return tienePCli;
+    }
+
     render() {
         var databse = null;
         var n = null;
@@ -740,13 +756,27 @@ export default class Crear extends Component {
 
         if (this.props.validado && this.props.funcion === "eliminar_cliente") {
             var estadocuenta = "inactivo"
-            id = this.props.datos[0]
+            const [id, placa] = this.props.datos;
+            //id = this.props.datos[0]
             database = Fire.database();
 
+            this.tienePedidoCli(placa, database).then((tienePCli) => {
+                if (!tienePCli) {
+                    database.ref('cliente/' + id).update({
+                        estado: estadocuenta
+                    });
+                    setTimeout(redirigir, 1000);
+                } else {
+                    alert("No puede desactivar la cuenta porque tiene pedido pendiente");
+                }
+            });
+
+            /*
             database.ref('cliente/' + id).update({
                 estado: estadocuenta
             });
             setTimeout(redirigir, 1000);
+            */
         }
         if (this.props.validado && this.props.funcion === "eliminar_cliente_t") {
             const user = JSON.parse(localStorage.getItem('user'));

@@ -13,6 +13,7 @@ export default class Eliminar_Cuenta extends Component {
         this.state = {
             id:"",
             password: '',
+            placa: '',
             listo:0
         };
         this.handleChange = this.handleChange.bind(this);
@@ -30,7 +31,9 @@ export default class Eliminar_Cuenta extends Component {
             rootRef.on("child_added", snap => {
                 var id = 0
               
+                const placa = snap.val().placa;
                 var correo = snap.child("correo").val();
+                
                
 
                 if (correo === user.email) {
@@ -44,6 +47,7 @@ export default class Eliminar_Cuenta extends Component {
                    
                     this.setState({
                         id: id,
+                        placa,
                       
                     });
                     event.preventDefault();
@@ -73,7 +77,7 @@ export default class Eliminar_Cuenta extends Component {
                             </Form.Row>
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Desactivar Mi Cuenta
-                                <Crear validado={ this.state.listo } datos={ [this.state.id] } funcion={ "eliminar_cliente" } />
+                                <Crear validado={this.state.listo} datos={[this.state.id, this.state.placa] } funcion={ "eliminar_cliente" } />
                                 </Button>
 
                             </div>
