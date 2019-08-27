@@ -18,7 +18,6 @@ class Toolbar extends React.Component {
         };
     }
 
-
     componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
 
@@ -30,26 +29,16 @@ class Toolbar extends React.Component {
             this.dbCallbackGerentes = this.dbRefGerentes.on('value', (snap) => {
                 const gerentes = snap.val();
                 let isGerente = false;
-                var flag = 0
 
                 Object.keys(gerentes).forEach(key => {
                     if (isGerente = isGerente || (gerentes[key].correo === user.email && gerentes[key].estado === "activo")) {
                         this.setState({ isGerente });
                     } else if ((gerentes[key].correo === user.email && gerentes[key].estado === "inactivo")) {
 
-
                     }
-
-                    ;
                 });
-
-
-
-
-
-
-
             });
+
             // choferes
             this.dbRefChoferes = firebase.database().ref('/chofer');
             this.dbCallbackChoferes = this.dbRefChoferes.on('value', (snap) => {
@@ -60,12 +49,8 @@ class Toolbar extends React.Component {
                         this.setState({ isChofer });
                     } else if ((choferes[key].correo === user.email && choferes[key].estado === "inactivo")) {
 
-                    };
-
+                    }
                 });
-
-
-
             });
 
             // clientes
@@ -78,14 +63,10 @@ class Toolbar extends React.Component {
                         this.setState({ isCliente });
                     } else if ((clientes[key].correo === user.email && clientes[key].estado === "inactivo")) {
 
-                    };
+                    }
                 });
-
-
-
             });
         }
-
     }
 
     componentWillUnmount() {
