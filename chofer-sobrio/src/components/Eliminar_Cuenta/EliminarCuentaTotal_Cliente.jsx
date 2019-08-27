@@ -13,6 +13,7 @@ export default class EliminarCuentaTotal_Cliente extends Component {
         this.state = {
             id:"",
             password: '',
+            placa: '',
             listo:0
         };
         this.handleChange = this.handleChange.bind(this);
@@ -30,6 +31,7 @@ export default class EliminarCuentaTotal_Cliente extends Component {
             rootRef.on("child_added", snap => {
                 var id = 0
               
+                const placa = snap.val().placa;
                 var correo = snap.child("correo").val();
                
 
@@ -44,6 +46,7 @@ export default class EliminarCuentaTotal_Cliente extends Component {
                    
                     this.setState({
                         id: id,
+                        placa,
                       
                     });
                     event.preventDefault();
@@ -52,7 +55,7 @@ export default class EliminarCuentaTotal_Cliente extends Component {
 
             });
             if (window.confirm(' Se eliminara su cuenta, lamentamos mucho que tengas que irte, esperamos que sea un nos vemos y regreses 😢')){
-                firebase.auth().currentUser.delete()
+                //firebase.auth().currentUser.delete()
                 this.setState({listo:"true"});
             } 
             
@@ -76,7 +79,7 @@ export default class EliminarCuentaTotal_Cliente extends Component {
                             </Form.Row>
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Eliminar Mi Cuenta
-                                <Crear validado={ this.state.listo } datos={ [this.state.id] } funcion={ "eliminar_cliente_t" } />
+                                <Crear validado={this.state.listo} datos={[this.state.id, this.state.placa] } funcion={ "eliminar_cliente_t" } />
                                 </Button>
 
                             </div>

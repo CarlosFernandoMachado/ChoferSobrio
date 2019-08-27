@@ -304,7 +304,7 @@ export default class Crear extends Component {
             let tieneCli = false;
             Object.keys(pedidosCli).forEach((key) => {
                 const pedidoCli = pedidosCli[key];
-                if (pedidoCli.estado === 'Ocupado' && pedidoCli.placa === placa) {
+                if ((pedidoCli.estado === 'Ocupado' || pedidoCli.estado === 'Disponible') && pedidoCli.placa === placa) {
                     tieneCli = true;
                 }
             });
@@ -783,7 +783,7 @@ export default class Crear extends Component {
                     });
                     setTimeout(redirigir, 1000);
                 } else {
-                    alert("No puede desactivar la cuenta porque tiene pedido pendiente");
+                    alert("No puede desactivar la cuenta porque tiene pedido pendiente, si desea desactivar la cuenta debera cancelar la reservacion o contactar al chofer en perfil de chofer");
                 }
             });
 
@@ -795,16 +795,47 @@ export default class Crear extends Component {
             */
         }
         if (this.props.validado && this.props.funcion === "eliminar_cliente_t") {
+            
+            
+            var estadocuenta = "inactivo"
+            const [id, placa] = this.props.datos;
             const user = JSON.parse(localStorage.getItem('user'));
+            //id = this.props.datos[0]
+            database = Fire.database();
+
+            this.tienePedidoCli(placa, database).then((tienePCli) => {
+                if (!tienePCli) {
+                    var cont = 0;
+                    if (user) {
+
+                        var rootRef = firebase.database().ref().child("carro");
+                        rootRef.on("child_added", snap => {
+                            firebase.database().ref().child('carro').orderByChild('correo').equalTo(user.email).on("value", function (snapshot) {
+                                console.log(snapshot.val());
+                                snapshot.forEach(function (data) {
+                                    var id2 = data.key;
+                                    var database = Fire.database();
+                                    database.ref('carro/' + id2).remove();
+                                });
+                            });
+                        });
+                    }
+                    id = this.props.datos[0]
+                    database = Fire.database();
+                    this.Eliminarcliente(id);
+                    setTimeout(redirigirsesion, 1000);
+                } else {
+                    alert("No puede eliminar la cuenta porque tiene pedido pendiente, si desea eliminar la cuenta debera cancelar la reservacion o contactar al chofer en perfil de chofer");
+                }
+            });
+            
+            /*const user = JSON.parse(localStorage.getItem('user'));
 
             var cont = 0;
             if (user) {
 
                 var rootRef = firebase.database().ref().child("carro");
                 rootRef.on("child_added", snap => {
-
-
-
                     firebase.database().ref().child('carro').orderByChild('correo').equalTo(user.email).on("value", function (snapshot) {
                         console.log(snapshot.val());
                         snapshot.forEach(function (data) {
@@ -813,27 +844,12 @@ export default class Crear extends Component {
                             database.ref('carro/' + id2).remove();
                         });
                     });
-
-
-
-
                 });
-
-
-
             }
-
-
-
             id = this.props.datos[0]
             database = Fire.database();
-           
-
-           
-
             this.Eliminarcliente(id);
-            
-            setTimeout(redirigirsesion, 1000);
+            setTimeout(redirigirsesion, 1000);*/
         }
 
         if (this.props.validado && this.props.funcion === "eliminar_gerente") {
