@@ -49,7 +49,10 @@ export default class PedirChofer extends Component {
 
     async componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
-        this.getLocation();
+        var lat = this.props.location.state.latitude;
+        var lon = this.props.location.state.longitude;
+        var ubicacion = lat + "," + lon;
+        this.setState({ ubicacion_actual: ubicacion });
         if (user) {
             // clientes
             const info = await firebase.database().ref('/cliente').once('value').then((snap) => {
@@ -74,21 +77,6 @@ export default class PedirChofer extends Component {
             });
         }
 
-    }
-
-    getLocation = () => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(this.showPosition);
-        } else {
-            alert("Geolocation is not supported by this browser.");
-        }
-    }
-
-    showPosition = (position) => {
-        var lat = position.coords.latitude;
-        var lon = position.coords.longitude;
-        var ubicacion = lat + "," + lon;
-        this.setState({ ubicacion_actual: ubicacion });
     }
 
     handleChange(event) {
