@@ -64,8 +64,11 @@ class App extends Component {
       user: null,
       sideDrawerOpen: false,
       isGerente: false,
+      activoGerente: false,
       isChofer: false,
+      activoChofer: false,
       isCliente: false,
+      activoCliente: false,
 
       flagGerente: false,
       flagChofer: false,
@@ -89,14 +92,13 @@ class App extends Component {
       this.dbCallbackGerentes = this.dbRefGerentes.on('value', (snap) => {
         const gerentes = snap.val();
         let isGerente = false;
+        let isActivo = false;
         Object.keys(gerentes).forEach(key => {
-          isGerente = isGerente || (gerentes[key].correo === user.email && gerentes[key].estado === "activo");
+          isGerente = isGerente || gerentes[key].correo === user.email;
+          isActivo = isActivo ||
+            (gerentes[key].correo === user.email && gerentes[key].estado === "activo");
         });
-        
-        this.setState({ isGerente, flagGerente: true });
-       
-
-        
+        this.setState({ isGerente, flagGerente: true, activoGerente: isActivo });
       });
 
       // choferes
@@ -104,10 +106,13 @@ class App extends Component {
       this.dbCallbackChoferes = this.dbRefChoferes.on('value', (snap) => {
         const choferes = snap.val();
         let isChofer = false;
+        let isActivo = false;
         Object.keys(choferes).forEach(key => {
-          isChofer = isChofer ||(choferes[key].correo === user.email && choferes[key].estado === "activo");
+          isChofer = isChofer || choferes[key].correo === user.email;
+          isActivo = isActivo ||
+            (choferes[key].correo === user.email && choferes[key].estado === "activo");
         });
-        this.setState({ isChofer, flagChofer: true });
+        this.setState({ isChofer, flagChofer: true, activoChofer: isActivo });
       });
 
       // clientes
@@ -115,10 +120,13 @@ class App extends Component {
       this.dbCallbackClientes = this.dbRefClientes.on('value', (snap) => {
         const clientes = snap.val();
         let isCliente = false;
+        let isActivo = false;
         Object.keys(clientes).forEach(key => {
-          isCliente = isCliente || (clientes[key].correo === user.email && clientes[key].estado === "activo");;
+          isCliente = isCliente || clientes[key].correo === user.email;
+          isActivo = isActivo ||
+            (clientes[key].correo === user.email && clientes[key].estado === "activo");
         });
-        this.setState({ isCliente, flagCliente: true });
+        this.setState({ isCliente, flagCliente: true, activoCliente: isActivo });
       });
     } else {
       this.setState({
@@ -164,12 +172,21 @@ class App extends Component {
   }
 
   render() {
-    const { isGerente, isChofer, isCliente, flagChofer, flagGerente, flagCliente } = this.state;
+    const { 
+      isGerente,
+      activoGerente,
+      isChofer,
+      activoChofer,
+      isCliente,
+      activoCliente,
+      flagChofer, flagGerente, flagCliente
+    } = this.state;
     
     let permisos = {
       gerente: isGerente,
       chofer: isChofer,
       cliente: isCliente,
+      activo: activoGerente || activoChofer || activoCliente,
       listo: flagChofer && flagGerente && flagCliente
     };
 

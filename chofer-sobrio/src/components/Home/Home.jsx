@@ -21,6 +21,7 @@ export default class Home extends Component {
             gerente: props.permisos.gerente,
             chofer: props.permisos.chofer,
             cliente: props.permisos.cliente,
+            activo: props.permisos.activo,
             listo: props.permisos.listo
         };
 
@@ -42,7 +43,7 @@ export default class Home extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const { gerente, chofer, cliente, listo } = nextProps.permisos;
+        const { gerente, chofer, cliente, activo, listo } = nextProps.permisos;
 
         let mostrar = (gerente || chofer || cliente) && listo;
 
@@ -50,6 +51,7 @@ export default class Home extends Component {
             gerente,
             chofer,
             cliente,
+            activo,
             listo,
             mostrar,
         });
@@ -68,13 +70,17 @@ export default class Home extends Component {
         var tegucigalpa = { lat: lat, lng: lon };
         var map = new window.google.maps.Map(
             document.getElementById('map'), { zoom: 18, center: tegucigalpa });
-        var marker = new window.google.maps.Marker({ 
-            position: tegucigalpa, 
+        var marker = new window.google.maps.Marker({
+            position: tegucigalpa,
             map: map,
             draggable: true,
             animation: window.google.maps.Animation.DROP
         });
-
+        marker.addListener('dragend',
+            function (evt) {
+                this.setState({ lat: marker.position.lat().toFixed(4) });
+                this.setState({ lon: marker.position.lng().toFixed(4) });
+            }.bind(this));
     }
 
 
@@ -98,7 +104,9 @@ export default class Home extends Component {
     }
 
     render() {
-        const { gerente, chofer, cliente, listo, mostrar, logged } = this.state;
+        const { gerente, chofer, cliente, activo, listo, mostrar, logged } = this.state;
+
+        console.log({ activo });
 
         if (!listo) {
             return (
@@ -145,11 +153,17 @@ export default class Home extends Component {
                         </Jumbotron>
                     </div>
                     <div className="map-div" id="map"></div>
-                    
-                    {tipoUsuario !== 'Cliente' && logged ? null : (
+
+                    {tipoUsuario !== 'Cliente' && logged || (logged && !activo) ? null : (
                         <div className="navbar-home">
                             <Button className="pedir" onClick={this.renderMap}>Localizar</Button>
-                            <Link to="/pedirchofer">
+                            <Link to={{
+                                pathname: '/pedirchofer',
+                                state: {
+                                    latitude: this.state.lat,
+                                    longitude: this.state.lon 
+                                }
+                            }}>
                                 <div id="button">
                                     <Button className="pedir" >Pedir Chofer</Button>
                                 </div>
