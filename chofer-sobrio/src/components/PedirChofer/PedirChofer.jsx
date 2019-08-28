@@ -9,7 +9,7 @@ import es from 'date-fns/locale/es';
 import './PedirChofer.css';
 import setMinutes from "date-fns/setMinutes";
 import setHours from "date-fns/setHours";
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 
 registerLocale('es', es);
@@ -19,6 +19,7 @@ export default class PedirChofer extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            tienePedido: false,
             nombre: '',
             telefono: '',
             marca: 'Seleccione la marca de su vehículo.',
@@ -67,7 +68,21 @@ export default class PedirChofer extends Component {
                 return infoCliente;
             });
 
+            // pedidos
+            const tienePedido = await firebase.database().ref('/pedido').once('value').then(snap => {
+                const pedidos = snap.val();
+                let tienePedido = false;
+                Object.keys(pedidos).forEach(key => {
+                    const pedido = pedidos[key];
+                    if (pedido.correo === user.email && (pedido.estado === 'Disponible' || pedido.estado === 'Ocupado')) {
+                        tienePedido = true;
+                    }
+                });
+                return tienePedido;
+            });
+            
             this.setState({
+                tienePedido,
                 nombre: info.nombre,
                 telefono: info.telefono,
                 marca: info.marca,
@@ -179,7 +194,11 @@ export default class PedirChofer extends Component {
     }
 
     render() {
-        const { validated } = this.state;
+        const { validated, tienePedido } = this.state;
+
+        if (tienePedido) {
+            return <Redirect to="/MisReservaciones"/>;
+        }
         return (
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
