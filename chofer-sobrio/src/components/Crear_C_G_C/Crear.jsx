@@ -21,9 +21,30 @@ function redirigircreargerente() {
 }
 
 function redirigirPagoTarjeta(producto) {
-    console.log(producto);
-    const urlPago = 'https://checkout.baccredomatic.com/ODQyMDQwMWQwNGU3M2Y2OTU5My42ODAxNTY1NDU1OTY4';
-    window.location = urlPago;
+    var urlPago;
+    switch(producto) {
+        case '0':
+            urlPago = 'https://checkout.baccredomatic.com/ODQyMDQwMWQwNGU3M2Y2OTU5My42ODAxNTY1NDU1OTY4';
+            break;
+        case '1':
+            urlPago = 'https://checkout.baccredomatic.com/M2E3MzcyYmE1ZDE0ZjU2NDQzNC4wNTgxNTY2MTgzMzAx';
+            break;
+        case '2':
+            urlPago = 'https://checkout.baccredomatic.com/NTg3ZDBmNzUzNDVhNWU1M2EzODI4LjAxNTY2MTgzMTU2';
+            break;
+        case '3':
+            urlPago = 'https://checkout.baccredomatic.com/MTczLjhhMTFmNDQwOTU0ZDM1MzY3MjAxNTY2MTgzOTYx';
+            break;
+        case 'Servicio por noche':
+            urlPago = 'https://checkout.baccredomatic.com/MTU4NTkzN2EuYTg2ZDk4MzU0MTkwMDExNTY2MTg0NTc5';
+            break;
+        default:
+            urlPago = 'https://checkout.baccredomatic.com/ODQyMDQwMWQwNGU3M2Y2OTU5My42ODAxNTY1NDU1OTY4';
+        // code block
+      }
+    window.open(urlPago, '_blank');
+    redirigir();
+
 }
 
 export default class Crear extends Component {
@@ -201,7 +222,7 @@ export default class Crear extends Component {
       
     }
 
-    Crearpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, pagoTarjeta,paradas) {
+    Crearpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, pago,paradas) {
         var database = Fire.database();
         database.ref('pedido/' + id).set({
             color: color_vehiculo,
@@ -216,8 +237,9 @@ export default class Crear extends Component {
             estado: "Disponible",
             idchofer: 0,
             mensaje: 'ninguno',
-            pagoTarjeta: pagoTarjeta,
-            paradas:paradas
+            pago: pago,
+            paradas:paradas,
+            pago: pago,
         });
     }
 
@@ -241,7 +263,7 @@ export default class Crear extends Component {
         return n;
     }
 
-    modificarpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, pagoTarjeta) {
+    modificarpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, pago) {
         var database = Fire.database();
         database.ref('pedido/' + id).set({
             color: color_vehiculo,
@@ -253,7 +275,7 @@ export default class Crear extends Component {
             placa: placa,
             telefono: telefono,
             ubicacion: ubicacion,
-            pagoTarjeta: pagoTarjeta,
+            pago: pago,
         });
     }
 
@@ -328,7 +350,8 @@ export default class Crear extends Component {
         var brand;
         var plate;
         var location;
-        var pagoTarjeta;
+        var pago;
+        var paradasAdicionales;
         var question;
         var answer;
 
@@ -381,6 +404,7 @@ export default class Crear extends Component {
         }
 
         if (this.props.validado && this.props.funcion === "Crearpedido") {
+            console.log(this.props.datos);
             var database = Fire.database();
             colour = this.props.datos[0];
             destination = this.props.datos[1];
@@ -391,8 +415,8 @@ export default class Crear extends Component {
             plate = this.props.datos[6];
             telephone = this.props.datos[7];
             location = this.props.datos[8];
-            pagoTarjeta = this.props.datos[9];
-            var paradas = this.props.datos[10];
+            pago = this.props.datos[9];
+            paradasAdicionales = this.props.datos[10];
             var email12 = this.props.datos[11];
 
             id = 0;
@@ -412,18 +436,17 @@ export default class Crear extends Component {
                     estado: 'Disponible',
                     idchofer: 0,
                     mensaje: 'ninguno',
-                    pagoTarjeta: pagoTarjeta,
-                    paradas: paradas,
-                    correo: email12
-
+                    pago: pago,
+                    paradas: paradasAdicionales,
+                    correo: email12,
                 });
                 database.ref('referencias/').update({
                     id_pedido: id
                 });
             })
-            if(pagoTarjeta)
+            if(pago === "tarjeta")
             {
-                redirigirPagoTarjeta('standard');
+                redirigirPagoTarjeta(paradasAdicionales);
             }
             else
             {

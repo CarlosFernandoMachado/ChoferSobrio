@@ -10,7 +10,9 @@ import './PedirChofer.css';
 import setMinutes from "date-fns/setMinutes";
 import setHours from "date-fns/setHours";
 import { Link, Redirect } from 'react-router-dom';
-
+import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
+import DropdownItem from 'react-bootstrap/DropdownItem';
+import DropdownMenu from 'react-bootstrap/DropdownMenu';
 
 registerLocale('es', es);
 setDefaultLocale('es');
@@ -35,9 +37,9 @@ export default class PedirChofer extends Component {
             listo: 0,
             infoCliente: {},
             cambiarHora: new Date(),
-            pagoTarjeta: false,
-            paradas: "",
-            correo:""
+            correo:"",
+            pago: "tarjeta",
+            paradasAdicionales:'0',
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -45,7 +47,8 @@ export default class PedirChofer extends Component {
         this.dateChange = this.dateChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSelectMarca = this.handleSelectMarca.bind(this);
-        this.handlePagoTarjeta = this.handlePagoTarjeta.bind(this);
+        this.handlePago = this.handlePago.bind(this);
+        this.handleSelectParadas = this.handleSelectParadas.bind(this);
     }
 
     async componentDidMount() {
@@ -119,12 +122,16 @@ export default class PedirChofer extends Component {
     }
 
     handleSelectMarca(evtKey) {
+
         this.setState({ marca: evtKey });
     }
 
-    handlePagoTarjeta() {
-        var checked = document.getElementById('pagoTarjeta').checked;
-        this.setState({ pagoTarjeta: checked });
+    handleSelectParadas(evtKey) {
+        this.setState({ paradasAdicionales: evtKey});
+    }
+
+    handlePago(evtKey) {
+        this.setState({ pago: evtKey});
     }
 
     handleSubmit(event) {
@@ -425,30 +432,52 @@ export default class PedirChofer extends Component {
                                         maxTime={setHours(setMinutes(new Date(), 59), 23)}
                                     />
                                 </Form.Group>
-                                <Form.Group controlId="exampleForm.ControlTextarea1">
-                                    <Form.Label>Paradas(Opcional)</Form.Label>
-                                    <Form.Control as="textarea" rows="3" 
-                                     
-                                    
-                                     name="paradas"
-                                     value={this.state.value}
-                                     onChange={this.handleChange}
-                                     id="paradas"
-                                     />
+                                <Form.Group as={Col} md="4">
+                                <Form.Label>Pago</Form.Label>
+                                    <Dropdown>
+                                        <Dropdown.Toggle variant="light" id="dropdown-basic">
+                                            {this.state.pago}
+                                        </Dropdown.Toggle>
+                                        <DropdownMenu>
+                                        <Dropdown.Item eventKey="tarjeta" onSelect={this.handlePago}>
+                                            Tarjeta de Crédito / Débito
+                                        </Dropdown.Item>
+                                        <Dropdown.Item eventKey="efectivo" onSelect={this.handlePago}>
+                                            Efectivo   
+                                        </Dropdown.Item>
+                                        </DropdownMenu>
+                                    </Dropdown>                                   
                                 </Form.Group>
                                 <Form.Group as={Col} md="4">
-                                    <Form.Label>Pago</Form.Label>
-                                    <Form.Check
-                                        type="checkbox"
-                                        label="Tarjeta de Crédito/Débito"
-                                        onChange={this.handlePagoTarjeta}
-                                        id="pagoTarjeta"
-                                    />
+                                <Form.Label>Paradas Adicionales</Form.Label>
+                                    <Dropdown>
+                                    
+                                        <Dropdown.Toggle  variant="light" id="dropdown-basic">
+                                            {this.state.paradasAdicionales}
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu>
+                                        <Dropdown.Item eventKey='0' onSelect={this.handleSelectParadas}>
+                                                0
+                                            </Dropdown.Item>
+                                            <Dropdown.Item eventKey='1' onSelect={this.handleSelectParadas}>
+                                                1
+                                            </Dropdown.Item>
+                                            <Dropdown.Item eventKey='2' onSelect={this.handleSelectParadas}>
+                                                2
+                                            </Dropdown.Item>
+                                            <Dropdown.Item  eventKey='3' onSelect={this.handleSelectParadas}>
+                                                3
+                                            </Dropdown.Item>
+                                            <Dropdown.Item eventKey="Servicio por noche" onSelect={this.handleSelectParadas}>
+                                                Servicio por noche
+                                            </Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
                                 </Form.Group>
                             </Form.Row>
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Pedir chofer
-                                    <Crear validado={this.state.listo} datos={[this.state.color, this.state.destino, this.state.date, this.state.hora, this.state.marca, this.state.nombre, this.state.placa, this.state.telefono, this.state.ubicacion_actual, this.state.pagoTarjeta, this.state.paradas,this.state.correo]} funcion={"Crearpedido"} />
+                                    <Crear validado={this.state.listo} datos={[this.state.color, this.state.destino, this.state.date, this.state.hora, this.state.marca, this.state.nombre, this.state.placa, this.state.telefono, this.state.ubicacion_actual, this.state.pago, this.state.paradasAdicionales ,this.state.correo]} funcion={"Crearpedido"} />
                                 </Button>
                             </div>
                             <Link to="/SeleccionarCarro">
