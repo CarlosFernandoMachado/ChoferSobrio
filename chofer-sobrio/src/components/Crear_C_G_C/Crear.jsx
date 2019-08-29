@@ -529,9 +529,7 @@ export default class Crear extends Component {
                         Fire.auth().onAuthStateChanged(function(user) {
                             if (user) {
                                 user.sendEmailVerification().then(
-                                    Fire.auth().signOut().then(
-                                        swal("Exito!", "Usuario registrado exitosamente! Se envio correo de verificacion", "success")
-                                    ).catch()
+                                    swal("Exito!", "Usuario registrado exitosamente! Se envio correo de verificacion", "success")
                                 ).catch();
                             } else {
                                 // No user is signed in.
