@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Jumbotron, Container, Button, Form, Alert } from 'react-bootstrap';
 import './feedback.css'
 import Crear from '../Crear_C_G_C/Crear';
+import swal from 'sweetalert';
 
 export default class feedback extends Component {
     constructor(props) {
@@ -19,7 +20,8 @@ export default class feedback extends Component {
 
     EnviarCorreo = () =>{
         this.setState({ listo: 'true' });
-        alert("Gracias por su retroalimentacion");
+       
+        swal("Exito!", "Gracias por su retroalimentacion", "success")
     }
 
     render() {

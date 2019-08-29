@@ -3,6 +3,7 @@ import firebase from '../config/config';
 import "react-datepicker/dist/react-datepicker.css";
 import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Container, Col, Button, Form, Card, Alert} from 'react-bootstrap';
+import swal from 'sweetalert';
 
 export default class PedirChofer extends Component {
     constructor(props) {
@@ -33,7 +34,8 @@ export default class PedirChofer extends Component {
             this.setState({ validated: 'true' });
             event.preventDefault();
             this.setState({ listo: 'true' });
-            alert("La pregunta ha sido creada, por favor accede a preguntas frecuentes para verificar el cambio.");
+            swal("Exito!", "La pregunta ha sido creada, por favor accede a preguntas frecuentes para verificar el cambio.", "success")
+           
         }
         event.preventDefault();
         this.setState({ validated: 'false' });

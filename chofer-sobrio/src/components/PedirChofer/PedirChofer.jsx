@@ -7,6 +7,7 @@ import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Container, Col, Button, Form, Card, Alert, Dropdown } from 'react-bootstrap';
 import es from 'date-fns/locale/es';
 import './PedirChofer.css';
+import swal from 'sweetalert';
 import setMinutes from "date-fns/setMinutes";
 import setHours from "date-fns/setHours";
 import { Link, Redirect } from 'react-router-dom';
@@ -183,7 +184,7 @@ export default class PedirChofer extends Component {
             } else if (this.state.color === 'Seleccione el color de su vehículo.') {
                 this.setState({ validated: 'false' });
             } else {
-                alert("Pedido realizado");
+                swal("Exito!", "Pedido Realizado", "success");
                 this.setState({ validated: 'true' });
                 event.preventDefault();
                 this.setState({ listo: 'true' });

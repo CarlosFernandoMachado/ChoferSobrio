@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Container, Col, Button, Form, Card, Alert, Dropdown } from 'react-bootstrap';
 import es from 'date-fns/locale/es';
+import swal from 'sweetalert';
 import './ModificarCliente.css';
 //import Popup from '../cambiar_contraseña/cambiar_contraseña';  
 
@@ -184,7 +185,7 @@ export default class ModificarCliente extends Component {
             this.setState({ validated: 'true' });
             event.preventDefault();
             this.setState({ listo: 'true' });
-            alert("Su información ha sido modificada.");
+            swal("Exito!", "Modificado exitosamente!", "success")
         }
         event.preventDefault();
         this.setState({ validated: 'false' });

@@ -6,6 +6,7 @@ import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Container, Col, Button, Form, Card, Alert, Dropdown } from 'react-bootstrap';
 import es from 'date-fns/locale/es';
 import './PedirChofer.css';
+import swal from 'sweetalert';
 
 export default class PedirChofer extends Component {
     constructor(props) {
@@ -79,7 +80,8 @@ export default class PedirChofer extends Component {
             } else if (this.state.color == 'Seleccione el color de su vehículo.') {
                 this.setState({ validated: 'false' });
             } else{
-                alert("Carro registrado");
+                swal("Exito!", "Carro registrado", "success")
+                
                 this.setState({ validated: 'true' });
                 event.preventDefault();
                 this.setState({ listo: 'true' });

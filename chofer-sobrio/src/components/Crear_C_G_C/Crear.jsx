@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './Crear.css'
 import Fire from '../config/config';
 import firebase from '../config/config';
+import swal from 'sweetalert';
 //import firebaseAuth from '../config/config';
 
 function redirigir() {
@@ -38,8 +39,11 @@ export default class Crear extends Component {
         });
         Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
             Fire.auth().sendPasswordResetEmail(email).then(
-                alert("Se te ha enviado un correo de confirmación."))
-        ).catch(alert("Usuario registrado, no se pudo enviar mensaje de confirmación"));
+                swal("Exito!", "Se te ha enviado un correo de confirmación.", "success")
+                
+        ).catch(
+            swal("Error!", "Usuario registrado, no se pudo enviar mensaje de confirmación", "warning")
+        ));
     }
 
     Leerchofer(userId) {
@@ -127,7 +131,7 @@ export default class Crear extends Component {
         });
         Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
             Fire.auth().sendPasswordResetEmail(email).the(
-                alert("Se te ha enviado un correo de confirmación."))
+                swal("Exito!", "Se te ha enviado un correo de confirmación.", "success"))
         );
     }
 
@@ -191,6 +195,7 @@ export default class Crear extends Component {
             telefono3: telefono3
 
         });
+       
     }
 
 
@@ -272,7 +277,8 @@ export default class Crear extends Component {
             pregunta: question,
             respuesta: answer,
          });
-         alert("La pregunta ha sido modificada, por favor accede a preguntas frecuentes para verificar el cambio.");
+         swal("Exito!", "La pregunta ha sido modificada, por favor accede a preguntas frecuentes para verificar el cambio.", "success")
+        
 
     }
 
@@ -374,6 +380,7 @@ export default class Crear extends Component {
                                 id_gerente: id
                             });
                         })
+                        swal("Exito!", "Gerente registrado exitosamente!", "success")
                         setTimeout(redirigir, 1000);
                     }
                 });
@@ -523,7 +530,7 @@ export default class Crear extends Component {
                             if (user) {
                                 user.sendEmailVerification().then(
                                     Fire.auth().signOut().then(
-                                        alert("¡Usuario registrado exitosamente! Se envio correo de verificacion")
+                                        swal("Exito!", "Usuario registrado exitosamente! Se envio correo de verificacion", "success")
                                     ).catch()
                                 ).catch();
                             } else {
@@ -584,6 +591,7 @@ export default class Crear extends Component {
                         Fire.auth().createUserWithEmailAndPassword(email, '123456').then(function (_userRecord) {
                             Fire.auth().sendPasswordResetEmail(email);
                         });
+                        swal("Exito!", "Chofer registrado exitosamente!", "success")
                         setTimeout(redirigir, 1000);
                     }
                 });
@@ -684,7 +692,9 @@ export default class Crear extends Component {
             plate = this.props.datos[2];
             colour = this.props.datos[3];
             this.modificarCarro(id,colour,brand,plate)
-            alert("Modificado correctamente");
+            
+            
+            swal("Exito!", "Modificado exitosamente", "success")
             setTimeout(redirigir, 1000);
         }
 
@@ -694,6 +704,7 @@ export default class Crear extends Component {
             question = this.props.datos[1];
             answer = this.props.datos[2];
             this.modificarPregunta(id,question,answer)
+            swal("Exito!", "Modificado exitosamente", "success")
             setTimeout(redirigir, 1000);
         }
 
@@ -714,6 +725,7 @@ export default class Crear extends Component {
             var telefono2 = this.props.datos[5];
             var telefono3 = this.props.datos[6];
             this.modificargerente(id, identity, name, telephone, email, telefono2, telefono3);
+            swal("Exito!", "Modificado exitosamente", "success")
             setTimeout(redirigir, 1000);
         }
 
@@ -731,6 +743,7 @@ export default class Crear extends Component {
             var telefono2 = this.props.datos[5];
             var telefono3 = this.props.datos[6]
             this.modificarchofer(id, identity, name, telephone, email, telefono2, telefono3);
+            swal("Exito!", "Modificado exitosamente", "success")
             setTimeout(redirigir, 1000);
         }
 
@@ -750,7 +763,8 @@ export default class Crear extends Component {
                     });
                     setTimeout(redirigir, 1000);
                 } else {
-                    alert("No puede desactivar la cuenta porque tiene pedido pendiente");
+                    swal("Error!", "No puede desactivar la cuenta porque tiene pedido pendiente", "error")
+                   
                 }
             });
         }
@@ -765,7 +779,7 @@ export default class Crear extends Component {
                     database.ref('chofer/' + id).remove();
                     setTimeout(redirigir, 1000);
                 } else {
-                    alert("No puede eliminar la cuenta porque tiene pedido pendiente");
+                    swal("Error!", "No puede Eliminar la cuenta porque tiene pedido pendiente", "error")
                 }
             });
         }
@@ -783,7 +797,8 @@ export default class Crear extends Component {
                     });
                     setTimeout(redirigir, 1000);
                 } else {
-                    alert("No puede desactivar la cuenta porque tiene pedido pendiente, si desea desactivar la cuenta debera cancelar la reservacion o contactar al chofer en perfil de chofer");
+                    swal("Error!", "No puede desactivar la cuenta porque tiene pedido pendiente, si desea desactivar la cuenta debera cancelar la reservacion o contactar al chofer en perfil de chofer", "error")
+                  
                 }
             });
 
@@ -825,7 +840,7 @@ export default class Crear extends Component {
                     this.Eliminarcliente(id);
                     setTimeout(redirigirsesion, 1000);
                 } else {
-                    alert("No puede eliminar la cuenta porque tiene pedido pendiente, si desea eliminar la cuenta debera cancelar la reservacion o contactar al chofer en perfil de chofer");
+                    swal("Error!", "No puede eliminar la cuenta porque tiene pedido pendiente, si desea desactivar la cuenta debera cancelar la reservacion o contactar al chofer en perfil de chofer", "error")
                 }
             });
             
