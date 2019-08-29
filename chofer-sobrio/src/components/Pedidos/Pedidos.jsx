@@ -123,6 +123,7 @@ export default class Precios extends Component {
         });
 
         if (!tienePedido) {
+            /*
             const pedidosRes = pedidos.map(a => Object.assign({}, a));
             pedidosRes[keyPedido].estado = 'Ocupado';
             pedidosRes[keyPedido].idchofer = this.state.infoChofer.identidad;
@@ -130,6 +131,13 @@ export default class Precios extends Component {
             delete pedidosRes[keyPedido].mapa;
             delete pedidosRes[keyPedido].paradas;
             database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
+            */
+            pedidos[keyPedido].estado = 'Ocupado';
+            pedidos[keyPedido].idchofer = this.state.infoChofer.identidad;
+            delete pedidos[keyPedido].accion;
+            delete pedidos[keyPedido].mapa;
+            delete pedidos[keyPedido].paradas;
+            database.ref(`/pedido/${keyPedido}/`).set(pedidos[keyPedido]);
         }
     }
 
@@ -172,8 +180,9 @@ export default class Precios extends Component {
 
     mostrarUbicacion(keyPedido) {
         const { pedidos } = this.state;
-        const pedidosRes = pedidos.map(a => Object.assign({}, a));
-        var coordenadas = pedidosRes[keyPedido].ubicacion.split(",");
+        //const pedidosRes = pedidos.map(a => Object.assign({}, a));
+        //var coordenadas = pedidosRes[keyPedido].ubicacion.split(",");
+        var coordenadas = pedidos[keyPedido].ubicacion.split(",");
         var latitud = Number(parseFloat(coordenadas[0]).toFixed(4));
         var longitud = Number(parseFloat(coordenadas[1]).toFixed(4));
         this.setState({ lat: latitud });
