@@ -34,10 +34,6 @@ export default class Precios extends Component {
             maxWidth: 100,
         },
         {
-            Header: 'Paradas',
-            accessor: 'parada',
-            maxWidth: 100,
-        }, {
             Header: 'Accion',
             accessor: 'accion',
             maxWidth: 100,
@@ -50,7 +46,7 @@ export default class Precios extends Component {
         },
         {
             Header: 'Ver paradas',
-            accessor: 'paradas',
+            accessor: 'parada',
             maxWidth: 100,
             filterable: false,
         }];
@@ -136,7 +132,7 @@ export default class Precios extends Component {
             pedidos[keyPedido].idchofer = this.state.infoChofer.identidad;
             delete pedidos[keyPedido].accion;
             delete pedidos[keyPedido].mapa;
-            delete pedidos[keyPedido].paradas;
+            delete pedidos[keyPedido].parada;
             database.ref(`/pedido/${keyPedido}/`).set(pedidos[keyPedido]);
         }
     }
@@ -166,7 +162,7 @@ export default class Precios extends Component {
                 if (permisos.chofer) {
                     pedido.accion = <Button variant="info" onClick={() => this.reservar(key)}>Reservar</Button>;
                     pedido.mapa = <Button variant="info" onClick={() => this.mostrarUbicacion(key)}>Localizar</Button>;
-                    pedido.paradas = <Button variant="info" onClick={() => this.mostrarparadas(key,paradas12)}>Ver Paradas</Button>;
+                    pedido.parada = <Button variant="info" onClick={() => this.mostrarparadas(key,paradas12)}>Ver Paradas</Button>;
                     
                     
                 }

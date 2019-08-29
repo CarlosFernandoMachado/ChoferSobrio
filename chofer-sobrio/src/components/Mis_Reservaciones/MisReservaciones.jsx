@@ -4,6 +4,7 @@ import { Jumbotron, Container, Table, Card, Alert, Button } from 'react-bootstra
 import ReactTable from 'react-table';
 import './MisReservaciones.css'
 import firebase from '../config/config';
+import swal from 'sweetalert';
 
 export default class MisReservaciones extends Component {
 
@@ -41,6 +42,12 @@ export default class MisReservaciones extends Component {
         }, {
             Header: 'Accion',
             accessor: 'accion',
+            maxWidth: 100,
+            filterable: false,
+        },
+        {
+            Header: 'Parada',
+            accessor: 'parada',
             maxWidth: 100,
             filterable: false,
         }
@@ -97,6 +104,7 @@ export default class MisReservaciones extends Component {
         const pedidosRes = pedidos.map(a => Object.assign({}, a));
         pedidosRes[keyPedido].estado = 'Disponible';
         delete pedidosRes[keyPedido].accion;
+        delete pedidosRes[keyPedido].parada;
         database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
     }
 
@@ -120,14 +128,17 @@ export default class MisReservaciones extends Component {
         var today2 = dd + '/' + mm + '/' + yyyy;
         tommorrow = day + '/' + month + '/' + year;
         const { pedidos, permisos } = this.state;
+       
 
         const listaPedidos = [];
 
         Object.keys(pedidos).forEach((key, index) => {
             const pedido = pedidos[key];
+            var parada12 = pedido.paradas;
             if ((pedido.fecha === today2 || pedido.fecha === tommorrow) && pedido.estado === "Disponible" && this.state.infoChofer.correo === pedido.correo && index !== 0) {
 
                 pedido.accion = <Button variant="info" onClick={() => this.eliminar(key)}>Cancelar</Button>;
+                pedido.parada = <Button variant="info" onClick={() => this.mostrarparadas(key,parada12)}>ver paradas</Button>;
 
                 listaPedidos.push(pedido);
             }
@@ -135,7 +146,12 @@ export default class MisReservaciones extends Component {
 
         return listaPedidos;
     }
+    mostrarparadas(keyPedido, paradas12) {
 
+        swal("Las paradas son:", paradas12);
+
+
+    }
     render() {
         const pedidos = this.obtenerPedidos();
         return (

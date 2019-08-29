@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Jumbotron, Container, Card, Alert, Button } from 'react-bootstrap';
 import './MiPerfil.css'
+import swal from 'sweetalert';
 import ReactTable from 'react-table';
 import firebase from '../config/config';
 
@@ -17,6 +18,12 @@ export default class Precios extends Component {
         }, {
             Header: 'Accion',
             accessor: 'accion',
+            maxWidth: 100,
+            filterable: false,
+        },
+        {
+            Header: 'Parada',
+            accessor: 'parada',
             maxWidth: 100,
             filterable: false,
         }, {
@@ -108,6 +115,7 @@ export default class Precios extends Component {
 
         pedidosRes[keyPedido].mensaje = mensaje;
         delete pedidosRes[keyPedido].accion;
+        delete pedidosRes[keyPedido].parada;
         database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
         this.setState({ pedidos: pedidosRes });
     }
@@ -123,6 +131,7 @@ export default class Precios extends Component {
             pedidosRes[keyPedido].estado = 'Finalizado';
             delete pedidosRes[keyPedido].mensaje;
             delete pedidosRes[keyPedido].accion;
+            delete pedidosRes[keyPedido].parada;
             database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
             var nombre = this.state.infoChofer.nombre;
             var idchofer = this.state.infoChofer.identidad;
@@ -157,6 +166,7 @@ export default class Precios extends Component {
 
         Object.keys(pedidos).forEach((key, index) => {
             const pedido = pedidos[key];
+            var parada12 = pedido.paradas;
             if (pedido.idchofer === infoChofer.identidad && pedido.estado === "Ocupado" && index !== 0) {
                 let msjBoton = React.isValidElement(pedido.mensaje) ? pedido.mensaje.props.children : '';
 
@@ -172,12 +182,19 @@ export default class Precios extends Component {
 
                 pedido.mensaje = <Button variant="info" onClick={() => this.clickBoton(msjBoton, key)}>{msjBoton}</Button>;
                 pedido.accion = <Button variant="danger" onClick={() => this.finalizar(key)}>Finalizar</Button>;
+                pedido.parada = <Button variant="info" onClick={() => this.mostrarparadas(key,parada12)}>Ver paradas</Button>;
             
                 listapedidos.push(pedido);
             }
         })
 
         return listapedidos;
+    }
+    mostrarparadas(keyPedido, paradas12) {
+
+        swal("Las paradas son:", paradas12);
+
+
     }
 
     render() {
