@@ -128,6 +128,7 @@ export default class Precios extends Component {
             pedidosRes[keyPedido].idchofer = this.state.infoChofer.identidad;
             delete pedidosRes[keyPedido].accion;
             delete pedidosRes[keyPedido].mapa;
+            delete pedidosRes[keyPedido].paradas;
             database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
         }
     }
@@ -157,7 +158,7 @@ export default class Precios extends Component {
                 if (permisos.chofer) {
                     pedido.accion = <Button variant="info" onClick={() => this.reservar(key)}>Reservar</Button>;
                     pedido.mapa = <Button variant="info" onClick={() => this.mostrarUbicacion(key)}>Localizar</Button>;
-                    /*pedido.paradas = <Button variant="info" onClick={() => this.mostrarparadas(key,paradas12)}>Ver Paradas</Button>;*/
+                    pedido.paradas = <Button variant="info" onClick={() => this.mostrarparadas(key,paradas12)}>Ver Paradas</Button>;
                     
                     
                 }
