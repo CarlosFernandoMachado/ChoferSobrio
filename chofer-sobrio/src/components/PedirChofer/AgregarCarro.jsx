@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
-import { registerLocale, setDefaultLocale } from "react-datepicker"
-import firebase from '../config/config';
-import "react-datepicker/dist/react-datepicker.css";
+import Fire from '../config/config';
 import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Container, Col, Button, Form, Card, Alert, Dropdown } from 'react-bootstrap';
-import es from 'date-fns/locale/es';
 import './PedirChofer.css';
 
 export default class PedirChofer extends Component {
@@ -29,10 +26,9 @@ export default class PedirChofer extends Component {
 
     async componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
-        
+
         if (user) {
             this.state.correo = user.email;
-
         }
     }
 
@@ -52,6 +48,12 @@ export default class PedirChofer extends Component {
 
     handleSubmit(event) {
         const form = event.currentTarget;
+        var estado = 0;
+
+        Fire.database().ref('carro').orderByChild('placa').equalTo(this.state.placa).once('value').then(function (snapshot) {
+            estado = snapshot.exists()
+        });
+        alert("Verificando la información del carro..")
 
         if (form.checkValidity() === false) {
             event.preventDefault();
@@ -61,6 +63,11 @@ export default class PedirChofer extends Component {
             /*VALIDACIONES*/
            if (this.state.placa.length != 7 || !/^[a+p+h+P+A+H][a-z+A-Z][a-z+A-Z][0-9][0-9][0-9][0-9]+$/.test(this.state.placa)) {
                 /*Placa invalida*/
+                this.setState({ placa: '' });
+                document.getElementById("placa").value = "";
+                this.setState({ validated: 'false' });
+            }else if (estado==true){
+                alert("La placa que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
                 this.setState({ placa: '' });
                 document.getElementById("placa").value = "";
                 this.setState({ validated: 'false' });
@@ -112,7 +119,7 @@ export default class PedirChofer extends Component {
                                             {this.state.marca}
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
-                                            <Dropdown.Item eventKey='BMW' onSelect={this.handleSelect}>
+                                            <Dropdown.Item eventKey='BMW' onSelect={this.handleSelectMarca}>
                                                 BMW
                                              </Dropdown.Item>
                                              <Dropdown.Item eventKey='Chevrolet' onSelect={this.handleSelectMarca}>

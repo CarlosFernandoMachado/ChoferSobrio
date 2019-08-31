@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert, Dropdown } from 'react-bootstrap';
 import './CrearCliente.css'
-import firebase from '../config/config';
+import Fire from '../config/config';
 import Crear from '../Crear_C_G_C/Crear';
 
 
-export default class Precios extends Component {
+export default class CrearCliente extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -52,8 +52,7 @@ export default class Precios extends Component {
         var placa_cadena = this.state.Placa;
         var rex = /[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i;
         var n = 0;
-
-        
+       
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
@@ -62,7 +61,7 @@ export default class Precios extends Component {
             if (length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
                 this.setState({ telefono: '' });
                 document.getElementById("telefono").value = "";
-            } else if(this.state.telefono2!=='' && ((this.state.telefono2).length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono2))){
+            }else if(this.state.telefono2!=='' && ((this.state.telefono2).length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono2))){
                     this.setState({ telefono2: '' });                 
                     document.getElementById("telefono2").value = "";   
                     alert("Ha ingresado un número opcional invalido, por favor vuelve a ingresarlo y sigue el formato de 8 digitos o puedes dejar el campo vacio y continuar.");                     
@@ -106,19 +105,7 @@ export default class Precios extends Component {
 
     }
 
-    limpiar(event) {
-        this.setState({ telefono: '' });
-        document.getElementById("telefono").value = "";
-        this.setState({ Placa: '' });
-        document.getElementById("Placa").value = "";
-        this.setState({ nombre: '' });
-        document.getElementById("nombre").value = "";
-        this.setState({ Marca: '' });
-        document.getElementById("Marca").value = "";
-        this.setState({ Color: '' });
-        document.getElementById("Color").value = "";
 
-    }
     render() {
         const { validated } = this.state;
         return (

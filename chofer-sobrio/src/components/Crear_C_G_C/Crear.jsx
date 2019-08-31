@@ -241,6 +241,7 @@ export default class Crear extends Component {
         return n;
     }
 
+
     modificarpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, pagoTarjeta) {
         var database = Fire.database();
         database.ref('pedido/' + id).set({
@@ -438,7 +439,8 @@ export default class Crear extends Component {
             brand = this.props.datos[2];
             plate = this.props.datos[3];
             id = 0;
-            n = database.ref('/referencias/').once('value').then(function (snapshot) {
+
+                n = database.ref('/referencias/').once('value').then(function (snapshot) {
                 id = (snapshot.val() && snapshot.val().id_carro) || 'Anonymous';
                 id++;
                 database.ref('carro/' + id).set({
@@ -451,7 +453,8 @@ export default class Crear extends Component {
                 database.ref('referencias/').update({
                     id_carro: id
                 });
-            })
+            });
+            setTimeout(redirigir, 1000);
         }
 
         if (this.props.validado && this.props.funcion === "crear_cliente") {
@@ -469,19 +472,7 @@ export default class Crear extends Component {
             var estado = 0;
             var estado2 = 0;
             id = 0;
-            Fire.database().ref('cliente').orderByChild('placa').equalTo(plate).once('value').then(function (snapshot) {
-                estado = snapshot.exists()
-                Fire.database().ref('cliente').orderByChild('correo').equalTo(email).once('value').then(function (snapshot) {
-                    estado2 = snapshot.exists()
-                    if (estado === true) {
-                        alert("placa invalida ya existe")
-                        /*setTimeout(redirigircrearcliente, 1000)*/
-                        document.getElementById("Placa").value = "";
-                    } else if (estado2 === true) {
-                        alert("correo invalido ya existe")
-                        /*setTimeout(redirigircrearcliente, 1000)*/
-                        document.getElementById("correo").value = "";
-                    } else {
+
                         n = database.ref('/referencias/').once('value').then(function (snapshot) {
                             id = (snapshot.val() && snapshot.val().id_cliente) || 'Anonymous';
                             id++;
@@ -533,9 +524,6 @@ export default class Crear extends Component {
                        
                            
                         setTimeout(redirigir, 1000);
-                    }
-                });
-            });
         }
 
         if (this.props.validado && this.props.funcion === "crear_chofer") {

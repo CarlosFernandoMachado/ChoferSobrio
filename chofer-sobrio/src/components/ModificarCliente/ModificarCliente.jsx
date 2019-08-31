@@ -148,11 +148,28 @@ export default class ModificarCliente extends Component {
         var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
         var placa_cadena = this.state.placa;
         var rex = /[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i;
+        var estado = 0;
+
 
         if (length !== 8  || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
             this.setState({ telefono: '' });
             document.getElementById("telefono").value = "";
-
+        }else if(estado === true){
+            this.setState({ telefono: '' });                 
+            document.getElementById("telefono").value = "";   
+            alert("El número que ha ingresado ya esta registrado en nuestro sistema.");                     
+        }else if(this.state.telefono2!='' && this.state.telefono2===this.state.telefono){
+            this.setState({ telefono2: '' });                 
+            document.getElementById("telefono2").value = "";   
+            alert("El número opcional es igual al número principal, por favor ingresa un nuevo número ó puedes dejar el espacio en blanco.");                     
+        }else if(this.state.telefono3!='' && this.state.telefono3===this.state.telefono){
+            this.setState({ telefono3: '' });                 
+            document.getElementById("telefono3").value = "";   
+            alert("Los números opcionales ingresados son iguales, por favor ingrese un nuevo número o puede dejar el espacio en blanco.");                     
+        }else if(this.state.telefono2!='' && this.state.telefono2===this.state.telefono3){
+            this.setState({ telefono3: '' });                 
+            document.getElementById("telefono3").value = "";   
+            alert("El número opcional es igual al número principal, por favor ingresa un nuevo número ó puedes dejar el espacio en blanco.");                     
         }else if(this.state.telefono2!=='' && ((this.state.telefono2).length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono2))){
             this.setState({ telefono2: '' });                 
             document.getElementById("telefono2").value = "";   
