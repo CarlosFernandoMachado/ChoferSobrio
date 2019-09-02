@@ -80,7 +80,7 @@ export default class PedirChofer extends Component {
             } else if (this.state.color == 'Seleccione el color de su vehículo.') {
                 this.setState({ validated: 'false' });
             } else{
-                swal("Exito!", "Carro registrado", "success")
+               
                 
                 this.setState({ validated: 'true' });
                 event.preventDefault();

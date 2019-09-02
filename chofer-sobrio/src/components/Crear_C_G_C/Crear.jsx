@@ -8,8 +8,8 @@ import swal from 'sweetalert';
 function redirigir() {
     window.location = "/";
 }
-function redirigirsesion(){
-    window.location="/iniciarSesion";
+function redirigirsesion() {
+    window.location = "/iniciarSesion";
 }
 function redirigircrearcliente() {
     window.location = "/CrearCliente";
@@ -23,7 +23,7 @@ function redirigircreargerente() {
 
 function redirigirPagoTarjeta(producto) {
     var urlPago;
-    switch(producto) {
+    switch (producto) {
         case '0':
             urlPago = 'https://checkout.baccredomatic.com/ODQyMDQwMWQwNGU3M2Y2OTU5My42ODAxNTY1NDU1OTY4';
             break;
@@ -42,7 +42,7 @@ function redirigirPagoTarjeta(producto) {
         default:
             urlPago = 'https://checkout.baccredomatic.com/ODQyMDQwMWQwNGU3M2Y2OTU5My42ODAxNTY1NDU1OTY4';
         // code block
-      }
+    }
     window.open(urlPago, '_blank');
     redirigir();
 
@@ -61,10 +61,10 @@ export default class Crear extends Component {
         Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
             Fire.auth().sendPasswordResetEmail(email).then(
                 swal("Exito!", "Se te ha enviado un correo de confirmación.", "success")
-                
-        ).catch(
-            swal("Error!", "Usuario registrado, no se pudo enviar mensaje de confirmación", "warning")
-        ));
+
+            ).catch(
+                swal("Error!", "Usuario registrado, no se pudo enviar mensaje de confirmación", "warning")
+            ));
     }
 
     Leerchofer(userId) {
@@ -216,18 +216,19 @@ export default class Crear extends Component {
             telefono3: telefono3
 
         });
-       
+
+
     }
 
 
     Eliminarcliente(id) {
         var database = Fire.database();
         database.ref('cliente/' + id).remove();
-        
-      
+
+
     }
 
-    Crearpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, pago,paradas) {
+    Crearpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, pago, paradas) {
         var database = Fire.database();
         database.ref('pedido/' + id).set({
             color: color_vehiculo,
@@ -243,7 +244,7 @@ export default class Crear extends Component {
             idchofer: 0,
             mensaje: 'ninguno',
             pago: pago,
-            paradas:paradas,
+            paradas: paradas,
             pago: pago,
         });
     }
@@ -284,23 +285,23 @@ export default class Crear extends Component {
         });
     }
 
-    modificarCarro(key,colour,brand,plate){
+    modificarCarro(key, colour, brand, plate) {
         var database = Fire.database();
         database.ref('carro/' + key).update({
             color: colour,
             marca: brand,
             placa: plate,
-         });
+        });
     }
 
-    modificarPregunta(key,question, answer){
+    modificarPregunta(key, question, answer) {
         var database = Fire.database();
         database.ref('preguntafrecuente/' + key).update({
             pregunta: question,
             respuesta: answer,
-         });
-         swal("Exito!", "La pregunta ha sido modificada, por favor accede a preguntas frecuentes para verificar el cambio.", "success")
-        
+        });
+        swal("Exito!", "La pregunta ha sido modificada, por favor accede a preguntas frecuentes para verificar el cambio.", "success")
+
 
     }
 
@@ -404,7 +405,11 @@ export default class Crear extends Component {
                             });
                         })
                         swal("Exito!", "Gerente registrado exitosamente!", "success")
-                        setTimeout(redirigir, 1000);
+                            .then((value) => {
+                                setTimeout(redirigir, 1000);
+                            })
+
+
                     }
                 });
             });
@@ -451,13 +456,15 @@ export default class Crear extends Component {
                     id_pedido: id
                 });
             })
-            if(pago === "tarjeta")
-            {
+            if (pago === "tarjeta") {
                 redirigirPagoTarjeta(paradasAdicionales);
             }
-            else
-            {
-                setTimeout(redirigir, 1000);
+            else {
+                swal("Exito!", "Pedido Realizado", "success")
+                    .then((value) => {
+                        setTimeout(redirigir, 1000);
+                    })
+
             }
         }
 
@@ -482,6 +489,7 @@ export default class Crear extends Component {
                     id_carro: id
                 });
             })
+            swal("Exito!", "Carro registrado", "success")
         }
 
         if (this.props.validado && this.props.funcion === "crear_cliente") {
@@ -492,7 +500,7 @@ export default class Crear extends Component {
             plate = this.props.datos[3];
             telephone = this.props.datos[4];
             email = this.props.datos[5];
-            var my_contraseña=this.props.datos[8];
+            var my_contraseña = this.props.datos[8];
             var telefono2 = this.props.datos[6]
             var telefono3 = this.props.datos[7]
             var estadocuenta = "activo"
@@ -530,37 +538,41 @@ export default class Crear extends Component {
                                 id_cliente: id
                             });
                         });
-                        
-                         /* Fire.auth().createUserWithEmailAndPassword(email, my_contraseña).then(
-                            Fire.auth().signInWithEmailAndPassword(email, my_contraseña).then(
-                            
-                            ).catch(),
-                        ).catch();*/
-                        Fire.auth().createUserWithEmailAndPassword(email, my_contraseña).then(function(user) {
-                            firebase.auth().signInWithEmailAndPassword(email, my_contraseña).catch(function(error) {
-                               console.log(error.code);
-                               console.log(error.message);
+
+                        /* Fire.auth().createUserWithEmailAndPassword(email, my_contraseña).then(
+                           Fire.auth().signInWithEmailAndPassword(email, my_contraseña).then(
+                           
+                           ).catch(),
+                       ).catch();*/
+                        Fire.auth().createUserWithEmailAndPassword(email, my_contraseña).then(function (user) {
+                            firebase.auth().signInWithEmailAndPassword(email, my_contraseña).catch(function (error) {
+                                console.log(error.code);
+                                console.log(error.message);
                             });
-                          }).catch(function(error) {
+                        }).catch(function (error) {
                             // Handle Errors here.
                             var errorCode = error.code;
                             var errorMessage = error.message;
                             console.log('User did not sign up correctly');
                             console.log(errorCode);
-                            console.console.log(errorMessage);
-                          });
-                        Fire.auth().onAuthStateChanged(function(user) {
+                            console.log(errorMessage);
+                        });
+                        Fire.auth().onAuthStateChanged(function (user) {
                             if (user) {
                                 user.sendEmailVerification().then(
                                     swal("Exito!", "Usuario registrado exitosamente! Se envio correo de verificacion", "success")
+                                        .then((value) => {
+                                            setTimeout(redirigir, 1000);
+                                        })
+
                                 ).catch();
                             } else {
                                 // No user is signed in.
                             }
                         });
-                       
-                           
-                        setTimeout(redirigir, 1000);
+
+
+
                     }
                 });
             });
@@ -613,7 +625,11 @@ export default class Crear extends Component {
                             Fire.auth().sendPasswordResetEmail(email);
                         });
                         swal("Exito!", "Chofer registrado exitosamente!", "success")
-                        setTimeout(redirigir, 1000);
+                            .then((value) => {
+                                setTimeout(redirigir, 1000);
+                            })
+
+
                     }
                 });
             });
@@ -633,7 +649,11 @@ export default class Crear extends Component {
                     id_comentarios: id
                 });
             });
-            setTimeout(redirigir, 1000);
+            swal("Exito!", "Gracias por su retroalimentacion", "success")
+            .then((value) => {
+                setTimeout(redirigir, 1000);
+            })
+           
         }
 
         if (this.props.validado && this.props.funcion === "crear_pregunta") {
@@ -653,7 +673,11 @@ export default class Crear extends Component {
                     id_pregunta: id
                 });
             });
-            setTimeout(redirigir, 1000);
+            swal("Exito!", "La pregunta ha sido creada, por favor accede a preguntas frecuentes para verificar el cambio.", "success")
+            .then((value) => {
+                setTimeout(redirigir, 1000);
+            })
+           
         }
 
         if (this.props.validado && this.props.funcion === "crearhistorial") {
@@ -703,7 +727,12 @@ export default class Crear extends Component {
             var telefono2 = this.props.datos[7];
             var telefono3 = this.props.datos[8];
             this.modificarcliente(id, colour, brand, name, plate, telephone, email, telefono2, telefono3)
-            setTimeout(redirigir, 1000);
+            swal("Exito!", "Modificado exitosamente!", "success")
+            .then((value) => {
+                setTimeout(redirigir, 1000);
+            })
+            
+          
         }
 
         if (this.props.validado && this.props.funcion === "modificar_carro") {
@@ -712,11 +741,14 @@ export default class Crear extends Component {
             brand = this.props.datos[1];
             plate = this.props.datos[2];
             colour = this.props.datos[3];
-            this.modificarCarro(id,colour,brand,plate)
-            
-            
+            this.modificarCarro(id, colour, brand, plate)
             swal("Exito!", "Modificado exitosamente", "success")
-            setTimeout(redirigir, 1000);
+                .then((value) => {
+                    setTimeout(redirigir, 1000);
+                })
+
+
+
         }
 
         if (this.props.validado && this.props.funcion === "modificar_pregunta") {
@@ -724,15 +756,17 @@ export default class Crear extends Component {
             id = this.props.datos[0];
             question = this.props.datos[1];
             answer = this.props.datos[2];
-            this.modificarPregunta(id,question,answer)
+            this.modificarPregunta(id, question, answer)
             swal("Exito!", "Modificado exitosamente", "success")
-            setTimeout(redirigir, 1000);
+                .then((value) => {
+                    setTimeout(redirigir, 1000);
+                })
         }
 
 
 
         /*if (this.props.validado && this.props.funcion === "password_cliente") {
-        
+         
             this.update_password_cliente();
         }*/
 
@@ -747,7 +781,9 @@ export default class Crear extends Component {
             var telefono3 = this.props.datos[6];
             this.modificargerente(id, identity, name, telephone, email, telefono2, telefono3);
             swal("Exito!", "Modificado exitosamente", "success")
-            setTimeout(redirigir, 1000);
+                .then((value) => {
+                    setTimeout(redirigir, 1000);
+                })
         }
 
         /*if (this.props.validado && this.props.funcion === "password_gerente") {
@@ -765,7 +801,9 @@ export default class Crear extends Component {
             var telefono3 = this.props.datos[6]
             this.modificarchofer(id, identity, name, telephone, email, telefono2, telefono3);
             swal("Exito!", "Modificado exitosamente", "success")
-            setTimeout(redirigir, 1000);
+                .then((value) => {
+                    setTimeout(redirigir, 1000);
+                })
         }
 
         /*if (this.props.validado && this.props.funcion === "password_chofer") {
@@ -785,7 +823,7 @@ export default class Crear extends Component {
                     setTimeout(redirigir, 1000);
                 } else {
                     swal("Error!", "No puede desactivar la cuenta porque tiene pedido pendiente", "error")
-                   
+
                 }
             });
         }
@@ -819,7 +857,7 @@ export default class Crear extends Component {
                     setTimeout(redirigir, 1000);
                 } else {
                     swal("Error!", "No puede desactivar la cuenta porque tiene pedido pendiente, si desea desactivar la cuenta debera cancelar la reservacion o contactar al chofer en perfil de chofer", "error")
-                  
+
                 }
             });
 
@@ -831,8 +869,8 @@ export default class Crear extends Component {
             */
         }
         if (this.props.validado && this.props.funcion === "eliminar_cliente_t") {
-            
-            
+
+
             var estadocuenta = "inactivo"
             const [id, placa] = this.props.datos;
             const user = JSON.parse(localStorage.getItem('user'));
@@ -864,12 +902,12 @@ export default class Crear extends Component {
                     swal("Error!", "No puede eliminar la cuenta porque tiene pedido pendiente, si desea desactivar la cuenta debera cancelar la reservacion o contactar al chofer en perfil de chofer", "error")
                 }
             });
-            
-            /*const user = JSON.parse(localStorage.getItem('user'));
 
+            /*const user = JSON.parse(localStorage.getItem('user'));
+        
             var cont = 0;
             if (user) {
-
+        
                 var rootRef = firebase.database().ref().child("carro");
                 rootRef.on("child_added", snap => {
                     firebase.database().ref().child('carro').orderByChild('correo').equalTo(user.email).on("value", function (snapshot) {
@@ -899,7 +937,7 @@ export default class Crear extends Component {
             setTimeout(redirigir, 1000);
         }
         if (this.props.validado && this.props.funcion === "eliminar_gerente_t") {
-           
+
             id = this.props.datos[0]
             database = Fire.database();
 

@@ -34,7 +34,7 @@ export default class PedirChofer extends Component {
             this.setState({ validated: 'true' });
             event.preventDefault();
             this.setState({ listo: 'true' });
-            swal("Exito!", "La pregunta ha sido creada, por favor accede a preguntas frecuentes para verificar el cambio.", "success")
+          
            
         }
         event.preventDefault();
