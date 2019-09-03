@@ -34,10 +34,6 @@ export default class Precios extends Component {
             maxWidth: 100,
         },
         {
-            Header: 'Paradas',
-            accessor: 'parada',
-            maxWidth: 100,
-        }, {
             Header: 'Accion',
             accessor: 'accion',
             maxWidth: 100,
@@ -50,7 +46,7 @@ export default class Precios extends Component {
         },
         {
             Header: 'Ver paradas',
-            accessor: 'paradas',
+            accessor: 'parada',
             maxWidth: 100,
             filterable: false,
         }];
@@ -123,12 +119,21 @@ export default class Precios extends Component {
         });
 
         if (!tienePedido) {
+            /*
             const pedidosRes = pedidos.map(a => Object.assign({}, a));
             pedidosRes[keyPedido].estado = 'Ocupado';
             pedidosRes[keyPedido].idchofer = this.state.infoChofer.identidad;
             delete pedidosRes[keyPedido].accion;
             delete pedidosRes[keyPedido].mapa;
+            delete pedidosRes[keyPedido].paradas;
             database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
+            */
+            pedidos[keyPedido].estado = 'Ocupado';
+            pedidos[keyPedido].idchofer = this.state.infoChofer.identidad;
+            delete pedidos[keyPedido].accion;
+            delete pedidos[keyPedido].mapa;
+            delete pedidos[keyPedido].parada;
+            database.ref(`/pedido/${keyPedido}/`).set(pedidos[keyPedido]);
         }
     }
 
@@ -157,7 +162,7 @@ export default class Precios extends Component {
                 if (permisos.chofer) {
                     pedido.accion = <Button variant="info" onClick={() => this.reservar(key)}>Reservar</Button>;
                     pedido.mapa = <Button variant="info" onClick={() => this.mostrarUbicacion(key)}>Localizar</Button>;
-                    /*pedido.paradas = <Button variant="info" onClick={() => this.mostrarparadas(key,paradas12)}>Ver Paradas</Button>;*/
+                    pedido.parada = <Button variant="info" onClick={() => this.mostrarparadas(key,paradas12)}>Ver Paradas</Button>;
                     
                     
                 }
@@ -171,8 +176,9 @@ export default class Precios extends Component {
 
     mostrarUbicacion(keyPedido) {
         const { pedidos } = this.state;
-        const pedidosRes = pedidos.map(a => Object.assign({}, a));
-        var coordenadas = pedidosRes[keyPedido].ubicacion.split(",");
+        //const pedidosRes = pedidos.map(a => Object.assign({}, a));
+        //var coordenadas = pedidosRes[keyPedido].ubicacion.split(",");
+        var coordenadas = pedidos[keyPedido].ubicacion.split(",");
         var latitud = Number(parseFloat(coordenadas[0]).toFixed(4));
         var longitud = Number(parseFloat(coordenadas[1]).toFixed(4));
         this.setState({ lat: latitud });

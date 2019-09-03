@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './Crear.css'
 import Fire from '../config/config';
 import firebase from '../config/config';
+import swal from 'sweetalert';
 //import firebaseAuth from '../config/config';
 
 function redirigir() {
@@ -21,9 +22,30 @@ function redirigircreargerente() {
 }
 
 function redirigirPagoTarjeta(producto) {
-    console.log(producto);
-    const urlPago = 'https://checkout.baccredomatic.com/ODQyMDQwMWQwNGU3M2Y2OTU5My42ODAxNTY1NDU1OTY4';
-    window.location = urlPago;
+    var urlPago;
+    switch(producto) {
+        case '0':
+            urlPago = 'https://checkout.baccredomatic.com/ODQyMDQwMWQwNGU3M2Y2OTU5My42ODAxNTY1NDU1OTY4';
+            break;
+        case '1':
+            urlPago = 'https://checkout.baccredomatic.com/M2E3MzcyYmE1ZDE0ZjU2NDQzNC4wNTgxNTY2MTgzMzAx';
+            break;
+        case '2':
+            urlPago = 'https://checkout.baccredomatic.com/NTg3ZDBmNzUzNDVhNWU1M2EzODI4LjAxNTY2MTgzMTU2';
+            break;
+        case '3':
+            urlPago = 'https://checkout.baccredomatic.com/MTczLjhhMTFmNDQwOTU0ZDM1MzY3MjAxNTY2MTgzOTYx';
+            break;
+        case 'Servicio por noche':
+            urlPago = 'https://checkout.baccredomatic.com/MTU4NTkzN2EuYTg2ZDk4MzU0MTkwMDExNTY2MTg0NTc5';
+            break;
+        default:
+            urlPago = 'https://checkout.baccredomatic.com/ODQyMDQwMWQwNGU3M2Y2OTU5My42ODAxNTY1NDU1OTY4';
+        // code block
+      }
+    window.open(urlPago, '_blank');
+    redirigir();
+
 }
 
 export default class Crear extends Component {
@@ -38,8 +60,11 @@ export default class Crear extends Component {
         });
         Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
             Fire.auth().sendPasswordResetEmail(email).then(
-                alert("Se te ha enviado un correo de confirmación."))
-        ).catch(alert("Usuario registrado, no se pudo enviar mensaje de confirmación"));
+                swal("Exito!", "Se te ha enviado un correo de confirmación.", "success")
+                
+        ).catch(
+            swal("Error!", "Usuario registrado, no se pudo enviar mensaje de confirmación", "warning")
+        ));
     }
 
     Leerchofer(userId) {
@@ -127,7 +152,7 @@ export default class Crear extends Component {
         });
         Fire.auth().createUserWithEmailAndPassword(email, '123456').then(
             Fire.auth().sendPasswordResetEmail(email).the(
-                alert("Se te ha enviado un correo de confirmación."))
+                swal("Exito!", "Se te ha enviado un correo de confirmación.", "success"))
         );
     }
 
@@ -191,6 +216,7 @@ export default class Crear extends Component {
             telefono3: telefono3
 
         });
+       
     }
 
 
@@ -201,7 +227,7 @@ export default class Crear extends Component {
       
     }
 
-    Crearpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, pagoTarjeta,paradas) {
+    Crearpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, pago,paradas) {
         var database = Fire.database();
         database.ref('pedido/' + id).set({
             color: color_vehiculo,
@@ -216,8 +242,9 @@ export default class Crear extends Component {
             estado: "Disponible",
             idchofer: 0,
             mensaje: 'ninguno',
-            pagoTarjeta: pagoTarjeta,
-            paradas:paradas
+            pago: pago,
+            paradas:paradas,
+            pago: pago,
         });
     }
 
@@ -241,8 +268,7 @@ export default class Crear extends Component {
         return n;
     }
 
-
-    modificarpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, pagoTarjeta) {
+    modificarpedido(id, color_vehiculo, destino, fecha, hora, marca, nombre, placa, telefono, ubicacion, pago) {
         var database = Fire.database();
         database.ref('pedido/' + id).set({
             color: color_vehiculo,
@@ -254,7 +280,7 @@ export default class Crear extends Component {
             placa: placa,
             telefono: telefono,
             ubicacion: ubicacion,
-            pagoTarjeta: pagoTarjeta,
+            pago: pago,
         });
     }
 
@@ -273,7 +299,8 @@ export default class Crear extends Component {
             pregunta: question,
             respuesta: answer,
          });
-         alert("La pregunta ha sido modificada, por favor accede a preguntas frecuentes para verificar el cambio.");
+         swal("Exito!", "La pregunta ha sido modificada, por favor accede a preguntas frecuentes para verificar el cambio.", "success")
+        
 
     }
 
@@ -329,7 +356,8 @@ export default class Crear extends Component {
         var brand;
         var plate;
         var location;
-        var pagoTarjeta;
+        var pago;
+        var paradasAdicionales;
         var question;
         var answer;
 
@@ -375,6 +403,7 @@ export default class Crear extends Component {
                                 id_gerente: id
                             });
                         })
+                        swal("Exito!", "Gerente registrado exitosamente!", "success")
                         setTimeout(redirigir, 1000);
                     }
                 });
@@ -382,6 +411,7 @@ export default class Crear extends Component {
         }
 
         if (this.props.validado && this.props.funcion === "Crearpedido") {
+            console.log(this.props.datos);
             var database = Fire.database();
             colour = this.props.datos[0];
             destination = this.props.datos[1];
@@ -392,8 +422,8 @@ export default class Crear extends Component {
             plate = this.props.datos[6];
             telephone = this.props.datos[7];
             location = this.props.datos[8];
-            pagoTarjeta = this.props.datos[9];
-            var paradas = this.props.datos[10];
+            pago = this.props.datos[9];
+            paradasAdicionales = this.props.datos[10];
             var email12 = this.props.datos[11];
 
             id = 0;
@@ -413,18 +443,17 @@ export default class Crear extends Component {
                     estado: 'Disponible',
                     idchofer: 0,
                     mensaje: 'ninguno',
-                    pagoTarjeta: pagoTarjeta,
-                    paradas: paradas,
-                    correo: email12
-
+                    pago: pago,
+                    paradas: paradasAdicionales,
+                    correo: email12,
                 });
                 database.ref('referencias/').update({
                     id_pedido: id
                 });
             })
-            if(pagoTarjeta)
+            if(pago === "tarjeta")
             {
-                redirigirPagoTarjeta('standard');
+                redirigirPagoTarjeta(paradasAdicionales);
             }
             else
             {
@@ -513,9 +542,7 @@ export default class Crear extends Component {
                         Fire.auth().onAuthStateChanged(function(user) {
                             if (user) {
                                 user.sendEmailVerification().then(
-                                    Fire.auth().signOut().then(
-                                        alert("¡Usuario registrado exitosamente! Se envio correo de verificacion")
-                                    ).catch()
+                                    swal("Exito!", "Usuario registrado exitosamente! Se envio correo de verificacion", "success")
                                 ).catch();
                             } else {
                                 // No user is signed in.
@@ -572,6 +599,7 @@ export default class Crear extends Component {
                         Fire.auth().createUserWithEmailAndPassword(email, '123456').then(function (_userRecord) {
                             Fire.auth().sendPasswordResetEmail(email);
                         });
+                        swal("Exito!", "Chofer registrado exitosamente!", "success")
                         setTimeout(redirigir, 1000);
                     }
                 });
@@ -672,7 +700,9 @@ export default class Crear extends Component {
             plate = this.props.datos[2];
             colour = this.props.datos[3];
             this.modificarCarro(id,colour,brand,plate)
-            alert("Modificado correctamente");
+            
+            
+            swal("Exito!", "Modificado exitosamente", "success")
             setTimeout(redirigir, 1000);
         }
 
@@ -682,6 +712,7 @@ export default class Crear extends Component {
             question = this.props.datos[1];
             answer = this.props.datos[2];
             this.modificarPregunta(id,question,answer)
+            swal("Exito!", "Modificado exitosamente", "success")
             setTimeout(redirigir, 1000);
         }
 
@@ -702,6 +733,7 @@ export default class Crear extends Component {
             var telefono2 = this.props.datos[5];
             var telefono3 = this.props.datos[6];
             this.modificargerente(id, identity, name, telephone, email, telefono2, telefono3);
+            swal("Exito!", "Modificado exitosamente", "success")
             setTimeout(redirigir, 1000);
         }
 
@@ -719,6 +751,7 @@ export default class Crear extends Component {
             var telefono2 = this.props.datos[5];
             var telefono3 = this.props.datos[6]
             this.modificarchofer(id, identity, name, telephone, email, telefono2, telefono3);
+            swal("Exito!", "Modificado exitosamente", "success")
             setTimeout(redirigir, 1000);
         }
 
@@ -738,7 +771,8 @@ export default class Crear extends Component {
                     });
                     setTimeout(redirigir, 1000);
                 } else {
-                    alert("No puede desactivar la cuenta porque tiene pedido pendiente");
+                    swal("Error!", "No puede desactivar la cuenta porque tiene pedido pendiente", "error")
+                   
                 }
             });
         }
@@ -753,7 +787,7 @@ export default class Crear extends Component {
                     database.ref('chofer/' + id).remove();
                     setTimeout(redirigir, 1000);
                 } else {
-                    alert("No puede eliminar la cuenta porque tiene pedido pendiente");
+                    swal("Error!", "No puede Eliminar la cuenta porque tiene pedido pendiente", "error")
                 }
             });
         }
@@ -771,7 +805,8 @@ export default class Crear extends Component {
                     });
                     setTimeout(redirigir, 1000);
                 } else {
-                    alert("No puede desactivar la cuenta porque tiene pedido pendiente, si desea desactivar la cuenta debera cancelar la reservacion o contactar al chofer en perfil de chofer");
+                    swal("Error!", "No puede desactivar la cuenta porque tiene pedido pendiente, si desea desactivar la cuenta debera cancelar la reservacion o contactar al chofer en perfil de chofer", "error")
+                  
                 }
             });
 
@@ -813,7 +848,7 @@ export default class Crear extends Component {
                     this.Eliminarcliente(id);
                     setTimeout(redirigirsesion, 1000);
                 } else {
-                    alert("No puede eliminar la cuenta porque tiene pedido pendiente, si desea eliminar la cuenta debera cancelar la reservacion o contactar al chofer en perfil de chofer");
+                    swal("Error!", "No puede eliminar la cuenta porque tiene pedido pendiente, si desea desactivar la cuenta debera cancelar la reservacion o contactar al chofer en perfil de chofer", "error")
                 }
             });
             

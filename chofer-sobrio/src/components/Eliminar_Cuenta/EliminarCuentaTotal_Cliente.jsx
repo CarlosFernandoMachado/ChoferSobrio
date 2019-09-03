@@ -5,6 +5,7 @@ import './Eliminar_Cuenta.css';
 import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Card, Alert } from 'react-bootstrap';
 import firebase from 'firebase';
+import swal from 'sweetalert';
 
 
 export default class EliminarCuentaTotal_Cliente extends Component {
@@ -54,10 +55,25 @@ export default class EliminarCuentaTotal_Cliente extends Component {
                 }
 
             });
-            if (window.confirm(' Se eliminara su cuenta, lamentamos mucho que tengas que irte, esperamos que sea un nos vemos y regreses 😢')){
-                firebase.auth().currentUser.delete()
-                this.setState({listo:"true"});
-            } 
+            swal({
+                title: "Esta seguro?",
+                text: " Se eliminara su cuenta, lamentamos mucho que tengas que irte, esperamos que sea un nos vemos y regreses 😢",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+              })
+              .then((willDelete) => {
+                if (willDelete) {
+                  swal("Se Elimino la cuenta exitosamente", {
+                    icon: "success",
+                  });
+                  firebase.auth().currentUser.delete();
+                  this.setState({ listo: "true" });
+    
+                } else {
+                 
+                }
+              });
             
        
     }

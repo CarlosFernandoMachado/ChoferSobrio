@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert, Dropdown } from 'react-bootstrap';
 import './CrearCliente.css'
-import Fire from '../config/config';
 import Crear from '../Crear_C_G_C/Crear';
+import Fire from '../config/config';
 
 
 export default class CrearCliente extends Component {
@@ -14,7 +14,7 @@ export default class CrearCliente extends Component {
             Marca: 'Seleccione la marca de su vehículo.',
             nombre: '',
             correo: '',
-            Placa: 0,
+            Placa: '',
             telefono: 0,
             validated: '',
             listo: 0,
@@ -52,7 +52,17 @@ export default class CrearCliente extends Component {
         var placa_cadena = this.state.Placa;
         var rex = /[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i;
         var n = 0;
-       
+        var estado = 0;
+        var estadoc = 0;
+
+        Fire.database().ref('carro').orderByChild('placa').equalTo(this.state.Placa).once('value').then(function (snapshot) {
+            estado = snapshot.exists()
+        });
+        Fire.database().ref('cliente').orderByChild('correo').equalTo(this.state.correo).once('value').then(function (snapshot) {
+            estadoc = snapshot.exists()
+        });
+        alert("Verificando la información del carro..")
+      
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
@@ -61,6 +71,28 @@ export default class CrearCliente extends Component {
             if (length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
                 this.setState({ telefono: '' });
                 document.getElementById("telefono").value = "";
+            }else if (estadoc==true){
+                alert("El correo que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
+                this.setState({ correo: '' });
+                document.getElementById("correo").value = "";
+                this.setState({ validated: 'false' });
+            }else if (estado==true){
+                alert("La placa que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
+                this.setState({ Placa: '' });
+                document.getElementById("Placa").value = "";
+                this.setState({ validated: 'false' });
+            }else if(this.state.telefono2!='' && this.state.telefono2===this.state.telefono){
+                this.setState({ telefono2: '' });                 
+                document.getElementById("telefono2").value = "";   
+                alert("El número opcional es igual al número principal, por favor ingresa un nuevo número ó puedes dejar el espacio en blanco.");                     
+            }else if(this.state.telefono3!='' && this.state.telefono3===this.state.telefono){
+                this.setState({ telefono3: '' });                 
+                document.getElementById("telefono3").value = "";   
+                alert("Los números opcionales ingresados son iguales, por favor ingrese un nuevo número o puede dejar el espacio en blanco.");                     
+            }else if(this.state.telefono2!='' && this.state.telefono2===this.state.telefono3){
+                this.setState({ telefono3: '' });                 
+                document.getElementById("telefono3").value = "";   
+                alert("El número opcional es igual al número principal, por favor ingresa un nuevo número ó puedes dejar el espacio en blanco.");                     
             }else if(this.state.telefono2!=='' && ((this.state.telefono2).length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono2))){
                     this.setState({ telefono2: '' });                 
                     document.getElementById("telefono2").value = "";   
@@ -292,7 +324,7 @@ export default class CrearCliente extends Component {
                                             placeholder="_ _ _ _ _ _ _"
                                             required
                                             name="Placa"
-                                            value={this.state.value}
+                                            value={this.state.Placa}
                                             onChange={this.handleChange}
                                             id="Placa"
                                         />

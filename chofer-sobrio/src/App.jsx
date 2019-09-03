@@ -81,6 +81,7 @@ class App extends Component {
     this.backdropClickHandler = this.backdropClickHandler.bind(this);
   }
 
+
   componentDidMount() {
     const user = JSON.parse(localStorage.getItem('user'));
 
@@ -172,7 +173,7 @@ class App extends Component {
   }
 
   render() {
-    const { 
+    const {
       isGerente,
       activoGerente,
       isChofer,
@@ -181,7 +182,7 @@ class App extends Component {
       activoCliente,
       flagChofer, flagGerente, flagCliente
     } = this.state;
-    
+
     let permisos = {
       gerente: isGerente,
       chofer: isChofer,
@@ -231,7 +232,7 @@ class App extends Component {
               <Route exact path="/MostrarGerente" component={MostrarGerente}></Route>
               <Route exact path="/MostrarGerentesInactivos" component={MostrarGerentesInactivos}></Route>
               <Route exact path="/MostrarChoferesInactivos" component={MostrarChoferesInactivos}></Route>
-              
+
               <Route exact path="/ModificarGerente" component={ModificarGerente}></Route>
               <Route exact path="/ModificarChofer" component={ModificarChofer}></Route>
               <Route exact path="/ModificarCliente" component={ModificarCliente}></Route>
@@ -244,9 +245,9 @@ class App extends Component {
               <Route exact path="/Perfil_Chofer" permisos={permisos} component={PerfilChofer}></Route>
               <Route exact path="/MisReservaciones" component={MisReservaciones}></Route>
               <Route exact path="/PreguntasFrecuentes" component={PreguntasFrecuentes}></Route>
-              <Route exact path ="/MostrarCarros" component={MostrarCarros}></Route>
-              <Route exact path ="/SeleccionarCarro" component={SeleccionarCarro}></Route>
-              <Route exact path ="/AgregarCarro" component={AgregarCarro}></Route>
+              <Route exact path="/MostrarCarros" component={MostrarCarros}></Route>
+              <Route exact path="/SeleccionarCarro" component={SeleccionarCarro}></Route>
+              <Route exact path="/AgregarCarro" component={AgregarCarro}></Route>
               <Route exact path="/NuestraInfo" component={Nuestra_Info}></Route>
               <Route exact path="/MostrarTelefono" component={MostrarTelefono}></Route>
               <Route exact path="/ModificarCarro" component={ModificarCarro}></Route>
