@@ -149,16 +149,11 @@ export default class ModificarCliente extends Component {
         var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
         var placa_cadena = this.state.placa;
         var rex = /[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i;
-        var estado = 0;
 
 
         if (length !== 8  || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
             this.setState({ telefono: '' });
             document.getElementById("telefono").value = "";
-        }else if(estado === true){
-            this.setState({ telefono: '' });                 
-            document.getElementById("telefono").value = "";   
-            alert("El número que ha ingresado ya esta registrado en nuestro sistema.");                     
         }else if(this.state.telefono2!='' && this.state.telefono2===this.state.telefono){
             this.setState({ telefono2: '' });                 
             document.getElementById("telefono2").value = "";   
