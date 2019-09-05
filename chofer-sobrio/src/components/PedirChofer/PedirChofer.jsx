@@ -64,7 +64,7 @@ export default class PedirChofer extends Component {
             
             var database = Fire.database();
             var postsRef = database.ref().child("Tokens");
-            var newPostRef = postsRef.push();
+            var newPostRef = postsRef.set();
             newPostRef.set({
                 correo: user.email,
                 registro: token
