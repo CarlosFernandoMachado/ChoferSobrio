@@ -457,6 +457,7 @@ export default class Crear extends Component {
             }
             else
             {
+                swal("Exito!", "Pedido realizado exitosamente!", "success")
                 setTimeout(redirigir, 1000);
             }
         }
