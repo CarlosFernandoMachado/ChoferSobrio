@@ -108,7 +108,7 @@ export default class Precios extends Component {
         // revisar si ya tiene pedidos
         Object.keys(pedidos).forEach((key) => {
             const pedido = pedidos[key];
-            if (pedido.estado === "Finalizado") {
+            if (pedido.estado === "Finalizado" || pedido.estado === "Calificado") {
                 return;
             }
 
