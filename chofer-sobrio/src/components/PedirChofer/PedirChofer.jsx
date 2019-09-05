@@ -387,7 +387,7 @@ export default class PedirChofer extends Component {
                                             {this.state.color}
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
-                                            <Dropdown.Item eventKey='Amarillo' onSelect={this.handleSelect}>>
+                                            <Dropdown.Item eventKey='Amarillo' onSelect={this.handleSelect}>
                                                 Amarillo
                                              </Dropdown.Item>
                                             <Dropdown.Item eventKey='Azul' onSelect={this.handleSelect}>
