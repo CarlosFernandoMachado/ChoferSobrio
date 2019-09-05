@@ -197,7 +197,7 @@ export default class ModificarCliente extends Component {
             this.setState({ validated: 'true' });
             event.preventDefault();
             this.setState({ listo: 'true' });
-            swal("Exito!", "Modificado exitosamente!", "success")
+          
         }
         event.preventDefault();
         this.setState({ validated: 'false' });
