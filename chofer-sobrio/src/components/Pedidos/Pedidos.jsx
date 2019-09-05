@@ -152,7 +152,7 @@ export default class Precios extends Component {
                         'title': 'Pedido Atendido',
                         'body': 'El chofer: '+ this.state.infoChofer.correo,
                         'icon': 'firebase-logo.png',
-                        'click_action': 'http://localhost:8081'
+                        'click_action': 'https://chofersobrio.com'
                     };
 
                     fetch('https://fcm.googleapis.com/fcm/send', {
