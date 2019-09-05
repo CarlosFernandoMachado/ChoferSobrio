@@ -14,7 +14,9 @@ import { Link, Redirect } from 'react-router-dom';
 import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
 import DropdownItem from 'react-bootstrap/DropdownItem';
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
-
+import Fire from '../config/config';
+import 'firebase/firestore';
+import {messaging} from '../config/config';
 registerLocale('es', es);
 setDefaultLocale('es');
 
@@ -54,6 +56,22 @@ export default class PedirChofer extends Component {
 
     async componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
+        await messaging.requestPermission();
+        const token = await messaging.getToken();
+        
+        console.log('token de usuario:', token);
+        if(token){
+            
+            var database = Fire.database();
+            var postsRef = database.ref().child("Tokens");
+            var newPostRef = postsRef.push();
+            newPostRef.set({
+                correo: user.email,
+                registro: token
+              });
+        }else{
+
+        }
         var lat = this.props.location.state.latitude;
         var lon = this.props.location.state.longitude;
         var ubicacion = lat + "," + lon;

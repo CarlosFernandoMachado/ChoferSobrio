@@ -130,11 +130,50 @@ export default class Precios extends Component {
             */
             pedidos[keyPedido].estado = 'Ocupado';
             pedidos[keyPedido].idchofer = this.state.infoChofer.identidad;
+            const correo_notificar = pedidos[keyPedido].correo;
             delete pedidos[keyPedido].accion;
             delete pedidos[keyPedido].mapa;
             delete pedidos[keyPedido].parada;
             database.ref(`/pedido/${keyPedido}/`).set(pedidos[keyPedido]);
+            this.mandarNotificacion(correo_notificar);
         }
+    }
+    mandarNotificacion(correo_notificar){
+        firebase.database().ref('/Tokens').once('value').then((snap) => {
+            const tokenlist = snap.val();
+            Object.keys(tokenlist).forEach((key, index) => {
+                const token = tokenlist[key];
+                if (token.correo === correo_notificar) {
+                    const tokenid = token.registro;
+                    var registrationToken = tokenid;
+                    var key2 = 'AAAA7m7eTR0:APA91bFcpYn7eaTNDEfvD8qKYWQAATFQyyKooYf_B_QuFJ6oALUUSpnjKu3OFysrX8q9I1UvjkL2ZSSLfzqzxDODWGyT1aZxtL3_9PbgwmgGucjr8K6TCwilu-iQmrUMsi2pIcMls2q8';
+                    var to = registrationToken;
+                    var notification = {
+                        'title': 'Pedido Atendido',
+                        'body': 'El chofer: '+ this.state.infoChofer.correo,
+                        'icon': 'firebase-logo.png',
+                        'click_action': 'http://localhost:8081'
+                    };
+
+                    fetch('https://fcm.googleapis.com/fcm/send', {
+                    'method': 'POST',
+                    'headers': {
+                        'Authorization': 'key=' + key2,
+                        'Content-Type': 'application/json'
+                    },
+                    'body': JSON.stringify({
+                        'notification': notification,
+                        'to': to
+                    })
+                    }).then(function(response) {
+                    console.log(response);
+                    }).catch(function(error) {
+                    console.error(error);
+                    })
+                }
+            });
+           
+        });
     }
 
     obtenerPedidos() {
