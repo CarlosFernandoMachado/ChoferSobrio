@@ -514,7 +514,18 @@ export default class Crear extends Component {
             var estado = 0;
             var estado2 = 0;
             id = 0;
-
+            Fire.database().ref('/referencias').once('value').then((snap) => {
+                const referencia = snap.val();
+               
+                Object.keys(referencia).forEach(key => {
+                    const cliente = referencia[key];
+                    if (cliente.key === 'id_cliente') {
+                        alert("Encontrado", cliente.key);
+                        id = cliente;
+                    }
+                });
+                
+            });
             n = database.ref('/referencias/').once('value').then(function (snapshot) {
                 id = (snapshot.val() && snapshot.val().id_cliente) || 'Anonymous';
                 id++;
