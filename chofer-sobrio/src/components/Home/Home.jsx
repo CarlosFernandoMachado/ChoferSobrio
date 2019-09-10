@@ -80,6 +80,9 @@ export default class Home extends Component {
             function (evt) {
                 this.setState({ lat: marker.position.lat().toFixed(4) });
                 this.setState({ lon: marker.position.lng().toFixed(4) });
+                map.panTo(marker.getPosition());
+                console.log('Ubicacion cuando se mueve el marcador en HOME');
+                console.log('Latitud: ' + this.state.lat + ', Longitud: ' + this.state.lon);
             }.bind(this));
     }
 
@@ -161,7 +164,7 @@ export default class Home extends Component {
                                 pathname: '/pedirchofer',
                                 state: {
                                     latitude: this.state.lat,
-                                    longitude: this.state.lon 
+                                    longitude: this.state.lon
                                 }
                             }}>
                                 <div id="button">

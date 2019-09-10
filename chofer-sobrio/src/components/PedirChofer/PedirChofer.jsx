@@ -92,6 +92,8 @@ export default class PedirChofer extends Component {
         var lat = this.props.location.state.latitude;
         var lon = this.props.location.state.longitude;
         var ubicacion = lat + "," + lon;
+        console.log('Ubicacion que reciber PEDIR CHOFER de HOME');
+        console.log('Latitud: ' + lat + ', Longitud: ' + lon);
         this.setState({ ubicacion_actual: ubicacion });
         if (user) {
             // clientes
