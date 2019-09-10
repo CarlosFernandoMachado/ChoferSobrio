@@ -3,7 +3,7 @@ import './Crear.css'
 import Fire from '../config/config';
 import firebase from '../config/config';
 import swal from 'sweetalert';
-import {messaging} from '../config/config';
+import { firebaseAuth } from '../config/config';
 //import firebaseAuth from '../config/config';
 
 function redirigir() {
@@ -530,12 +530,10 @@ export default class Crear extends Component {
                     id_carro: id
                 });
             });
-            swal("Exito!", "Carro agregado exitosamente!", "success")
-                .then((value) => {
-                    setTimeout(redirigir, 1000);
-
-                });
-
+            // swal("Exito!", "Carro agregado exitosamente!", "success")
+            //     .then((value) => {
+            //         setTimeout(redirigir, 1000);
+            //     });
         }
 
         if (this.props.validado && this.props.funcion === "crear_cliente") {
@@ -584,43 +582,31 @@ export default class Crear extends Component {
                 });
             });
 
-            /* Fire.auth().createUserWithEmailAndPassword(email, my_contraseña).then(
-               Fire.auth().signInWithEmailAndPassword(email, my_contraseña).then(
-               
-               ).catch(),
-           ).catch();*/
-            Fire.auth().createUserWithEmailAndPassword(email, my_contraseña).then(function (user) {
-                firebase.auth().signInWithEmailAndPassword(email, my_contraseña).catch(function (error) {
-                    console.log(error.code);
-                    console.log(error.message);
+            if (localStorage.getItem('user')) {
+                // swal("Exitos!", "Usuario registrado exitosamente! Se envio correo de verificacion", "success");
+                Fire.auth().currentUser.sendEmailVerification().then(() => setTimeout(redirigir, 1000));
+            } else {
+                Fire.auth().createUserWithEmailAndPassword(email, my_contraseña).then(function (user) {
+                    firebase.auth().signInWithEmailAndPassword(email, my_contraseña).catch(function (error) {
+                        console.log(error.code);
+                        console.log(error.message);
+                    });
+                }).catch(function (error) {
+                    var errorMessage = error.message;
+                    console.log(errorMessage);
                 });
-            }).catch(function (error) {
-                // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                console.log('User did not sign up correctly');
-                console.log(errorCode);
-                console.console.log(errorMessage);
-            });
-            Fire.auth().onAuthStateChanged(function (user) {
-                if (user) {
-                    user.sendEmailVerification().then(
-                        swal("Exito!", "Usuario registrado exitosamente! Se envio correo de verificacion", "success")
-                            .then((value) => {
-                                setTimeout(redirigir, 1000);
-
-                            })
-
-
-
-                    ).catch();
-                } else {
-                    // No user is signed in.
-                }
-            });
-
-
-          
+                Fire.auth().onAuthStateChanged(function (user) {
+                    if (user) {
+                        user.sendEmailVerification().then(
+                            swal("Exito!", "Usuario registrado exitosamente! Se envio correo de verificacion", "success")
+                                .then((value) => {
+                                    localStorage.setItem('user', JSON.stringify(user));
+                                    setTimeout(redirigir, 1000);
+                                })
+                        ).catch();
+                    }
+                });
+            }          
         }
 
         if (this.props.validado && this.props.funcion === "crear_chofer") {
@@ -900,7 +886,9 @@ export default class Crear extends Component {
                     database.ref('cliente/' + id).update({
                         estado: estadocuenta
                     });
-                    setTimeout(redirigir, 1000);
+                    firebaseAuth().signOut()
+                        .then(() => localStorage.removeItem('user'))
+                        .then(() => setTimeout(redirigir, 1000));
                 } else {
                     swal("Error!", "No puede desactivar la cuenta porque tiene pedido pendiente, si desea desactivar la cuenta debera cancelar la reservacion o contactar al chofer en perfil de chofer", "error")
 
@@ -943,7 +931,9 @@ export default class Crear extends Component {
                     //id = this.props.datos[0]
                     database = Fire.database();
                     this.Eliminarcliente(id);
-                    setTimeout(redirigirsesion, 1000);
+                    firebaseAuth().signOut()
+                        .then(() => localStorage.removeItem('user'))
+                        .then(() => setTimeout(redirigirsesion, 1000));
                 } else {
                     swal("Error!", "No puede eliminar la cuenta porque tiene pedido pendiente, si desea desactivar la cuenta debera cancelar la reservacion o contactar al chofer en perfil de chofer", "error")
                 }
