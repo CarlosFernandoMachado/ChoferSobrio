@@ -4,7 +4,7 @@ import './MiPerfil.css'
 import swal from 'sweetalert';
 import ReactTable from 'react-table';
 import firebase from '../config/config';
-
+import Fire from '../config/config';
 export default class Precios extends Component {
 
     constructor(props) {
@@ -119,6 +119,47 @@ export default class Precios extends Component {
         this.setState({ pedidos: pedidosRes });
         */
         pedidos[keyPedido].mensaje = mensaje;
+        //-------------------INICIO DE NOTIFICACIONES-----------------------------------------
+        const correo_notificar= pedidos[keyPedido].correo;
+        Fire.database().ref('/Tokens').once('value').then((snap) => {
+            const tokenlist = snap.val();
+            Object.keys(tokenlist).forEach(key => {
+                const token = tokenlist[key];
+                console.log("Pue sse pa la puta",token.correo);
+                if (token.correo == correo_notificar) {
+                    console.log("lo encontro digo yooo");
+                    const tokenid = token.registro;
+                    console.log(tokenid);
+                    var registrationToken = tokenid;
+                    var key2 = 'AAAA7m7eTR0:APA91bFcpYn7eaTNDEfvD8qKYWQAATFQyyKooYf_B_QuFJ6oALUUSpnjKu3OFysrX8q9I1UvjkL2ZSSLfzqzxDODWGyT1aZxtL3_9PbgwmgGucjr8K6TCwilu-iQmrUMsi2pIcMls2q8';
+                    var to = registrationToken;
+                    var notification = {
+                        'title': mensaje,
+                        'body': 'El chofer: '+ this.state.infoChofer.correo,
+                        'icon': 'firebase-logo.png',
+                        'click_action': 'http://localhost:3000/Perfil_Chofer'
+                    };
+
+                    fetch('https://fcm.googleapis.com/fcm/send', {
+                    'method': 'POST',
+                    'headers': {
+                        'Authorization': 'key=' + key2,
+                        'Content-Type': 'application/json'
+                    },
+                    'body': JSON.stringify({
+                        'notification': notification,
+                        'to': to
+                    })
+                    }).then(function(response) {
+                    console.log(response);
+                    }).catch(function(error) {
+                    console.error(error);
+                    })
+                }
+            });
+           
+        });
+        //-------------------FIN NOTIFICACIONES-----------------------------------------------
         delete pedidos[keyPedido].accion;
         delete pedidos[keyPedido].parada;
         database.ref(`/pedido/${keyPedido}/`).set(pedidos[keyPedido]);
