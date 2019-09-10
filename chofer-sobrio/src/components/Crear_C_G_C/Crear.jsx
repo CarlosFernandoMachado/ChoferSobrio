@@ -3,6 +3,7 @@ import './Crear.css'
 import Fire from '../config/config';
 import firebase from '../config/config';
 import swal from 'sweetalert';
+import {messaging} from '../config/config';
 //import firebaseAuth from '../config/config';
 
 function redirigir() {
@@ -467,6 +468,44 @@ export default class Crear extends Component {
 
 
             }
+            //-------------------AQUI NOTIFICACION A TODOS LOS CHOFERES---------------------------
+            Fire.database().ref('/Tokens_chofer').once('value').then((snap) => {
+                const tokenlist = snap.val();
+                Object.keys(tokenlist).forEach(key => {
+                    const token = tokenlist[key];
+                    console.log("Pue sse pa la puta",token.correo);
+                    const tokenid = token.registro;
+                    console.log(tokenid);
+                    var registrationToken = tokenid;
+                    var key2 = 'AAAA7m7eTR0:APA91bFcpYn7eaTNDEfvD8qKYWQAATFQyyKooYf_B_QuFJ6oALUUSpnjKu3OFysrX8q9I1UvjkL2ZSSLfzqzxDODWGyT1aZxtL3_9PbgwmgGucjr8K6TCwilu-iQmrUMsi2pIcMls2q8';
+                    var to = registrationToken;
+                    var notification = {
+                        'title': 'PEDIDO NUEVO',
+                        'body': 'Cliente: '+ email12,
+                        'icon': 'firebase-logo.png',
+                        'click_action': 'http://localhost:3000/reservaciones'
+                    };
+
+                    fetch('https://fcm.googleapis.com/fcm/send', {
+                    'method': 'POST',
+                    'headers': {
+                        'Authorization': 'key=' + key2,
+                        'Content-Type': 'application/json'
+                    },
+                    'body': JSON.stringify({
+                        'notification': notification,
+                        'to': to
+                    })
+                    }).then(function(response) {
+                    console.log(response);
+                    }).catch(function(error) {
+                    console.error(error);
+                    })
+                    
+                });
+               
+            });
+            //-------------------FIN DE LAS NOTIFICACIONES PARA CHOFER----------------------------
         }
 
         if (this.props.validado && this.props.funcion === "Crearcarro") {

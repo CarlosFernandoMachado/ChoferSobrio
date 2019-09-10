@@ -7,7 +7,7 @@ import firebase from '../config/config';
 import Fire from '../config/config';
 import swal from 'sweetalert';
 import mapa from '../Map/mapa';
-
+import {messaging} from '../config/config';
 export default class Precios extends Component {
 
     constructor(props) {
@@ -69,6 +69,10 @@ export default class Precios extends Component {
     async componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
+            await messaging.requestPermission();
+            const token = await messaging.getToken();
+            console.log('token de usuario:', token);
+
             const info = await firebase.database().ref('/chofer').once('value').then((snap) => {
                 const choferlist = snap.val();
                 let infoChofer;
@@ -82,7 +86,27 @@ export default class Precios extends Component {
                 });
                 return infoChofer;
             });
-
+            if(token){
+                var ref = Fire.database().ref().child('Tokens_chofer');
+                var refTokenEmail = ref.orderByChild('correo').equalTo(user.email);
+                refTokenEmail.once('value', function (snapshot) {
+                if (snapshot.hasChildren()) {
+                    snapshot.forEach(function (child) {
+                        child.ref.update({
+                            correo: user.email,
+                            registro: token
+                        });
+                    });
+                } else {
+                    snapshot.ref.push({
+                        correo: user.email,
+                        registro: token
+                    });
+                }
+                });
+            }else{
+     
+            }
             // pedidos
             this.dbRefPedidos = firebase.database().ref('/pedido');
             this.dbCallbackPedidos = this.dbRefPedidos.on('value', snap => this.setState({ pedidos: snap.val() }));
