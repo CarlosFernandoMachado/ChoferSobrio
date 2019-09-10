@@ -4,6 +4,7 @@ import { Jumbotron, Container, Button } from 'react-bootstrap';
 import ReactTable from 'react-table';
 import './Pedidos.css'
 import firebase from '../config/config';
+import Fire from '../config/config';
 import swal from 'sweetalert';
 import mapa from '../Map/mapa';
 
@@ -139,12 +140,16 @@ export default class Precios extends Component {
         }
     }
     mandarNotificacion(correo_notificar){
-        firebase.database().ref('/Tokens').once('value').then((snap) => {
+       console.log(correo_notificar);
+        Fire.database().ref('/Tokens').once('value').then((snap) => {
             const tokenlist = snap.val();
-            Object.keys(tokenlist).forEach((key, index) => {
+            Object.keys(tokenlist).forEach(key => {
                 const token = tokenlist[key];
-                if (token.correo === correo_notificar) {
+                console.log("Pue sse pa la puta",token.correo);
+                if (token.correo == correo_notificar) {
+                    console.log("lo encontro digo yooo");
                     const tokenid = token.registro;
+                    console.log(tokenid);
                     var registrationToken = tokenid;
                     var key2 = 'AAAA7m7eTR0:APA91bFcpYn7eaTNDEfvD8qKYWQAATFQyyKooYf_B_QuFJ6oALUUSpnjKu3OFysrX8q9I1UvjkL2ZSSLfzqzxDODWGyT1aZxtL3_9PbgwmgGucjr8K6TCwilu-iQmrUMsi2pIcMls2q8';
                     var to = registrationToken;
@@ -152,7 +157,7 @@ export default class Precios extends Component {
                         'title': 'Pedido Atendido',
                         'body': 'El chofer: '+ this.state.infoChofer.correo,
                         'icon': 'firebase-logo.png',
-                        'click_action': 'https://chofersobrio.com'
+                        'click_action': 'http://localhost:3000/Perfil_Chofer'
                     };
 
                     fetch('https://fcm.googleapis.com/fcm/send', {

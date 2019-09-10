@@ -62,12 +62,30 @@ export default class PedirChofer extends Component {
         console.log('token de usuario:', token);
         if(token){
             
-            var database = Fire.database();
+           /* var database = Fire.database();
             var postsRef = database.ref().child("Tokens");
-            postsRef.set({
+            var newPostRef = postsRef.set();
+            newPostRef.set({
                 correo: user.email,
                 registro: token
-              });
+              });*/
+            var ref = Fire.database().ref().child('Tokens');
+            var refTokenEmail = ref.orderByChild('correo').equalTo(user.email);
+            refTokenEmail.once('value', function (snapshot) {
+            if (snapshot.hasChildren()) {
+                snapshot.forEach(function (child) {
+                    child.ref.update({
+                        correo: user.email,
+                        registro: token
+                      });
+                });
+            } else {
+                snapshot.ref.push({
+                    correo: user.email,
+                    registro: token
+                  });
+            }
+            });
         }else{
 
         }
