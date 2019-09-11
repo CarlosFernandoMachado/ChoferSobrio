@@ -852,13 +852,16 @@ export default class Crear extends Component {
                     database.ref('chofer/' + id).update({
                         estado: estadocuenta,
                     });
-                    setTimeout(redirigir, 1000);
+                    firebaseAuth().signOut()
+                        .then(() => localStorage.removeItem('user'))
+                        .then(() => setTimeout(redirigir, 1000));
                 } else {
                     swal("Error!", "No puede desactivar la cuenta porque tiene pedido pendiente", "error")
 
                 }
             });
         }
+        
         if (this.props.validado && this.props.funcion === "eliminar_chofer_t") {
             var estadocuenta = "inactivo"
             const [id, numId] = this.props.datos;
@@ -868,7 +871,9 @@ export default class Crear extends Component {
                 if (!tieneP) {
                     var database = Fire.database();
                     database.ref('chofer/' + id).remove();
-                    setTimeout(redirigir, 1000);
+                    firebaseAuth().signOut()
+                        .then(() => localStorage.removeItem('user'))
+                        .then(() => setTimeout(redirigir, 1000));
                 } else {
                     swal("Error!", "No puede Eliminar la cuenta porque tiene pedido pendiente", "error")
                 }
@@ -902,9 +907,8 @@ export default class Crear extends Component {
             setTimeout(redirigir, 1000);
             */
         }
+
         if (this.props.validado && this.props.funcion === "eliminar_cliente_t") {
-
-
             var estadocuenta = "inactivo"
             const [id, placa] = this.props.datos;
             const user = JSON.parse(localStorage.getItem('user'));
@@ -913,7 +917,7 @@ export default class Crear extends Component {
 
             this.tienePedidoCli(placa, database).then((tienePCli) => {
                 if (!tienePCli) {
-                    var cont = 0;
+                    //var cont = 0;
                     if (user) {
 
                         var rootRef = firebase.database().ref().child("carro");
@@ -970,15 +974,20 @@ export default class Crear extends Component {
             database.ref('gerente/' + id).update({
                 estado: estadocuenta
             });
-            setTimeout(redirigir, 1000);
+            firebaseAuth().signOut()
+                .then(() => localStorage.removeItem('user'))
+                .then(() => setTimeout(redirigir, 1000));
         }
+
         if (this.props.validado && this.props.funcion === "eliminar_gerente_t") {
 
             id = this.props.datos[0]
             database = Fire.database();
 
             this.EliminarGerente(id);
-            setTimeout(redirigir, 1000);
+            firebaseAuth().signOut()
+                .then(() => localStorage.removeItem('user'))
+                .then(() => setTimeout(redirigir, 1000));
         }
 
 
