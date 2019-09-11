@@ -63,6 +63,8 @@ class App extends Component {
     this.state = {
       user: null,
       sideDrawerOpen: false,
+      isGerenteSuper: false,
+      activoGerenteSuper: false,
       isGerente: false,
       activoGerente: false,
       isChofer: false,
@@ -70,6 +72,7 @@ class App extends Component {
       isCliente: false,
       activoCliente: false,
 
+      flagGerenteSuper: false,
       flagGerente: false,
       flagChofer: false,
       flagCliente: false,
@@ -87,6 +90,20 @@ class App extends Component {
 
     if (user) {
       this.setState({ user });
+
+      // Supergerentes
+      this.dbRefGerentesSuper = firebase.database().ref('/SuperGerente');
+      this.dbCallbackGerentesSuper = this.dbRefGerentesSuper.on('value', (snap) => {
+        const gerenteSuper = snap.val();
+        let isGerenteSuper = false;
+        let isActivo = false;
+        Object.keys(gerenteSuper).forEach(key => {
+          isGerenteSuper = isGerenteSuper || gerenteSuper[key].correo === user.email;
+          isActivo = isActivo ||
+            (gerenteSuper[key].correo === user.email && gerenteSuper[key].estado === "activo");
+        });
+        this.setState({ isGerenteSuper, flagGerenteSuper: true, activoGerenteSuper: isActivo });
+      });
 
       // gerentes
       this.dbRefGerentes = firebase.database().ref('/gerente');
@@ -131,6 +148,7 @@ class App extends Component {
       });
     } else {
       this.setState({
+        flagGerenteSuper: true,
         flagGerente: true,
         flagChofer: true,
         flagCliente: true
@@ -143,6 +161,7 @@ class App extends Component {
     const user = JSON.parse(localStorage.getItem('user'));
 
     if (user) {
+      this.dbRefGerentesSuper.off('value', this.dbCallbackGerentesSuper);
       this.dbRefGerentes.off('value', this.dbCallbackGerentes);
       this.dbRefChoferes.off('value', this.dbCallbackChoferes);
       this.dbRefClientes.off('value', this.dbCallbackClientes);
@@ -174,21 +193,24 @@ class App extends Component {
 
   render() {
     const {
+      isGerenteSuper,
+      activoGerenteSuper,
       isGerente,
       activoGerente,
       isChofer,
       activoChofer,
       isCliente,
       activoCliente,
-      flagChofer, flagGerente, flagCliente
+      flagChofer, flagGerenteSuper, flagGerente, flagCliente
     } = this.state;
 
     let permisos = {
+      gerenteSuper: isGerenteSuper,
       gerente: isGerente,
       chofer: isChofer,
       cliente: isCliente,
-      activo: activoGerente || activoChofer || activoCliente,
-      listo: flagChofer && flagGerente && flagCliente
+      activo: activoGerenteSuper || activoGerente || activoChofer || activoCliente,
+      listo: flagChofer && flagGerenteSuper &&flagGerente && flagCliente
     };
 
     let backdrop;
