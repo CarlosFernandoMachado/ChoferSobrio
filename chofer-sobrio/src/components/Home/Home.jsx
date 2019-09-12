@@ -111,8 +111,6 @@ export default class Home extends Component {
     render() {
         const { gerenteSuper,gerente, chofer, cliente, activo, listo, mostrar, logged } = this.state;
 
-        console.log({ activo });
-
         if (!listo) {
             return (
                 <Container>
