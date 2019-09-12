@@ -62,80 +62,80 @@ export default class CrearCliente extends Component {
             estadoc = snapshot.exists()
         });
         alert("Verificando la información del carro..")
-      
+        if (length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
+            this.setState({ telefono: '' });
+            document.getElementById("telefono").value = "";
+        }else if (estadoc==true){
+            alert("El correo que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
+            this.setState({ correo: '' });
+            document.getElementById("correo").value = "";
+            this.setState({ validated: 'false' });
+        }else if (estado==true){
+            alert("La placa que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
+            this.setState({ Placa: '' });
+            document.getElementById("Placa").value = "";
+            this.setState({ validated: 'false' });
+        }else if(this.state.telefono2!='' && this.state.telefono2===this.state.telefono){
+            this.setState({ telefono2: '' });                 
+            document.getElementById("telefono2").value = "";   
+            alert("El número opcional es igual al número principal, por favor ingresa un nuevo número ó puedes dejar el espacio en blanco.");                     
+        }else if(this.state.telefono3!='' && this.state.telefono3===this.state.telefono){
+            this.setState({ telefono3: '' });                 
+            document.getElementById("telefono3").value = "";   
+            alert("Los números opcionales ingresados son iguales, por favor ingrese un nuevo número o puede dejar el espacio en blanco.");                     
+        }else if(this.state.telefono2!='' && this.state.telefono2===this.state.telefono3){
+            this.setState({ telefono3: '' });                 
+            document.getElementById("telefono3").value = "";   
+            alert("El número opcional es igual al número principal, por favor ingresa un nuevo número ó puedes dejar el espacio en blanco.");                     
+        }else if(this.state.telefono2!=='' && ((this.state.telefono2).length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono2))){
+                this.setState({ telefono2: '' });                 
+                document.getElementById("telefono2").value = "";   
+                alert("Ha ingresado un número opcional invalido, por favor vuelve a ingresarlo y sigue el formato de 8 digitos o puedes dejar el campo vacio y continuar.");                     
+        } else if(this.state.telefono3!=='' && ((this.state.telefono3).length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono3))){
+            this.setState({ telefono3: '' });                 
+            document.getElementById("telefono3").value = "";   
+            alert("Ha ingresado un número opcional invalido, por favor vuelve a ingresarlo y sigue el formato de 8 digitos o puedes dejar el campo vacio y continuar.");                     
+        }else if (this.state.Marca == 'Seleccione la marca de su vehículo.') {
+            this.setState({ validated: 'false' });
+        } else if ( placa_cadena.length !== 7 || placa_cadena.match(rex) == null || !/^[a+p+h+P+A+H][a-z+A-Z][a-z+A-Z][0-9][0-9][0-9][0-9]+$/.test(this.state.Placa)) {
+            this.setState({ Placa: '' });
+            document.getElementById("Placa").value = "";
+        } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre) || /^\s+$/.test(this.state.nombre)) {
+            /*Caracteres especiales*/
+            this.setState({ nombre: '' });
+            document.getElementById("nombre").value = "";
+        } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Marca) || /^\s+$/.test(this.state.Marca)) {
+            /*Caracteres especiales*/
+            this.setState({ Marca: 'Seleccione la marca de su vehículo.' });
+            document.getElementById("marcaField").value = "";
+            this.setState({ validated: 'false' });
+        } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Color) || /^\s+$/.test(this.state.Color)) {
+            this.setState({ Color: 'Seleccione el color de su vehículo.' });
+            document.getElementById("colorField").value = "";
+            this.setState({ validated: 'false' });
+        } else if (this.state.color == 'Seleccione el color de su vehículo.') {
+            this.setState({ validated: 'false' });
+        } else if (this.state.contraseña.length<6){
+            this.setState({validated: 'false'});
+            this.setState({contraseña:''});
+            document.getElementById("contraseña").value="";
+            document.getElementById("contraseña").placeholder="Minimo 6 caracteres";
+        }
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
 
-        } else {            
-            if (length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
-                this.setState({ telefono: '' });
-                document.getElementById("telefono").value = "";
-            }else if (estadoc==true){
-                alert("El correo que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
-                this.setState({ correo: '' });
-                document.getElementById("correo").value = "";
-                this.setState({ validated: 'false' });
-            }else if (estado==true){
-                alert("La placa que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
-                this.setState({ Placa: '' });
-                document.getElementById("Placa").value = "";
-                this.setState({ validated: 'false' });
-            }else if(this.state.telefono2!='' && this.state.telefono2===this.state.telefono){
-                this.setState({ telefono2: '' });                 
-                document.getElementById("telefono2").value = "";   
-                alert("El número opcional es igual al número principal, por favor ingresa un nuevo número ó puedes dejar el espacio en blanco.");                     
-            }else if(this.state.telefono3!='' && this.state.telefono3===this.state.telefono){
-                this.setState({ telefono3: '' });                 
-                document.getElementById("telefono3").value = "";   
-                alert("Los números opcionales ingresados son iguales, por favor ingrese un nuevo número o puede dejar el espacio en blanco.");                     
-            }else if(this.state.telefono2!='' && this.state.telefono2===this.state.telefono3){
-                this.setState({ telefono3: '' });                 
-                document.getElementById("telefono3").value = "";   
-                alert("El número opcional es igual al número principal, por favor ingresa un nuevo número ó puedes dejar el espacio en blanco.");                     
-            }else if(this.state.telefono2!=='' && ((this.state.telefono2).length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono2))){
-                    this.setState({ telefono2: '' });                 
-                    document.getElementById("telefono2").value = "";   
-                    alert("Ha ingresado un número opcional invalido, por favor vuelve a ingresarlo y sigue el formato de 8 digitos o puedes dejar el campo vacio y continuar.");                     
-            } else if(this.state.telefono3!=='' && ((this.state.telefono3).length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono3))){
-                this.setState({ telefono3: '' });                 
-                document.getElementById("telefono3").value = "";   
-                alert("Ha ingresado un número opcional invalido, por favor vuelve a ingresarlo y sigue el formato de 8 digitos o puedes dejar el campo vacio y continuar.");                     
-            }else if (this.state.Marca == 'Seleccione la marca de su vehículo.') {
-                this.setState({ validated: 'false' });
-            } else if ( placa_cadena.length !== 7 || placa_cadena.match(rex) == null || !/^[a+p+h+P+A+H][a-z+A-Z][a-z+A-Z][0-9][0-9][0-9][0-9]+$/.test(this.state.Placa)) {
-                this.setState({ Placa: '' });
-                document.getElementById("Placa").value = "";
-            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre) || /^\s+$/.test(this.state.nombre)) {
-                /*Caracteres especiales*/
-                this.setState({ nombre: '' });
-                document.getElementById("nombre").value = "";
-            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Marca) || /^\s+$/.test(this.state.Marca)) {
-                /*Caracteres especiales*/
-                this.setState({ Marca: 'Seleccione la marca de su vehículo.' });
-                document.getElementById("marcaField").value = "";
-                this.setState({ validated: 'false' });
-            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Color) || /^\s+$/.test(this.state.Color)) {
-                this.setState({ Color: 'Seleccione el color de su vehículo.' });
-                document.getElementById("colorField").value = "";
-                this.setState({ validated: 'false' });
-            } else if (this.state.color == 'Seleccione el color de su vehículo.') {
-                this.setState({ validated: 'false' });
-            } else if (this.state.contraseña.length<6){
-                this.setState({validated: 'false'});
-                this.setState({contraseña:''});
-                document.getElementById("contraseña").value="";
-                document.getElementById("contraseña").placeholder="Minimo 6 caracteres";
-            }else {
+        }else {
                     this.setState({ validated: 'true' });
                     event.preventDefault();
                     this.setState({ listo: 'true' });
             }
-        }
+        
         event.preventDefault();
         this.setState({ validated: 'false' });
 
     }
+
 
 
     render() {
