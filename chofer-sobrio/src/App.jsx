@@ -24,8 +24,11 @@ import ModificarContrasenaChofer from './components/ModificarContrasena/Modifica
 import ModificarContrasenaCliente from './components/ModificarContrasena/ModificarContrasenaCliente';
 import ModificarContrasenaGerente from './components/ModificarContrasena/ModificarContrasenaGerente';
 import MostrarChofer from './components/Visualizar/MostrarChofer';
+import MostrarChoferSuper from './components/Visualizar/MostrarChoferSuper';
 import MostrarCliente from './components/Visualizar/MostrarCliente';
+import MostrarClienteSuper from './components/Visualizar/MostrarClienteSuper';
 import MostrarGerente from './components/Visualizar/MostrarGerente';
+import MostrarGerenteSuper from './components/Visualizar/MostrarGerenteSuper';
 import MostrarGerentesInactivos from './components/Visualizar/MostrarGerentesInactivos';
 import MostrarChoferesInactivos from './components/Visualizar/MostrarChoferesInactivos.jsx';
 import PerfilChofer from './components/MiPerfil/PerfilChofer';
@@ -250,8 +253,11 @@ class App extends Component {
               <Route exact path="/ModificarContrasenaCliente" component={ModificarContrasenaCliente}></Route>
               <Route exact path="/ModificarContrasenaGerente" component={ModificarContrasenaGerente}></Route>
               <Route exact path="/MostrarChofer" component={MostrarChofer}></Route>
+              <Route exact path="/MostrarChoferSuper" component={MostrarChoferSuper}></Route>
               <Route exact path="/MostrarCliente" component={MostrarCliente}></Route>
+              <Route exact path="/MostrarClienteSuper" component={MostrarClienteSuper}></Route>
               <Route exact path="/MostrarGerente" component={MostrarGerente}></Route>
+              <Route exact path="/MostrarGerenteSuper" component={MostrarGerenteSuper}></Route>
               <Route exact path="/MostrarGerentesInactivos" component={MostrarGerentesInactivos}></Route>
               <Route exact path="/MostrarChoferesInactivos" component={MostrarChoferesInactivos}></Route>
 

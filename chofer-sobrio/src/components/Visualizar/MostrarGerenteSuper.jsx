@@ -4,7 +4,7 @@ import ReactTable from 'react-table';
 import './Visualizar.css'
 import firebase from '../config/config';
 
-export default class VisualizarGerente extends Component {
+export default class VisualizarGerenteSuper extends Component {
 
     constructor(props) {
         super(props);
@@ -33,6 +33,11 @@ export default class VisualizarGerente extends Component {
             Header: 'Correo',
             accessor: 'correo',
             maxWidth: 300,
+        },{
+            Header: 'Accion',
+            accessor: 'accion',
+            maxWidth: 100,
+            filterable: false,
         }];
 
         this.state = {

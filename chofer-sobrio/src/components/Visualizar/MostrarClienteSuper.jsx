@@ -41,6 +41,11 @@ export default class VisualizarCliente extends Component {
             Header: 'Placa',
             accessor: 'placa',
             maxWidth: 100,
+        }, {
+            Header: 'Accion',
+            accessor: 'accion',
+            maxWidth: 100,
+            filterable: false,
         }];
 
         this.state = {

@@ -33,7 +33,12 @@ export default class VisualizarChofer extends Component {
             Header: 'Correo',
             accessor: 'correo',
             maxWidth: 300,
-        },];
+        }, {
+            Header: 'Accion',
+            accessor: 'accion',
+            maxWidth: 100,
+            filterable: false,
+        }];
 
         this.state = {
             infochofer: {},
