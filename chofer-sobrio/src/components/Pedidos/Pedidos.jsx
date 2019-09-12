@@ -7,7 +7,7 @@ import firebase from '../config/config';
 import Fire from '../config/config';
 import swal from 'sweetalert';
 import mapa from '../Map/mapa';
-import {messaging} from '../config/config';
+import { messaging } from '../config/config';
 export default class Precios extends Component {
 
     constructor(props) {
@@ -81,31 +81,31 @@ export default class Precios extends Component {
                     if (chofer.correo === user.email) {
                         chofer.index = index;
                         infoChofer = chofer;
-                        
+
                     }
                 });
                 return infoChofer;
             });
-            if(token){
+            if (token) {
                 var ref = Fire.database().ref().child('Tokens_chofer');
                 var refTokenEmail = ref.orderByChild('correo').equalTo(user.email);
                 refTokenEmail.once('value', function (snapshot) {
-                if (snapshot.hasChildren()) {
-                    snapshot.forEach(function (child) {
-                        child.ref.update({
+                    if (snapshot.hasChildren()) {
+                        snapshot.forEach(function (child) {
+                            child.ref.update({
+                                correo: user.email,
+                                registro: token
+                            });
+                        });
+                    } else {
+                        snapshot.ref.push({
                             correo: user.email,
                             registro: token
                         });
-                    });
-                } else {
-                    snapshot.ref.push({
-                        correo: user.email,
-                        registro: token
-                    });
-                }
+                    }
                 });
-            }else{
-     
+            } else {
+
             }
             // pedidos
             this.dbRefPedidos = firebase.database().ref('/pedido');
@@ -163,13 +163,13 @@ export default class Precios extends Component {
             this.mandarNotificacion(correo_notificar);
         }
     }
-    mandarNotificacion(correo_notificar){
-       console.log(correo_notificar);
+    mandarNotificacion(correo_notificar) {
+        console.log(correo_notificar);
         Fire.database().ref('/Tokens').once('value').then((snap) => {
             const tokenlist = snap.val();
             Object.keys(tokenlist).forEach(key => {
                 const token = tokenlist[key];
-                console.log("Pue sse pa la puta",token.correo);
+                console.log("Pue sse pa la puta", token.correo);
                 if (token.correo == correo_notificar) {
                     console.log("lo encontro digo yooo");
                     const tokenid = token.registro;
@@ -179,29 +179,29 @@ export default class Precios extends Component {
                     var to = registrationToken;
                     var notification = {
                         'title': 'Pedido Atendido',
-                        'body': 'El chofer: '+ this.state.infoChofer.correo,
+                        'body': 'El chofer: ' + this.state.infoChofer.correo,
                         'icon': 'firebase-logo.png',
                         'click_action': 'http://localhost:3000/Perfil_Chofer'
                     };
 
                     fetch('https://fcm.googleapis.com/fcm/send', {
-                    'method': 'POST',
-                    'headers': {
-                        'Authorization': 'key=' + key2,
-                        'Content-Type': 'application/json'
-                    },
-                    'body': JSON.stringify({
-                        'notification': notification,
-                        'to': to
-                    })
-                    }).then(function(response) {
-                    console.log(response);
-                    }).catch(function(error) {
-                    console.error(error);
+                        'method': 'POST',
+                        'headers': {
+                            'Authorization': 'key=' + key2,
+                            'Content-Type': 'application/json'
+                        },
+                        'body': JSON.stringify({
+                            'notification': notification,
+                            'to': to
+                        })
+                    }).then(function (response) {
+                        console.log(response);
+                    }).catch(function (error) {
+                        console.error(error);
                     })
                 }
             });
-           
+
         });
     }
 
@@ -223,16 +223,16 @@ export default class Precios extends Component {
 
         Object.keys(pedidos).forEach((key, index) => {
             const pedido = pedidos[key];
-            
+
             if ((pedido.fecha === today2 || pedido.fecha === tommorrow) && pedido.estado === "Disponible" && index !== 0) {
-               var paradas12 = pedido.paradas;
-              
+                var paradas12 = pedido.paradas;
+
                 if (permisos.chofer) {
                     pedido.accion = <Button variant="info" onClick={() => this.reservar(key)}>Reservar</Button>;
                     pedido.mapa = <Button variant="info" onClick={() => this.mostrarUbicacion(key)}>Localizar</Button>;
-                    pedido.parada = <Button variant="info" onClick={() => this.mostrarparadas(key,paradas12)}>Ver Paradas</Button>;
-                    
-                    
+                    pedido.parada = <Button variant="info" onClick={() => this.mostrarparadas(key, paradas12)}>Ver Paradas</Button>;
+
+
                 }
 
                 listaPedidos.push(pedido);
@@ -246,18 +246,23 @@ export default class Precios extends Component {
         const { pedidos } = this.state;
         //const pedidosRes = pedidos.map(a => Object.assign({}, a));
         //var coordenadas = pedidosRes[keyPedido].ubicacion.split(",");
-        var coordenadas = pedidos[keyPedido].ubicacion.split(",");
-        var latitud = Number(parseFloat(coordenadas[0]).toFixed(4));
-        var longitud = Number(parseFloat(coordenadas[1]).toFixed(4));
-        this.setState({ lat: latitud });
-        this.setState({ lon: longitud });
-        this.renderMap();
+        var coordenadas = pedidos[keyPedido].ubicacion;
+        if (coordenadas !== 'No la compartio') {
+            coordenadas = coordenadas.split(",");
+            var latitud = Number(parseFloat(coordenadas[0]).toFixed(4));
+            var longitud = Number(parseFloat(coordenadas[1]).toFixed(4));
+            this.setState({ lat: latitud });
+            this.setState({ lon: longitud });
+            this.renderMap();
+        } else {
+            alert('No compartio su ubicacion');
+        }
     }
-    mostrarparadas(keyPedido,paradas12) {
-       
+    mostrarparadas(keyPedido, paradas12) {
+
         swal("Las paradas son:", paradas12);
-       
-       
+
+
     }
 
     renderMap = () => {
@@ -291,7 +296,7 @@ export default class Precios extends Component {
                             columns={this.columnas}
                             filterable
                         />
-                        <div className="spacer-div"/>
+                        <div className="spacer-div" />
                     </div>
                     <div className="map-div" id="map">
                     </div>
