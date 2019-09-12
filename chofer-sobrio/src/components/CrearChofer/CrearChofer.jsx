@@ -55,9 +55,20 @@ export default class CrearChofer extends Component {
 
         } else {
            
-            this.setState({ validated: 'true' });
-            event.preventDefault();
-            this.setState({ listo: 'true' });
+            Fire.database().ref('chofer').orderByChild('telefono').equalTo(this.state.telefono).once('value').then(function (snapshot) {
+                var estado2 = snapshot.exists()
+                 if (estado2 === true) {
+                    
+                     document.getElementById("telefono").value = "";
+                     alert("telefono ya existe")
+                    
+                     
+                 } else {
+                     this.setState({ validated: 'true' });
+                     event.preventDefault();
+                     this.setState({ listo: 'true' });
+                 }
+             });
 
 
 
