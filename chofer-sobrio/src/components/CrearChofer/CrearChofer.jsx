@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from 'react-bootstrap';
 import './CrearChofer.css'
 import Crear from '../Crear_C_G_C/Crear';
+import Fire from '../config/config';
 
 export default class CrearChofer extends Component {
     constructor(props) {

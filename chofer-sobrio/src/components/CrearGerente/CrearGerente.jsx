@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from 'react-bootstrap';
 import './CrearGerente.css'
 import Crear from '../Crear_C_G_C/Crear';
+import Fire from '../config/config';
 
 export default class CrearGerente extends Component {
     constructor(props) {
