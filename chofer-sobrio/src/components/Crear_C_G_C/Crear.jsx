@@ -521,7 +521,7 @@ export default class Crear extends Component {
                 estado = snapshot.exists()
                 Fire.database().ref('carro').orderByChild('placa').equalTo(plate).once('value').then(function (snapshot) {
                     estado2 = snapshot.exists()
-                    if (estado === true && estado2 ==true) {
+                    if ( estado2 ==true) {
                       
                     } else {
                         n = database.ref('/referencias/').once('value').then(function (snapshot) {
