@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from 'react-bootstrap';
 import './CrearGerente.css'
 import Crear from '../Crear_C_G_C/Crear';
+import Fire from '../config/config';
 
 export default class CrearGerente extends Component {
     constructor(props) {
@@ -29,6 +30,10 @@ export default class CrearGerente extends Component {
         const form = event.currentTarget;
         var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
         var lengthID = this.state.identidad.length
+        var estado = 0;
+        var estado2 = 0;
+        var estadoc = 0;
+        var that = this;
 
         if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)) {
             /*Caracteres especiales*/
@@ -57,11 +62,40 @@ export default class CrearGerente extends Component {
 
         } else {
 
-            this.setState({ validated: 'true' });
-            event.preventDefault();
-            this.setState({ listo: 'true' });
-
-            event.preventDefault();
+            Fire.database().ref('gerente').orderByChild('identidad').equalTo(this.state.identidad).once('value').then(function (snapshot) {
+                estado2 = snapshot.exists()
+                Fire.database().ref('gerente').orderByChild('correo').equalTo(that.state.correo).once('value').then(function (snapshot) {
+                    estadoc = snapshot.exists()
+                    Fire.database().ref('gerente').orderByChild('telefono').equalTo(that.state.telefono).once('value').then(function (snapshot) {
+                        estado = snapshot.exists()
+                        if (estado==true){
+                            alert("El telefono que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
+                            that.setState({ telefono: '' });
+                            document.getElementById("telefono").value = "";
+                            that.setState({ validated: 'false' });
+                        }
+                       else if (estadoc==true){
+                            alert("El correo que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
+                            that.setState({ correo: '' });
+                            document.getElementById("correo").value = "";
+                            that.setState({ validated: 'false' });
+                        }
+                        else if (estado2==true){
+                            alert("La identidad que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
+                            that.setState({ identidad: '' });
+                            document.getElementById("identidad").value = "";
+                            that.setState({ validated: 'false' });
+                        }else{
+                            that.setState({ validated: 'true' });
+                            event.preventDefault();
+                            that.setState({ listo: 'true' });
+                        }
+            
+                    })
+        
+                })
+                
+            });
         }
         event.preventDefault()
 

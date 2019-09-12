@@ -20,16 +20,16 @@ export default class CrearCliente extends Component {
             listo: 0,
             clientes: [],
             infocliente: {},
-            telefono2:'',
-            telefono3:'',
-            contraseña:'',
+            telefono2: '',
+            telefono3: '',
+            contraseña: '',
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSelectMarca = this.handleSelectMarca.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
-      
+
 
     }
 
@@ -53,84 +53,125 @@ export default class CrearCliente extends Component {
         var rex = /[a-z][a-z][a-z][0-9][0-9][0-9][0-9]+/i;
         var n = 0;
         var estado = 0;
+        var estado2 = 0;
         var estadoc = 0;
+        var that = this;
 
-        Fire.database().ref('carro').orderByChild('placa').equalTo(this.state.Placa).once('value').then(function (snapshot) {
-            estado = snapshot.exists()
-        });
-        Fire.database().ref('cliente').orderByChild('correo').equalTo(this.state.correo).once('value').then(function (snapshot) {
-            estadoc = snapshot.exists()
-        });
-        alert("Verificando la información del carro..")
-        if (length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
+
+      
+        
+        if(true){
+           
+        }
+         if(true){
+            
+        }
+        if(true){
+            
+        }
+     if (length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
             this.setState({ telefono: '' });
             document.getElementById("telefono").value = "";
-        }else if (estadoc==true){
-            alert("El correo que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
-            this.setState({ correo: '' });
-            document.getElementById("correo").value = "";
+        }
+        if (this.state.telefono2 != '' && this.state.telefono2 === this.state.telefono) {
+            this.setState({ telefono2: '' });
+            document.getElementById("telefono2").value = "";
+            alert("El número opcional es igual al número principal, por favor ingresa un nuevo número ó puedes dejar el espacio en blanco.");
+        }
+        if (this.state.telefono3 != '' && this.state.telefono3 === this.state.telefono) {
+            this.setState({ telefono3: '' });
+            document.getElementById("telefono3").value = "";
+            alert("Los números opcionales ingresados son iguales, por favor ingrese un nuevo número o puede dejar el espacio en blanco.");
+        }
+         if (this.state.telefono2 != '' && this.state.telefono2 === this.state.telefono3) {
+            this.setState({ telefono3: '' });
+            document.getElementById("telefono3").value = "";
+            alert("El número opcional es igual al número principal, por favor ingresa un nuevo número ó puedes dejar el espacio en blanco.");
+        }
+         if (this.state.telefono2 !== '' && ((this.state.telefono2).length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono2))) {
+            this.setState({ telefono2: '' });
+            document.getElementById("telefono2").value = "";
+            alert("Ha ingresado un número opcional invalido, por favor vuelve a ingresarlo y sigue el formato de 8 digitos o puedes dejar el campo vacio y continuar.");
+        } 
+         if (this.state.telefono3 !== '' && ((this.state.telefono3).length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono3))) {
+            this.setState({ telefono3: '' });
+            document.getElementById("telefono3").value = "";
+            alert("Ha ingresado un número opcional invalido, por favor vuelve a ingresarlo y sigue el formato de 8 digitos o puedes dejar el campo vacio y continuar.");
+        } 
+         if (this.state.Marca == 'Seleccione la marca de su vehículo.') {
             this.setState({ validated: 'false' });
-        }else if (estado==true){
-            alert("La placa que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
+        } 
+        if (placa_cadena.length !== 7 || placa_cadena.match(rex) == null || !/^[a+p+h+P+A+H][a-z+A-Z][a-z+A-Z][0-9][0-9][0-9][0-9]+$/.test(this.state.Placa)) {
             this.setState({ Placa: '' });
             document.getElementById("Placa").value = "";
-            this.setState({ validated: 'false' });
-        }else if(this.state.telefono2!='' && this.state.telefono2===this.state.telefono){
-            this.setState({ telefono2: '' });                 
-            document.getElementById("telefono2").value = "";   
-            alert("El número opcional es igual al número principal, por favor ingresa un nuevo número ó puedes dejar el espacio en blanco.");                     
-        }else if(this.state.telefono3!='' && this.state.telefono3===this.state.telefono){
-            this.setState({ telefono3: '' });                 
-            document.getElementById("telefono3").value = "";   
-            alert("Los números opcionales ingresados son iguales, por favor ingrese un nuevo número o puede dejar el espacio en blanco.");                     
-        }else if(this.state.telefono2!='' && this.state.telefono2===this.state.telefono3){
-            this.setState({ telefono3: '' });                 
-            document.getElementById("telefono3").value = "";   
-            alert("El número opcional es igual al número principal, por favor ingresa un nuevo número ó puedes dejar el espacio en blanco.");                     
-        }else if(this.state.telefono2!=='' && ((this.state.telefono2).length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono2))){
-                this.setState({ telefono2: '' });                 
-                document.getElementById("telefono2").value = "";   
-                alert("Ha ingresado un número opcional invalido, por favor vuelve a ingresarlo y sigue el formato de 8 digitos o puedes dejar el campo vacio y continuar.");                     
-        } else if(this.state.telefono3!=='' && ((this.state.telefono3).length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono3))){
-            this.setState({ telefono3: '' });                 
-            document.getElementById("telefono3").value = "";   
-            alert("Ha ingresado un número opcional invalido, por favor vuelve a ingresarlo y sigue el formato de 8 digitos o puedes dejar el campo vacio y continuar.");                     
-        }else if (this.state.Marca == 'Seleccione la marca de su vehículo.') {
-            this.setState({ validated: 'false' });
-        } else if ( placa_cadena.length !== 7 || placa_cadena.match(rex) == null || !/^[a+p+h+P+A+H][a-z+A-Z][a-z+A-Z][0-9][0-9][0-9][0-9]+$/.test(this.state.Placa)) {
-            this.setState({ Placa: '' });
-            document.getElementById("Placa").value = "";
-        } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre) || /^\s+$/.test(this.state.nombre)) {
+        }
+         if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre) || /^\s+$/.test(this.state.nombre)) {
             /*Caracteres especiales*/
             this.setState({ nombre: '' });
             document.getElementById("nombre").value = "";
-        } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Marca) || /^\s+$/.test(this.state.Marca)) {
+        }
+         if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Marca) || /^\s+$/.test(this.state.Marca)) {
             /*Caracteres especiales*/
             this.setState({ Marca: 'Seleccione la marca de su vehículo.' });
             document.getElementById("marcaField").value = "";
             this.setState({ validated: 'false' });
-        } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Color) || /^\s+$/.test(this.state.Color)) {
+        }
+         if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.Color) || /^\s+$/.test(this.state.Color)) {
             this.setState({ Color: 'Seleccione el color de su vehículo.' });
             document.getElementById("colorField").value = "";
             this.setState({ validated: 'false' });
-        } else if (this.state.color == 'Seleccione el color de su vehículo.') {
+        } 
+         if (this.state.color == 'Seleccione el color de su vehículo.') {
             this.setState({ validated: 'false' });
-        } else if (this.state.contraseña.length<6){
-            this.setState({validated: 'false'});
-            this.setState({contraseña:''});
-            document.getElementById("contraseña").value="";
-            document.getElementById("contraseña").placeholder="Minimo 6 caracteres";
+        }
+         if (this.state.contraseña.length < 6) {
+            this.setState({ validated: 'false' });
+            this.setState({ contraseña: '' });
+            document.getElementById("contraseña").value = "";
+            document.getElementById("contraseña").placeholder = "Minimo 6 caracteres";
         }
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
 
-        }else {
-                    this.setState({ validated: 'true' });
-                    event.preventDefault();
-                    this.setState({ listo: 'true' });
-            }
+        } else {
+            Fire.database().ref('cliente').orderByChild('placa').equalTo(this.state.Placa).once('value').then(function (snapshot) {
+                estado2 = snapshot.exists()
+                Fire.database().ref('cliente').orderByChild('correo').equalTo(that.state.correo).once('value').then(function (snapshot) {
+                    estadoc = snapshot.exists()
+                    Fire.database().ref('cliente').orderByChild('telefono').equalTo(that.state.telefono).once('value').then(function (snapshot) {
+                        estado = snapshot.exists()
+                        if (estado==true){
+                            alert("El telefono que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
+                            that.setState({ telefono: '' });
+                            document.getElementById("telefono").value = "";
+                            that.setState({ validated: 'false' });
+                        }
+                       else if (estadoc==true){
+                            alert("El correo que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
+                            that.setState({ correo: '' });
+                            document.getElementById("correo").value = "";
+                            that.setState({ validated: 'false' });
+                        }
+                        else if (estado2==true){
+                            alert("La placa que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
+                            that.setState({ Placa: '' });
+                            document.getElementById("Placa").value = "";
+                            that.setState({ validated: 'false' });
+                        }else{
+                            that.setState({ validated: 'true' });
+                            event.preventDefault();
+                            that.setState({ listo: 'true' });
+                        }
+            
+                    })
         
+                })
+                
+            });
+            
+        }
+
         event.preventDefault();
         this.setState({ validated: 'false' });
 
@@ -153,7 +194,7 @@ export default class CrearCliente extends Component {
                             validated={validated}
                             onSubmit={e => this.handleSubmit(e)}
                         >
-                            
+
                             <Form.Row>
                                 <Form.Group as={Col} md="4" >
                                     <Form.Label>Color de vehículo:</Form.Label>
@@ -348,7 +389,7 @@ export default class CrearCliente extends Component {
                                     <Form.Control.Feedback type="invalid">
                                         Numero de telefono invalido siga el formato indicado 8 digitos numericos
                             </Form.Control.Feedback>
-                              
+
                                 </Form.Group>
                                 <Form.Group as={Col} md="4">
                                     <Form.Label>Telefono 2 (Opcional)</Form.Label>
@@ -364,11 +405,11 @@ export default class CrearCliente extends Component {
                                         Numero de telefono invalido siga el formato indicado 8 digitos numericos
                             </Form.Control.Feedback>
                                 </Form.Group>
-                                
+
                                 <Form.Group as={Col} md="4">
                                     <Form.Label>Telefono 3 (Opcional)</Form.Label>
                                     <Form.Control
-                                        
+
                                         type="number"
                                         name="telefono3"
                                         placeholder="_ _ _ _ _ _ _ _"
@@ -399,8 +440,8 @@ export default class CrearCliente extends Component {
                             </Form.Row>
                             <div className="text-center">
                                 <Button type="submit" variant="warning" > Registrarse</Button>
-                                <Crear validado = {this.state.listo} datos={[this.state.Color,this.state.correo,this.state.Marca,this.state.Placa]} funcion={"Crearcarro"}/>
-                                <Crear validado={this.state.listo} datos={[this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo, this.state.telefono2,this.state.telefono3,this.state.contraseña]} funcion={"crear_cliente"} />
+                                <Crear validado={this.state.listo} datos={[this.state.Color, this.state.correo, this.state.Marca, this.state.Placa]} funcion={"Crearcarro"} />
+                                <Crear validado={this.state.listo} datos={[this.state.Color, this.state.Marca, this.state.nombre, this.state.Placa, this.state.telefono, this.state.correo, this.state.telefono2, this.state.telefono3, this.state.contraseña]} funcion={"crear_cliente"} />
                             </div>
 
 
