@@ -126,7 +126,7 @@ export default class Precios extends Component {
             Object.keys(tokenlist).forEach(key => {
                 const token = tokenlist[key];
                 console.log("Pue sse pa la puta",token.correo);
-                if (token.correo == correo_notificar) {
+                if (token.correo === correo_notificar) {
                     console.log("lo encontro digo yooo");
                     const tokenid = token.registro;
                     console.log(tokenid);
