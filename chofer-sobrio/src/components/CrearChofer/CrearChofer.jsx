@@ -60,11 +60,11 @@ export default class CrearChofer extends Component {
 
         } else {
            
-            Fire.database().ref('gerente').orderByChild('identidad').equalTo(this.state.identidad).once('value').then(function (snapshot) {
+            Fire.database().ref('chofer').orderByChild('identidad').equalTo(this.state.identidad).once('value').then(function (snapshot) {
                 estado2 = snapshot.exists()
-                Fire.database().ref('gerente').orderByChild('correo').equalTo(that.state.correo).once('value').then(function (snapshot) {
+                Fire.database().ref('chofer').orderByChild('correo').equalTo(that.state.correo).once('value').then(function (snapshot) {
                     estadoc = snapshot.exists()
-                    Fire.database().ref('gerente').orderByChild('telefono').equalTo(that.state.telefono).once('value').then(function (snapshot) {
+                    Fire.database().ref('chofer').orderByChild('telefono').equalTo(that.state.telefono).once('value').then(function (snapshot) {
                         estado = snapshot.exists()
                         if (estado==true){
                             alert("El telefono que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
