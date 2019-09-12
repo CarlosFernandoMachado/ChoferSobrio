@@ -542,6 +542,7 @@ export default class Crear extends Component {
                     }
                 });
             });
+            setTimeout(redirigir, 1000);
             
            
             // swal("Exito!", "Carro agregado exitosamente!", "success")

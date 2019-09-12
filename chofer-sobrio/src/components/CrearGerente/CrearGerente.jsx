@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from 'react-bootstrap';
 import './CrearGerente.css'
 import Crear from '../Crear_C_G_C/Crear';
-import Fire from '../config/config';
 
 export default class CrearGerente extends Component {
     constructor(props) {
@@ -57,20 +56,12 @@ export default class CrearGerente extends Component {
             event.stopPropagation();
 
         } else {
-            Fire.database().ref('gerente').orderByChild('telefono').equalTo(this.state.telefono).once('value').then(function (snapshot) {
-                var estado2 = snapshot.exists()
-                 if (estado2 === true) {
-                    
-                     document.getElementById("telefono").value = "";
-                     alert("telefono ya existe en la BD")
-                    
-                     
-                 } else {
-                     this.setState({ validated: 'true' });
-                     event.preventDefault();
-                     this.setState({ listo: 'true' });
-                 }
-             });
+
+            this.setState({ validated: 'true' });
+            event.preventDefault();
+            this.setState({ listo: 'true' });
+
+            event.preventDefault();
         }
         event.preventDefault()
 

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from 'react-bootstrap';
 import './CrearChofer.css'
 import Crear from '../Crear_C_G_C/Crear';
-import Fire from '../config/config';
 
 export default class CrearChofer extends Component {
     constructor(props) {
@@ -56,20 +55,9 @@ export default class CrearChofer extends Component {
 
         } else {
            
-            Fire.database().ref('chofer').orderByChild('telefono').equalTo(this.state.telefono).once('value').then(function (snapshot) {
-                var estado2 = snapshot.exists()
-                 if (estado2 === true) {
-                    
-                     document.getElementById("telefono").value = "";
-                     alert("telefono ya existe")
-                    
-                     
-                 } else {
-                     this.setState({ validated: 'true' });
-                     event.preventDefault();
-                     this.setState({ listo: 'true' });
-                 }
-             });
+            this.setState({ validated: 'true' });
+            event.preventDefault();
+            this.setState({ listo: 'true' });
 
 
 
