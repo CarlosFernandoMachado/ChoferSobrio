@@ -515,21 +515,35 @@ export default class Crear extends Component {
             brand = this.props.datos[2];
             plate = this.props.datos[3];
             id = 0;
+            var estado = 0;
+            var estado2 = 0;
+            Fire.database().ref('carro ').orderByChild('correo').equalTo(email).once('value').then(function (snapshot) {
+                estado = snapshot.exists()
+                Fire.database().ref('carro').orderByChild('placa').equalTo(plate).once('value').then(function (snapshot) {
+                    estado2 = snapshot.exists()
+                    if (estado === true && estado2 ==true) {
+                      
+                    } else {
+                        n = database.ref('/referencias/').once('value').then(function (snapshot) {
+                            id = (snapshot.val() && snapshot.val().id_carro) || 'Anonymous';
+                            id++;
+                            database.ref('carro/' + id).set({
+                                color: colour,
+                                marca: brand,
+                                placa: plate,
+                                correo: email,
+                                cambio: "no",
+                            });
+                            database.ref('referencias/').update({
+                                id_carro: id
+                            });
+                        });
 
-            n = database.ref('/referencias/').once('value').then(function (snapshot) {
-                id = (snapshot.val() && snapshot.val().id_carro) || 'Anonymous';
-                id++;
-                database.ref('carro/' + id).set({
-                    color: colour,
-                    marca: brand,
-                    placa: plate,
-                    correo: email,
-                    cambio: "no",
-                });
-                database.ref('referencias/').update({
-                    id_carro: id
+                    }
                 });
             });
+            
+           
             // swal("Exito!", "Carro agregado exitosamente!", "success")
             //     .then((value) => {
             //         setTimeout(redirigir, 1000);
@@ -563,27 +577,39 @@ export default class Crear extends Component {
                 });
                 
             });
-            n = database.ref('/referencias/').once('value').then(function (snapshot) {
-                id = (snapshot.val() && snapshot.val().id_cliente) || 'Anonymous';
-                id++;
-                database.ref('cliente/' + id).set({
-                    color_vehiculo: colour,
-                    correo: email,
-                    estado: estadocuenta,
-                    marca: brand,
-                    nombre: name,
-                    placa: plate,
-                    telefono: telephone,
-                    telefono2: telefono2,
-                    telefono3: telefono3
-                });
-                database.ref('referencias/').update({
-                    id_cliente: id
-                });
+            
+            Fire.database().ref('cliente').orderByChild('correo').equalTo(email).once('value').then(function (snapshot) {
+                estado2 = snapshot.exists()
+                if (estado2 === true) {
+                   
+                   
+                    
+                } else {
+                    var m = database.ref('/referencias/').once('value').then(function (snapshot) {
+                        id = (snapshot.val() && snapshot.val().id_cliente) || 'Anonymous';
+                        id++;
+                        database.ref('cliente/' + id).set({
+                            color_vehiculo: colour,
+                            correo: email,
+                            estado: estadocuenta,
+                            marca: brand,
+                            nombre: name,
+                            placa: plate,
+                            telefono: telephone,
+                            telefono2: telefono2,
+                            telefono3: telefono3
+                        });
+                        database.ref('referencias/').update({
+                            id_cliente: id
+                        });
+                    });
+                }
             });
 
+           
+
             if (localStorage.getItem('user')) {
-                // swal("Exitos!", "Usuario registrado exitosamente! Se envio correo de verificacion", "success");
+                 swal("Exitos!", "Usuario registrado exitosamente! Se envio correo de verificacion", "success");
                 Fire.auth().currentUser.sendEmailVerification().then(() => setTimeout(redirigir, 1000));
             } else {
                 Fire.auth().createUserWithEmailAndPassword(email, my_contraseña).then(function (user) {
