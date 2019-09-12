@@ -72,18 +72,25 @@ export default class CrearChofer extends Component {
                             document.getElementById("telefono").value = "";
                             that.setState({ validated: 'false' });
                         }
-                       else if (estadoc==true){
+                        if (estadoc==true){
                             alert("El correo que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
                             that.setState({ correo: '' });
                             document.getElementById("correo").value = "";
                             that.setState({ validated: 'false' });
                         }
-                        else if (estado2==true){
+                         if (estado2==true){
                             alert("La identidad que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
                             that.setState({ identidad: '' });
                             document.getElementById("identidad").value = "";
                             that.setState({ validated: 'false' });
-                        }else{
+                        }  
+                        if (form.checkValidity() === false) {
+                            this.setState({ validated: 'false' })
+                            event.preventDefault();
+                            event.stopPropagation();
+                
+                        }
+                        else{
                             that.setState({ validated: 'true' });
                             event.preventDefault();
                             that.setState({ listo: 'true' });
