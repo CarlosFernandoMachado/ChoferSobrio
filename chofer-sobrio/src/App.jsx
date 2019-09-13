@@ -17,9 +17,10 @@ import Pedidos from './components/Pedidos/Pedidos';
 import ModificarCliente from './components/ModificarCliente/ModificarCliente'
 import ModificarChofer from './components/ModificarChofer/ModificarChofer'
 import ModificarGerente from './components/ModificarGerente/ModificarGerente'
+import ModificarGerenteSuper from './components/ModificarGerenteSuper/ModificarGerenteSuper'
 import IniciarSesion from './components/IniciarSesion/IniciarSesion';
 import Password_olvidada from './components/Password_olvidada/Password_olvidada';
-import { Gerente, Chofer, Cliente, GerenteChofer, Cualquiera } from './routes';
+import { Gerente, GerenteSuper, Chofer, Cliente, GerenteChofer, Cualquiera } from './routes';
 import ModificarContrasenaChofer from './components/ModificarContrasena/ModificarContrasenaChofer';
 import ModificarContrasenaCliente from './components/ModificarContrasena/ModificarContrasenaCliente';
 import ModificarContrasenaGerente from './components/ModificarContrasena/ModificarContrasenaGerente';
@@ -236,6 +237,8 @@ class App extends Component {
             <div>
               <Route exact path="/conocenos" component={Info}></Route>
               <Route exact path="/feedback" component={feedback}></Route>
+              <GerenteSuper exact path="/listarfeedback" permisos={permisos} component={ListarFeedback}></GerenteSuper>
+              <GerenteSuper exact path="/comentarioschofer" permisos={permisos} component={ComentariosChofer}></GerenteSuper>
               <Gerente exact path="/listarfeedback" permisos={permisos} component={ListarFeedback}></Gerente>
               <Gerente exact path="/comentarioschofer" permisos={permisos} component={ComentariosChofer}></Gerente>
               <Cualquiera exact path="/" permisos={permisos} component={Home}></Cualquiera>
@@ -243,9 +246,12 @@ class App extends Component {
               <Route exact path="/seguridad" component={Seguridad}></Route>
               <Route exact path="/crear" component={Crear}></Route>
               <Route exact path="/pedirchofer" permisos={permisos} component={PedirChofer}></Route>
-              <Gerente exact path="/CrearGerente" permisos={permisos} component={CrearGerente}></Gerente>
-              <Gerente exact path="/CrearChofer" permisos={permisos} component={CrearChofer}></Gerente>
+              <GerenteSuper exact path="/CrearGerente" permisos={permisos} component={CrearGerente}></GerenteSuper>
+              <GerenteSuper exact path="/CrearChofer" permisos={permisos} component={CrearChofer}></GerenteSuper>
+              <GerenteSuper exact path="/Historial" permisos={permisos} component={Historial}></GerenteSuper>
               <Gerente exact path="/Historial" permisos={permisos} component={Historial}></Gerente>
+              <GerenteSuper exact path="/reservaciones" permisos={permisos} component={Pedidos}></GerenteSuper>
+              <GerenteSuper exact path="/mapa" permisos={permisos} component={mapa} latitud={this.state.latitud} longitud={this.state.longitud}></GerenteSuper>
               <GerenteChofer exact path="/reservaciones" permisos={permisos} component={Pedidos}></GerenteChofer>
               <GerenteChofer exact path="/mapa" permisos={permisos} component={mapa} latitud={this.state.latitud} longitud={this.state.longitud}></GerenteChofer>
               <Chofer exact path="/subirfoto" permisos={permisos} component={SubirFoto}></Chofer>
@@ -267,6 +273,7 @@ class App extends Component {
               <Route exact path="/MostrarChoferesInactivos" component={MostrarChoferesInactivos}></Route>
 
               <Route exact path="/ModificarGerente" component={ModificarGerente}></Route>
+              <Route exact path="/ModificarGerenteSuper" component={ModificarGerenteSuper}></Route>
               <Route exact path="/ModificarChofer" component={ModificarChofer}></Route>
               <Route exact path="/ModificarCliente" component={ModificarCliente}></Route>
               <Route exact path="/EliminarCuentaGerente" component={Eliminar_Cuenta}></Route>

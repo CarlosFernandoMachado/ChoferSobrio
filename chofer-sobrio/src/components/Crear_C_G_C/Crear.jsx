@@ -109,6 +109,13 @@ export default class Crear extends Component {
         });
     }
 
+    modificarvalidaciongerentesuper(id, validado) {
+        var database = Fire.database();
+        database.ref('SuperGerente/' + id).update({
+            validado: validado
+        });
+    }
+
     modificarcontraseñachofer(id, contraseña) {
         var database = Fire.database();
         database.ref('chofer/' + id).update({
@@ -134,6 +141,13 @@ export default class Crear extends Component {
     modificarcontraseñagerente(id, contraseña) {
         var database = Fire.database();
         database.ref('gerente/' + id).update({
+            contraseña: ""
+        });
+    }
+
+    modificarcontraseñagerenteSuper(id, contraseña) {
+        var database = Fire.database();
+        database.ref('SuperGerente/' + id).update({
             contraseña: ""
         });
     }
@@ -177,9 +191,26 @@ export default class Crear extends Component {
         });
     }
 
+    modificargerenteSuper(id, id2, name, number, email, telefono2, telefono3) {
+        var database = Fire.database();
+        database.ref('SuperGerente/' + id).update({
+            identidad: id2,
+            nombre: name,
+            telefono: number,
+            correo: email,
+            telefono2: telefono2,
+            telefono3: telefono3
+        });
+    }
+
     EliminarGerente(id) {
         var database = Fire.database();
         database.ref('gerente/' + id).remove();
+    }
+
+    EliminarGerenteSuper(id) {
+        var database = Fire.database();
+        database.ref('SuperGerente/' + id).remove();
     }
 
     Crearcliente(id, color_vehiculo, marca, nombre, placa, telefono, email) {
@@ -890,6 +921,23 @@ export default class Crear extends Component {
            
         }
 
+        if (this.props.validado && this.props.funcion === "modificar_gerenteSuper") {
+            database = Fire.database();
+            identity = this.props.datos[0];
+            name = this.props.datos[1];
+            telephone = this.props.datos[2];
+            email = this.props.datos[3];
+            id = this.props.datos[4];
+            var telefono2 = this.props.datos[5];
+            var telefono3 = this.props.datos[6];
+            this.modificargerenteSuper(id, identity, name, telephone, email, telefono2, telefono3);
+            swal("Exito!", "Modificado exitosamente!", "success")
+                .then((value) => {
+                    setTimeout(redirigir, 1000);
+
+                })
+        }
+
         /*if (this.props.validado && this.props.funcion === "password_gerente") {
             this.update_password_cliente();
         }*/
@@ -1059,6 +1107,30 @@ export default class Crear extends Component {
             database = Fire.database();
 
             this.EliminarGerente(id);
+            firebaseAuth().signOut()
+                .then(() => localStorage.removeItem('user'))
+                .then(() => setTimeout(redirigir, 1000));
+        }
+
+        if (this.props.validado && this.props.funcion === "eliminar_gerenteSuper") {
+            var estadocuenta = "inactivo"
+            id = this.props.datos[0]
+            database = Fire.database();
+
+            database.ref('SuperGerente/' + id).update({
+                estado: estadocuenta
+            });
+            firebaseAuth().signOut()
+                .then(() => localStorage.removeItem('user'))
+                .then(() => setTimeout(redirigir, 1000));
+        }
+
+        if (this.props.validado && this.props.funcion === "eliminar_gerenteSuper_t") {
+
+            id = this.props.datos[0]
+            database = Fire.database();
+
+            this.EliminarGerenteSuper(id);
             firebaseAuth().signOut()
                 .then(() => localStorage.removeItem('user'))
                 .then(() => setTimeout(redirigir, 1000));
