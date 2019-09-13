@@ -451,6 +451,8 @@ export default class Crear extends Component {
                     pago: pago,
                     paradas: paradasAdicionales,
                     correo: email12,
+                    comentario_chofer: 'Ninguno',
+                    puntaje_pedido: 0,
                 });
                 database.ref('referencias/').update({
                     id_pedido: id

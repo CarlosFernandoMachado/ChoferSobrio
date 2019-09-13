@@ -272,6 +272,11 @@ class Toolbar extends React.Component {
                     </Link>
                 </Dropdown.Item>,
                 <Dropdown.Item key={key++}>
+                <Link to="/historial_servicios_chofer">
+                    <Button>Historial de servicios</Button>
+                </Link>
+            </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
                     <Link to="/ModificarChofer">
                         <Button>Modificar mi cuenta</Button>
                     </Link>

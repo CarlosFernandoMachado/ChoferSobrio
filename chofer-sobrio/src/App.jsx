@@ -59,6 +59,7 @@ import GestionPreguntas from './components/Preguntas_Frecuentes/GestionPreguntas
 import MostrarPreguntas from './components/Preguntas_Frecuentes/MostrarPreguntas';
 import ModificarPregunta from './components/Preguntas_Frecuentes/ModificarPregunta';
 import historial_pedidos_cliente from './components/historial_pedidos_cliente/historial_pedidos_cliente';
+import historial_servicios_chofer from './components/historial_servicios_chofer/historial_servicios_chofer';
 
 class App extends Component {
   constructor(props) {
@@ -284,6 +285,7 @@ class App extends Component {
               <Route exact path="/MostrarPreguntas" component={MostrarPreguntas}></Route>
               <Route exact path="/ModificarPregunta" component={ModificarPregunta}></Route>
               <Route exact path="/historial_pedidos_cliente" component={historial_pedidos_cliente}></Route>
+              <Route exact path="/historial_servicios_chofer" component={historial_servicios_chofer}></Route>
             </div>
           </main>
         </div>
