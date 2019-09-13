@@ -300,8 +300,15 @@ export default class Crear extends Component {
             pregunta: question,
             respuesta: answer,
         });
-        swal("Exito!", "La pregunta ha sido modificada, por favor accede a preguntas frecuentes para verificar el cambio.", "success")
 
+    }
+
+    modificarInformacion(key, tittle, content) {
+        var database = Fire.database();
+        database.ref('informacion/' + key).update({
+            titulo: tittle,
+            contenido: content,
+        });
 
     }
 
@@ -360,7 +367,7 @@ export default class Crear extends Component {
         var pago;
         var paradasAdicionales;
         var question;
-        var answer;
+        var titulo;
 
         if (this.props.validado && this.props.funcion === "crear_gerente") {
             database = Fire.database();
@@ -733,6 +740,30 @@ export default class Crear extends Component {
             setTimeout(redirigir, 1000);
         }
 
+        if (this.props.validado && this.props.funcion === "crear_informacion") {
+            database = Fire.database();
+            var titulo = this.props.datos[0];
+            var contenido = this.props.datos[1];
+            id = 0;
+            n = database.ref('/referencias/').once('value').then(function (snapshot) {
+                id = (snapshot.val() && snapshot.val().id_info) || 'Anonymous';
+                id++;
+                database.ref('informacion/' + id).set({
+                    contenido: contenido,
+                    titulo: titulo,
+                    cambio: "0",
+                });
+                database.ref('referencias/').update({
+                    id_info: id
+                });
+            });
+            swal("Exito!", "Se ha agregado la información a la página Nuestra Info!", "success")
+            .then((value) => {
+                setTimeout(redirigir, 1000);
+
+            })
+        }
+
         if (this.props.validado && this.props.funcion === "crearhistorial") {
             database = Fire.database();
             var driver = this.props.datos[0];
@@ -809,9 +840,23 @@ export default class Crear extends Component {
         if (this.props.validado && this.props.funcion === "modificar_pregunta") {
             database = Fire.database();
             id = this.props.datos[0];
-            question = this.props.datos[1];
-            answer = this.props.datos[2];
+            var question = this.props.datos[1];
+            var answer = this.props.datos[2];
             this.modificarPregunta(id, question, answer)
+            swal("Exito!", "Modificado exitosamente!", "success")
+            .then((value) => {
+                setTimeout(redirigir, 1000);
+
+            })
+           
+        }
+
+        if (this.props.validado && this.props.funcion === "modificar_info") {
+            database = Fire.database();
+            id = this.props.datos[0];
+            var tittle = this.props.datos[1];
+            var content = this.props.datos[2];
+            this.modificarInformacion(id, tittle, content)
             swal("Exito!", "Modificado exitosamente!", "success")
             .then((value) => {
                 setTimeout(redirigir, 1000);

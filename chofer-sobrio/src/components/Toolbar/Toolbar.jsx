@@ -251,6 +251,11 @@ class Toolbar extends React.Component {
                      <Button>Gestión de preguntas frecuentes</Button>
                  </Link>
              </Dropdown.Item>,
+              <Dropdown.Item key={key++}>
+              <Link to="/GestionInfo">
+                  <Button>Gestión de información</Button>
+              </Link>
+          </Dropdown.Item>,
                 <Dropdown.Item key={key++}>
                 <Link to="/EliminarCuentaTotal_Gerente">
                     <Button>Eliminar mi cuenta Gerente</Button>
