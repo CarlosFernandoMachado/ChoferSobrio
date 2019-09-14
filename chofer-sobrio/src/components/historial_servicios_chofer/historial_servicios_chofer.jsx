@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-pascal-case */
 import React, { Component } from 'react'
 import { Jumbotron, Container, Table, Card, Alert, Button,Form, Dropdown,Col} from 'react-bootstrap';
-    import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import ReactTable from 'react-table';
 
@@ -51,6 +51,7 @@ export default class historial_pedidos_cliente extends Component {
             comentario_pedido:"",
             key_pedido:"",
             telefono_pedido:"",
+            correo_cliente:"",
             modal: false
         };
 
@@ -105,7 +106,7 @@ export default class historial_pedidos_cliente extends Component {
                     this.setState({fecha_pedido:pedido.fecha});
                     this.setState({key_pedido:keyPedido});
                     this.setState({telefono_pedido:pedido.telefono});
-                   
+                    this.setState({correo_cliente:pedido.correo});
                 }
             });
         });
@@ -117,6 +118,7 @@ export default class historial_pedidos_cliente extends Component {
         const nuevo_feedback ={
             comentario:this.state.comentario_pedido,
             telefono_cliente: this.state.telefono_pedido,
+            correo_cliente: this.state.correo_cliente,
             puntaje:this.state.puntuacion_pedido,
             correo_chofer:this.state.infoChofer.correo,
             id_pedido: this.state.key_pedido,
