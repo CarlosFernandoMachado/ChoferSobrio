@@ -50,12 +50,7 @@ export default class VisualizarCliente extends Component {
             maxWidth: 200,
             filterable: false,
         }];
-        this.columnas2 = [{
-            Header: 'Nombre',
-            accessor: 'nombre',
-            maxWidth: 200,
-        }];
-
+       
 
         this.state = {
             clientes: [],

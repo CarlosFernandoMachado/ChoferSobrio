@@ -46,6 +46,7 @@ export default class historial_pedidos_cliente extends Component {
             pedidos: [],
             permisos: props.permisos,
             id_chofer:"",
+            correo_chofer:'',
             fecha_pedido:"",
             puntuacion_pedido:1,
             comentario_pedido:"",
@@ -103,7 +104,7 @@ export default class historial_pedidos_cliente extends Component {
                     this.setState({id_chofer:pedido.idchofer});
                     this.setState({fecha_pedido:pedido.fecha});
                     this.setState({key_pedido:keyPedido});
-                   
+                    this.setState({correo_chofer:pedido.correo_chofer});
                 }
             });
         });
@@ -117,7 +118,8 @@ export default class historial_pedidos_cliente extends Component {
             puntaje:this.state.puntuacion_pedido,
             correo_cliente:this.state.infoChofer.correo,
             id_chofer: this.state.id_chofer,
-            fecha: this.state.fecha_pedido
+            fecha: this.state.fecha_pedido,
+            correo_chofer: this.state.correo_chofer
         };
         
         const dbRef = firebase.database().ref('Feedback');
@@ -128,7 +130,7 @@ export default class historial_pedidos_cliente extends Component {
         var database = firebase.database();
         database.ref('pedido/' + this.state.key_pedido).update({
             estado: "Calificado",
-         });
+        });
         
     }
     toggle() {

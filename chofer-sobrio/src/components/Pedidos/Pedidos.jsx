@@ -155,6 +155,7 @@ export default class Precios extends Component {
             database.ref(`/pedido/${keyPedido}/`).set(pedidosRes[keyPedido]);
             */
             pedidos[keyPedido].estado = 'Ocupado';
+            pedidos[keyPedido].correo_chofer = infoChofer.correo;
             pedidos[keyPedido].idchofer = this.state.infoChofer.identidad;
             const correo_notificar = pedidos[keyPedido].correo;
             delete pedidos[keyPedido].accion;

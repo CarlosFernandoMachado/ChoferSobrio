@@ -489,6 +489,7 @@ export default class Crear extends Component {
                     pago: pago,
                     paradas: paradasAdicionales,
                     correo: email12,
+                    correo_chofer:'ninguno',
                     comentario_chofer: 'Ninguno',
                     puntaje_pedido: 0,
                 });
