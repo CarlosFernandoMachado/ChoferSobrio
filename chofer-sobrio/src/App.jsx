@@ -237,69 +237,74 @@ class App extends Component {
             <div>
               <Route exact path="/conocenos" component={Info}></Route>
               <Route exact path="/feedback" component={feedback}></Route>
-              <GerenteSuper exact path="/listarfeedback" permisos={permisos} component={ListarFeedback}></GerenteSuper>
-              <GerenteSuper exact path="/comentarioschofer" permisos={permisos} component={ComentariosChofer}></GerenteSuper>
-              <Gerente exact path="/listarfeedback" permisos={permisos} component={ListarFeedback}></Gerente>
-              <Gerente exact path="/comentarioschofer" permisos={permisos} component={ComentariosChofer}></Gerente>
               <Cualquiera exact path="/" permisos={permisos} component={Home}></Cualquiera>
               <Route exact path="/precios" component={Precios}></Route>
               <Route exact path="/seguridad" component={Seguridad}></Route>
               <Route exact path="/crear" component={Crear}></Route>
               <Route exact path="/pedirchofer" permisos={permisos} component={PedirChofer}></Route>
+              <Route exact path="/CrearCliente" component={CrearCliente}></Route>
+              <Route exact path="/activarcuentas" component={activarcuentas}></Route>
+              <Cualquiera exact path="/iniciarSesion" component={IniciarSesion}></Cualquiera>
+              <Route exact path="/Password_olvidada"  component={Password_olvidada}></Route>
+              <Route exact path="/NuestraInfo" component={Nuestra_Info}></Route>
+              <Route exact path="/PreguntasFrecuentes" component={PreguntasFrecuentes}></Route>
+
+              <Cliente exact path="/historial_pedidos_cliente" permisos={permisos} component={historial_pedidos_cliente}></Cliente>
+              <Cliente exact path="/ModificarContrasenaCliente" permisos={permisos} component={ModificarContrasenaCliente}></Cliente>
+              <Cliente exact path="/EliminarCuentaCliente" permisos={permisos} component={Eliminar_Cuenta_Cliente}></Cliente>
+              <Cliente exact path="/EliminarCuentaTotal_Cliente" permisos={permisos} component={EliminarCuentaTotal_Cliente}></Cliente>
+              <Cliente exact path="/Perfil_Chofer" permisos={permisos} component={PerfilChofer}></Cliente>
+              <Cliente exact path="/MisReservaciones" permisos={permisos} component={MisReservaciones}></Cliente>
+              <Cliente exact path="/ModificarCliente" permisos={permisos} component={ModificarCliente}></Cliente>
+              <Cliente exact path="/MostrarCarros" permisos={permisos} component={MostrarCarros}></Cliente>
+              <Cliente exact path="/SeleccionarCarro" permisos={permisos} component={SeleccionarCarro}></Cliente>
+              <Cliente exact path="/AgregarCarro" permisos={permisos} component={AgregarCarro}></Cliente>
+              <Cliente exact path="/MostrarTelefono" permisos={permisos} component={MostrarTelefono}></Cliente>
+              <Cliente exact path="/ModificarCarro" permisos={permisos} component={ModificarCarro}></Cliente>
+
+              <Chofer exact path="/historial_servicios_chofer" permisos={permisos} component={historial_servicios_chofer}></Chofer>
+              <Chofer exact path="/subirfoto" permisos={permisos} component={SubirFoto}></Chofer>
+              <Chofer exact path="/miperfil" permisos={permisos} component={MiPerfil}></Chofer>
+              <Chofer exact path="/ModificarContrasenaChofer" permisos={permisos} component={ModificarContrasenaChofer}></Chofer>
+              <Chofer exact path="/EliminarCuentaTotal_Chofer" permisos={permisos} component={EliminarCuentaTotal_Chofer}></Chofer>
+              <Chofer exact path="/EliminarCuentaChofer" permisos={permisos} component={Eliminar_Cuenta_Chofer}></Chofer>
+              <Chofer exact path="/ModificarChofer" permisos={permisos} permisos={permisos} component={ModificarChofer}></Chofer>
+
+              
+              <Gerente exact path="/Historial" permisos={permisos} component={Historial}></Gerente>
+              <Gerente exact path="/ModificarContrasenaGerente" permisos={permisos} component={ModificarContrasenaGerente}></Gerente>
+              <Gerente exact path="/MostrarChofer" permisos={permisos} component={MostrarChofer}></Gerente>
+              <Gerente exact path="/MostrarCliente" permisos={permisos} component={MostrarCliente}></Gerente>
+              <Gerente exact path="/MostrarGerente" permisos={permisos} component={MostrarGerente}></Gerente>
+              <Gerente exact path="/MostrarGerentesInactivos" permisos={permisos} component={MostrarGerentesInactivos}></Gerente>
+              <Gerente exact path="/MostrarChoferesInactivos" permisos={permisos} component={MostrarChoferesInactivos}></Gerente>
+              <Gerente exact path="/ModificarGerente" permisos={permisos} component={ModificarGerente}></Gerente>
+              <Gerente exact path="/EliminarCuentaGerente" permisos={permisos} component={Eliminar_Cuenta}></Gerente>
+              <Gerente exact path="/EliminarCuentaTotal_Gerente" permisos={permisos} component={EliminarCuentaTotal_Gerente}></Gerente>
+              <Gerente exact path="/CrearPregunta" permisos={permisos} component={CrearPregunta}></Gerente>
+              <Gerente exact path="/GestionPreguntas" permisos={permisos} component={GestionPreguntas}></Gerente>
+              <Gerente exact path="/MostrarPreguntas" permisos={permisos} component={MostrarPreguntas}></Gerente>
+              <Gerente exact path="/ModificarPregunta" permisos={permisos} component={ModificarPregunta}></Gerente>
+              <Gerente exact path="/GestionInfo" permisos={permisos} component={GestionInfo}></Gerente>
+              <Gerente exact path="/CrearInfo" permisos={permisos} component={CrearInfo}></Gerente>
+              <Gerente exact path="/MostrarInfo" permisos={permisos} component={MostrarInfo}></Gerente>
+              <Gerente exact path="/ModificarInfo" permisos={permisos} component={ModificarInfo}></Gerente>
+              <Gerente exact path="/listarfeedback" permisos={permisos} component={ListarFeedback}></Gerente>
+              <Gerente exact path="/comentarioschofer" permisos={permisos} component={ComentariosChofer}></Gerente>
+              
+              {/*<GerenteSuper exact path="/listarfeedback" permisos={permisos} component={ListarFeedback}></GerenteSuper>
+              <GerenteSuper exact path="/comentarioschofer" permisos={permisos} component={ComentariosChofer}></GerenteSuper>*/}
               <GerenteSuper exact path="/CrearGerente" permisos={permisos} component={CrearGerente}></GerenteSuper>
               <GerenteSuper exact path="/CrearChofer" permisos={permisos} component={CrearChofer}></GerenteSuper>
-              <GerenteSuper exact path="/Historial" permisos={permisos} component={Historial}></GerenteSuper>
-              <Gerente exact path="/Historial" permisos={permisos} component={Historial}></Gerente>
+              {/*<GerenteSuper exact path="/Historial" permisos={permisos} component={Historial}></GerenteSuper>*/}
+              <GerenteSuper exact path="/ModificarGerenteSuper" permisos={permisos} component={ModificarGerenteSuper}></GerenteSuper>
+              <GerenteSuper exact path="/MostrarChoferSuper" component={MostrarChoferSuper}></GerenteSuper>
+              <GerenteSuper exact path="/MostrarGerenteSuper" permisos={permisos} component={MostrarGerenteSuper}></GerenteSuper>
+              <GerenteSuper exact path="/MostrarClienteSuper" permisos={permisos} component={MostrarClienteSuper}></GerenteSuper>
               <GerenteSuper exact path="/mapa" permisos={permisos} component={mapa} latitud={this.state.latitud} longitud={this.state.longitud}></GerenteSuper>
               <GerenteChofer exact path="/reservaciones" permisos={permisos} component={Pedidos}></GerenteChofer>
               <GerenteChofer exact path="/mapa" permisos={permisos} component={mapa} latitud={this.state.latitud} longitud={this.state.longitud}></GerenteChofer>
-              <Chofer exact path="/subirfoto" permisos={permisos} component={SubirFoto}></Chofer>
-              <Chofer exact path="/miperfil" permisos={permisos} component={MiPerfil}></Chofer>
-              <Route exact path="/CrearCliente" component={CrearCliente}></Route>
-              <Route exact path="/activarcuentas" component={activarcuentas}></Route>
-              <Route exact path="/iniciarSesion" component={IniciarSesion}></Route>
-              <Route exact path="/Password_olvidada" component={Password_olvidada}></Route>
-              <Route exact path="/ModificarContrasenaChofer" component={ModificarContrasenaChofer}></Route>
-              <Route exact path="/ModificarContrasenaCliente" component={ModificarContrasenaCliente}></Route>
-              <Route exact path="/ModificarContrasenaGerente" component={ModificarContrasenaGerente}></Route>
-              <Route exact path="/MostrarChofer" component={MostrarChofer}></Route>
-              <Route exact path="/MostrarChoferSuper" component={MostrarChoferSuper}></Route>
-              <Route exact path="/MostrarCliente" component={MostrarCliente}></Route>
-              <Route exact path="/MostrarClienteSuper" component={MostrarClienteSuper}></Route>
-              <Route exact path="/MostrarGerente" component={MostrarGerente}></Route>
-              <Route exact path="/MostrarGerenteSuper" component={MostrarGerenteSuper}></Route>
-              <Route exact path="/MostrarGerentesInactivos" component={MostrarGerentesInactivos}></Route>
-              <Route exact path="/MostrarChoferesInactivos" component={MostrarChoferesInactivos}></Route>
 
-              <Route exact path="/ModificarGerente" component={ModificarGerente}></Route>
-              <Route exact path="/ModificarGerenteSuper" component={ModificarGerenteSuper}></Route>
-              <Route exact path="/ModificarChofer" component={ModificarChofer}></Route>
-              <Route exact path="/ModificarCliente" component={ModificarCliente}></Route>
-              <Route exact path="/EliminarCuentaGerente" component={Eliminar_Cuenta}></Route>
-              <Route exact path="/EliminarCuentaCliente" component={Eliminar_Cuenta_Cliente}></Route>
-              <Route exact path="/EliminarCuentaTotal_Cliente" component={EliminarCuentaTotal_Cliente}></Route>
-              <Route exact path="/EliminarCuentaTotal_Chofer" component={EliminarCuentaTotal_Chofer}></Route>
-              <Route exact path="/EliminarCuentaTotal_Gerente" component={EliminarCuentaTotal_Gerente}></Route>
-              <Route exact path="/EliminarCuentaChofer" component={Eliminar_Cuenta_Chofer}></Route>
-              <Route exact path="/Perfil_Chofer" permisos={permisos} component={PerfilChofer}></Route>
-              <Route exact path="/MisReservaciones" component={MisReservaciones}></Route>
-              <Route exact path="/PreguntasFrecuentes" component={PreguntasFrecuentes}></Route>
-              <Route exact path="/MostrarCarros" component={MostrarCarros}></Route>
-              <Route exact path="/SeleccionarCarro" component={SeleccionarCarro}></Route>
-              <Route exact path="/AgregarCarro" component={AgregarCarro}></Route>
-              <Route exact path="/NuestraInfo" component={Nuestra_Info}></Route>
-              <Route exact path="/MostrarTelefono" component={MostrarTelefono}></Route>
-              <Route exact path="/ModificarCarro" component={ModificarCarro}></Route>
-              <Route exact path="/CrearPregunta" component={CrearPregunta}></Route>
-              <Route exact path="/GestionPreguntas" component={GestionPreguntas}></Route>
-              <Route exact path="/MostrarPreguntas" component={MostrarPreguntas}></Route>
-              <Route exact path="/ModificarPregunta" component={ModificarPregunta}></Route>
-              <Route exact path="/GestionInfo" component={GestionInfo}></Route>
-              <Route exact path="/CrearInfo" component={CrearInfo}></Route>
-              <Route exact path="/MostrarInfo" component={MostrarInfo}></Route>
-              <Route exact path="/ModificarInfo" component={ModificarInfo}></Route>
-              <Route exact path="/historial_pedidos_cliente" component={historial_pedidos_cliente}></Route>
-              <Route exact path="/historial_servicios_chofer" component={historial_servicios_chofer}></Route>
             </div>
           </main>
         </div>

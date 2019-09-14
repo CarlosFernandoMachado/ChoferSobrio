@@ -9,6 +9,7 @@ export default class CrearInfo extends Component {
         this.state = {
             titulo: '',
             contenido: '',
+            permisos: props.permisos,
         };
 
         this.handleChange = this.handleChange.bind(this);

@@ -11,6 +11,7 @@ export default class ModificarInfo extends Component {
             titulo: '',
             contenido: '',
             keyI:'',
+            permisos: props.permisos,
         };
 
         this.handleChange = this.handleChange.bind(this);

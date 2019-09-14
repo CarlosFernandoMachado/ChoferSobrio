@@ -22,17 +22,18 @@ export default class MostrarInfo extends Component {
         },{
             Header: 'Eliminar',
             accessor: 'remove',
-            maxWidth: 70,
+            maxWidth: 100,
             filterable: false,
         }, {
             Header: 'Modificar',
             accessor: 'change',
-            maxWidth: 70,
+            maxWidth: 100,
             filterable: false,
         }];
 
         this.state = {
-            informacion: []
+            informacion: [],
+            permisos: props.permisos,
         };
 
         this.mostrarinformacion = this.mostrarinformacion.bind(this);
