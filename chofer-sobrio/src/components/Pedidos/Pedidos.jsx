@@ -69,6 +69,10 @@ export default class Precios extends Component {
     async componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
+            // pedidos
+            this.dbRefPedidos = firebase.database().ref('/pedido');
+            this.dbCallbackPedidos = this.dbRefPedidos.on('value', snap => this.setState({ pedidos: snap.val() }));
+
             await messaging.requestPermission();
             const token = await messaging.getToken();
             console.log('token de usuario:', token);
@@ -107,9 +111,6 @@ export default class Precios extends Component {
             } else {
 
             }
-            // pedidos
-            this.dbRefPedidos = firebase.database().ref('/pedido');
-            this.dbCallbackPedidos = this.dbRefPedidos.on('value', snap => this.setState({ pedidos: snap.val() }));
 
             this.setState({
                 infoChofer: info,

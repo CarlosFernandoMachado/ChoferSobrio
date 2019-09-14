@@ -109,6 +109,13 @@ export default class Crear extends Component {
         });
     }
 
+    modificarvalidaciongerentesuper(id, validado) {
+        var database = Fire.database();
+        database.ref('SuperGerente/' + id).update({
+            validado: validado
+        });
+    }
+
     modificarcontraseñachofer(id, contraseña) {
         var database = Fire.database();
         database.ref('chofer/' + id).update({
@@ -134,6 +141,13 @@ export default class Crear extends Component {
     modificarcontraseñagerente(id, contraseña) {
         var database = Fire.database();
         database.ref('gerente/' + id).update({
+            contraseña: ""
+        });
+    }
+
+    modificarcontraseñagerenteSuper(id, contraseña) {
+        var database = Fire.database();
+        database.ref('SuperGerente/' + id).update({
             contraseña: ""
         });
     }
@@ -177,9 +191,26 @@ export default class Crear extends Component {
         });
     }
 
+    modificargerenteSuper(id, id2, name, number, email, telefono2, telefono3) {
+        var database = Fire.database();
+        database.ref('SuperGerente/' + id).update({
+            identidad: id2,
+            nombre: name,
+            telefono: number,
+            correo: email,
+            telefono2: telefono2,
+            telefono3: telefono3
+        });
+    }
+
     EliminarGerente(id) {
         var database = Fire.database();
         database.ref('gerente/' + id).remove();
+    }
+
+    EliminarGerenteSuper(id) {
+        var database = Fire.database();
+        database.ref('SuperGerente/' + id).remove();
     }
 
     Crearcliente(id, color_vehiculo, marca, nombre, placa, telefono, email) {
@@ -300,8 +331,15 @@ export default class Crear extends Component {
             pregunta: question,
             respuesta: answer,
         });
-        swal("Exito!", "La pregunta ha sido modificada, por favor accede a preguntas frecuentes para verificar el cambio.", "success")
 
+    }
+
+    modificarInformacion(key, tittle, content) {
+        var database = Fire.database();
+        database.ref('informacion/' + key).update({
+            titulo: tittle,
+            contenido: content,
+        });
 
     }
 
@@ -360,7 +398,7 @@ export default class Crear extends Component {
         var pago;
         var paradasAdicionales;
         var question;
-        var answer;
+        var titulo;
 
         if (this.props.validado && this.props.funcion === "crear_gerente") {
             database = Fire.database();
@@ -503,9 +541,9 @@ export default class Crear extends Component {
                     }).catch(function(error) {
                     console.error(error);
                     })
-                    
+
                 });
-               
+
             });
             //-------------------FIN DE LAS NOTIFICACIONES PARA CHOFER----------------------------
         }
@@ -524,7 +562,7 @@ export default class Crear extends Component {
                 Fire.database().ref('carro').orderByChild('placa').equalTo(plate).once('value').then(function (snapshot) {
                     estado2 = snapshot.exists()
                     if ( estado2 ===true) {
-                      
+
                     } else {
                         n = database.ref('/referencias/').once('value').then(function (snapshot) {
                             id = (snapshot.val() && snapshot.val().id_carro) || 'Anonymous';
@@ -544,13 +582,6 @@ export default class Crear extends Component {
                     }
                 });
             });
-            setTimeout(redirigir, 1000);
-            
-           
-            // swal("Exito!", "Carro agregado exitosamente!", "success")
-            //     .then((value) => {
-            //         setTimeout(redirigir, 1000);
-            //     });
         }
 
         if (this.props.validado && this.props.funcion === "crear_cliente") {
@@ -561,16 +592,16 @@ export default class Crear extends Component {
             plate = this.props.datos[3];
             telephone = this.props.datos[4];
             email = this.props.datos[5];
-            var my_contraseña = this.props.datos[8];
+            var my_password = this.props.datos[8];
             var telefono2 = this.props.datos[6]
             var telefono3 = this.props.datos[7]
             var estadocuenta = "activo"
             var estado = 0;
             var estado2 = 0;
             id = 0;
+
             Fire.database().ref('/referencias').once('value').then((snap) => {
                 const referencia = snap.val();
-               
                 Object.keys(referencia).forEach(key => {
                     const cliente = referencia[key];
                     if (cliente.key === 'id_cliente') {
@@ -578,15 +609,12 @@ export default class Crear extends Component {
                         id = cliente;
                     }
                 });
-                
             });
-            
+
             Fire.database().ref('cliente').orderByChild('correo').equalTo(email).once('value').then(function (snapshot) {
                 estado2 = snapshot.exists()
                 if (estado2 === true) {
-                   
-                   
-                    
+
                 } else {
                     var m = database.ref('/referencias/').once('value').then(function (snapshot) {
                         id = (snapshot.val() && snapshot.val().id_cliente) || 'Anonymous';
@@ -609,33 +637,27 @@ export default class Crear extends Component {
                 }
             });
 
-           
+            Fire.auth().onAuthStateChanged(user => {
+                if (user) {
+                    localStorage.setItem('user', JSON.stringify(user));
+                    user.sendEmailVerification().then(
+                        swal("Exito!", "Usuario registrado exitosamente! Se envio correo de verificacion", "success")
+                            .then((value) => setTimeout(redirigir, 1000))
+                    ).catch();
+                }
+            });
 
             if (localStorage.getItem('user')) {
-                 swal("Exitos!", "Usuario registrado exitosamente! Se envio correo de verificacion", "success");
+                swal("Exitos!", "Usuario registrado exitosamente! Se envio correo de verificacion", "success");
                 Fire.auth().currentUser.sendEmailVerification().then(() => setTimeout(redirigir, 1000));
             } else {
-                Fire.auth().createUserWithEmailAndPassword(email, my_contraseña).then(function (user) {
-                    firebase.auth().signInWithEmailAndPassword(email, my_contraseña).catch(function (error) {
-                        console.log(error.code);
-                        console.log(error.message);
-                    });
-                }).catch(function (error) {
-                    var errorMessage = error.message;
-                    console.log(errorMessage);
-                });
-                Fire.auth().onAuthStateChanged(function (user) {
-                    if (user) {
-                        user.sendEmailVerification().then(
-                            swal("Exito!", "Usuario registrado exitosamente! Se envio correo de verificacion", "success")
-                                .then((value) => {
-                                    localStorage.setItem('user', JSON.stringify(user));
-                                    setTimeout(redirigir, 1000);
-                                })
-                        ).catch();
-                    }
-                });
-            }          
+                Fire.auth().createUserWithEmailAndPassword(email, my_password)
+                  .then(user => {
+                    Fire.auth().signInWithEmailAndPassword(email, my_password)
+                        .catch(error => console.log(error.message));
+                  })
+                  .catch(error => console.log(error.message));
+            }
         }
 
         if (this.props.validado && this.props.funcion === "crear_chofer") {
@@ -687,10 +709,10 @@ export default class Crear extends Component {
                         swal("Exito!", "Chofer registrado exitosamente!", "success")
                         .then((value) => {
                             setTimeout(redirigir, 1000);
-        
+
                         });
-                        
-                        
+
+
                     }
                 });
             });
@@ -731,6 +753,30 @@ export default class Crear extends Component {
                 });
             });
             setTimeout(redirigir, 1000);
+        }
+
+        if (this.props.validado && this.props.funcion === "crear_informacion") {
+            database = Fire.database();
+            var titulo = this.props.datos[0];
+            var contenido = this.props.datos[1];
+            id = 0;
+            n = database.ref('/referencias/').once('value').then(function (snapshot) {
+                id = (snapshot.val() && snapshot.val().id_info) || 'Anonymous';
+                id++;
+                database.ref('informacion/' + id).set({
+                    contenido: contenido,
+                    titulo: titulo,
+                    cambio: "0",
+                });
+                database.ref('referencias/').update({
+                    id_info: id
+                });
+            });
+            swal("Exito!", "Se ha agregado la información a la página Nuestra Info!", "success")
+            .then((value) => {
+                setTimeout(redirigir, 1000);
+
+            })
         }
 
         if (this.props.validado && this.props.funcion === "crearhistorial") {
@@ -785,8 +831,8 @@ export default class Crear extends Component {
                 setTimeout(redirigir, 1000);
 
             })
-           
-          
+
+
         }
 
         if (this.props.validado && this.props.funcion === "modificar_carro") {
@@ -803,27 +849,41 @@ export default class Crear extends Component {
                 setTimeout(redirigir, 1000);
 
             })
-           
+
         }
 
         if (this.props.validado && this.props.funcion === "modificar_pregunta") {
             database = Fire.database();
             id = this.props.datos[0];
-            question = this.props.datos[1];
-            answer = this.props.datos[2];
+            var question = this.props.datos[1];
+            var answer = this.props.datos[2];
             this.modificarPregunta(id, question, answer)
             swal("Exito!", "Modificado exitosamente!", "success")
             .then((value) => {
                 setTimeout(redirigir, 1000);
 
             })
-           
+
+        }
+
+        if (this.props.validado && this.props.funcion === "modificar_info") {
+            database = Fire.database();
+            id = this.props.datos[0];
+            var tittle = this.props.datos[1];
+            var content = this.props.datos[2];
+            this.modificarInformacion(id, tittle, content)
+            swal("Exito!", "Modificado exitosamente!", "success")
+            .then((value) => {
+                setTimeout(redirigir, 1000);
+
+            })
+
         }
 
 
 
         /*if (this.props.validado && this.props.funcion === "password_cliente") {
-        
+
             this.update_password_cliente();
         }*/
 
@@ -842,7 +902,24 @@ export default class Crear extends Component {
                 setTimeout(redirigir, 1000);
 
             })
-           
+
+        }
+
+        if (this.props.validado && this.props.funcion === "modificar_gerenteSuper") {
+            database = Fire.database();
+            identity = this.props.datos[0];
+            name = this.props.datos[1];
+            telephone = this.props.datos[2];
+            email = this.props.datos[3];
+            id = this.props.datos[4];
+            var telefono2 = this.props.datos[5];
+            var telefono3 = this.props.datos[6];
+            this.modificargerenteSuper(id, identity, name, telephone, email, telefono2, telefono3);
+            swal("Exito!", "Modificado exitosamente!", "success")
+                .then((value) => {
+                    setTimeout(redirigir, 1000);
+
+                })
         }
 
         /*if (this.props.validado && this.props.funcion === "password_gerente") {
@@ -864,7 +941,7 @@ export default class Crear extends Component {
                 setTimeout(redirigir, 1000);
 
             })
-           
+
         }
 
         /*if (this.props.validado && this.props.funcion === "password_chofer") {
@@ -890,7 +967,7 @@ export default class Crear extends Component {
                 }
             });
         }
-        
+
         if (this.props.validado && this.props.funcion === "eliminar_chofer_t") {
             var estadocuenta = "inactivo"
             const [id, numId] = this.props.datos;
@@ -1014,6 +1091,30 @@ export default class Crear extends Component {
             database = Fire.database();
 
             this.EliminarGerente(id);
+            firebaseAuth().signOut()
+                .then(() => localStorage.removeItem('user'))
+                .then(() => setTimeout(redirigir, 1000));
+        }
+
+        if (this.props.validado && this.props.funcion === "eliminar_gerenteSuper") {
+            var estadocuenta = "inactivo"
+            id = this.props.datos[0]
+            database = Fire.database();
+
+            database.ref('SuperGerente/' + id).update({
+                estado: estadocuenta
+            });
+            firebaseAuth().signOut()
+                .then(() => localStorage.removeItem('user'))
+                .then(() => setTimeout(redirigir, 1000));
+        }
+
+        if (this.props.validado && this.props.funcion === "eliminar_gerenteSuper_t") {
+
+            id = this.props.datos[0]
+            database = Fire.database();
+
+            this.EliminarGerenteSuper(id);
             firebaseAuth().signOut()
                 .then(() => localStorage.removeItem('user'))
                 .then(() => setTimeout(redirigir, 1000));
