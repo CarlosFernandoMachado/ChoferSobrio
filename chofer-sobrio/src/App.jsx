@@ -250,7 +250,6 @@ class App extends Component {
               <GerenteSuper exact path="/CrearChofer" permisos={permisos} component={CrearChofer}></GerenteSuper>
               <GerenteSuper exact path="/Historial" permisos={permisos} component={Historial}></GerenteSuper>
               <Gerente exact path="/Historial" permisos={permisos} component={Historial}></Gerente>
-              <GerenteSuper exact path="/reservaciones" permisos={permisos} component={Pedidos}></GerenteSuper>
               <GerenteSuper exact path="/mapa" permisos={permisos} component={mapa} latitud={this.state.latitud} longitud={this.state.longitud}></GerenteSuper>
               <GerenteChofer exact path="/reservaciones" permisos={permisos} component={Pedidos}></GerenteChofer>
               <GerenteChofer exact path="/mapa" permisos={permisos} component={mapa} latitud={this.state.latitud} longitud={this.state.longitud}></GerenteChofer>
