@@ -183,12 +183,7 @@ export default class ModificarChofer extends Component {
                                                     document.getElementById("telefono").value = "";
                                                     that.setState({ validated: 'false' });
                                                 }
-                                                if (estadoc==true || estado4== true || estado6==true){
-                                                    alert("El correo que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
-                                                    that.setState({ correo: '' });
-                                                    document.getElementById("correo").value = "";
-                                                    that.setState({ validated: 'false' });
-                                                }
+                                                
                                                  if (estado==true || estado7==true){
                                                     alert("La identidad que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
                                                     that.setState({ identidad: '' });

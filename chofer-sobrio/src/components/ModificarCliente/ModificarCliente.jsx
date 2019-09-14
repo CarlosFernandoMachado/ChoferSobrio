@@ -228,12 +228,7 @@ export default class ModificarCliente extends Component {
                                                     document.getElementById("telefono").value = "";
                                                     that.setState({ validated: 'false' });
                                                 }
-                                                if (estadoc==true || estado4== true || estado7==true){
-                                                    alert("El correo que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
-                                                    that.setState({ correo: '' });
-                                                    document.getElementById("correo").value = "";
-                                                    that.setState({ validated: 'false' });
-                                                }
+                                                
                                                  if (estado2==true || estado6==true){
                                                     alert("La placa que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
                                                     that.setState({ placa: '' });
