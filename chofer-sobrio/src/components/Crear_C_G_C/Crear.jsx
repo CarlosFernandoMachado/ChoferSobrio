@@ -418,13 +418,9 @@ export default class Crear extends Component {
                 Fire.database().ref('gerente').orderByChild('correo').equalTo(email).once('value').then(function (snapshot) {
                     estado2 = snapshot.exists()
                     if (estado === true) {
-                        alert("identidad invalida ya existe")
-                        /*setTimeout(redirigircreargerente, 1000)*/
-                        document.getElementById("identidad").value = "";
+                      
                     } else if (estado2 === true) {
-                        alert("correo invalido ya existe")
-                        /*setTimeout(redirigircreargerente, 1000)*/
-                        document.getElementById("correo").value = "";
+                        
                     } else {
                         n = database.ref('/referencias/').once('value').then(function (snapshot) {
                             id = (snapshot.val() && snapshot.val().id_gerente) || 'Anonymous';
@@ -680,12 +676,10 @@ export default class Crear extends Component {
                 Fire.database().ref('chofer').orderByChild('correo').equalTo(email).once('value').then(function (snapshot) {
                     estado2 = snapshot.exists()
                     if (estado === true) {
-                        alert("identidad invalida ya existe")
-                        /*setTimeout(redirigircrearchofer, 1000)*/
+                       
                         document.getElementById("identidad").value = "";
                     } else if (estado2 === true) {
-                        alert("correo invalido ya existe")
-                        /*setTimeout(redirigircrearchofer, 1000)*/
+                      
                         document.getElementById("correo").value = "";
                     } else {
                         n = database.ref('/referencias/').once('value').then(function (snapshot) {
