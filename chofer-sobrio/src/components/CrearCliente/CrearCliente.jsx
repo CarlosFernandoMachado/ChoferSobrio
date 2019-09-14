@@ -55,20 +55,17 @@ export default class CrearCliente extends Component {
         var estado = 0;
         var estado2 = 0;
         var estadoc = 0;
+        var estado3 =0;
+        var estado4 =0;
+        var estado5=0;
+        var estado6=0;
+        var estado7=0;
         var that = this;
 
 
-      
         
-        if(true){
-           
-        }
-         if(true){
-            
-        }
-        if(true){
-            
-        }
+        
+        
      if (length !== 8 || !/^[8-9372][0-9][0-9][0-9][0-9][0-9][0-9][0-9]+$/.test(this.state.telefono)) {
             this.setState({ telefono: '' });
             document.getElementById("telefono").value = "";
@@ -135,39 +132,63 @@ export default class CrearCliente extends Component {
             event.stopPropagation();
 
         } else {
+           
             Fire.database().ref('cliente').orderByChild('placa').equalTo(this.state.Placa).once('value').then(function (snapshot) {
                 estado2 = snapshot.exists()
                 Fire.database().ref('cliente').orderByChild('correo').equalTo(that.state.correo).once('value').then(function (snapshot) {
                     estadoc = snapshot.exists()
                     Fire.database().ref('cliente').orderByChild('telefono').equalTo(that.state.telefono).once('value').then(function (snapshot) {
                         estado = snapshot.exists()
-                        if (estado==true){
-                            alert("El telefono que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
-                            that.setState({ telefono: '' });
-                            document.getElementById("telefono").value = "";
-                            that.setState({ validated: 'false' });
-                        }
-                        if (estadoc==true){
-                            alert("El correo que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
-                            that.setState({ correo: '' });
-                            document.getElementById("correo").value = "";
-                            that.setState({ validated: 'false' });
-                        }
-                         if (estado2==true){
-                            alert("La placa que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
-                            that.setState({ Placa: '' });
-                            document.getElementById("Placa").value = "";
-                            that.setState({ validated: 'false' });
-                        }
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                
-                        }   else{
-                            that.setState({ validated: 'true' });
-                            event.preventDefault();
-                            that.setState({ listo: 'true' });
-                        }
+                        Fire.database().ref('chofer').orderByChild('telefono').equalTo(that.state.telefono).once('value').then(function (snapshot) {
+                            estado3 = snapshot.exists()
+                            Fire.database().ref('gerente').orderByChild('correo').equalTo(that.state.correo).once('value').then(function (snapshot) {
+                                estado4 = snapshot.exists()
+                                Fire.database().ref('gerente').orderByChild('telefono').equalTo(that.state.telefono).once('value').then(function (snapshot) {
+                                    estado5 = snapshot.exists()
+                                    Fire.database().ref('carro').orderByChild('placa').equalTo(that.state.Placa).once('value').then(function (snapshot) {
+                                        estado6 = snapshot.exists()
+                                        Fire.database().ref('chofer').orderByChild('correo').equalTo(that.state.correo).once('value').then(function (snapshot) {
+                                            estado7 = snapshot.exists()
+                                           
+                                                if (estado==true || estado3==true ||estado5==true){
+                                                    alert("El telefono que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
+                                                    that.setState({ telefono: '' });
+                                                    document.getElementById("telefono").value = "";
+                                                    that.setState({ validated: 'false' });
+                                                }
+                                                if (estadoc==true || estado4== true || estado7==true){
+                                                    alert("El correo que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
+                                                    that.setState({ correo: '' });
+                                                    document.getElementById("correo").value = "";
+                                                    that.setState({ validated: 'false' });
+                                                }
+                                                 if (estado2==true || estado6==true){
+                                                    alert("La placa que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
+                                                    that.setState({ Placa: '' });
+                                                    document.getElementById("Placa").value = "";
+                                                    that.setState({ validated: 'false' });
+                                                }
+                                                if (form.checkValidity() === false) {
+                                                    event.preventDefault();
+                                                    event.stopPropagation();
+                                        
+                                                }   else{
+                                                    that.setState({ validated: 'true' });
+                                                    event.preventDefault();
+                                                    that.setState({ listo: 'true' });
+                                                }
+                                    
+                                            
+                                
+                                        })
+                                        
+                                    })
+                        
+                                })
+                    
+                            })
+                            
+                        })
             
                     })
         

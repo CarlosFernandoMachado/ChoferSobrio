@@ -33,6 +33,11 @@ export default class CrearChofer extends Component {
         var estado = 0;
         var estado2 = 0;
         var estadoc = 0;
+        var estado3 =0;
+        var estado4 =0;
+        var estado5=0;
+        var estado6=0;
+        var estado7=0;
         var that = this;
 
         if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)) {
@@ -60,41 +65,62 @@ export default class CrearChofer extends Component {
 
         } else {
            
-            Fire.database().ref('chofer').orderByChild('identidad').equalTo(this.state.identidad).once('value').then(function (snapshot) {
+            Fire.database().ref('cliente').orderByChild('telefono').equalTo(this.state.telefono).once('value').then(function (snapshot) {
                 estado2 = snapshot.exists()
-                Fire.database().ref('chofer').orderByChild('correo').equalTo(that.state.correo).once('value').then(function (snapshot) {
+                Fire.database().ref('cliente').orderByChild('correo').equalTo(that.state.correo).once('value').then(function (snapshot) {
                     estadoc = snapshot.exists()
-                    Fire.database().ref('chofer').orderByChild('telefono').equalTo(that.state.telefono).once('value').then(function (snapshot) {
+                    Fire.database().ref('chofer').orderByChild('identidad').equalTo(that.state.identidad).once('value').then(function (snapshot) {
                         estado = snapshot.exists()
-                        if (estado==true){
-                            alert("El telefono que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
-                            that.setState({ telefono: '' });
-                            document.getElementById("telefono").value = "";
-                            that.setState({ validated: 'false' });
-                        }
-                        if (estadoc==true){
-                            alert("El correo que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
-                            that.setState({ correo: '' });
-                            document.getElementById("correo").value = "";
-                            that.setState({ validated: 'false' });
-                        }
-                         if (estado2==true){
-                            alert("La identidad que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
-                            that.setState({ identidad: '' });
-                            document.getElementById("identidad").value = "";
-                            that.setState({ validated: 'false' });
-                        }  
-                        if (form.checkValidity() === false) {
-                            this.setState({ validated: 'false' })
-                            event.preventDefault();
-                            event.stopPropagation();
-                
-                        }
-                        else{
-                            that.setState({ validated: 'true' });
-                            event.preventDefault();
-                            that.setState({ listo: 'true' });
-                        }
+                        Fire.database().ref('chofer').orderByChild('telefono').equalTo(that.state.telefono).once('value').then(function (snapshot) {
+                            estado3 = snapshot.exists()
+                            Fire.database().ref('chofer').orderByChild('correo').equalTo(that.state.correo).once('value').then(function (snapshot) {
+                                estado4 = snapshot.exists()
+                                Fire.database().ref('gerente').orderByChild('telefono').equalTo(that.state.telefono).once('value').then(function (snapshot) {
+                                    estado5 = snapshot.exists()
+                                    Fire.database().ref('gerente').orderByChild('correo').equalTo(that.state.correo).once('value').then(function (snapshot) {
+                                        estado6 = snapshot.exists()
+                                        Fire.database().ref('gerente').orderByChild('identidad').equalTo(that.state.identidad).once('value').then(function (snapshot) {
+                                            estado7 = snapshot.exists()
+                                           
+                                                if (estado2==true || estado3==true ||estado5==true){
+                                                    alert("El telefono que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
+                                                    that.setState({ telefono: '' });
+                                                    document.getElementById("telefono").value = "";
+                                                    that.setState({ validated: 'false' });
+                                                }
+                                                if (estadoc==true || estado4== true || estado6==true){
+                                                    alert("El correo que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
+                                                    that.setState({ correo: '' });
+                                                    document.getElementById("correo").value = "";
+                                                    that.setState({ validated: 'false' });
+                                                }
+                                                 if (estado==true || estado7==true){
+                                                    alert("La identidad que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
+                                                    that.setState({ identidad: '' });
+                                                    document.getElementById("identidad").value = "";
+                                                    that.setState({ validated: 'false' });
+                                                }
+                                                if (form.checkValidity() === false) {
+                                                    event.preventDefault();
+                                                    event.stopPropagation();
+                                        
+                                                }   else{
+                                                    that.setState({ validated: 'true' });
+                                                    event.preventDefault();
+                                                    that.setState({ listo: 'true' });
+                                                }
+                                    
+                                            
+                                
+                                        })
+                                        
+                                    })
+                        
+                                })
+                    
+                            })
+                            
+                        })
             
                     })
         
