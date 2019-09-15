@@ -109,6 +109,7 @@ export default class VisualizarChofer extends Component {
         return conductores;
     }
     calificacion(keyPedido){
+        this.setState({puntaje: 0.0});
         var sub_puntaje = 0.0;
         var contar=0;
         firebase.database().ref('/chofer').once('value').then((snap) => {
