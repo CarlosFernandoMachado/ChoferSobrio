@@ -42,7 +42,7 @@ export default class VisualizarChofer extends Component {
         },{
             Header: 'Accion2',
             accessor: 'accion2',
-            maxWidth: 100,
+            maxWidth: 200,
             filterable: false,
         }];
 
