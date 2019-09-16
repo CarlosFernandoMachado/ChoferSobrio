@@ -119,7 +119,7 @@ export default class VisualizarGerenteSuper extends Component {
         return (
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
-                    <h1>gerente Sobrio</h1>
+                    <h1>Chofer Sobrio</h1>
                     <h5>Visualizar Gerente</h5>
                 </Jumbotron>
                 <Card border="light">

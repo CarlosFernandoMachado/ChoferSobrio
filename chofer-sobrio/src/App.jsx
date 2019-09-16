@@ -292,11 +292,11 @@ class App extends Component {
               <Gerente exact path="/listarfeedback" permisos={permisos} component={ListarFeedback}></Gerente>
               <Gerente exact path="/comentarioschofer" permisos={permisos} component={ComentariosChofer}></Gerente>
               
-              {/*<GerenteSuper exact path="/listarfeedback" permisos={permisos} component={ListarFeedback}></GerenteSuper>
-              <GerenteSuper exact path="/comentarioschofer" permisos={permisos} component={ComentariosChofer}></GerenteSuper>*/}
+              <GerenteSuper exact path="/listarfeedback" permisos={permisos} component={ListarFeedback}></GerenteSuper>
+              <GerenteSuper exact path="/comentarioschofer" permisos={permisos} component={ComentariosChofer}></GerenteSuper>
               <GerenteSuper exact path="/CrearGerente" permisos={permisos} component={CrearGerente}></GerenteSuper>
               <GerenteSuper exact path="/CrearChofer" permisos={permisos} component={CrearChofer}></GerenteSuper>
-              {/*<GerenteSuper exact path="/Historial" permisos={permisos} component={Historial}></GerenteSuper>*/}
+              <GerenteSuper exact path="/Historial" permisos={permisos} component={Historial}></GerenteSuper>
               <GerenteSuper exact path="/ModificarGerenteSuper" permisos={permisos} component={ModificarGerenteSuper}></GerenteSuper>
               <GerenteSuper exact path="/MostrarChoferSuper" component={MostrarChoferSuper}></GerenteSuper>
               <GerenteSuper exact path="/MostrarGerenteSuper" permisos={permisos} component={MostrarGerenteSuper}></GerenteSuper>

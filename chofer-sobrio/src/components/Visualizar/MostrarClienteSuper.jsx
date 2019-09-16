@@ -36,7 +36,7 @@ export default class VisualizarCliente extends Component {
             maxWidth: 100,
         }, {
             Header: 'Color',
-            accessor: 'color',
+            accessor: 'color_vehiculo',
             maxWidth: 100,
         }, {
             Header: 'Placa',
