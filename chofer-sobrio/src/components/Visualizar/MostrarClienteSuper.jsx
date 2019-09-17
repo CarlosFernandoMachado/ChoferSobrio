@@ -5,7 +5,7 @@ import firebase from '../config/config';
 import Fire from '../config/config';
 import { Jumbotron, Container, Table, Card, Alert, Button,Form, Dropdown,Col} from 'react-bootstrap';
 import { Modal, ModalHeader, ModalBody, ModalFooter,ListGroup, ListGroupItem,Collapse, CardBody } from 'reactstrap';
-export default class VisualizarChofer extends Component {
+export default class VisualizarCliente extends Component {
 
     constructor(props) {
         super(props);
@@ -15,14 +15,10 @@ export default class VisualizarChofer extends Component {
             accessor: 'nombre',
             maxWidth: 300,
         }, {
-            Header: 'Identidad',
-            accessor: 'identidad',
-            maxWidth: 150,
-        }, {
             Header: 'Telefono',
             accessor: 'telefono',
             maxWidth: 150,
-        }, {
+        },{
             Header: 'Telefono 2',
             accessor: 'telefono2',
             maxWidth: 300,
@@ -33,55 +29,73 @@ export default class VisualizarChofer extends Component {
         }, {
             Header: 'Correo',
             accessor: 'correo',
-            maxWidth: 300,
-        },{
+            maxWidth: 150,
+        }, {
+            Header: 'Marca',
+            accessor: 'marca',
+            maxWidth: 100,
+        }, {
+            Header: 'Color',
+            accessor: 'color_vehiculo',
+            maxWidth: 100,
+        }, {
+            Header: 'Placa',
+            accessor: 'placa',
+            maxWidth: 100,
+        }, {
             Header: 'Accion',
+            accessor: 'accion',
+            maxWidth: 100,
+            filterable: false,
+        },{
+            Header: 'Accion2',
             accessor: 'accion',
             maxWidth: 200,
             filterable: false,
         }];
 
         this.state = {
-            infochofer: {},
-            choferes: [],
+            clientes: [],
+            infocliente: {},
             comentarios: [],
             permisos: props.permisos,
-            correo_chofer:'',
+            correo_cliente:'',
             puntaje:0.0,
             contador:0,
             modal: false,
-           chofer_actual:{},
+            cliente_actual:{},
             collapse: false
         };
 
-        this.mostrarchoferes = this.mostrarchoferes.bind(this);
+        this.mostrarclientes = this.mostrarclientes.bind(this);
         this.eliminar = this.eliminar.bind(this);
         this.calificacion = this.calificacion.bind(this);
         this.toggle = this.toggle.bind(this);
         this.toggle2 = this.toggle2.bind(this);
     }
+
     async componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
-            const info = await firebase.database().ref('/chofer').once('value').then((snap) => {
-                const choferlist = snap.val();
-                let infochofer;
-                Object.keys(choferlist).forEach((key, index) => {
-                    const chofer = choferlist[key];
-                    if (chofer.correo === user.email) {
-                        chofer.index = index;
-                        infochofer = chofer;
+            const info = await firebase.database().ref('/cliente').once('value').then((snap) => {
+                const clientelist = snap.val();
+                let infocliente;
+                Object.keys(clientelist).forEach((key, index) => {
+                    const cliente = clientelist[key];
+                    if (cliente.correo === user.email) {
+                        cliente.index = index;
+                        infocliente = cliente;
                     }
                 });
-                return infochofer;
+                return infocliente;
             });
 
             // gerentes
-            this.dbRefchofer = firebase.database().ref('/chofer');
-            this.dbCallbackchofer = this.dbRefchofer.on('value', snap => this.setState({ choferes: snap.val() }));
+            this.dbRefcliente = firebase.database().ref('/cliente');
+            this.dbCallbackcliente = this.dbRefcliente.on('value', snap => this.setState({ clientes: snap.val() }));
 
             this.setState({
-                infochofer: info,
+                infocliente: info,
             });
         }
     }
@@ -89,44 +103,45 @@ export default class VisualizarChofer extends Component {
     componentWillUnmount() {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
-            this.dbRefchofer.off('value', this.dbCallbackchofer);
+            this.dbRefcliente.off('value', this.dbCallbackcliente);
         }
     }
 
-    mostrarchoferes() {
-        const { choferes } = this.state;
+    mostrarclientes() {
+        const { clientes } = this.state;
 
-        const conductores = [];
+        const usuarios = [];
 
-        Object.keys(choferes).forEach((key, index) => {
-            const pedido = choferes[key];
-            if (index !== 0 && choferes[key].estado =="activo") {
-                pedido.accion = <Button variant="info" onClick={() => this.calificacion(key)}>Calificacion</Button>;
-                conductores.push(pedido);
+        Object.keys(clientes).forEach((key, index) => {
+            const pedido = clientes[key];
+            if (index !== 0 &&  clientes[key].estado==="activo") {
+                pedido.accion = <Button variant="danger" onClick={() => this.eliminar(key)}>Eliminar</Button>;
+                pedido.accion2 = <Button variant="info" onClick={() => this.calificacion(key)}>Calificacion</Button>;
+                usuarios.push(pedido);
             }
         })
 
-        return conductores;
+        return usuarios;
     }
     calificacion(keyPedido){
         this.setState({puntaje: 0.0});
         var sub_puntaje = 0.0;
         var contar=0;
-        firebase.database().ref('/chofer').once('value').then((snap) => {
-            const choferes = snap.val();
-            Object.keys(choferes).forEach((key, index) => {
-                const chofer = choferes[key];
+        firebase.database().ref('/cliente').once('value').then((snap) => {
+            const clientes = snap.val();
+            Object.keys(clientes).forEach((key, index) => {
+                const cliente = clientes[key];
                 if (keyPedido === key) {
-                    this.setState({chofer_actual:chofer});
-                    this.setState({correo_chofer:chofer.correo});
+                    this.setState({cliente_actual:cliente});
+                    this.setState({correo_cliente:cliente.correo});
                     this.setState({contador:0});
                     const comentar=[];
                     let comentario =""; 
-                    Fire.database().ref('/Feedback').once('value').then((snap) => {
+                    Fire.database().ref('/Feedback_chofer').once('value').then((snap) => {
                         const feeds = snap.val();
                         Object.keys(feeds).forEach((key, index) => {
                             const feed = feeds[key];
-                            if (feed.correo_chofer == this.state.correo_chofer) {
+                            if (feed.correo_cliente == this.state.correo_cliente) {
                                 console.log("ENTRO AL FEED");
                                 sub_puntaje= sub_puntaje + parseInt(feed.puntaje);
                                 contar+=1;
@@ -156,46 +171,30 @@ export default class VisualizarChofer extends Component {
         this.setState(state => ({ collapse: !state.collapse }));
     }
 
-
-    async eliminar(keyChofer) {
-        const database = firebase.database();
-
-        const idChofer = await database.ref(`/chofer/${keyChofer}`).once('value').then(snap => snap.val().identidad);
-
-        // ver si tiene reservaciones
-        const tieneP = await database.ref('/pedido').once('value').then((snap) => {
-            const pedidos = snap.val();
-            let tiene = false;
-            Object.keys(pedidos).forEach((key) => {
-                const pedido = pedidos[key];
-                if (pedido.estado === 'Ocupado' && pedido.idchofer === idChofer) {
-                    tiene = true;
-                }
-            });
-            return tiene;
-        });
-
-        if (tieneP) {
-            window.alert('No se puede eliminar, el chofer tiene pedidos!');
-        } else if (window.confirm(' Se eliminara la cuenta')) {
-            database.ref('chofer/' + keyChofer).update({
-                estado: 'inactivo'
-            });
+    eliminar(keyPedido) {
+        if (window.confirm(' Se eliminara la cuenta')) {
+            const database = firebase.database();
+            const { clientes } = this.state;
+           
+            var estadocuenta="inactivo"
+            database.ref('cliente/' + keyPedido).update({
+                estado:estadocuenta
+             });
         }
     }
 
 
     render() {
-        const pedidos = this.mostrarchoferes();
+        const pedidos = this.mostrarclientes();
         return (
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
                     <h1>Chofer Sobrio</h1>
-                    <h5>Visualizar los Choferes</h5>
+                    <h5>Visualizar los Clientes</h5>
                 </Jumbotron>
                 <Card border="light">
                     <Alert variant="secondary">
-                    <h3>Choferes Existentes</h3>
+                    <h3>Clientes Existentes</h3>
                         <br />
                         <ReactTable
                             data={pedidos}
@@ -206,7 +205,7 @@ export default class VisualizarChofer extends Component {
                 </Card>
                 <div> 
                     <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                        <ModalHeader toggle={this.toggle}>Calificacion del chofer</ModalHeader>
+                        <ModalHeader toggle={this.toggle}>Calificacion del cliente</ModalHeader>
                         <ModalBody>
                             <div className="divForm">
                                 <Form>
@@ -219,7 +218,7 @@ export default class VisualizarChofer extends Component {
                                             
                                                 type="text"
                                                 name="nombre"
-                                                value={ this.state.chofer_actual.nombre }
+                                                value={ this.state.cliente_actual.nombre }
                                                 id="nombre"
                                             />
                                         </Form.Group>
@@ -231,7 +230,7 @@ export default class VisualizarChofer extends Component {
                                             
                                                 type="text"
                                                 name="nombre"
-                                                value={ this.state.chofer_actual.correo }
+                                                value={ this.state.cliente_actual.correo }
                                                 id="nombre"
                                             />
                                         </Form.Group>

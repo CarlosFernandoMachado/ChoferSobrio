@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
-import { registerLocale, setDefaultLocale } from "react-datepicker"
-import firebase from '../config/config';
-import "react-datepicker/dist/react-datepicker.css";
+import Fire from '../config/config';
 import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Container, Col, Button, Form, Card, Alert, Dropdown } from 'react-bootstrap';
-import es from 'date-fns/locale/es';
 import './PedirChofer.css';
 import swal from 'sweetalert';
 
@@ -30,10 +27,9 @@ export default class PedirChofer extends Component {
 
     async componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
-        
+
         if (user) {
             this.state.correo = user.email;
-
         }
     }
 
@@ -53,6 +49,15 @@ export default class PedirChofer extends Component {
 
     handleSubmit(event) {
         const form = event.currentTarget;
+        
+        var estado = 0;
+        var estado2 = 0;
+
+        var that = this;
+
+
+        
+       
 
         if (form.checkValidity() === false) {
             event.preventDefault();
@@ -60,12 +65,17 @@ export default class PedirChofer extends Component {
 
         } else {
             /*VALIDACIONES*/
-           if (this.state.placa.length != 7 || !/^[a+p+h+P+A+H][a-z+A-Z][a-z+A-Z][0-9][0-9][0-9][0-9]+$/.test(this.state.placa)) {
+            if (this.state.placa.length != 7 || !/^[a+p+h+P+A+H][a-z+A-Z][a-z+A-Z][0-9][0-9][0-9][0-9]+$/.test(this.state.placa)) {
                 /*Placa invalida*/
                 this.setState({ placa: '' });
                 document.getElementById("placa").value = "";
                 this.setState({ validated: 'false' });
-            }else if (this.state.marca == 'Seleccione la marca de su vehículo.') {
+            } else if (estado == true) {
+                alert("La placa que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
+                this.setState({ placa: '' });
+                document.getElementById("placa").value = "";
+                this.setState({ validated: 'false' });
+            } else if (this.state.marca == 'Seleccione la marca de su vehículo.') {
                 this.setState({ validated: 'false' });
             } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.marca)) {
                 /*Caracteres especiales*/
@@ -79,12 +89,34 @@ export default class PedirChofer extends Component {
                 this.setState({ validated: 'false' });
             } else if (this.state.color == 'Seleccione el color de su vehículo.') {
                 this.setState({ validated: 'false' });
-            } else{
-                swal("Exito!", "Carro registrado", "success")
-                
-                this.setState({ validated: 'true' });
-                event.preventDefault();
-                this.setState({ listo: 'true' });
+            } else {
+
+                Fire.database().ref('carros').orderByChild('placa').equalTo(this.state.placa).once('value').then(function (snapshot) {
+                    estado2 = snapshot.exists()
+
+
+
+                    if (estado2 == true) {
+                        alert("La placa que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
+                        that.setState({ placa: '' });
+                        document.getElementById("placa").value = "";
+                        that.setState({ validated: 'false' });
+                    }
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                    } else {
+                        that.setState({ validated: 'true' });
+                        event.preventDefault();
+                        that.setState({ listo: 'true' });
+                    }
+
+
+
+
+                });
+
             }
         }
         event.preventDefault();
@@ -107,71 +139,71 @@ export default class PedirChofer extends Component {
                             validated={validated}
                             onSubmit={e => this.handleSubmit(e)}>
                             <Form.Row>
-                            <Form.Group as={Col} md="4">
+                                <Form.Group as={Col} md="4">
                                     <Form.Label>Marca</Form.Label>
                                     <Dropdown>
                                         <Dropdown.Toggle variant="warning" id="dropdown-basic">
                                             {this.state.marca}
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
-                                            <Dropdown.Item eventKey='BMW' onSelect={this.handleSelect}>
+                                            <Dropdown.Item eventKey='BMW' onSelect={this.handleSelectMarca}>
                                                 BMW
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Chevrolet' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Chevrolet' onSelect={this.handleSelectMarca}>
                                                 Chevrolet
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Ferrari' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Ferrari' onSelect={this.handleSelectMarca}>
                                                 Ferrari
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Ford' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Ford' onSelect={this.handleSelectMarca}>
                                                 Ford
                                             </Dropdown.Item>
                                             <Dropdown.Item eventKey='Honda' onSelect={this.handleSelectMarca}>
                                                 Honda
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Hyundai' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Hyundai' onSelect={this.handleSelectMarca}>
                                                 Hyundai
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Isuzu' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Isuzu' onSelect={this.handleSelectMarca}>
                                                 Isuzu
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Jaguar' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Jaguar' onSelect={this.handleSelectMarca}>
                                                 Jaguar
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Kia' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Kia' onSelect={this.handleSelectMarca}>
                                                 Kia
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Land Rover' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Land Rover' onSelect={this.handleSelectMarca}>
                                                 Land Rover
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Mazda' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Mazda' onSelect={this.handleSelectMarca}>
                                                 Mazda
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Mercedes Benz' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Mercedes Benz' onSelect={this.handleSelectMarca}>
                                                 Mercedes Benz
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Mitsubishi' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Mitsubishi' onSelect={this.handleSelectMarca}>
                                                 Mitsubishi
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Nissan' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Nissan' onSelect={this.handleSelectMarca}>
                                                 Nissan
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Range Rover' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Range Rover' onSelect={this.handleSelectMarca}>
                                                 Range Rover
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Renault' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Renault' onSelect={this.handleSelectMarca}>
                                                 Renault
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Suzuki' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Suzuki' onSelect={this.handleSelectMarca}>
                                                 Suzuki
                                              </Dropdown.Item>
                                             <Dropdown.Item eventKey='Toyota' onSelect={this.handleSelectMarca}>
                                                 Toyota
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Volkswagen' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Volkswagen' onSelect={this.handleSelectMarca}>
                                                 Volkswagen
                                              </Dropdown.Item>
-                                             <Dropdown.Item eventKey='Volvo' onSelect={this.handleSelectMarca}>
+                                            <Dropdown.Item eventKey='Volvo' onSelect={this.handleSelectMarca}>
                                                 Volvo
                                              </Dropdown.Item>
                                             <Form.Label>Otra marca:</Form.Label>
@@ -257,7 +289,7 @@ export default class PedirChofer extends Component {
                             </Form.Row>
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Agregar Carro
-                                    <Crear validado = {this.state.listo} datos={[this.state.color,this.state.correo,this.state.marca,this.state.placa]} funcion={"Crearcarro"}/>
+                                    <Crear validado={this.state.listo} datos={[this.state.color, this.state.correo, this.state.marca, this.state.placa]} funcion={"Crearcarro"} />
                                 </Button>
                             </div>
 

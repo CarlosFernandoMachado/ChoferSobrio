@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-function Cliente({ component: Component, path, permisos, ...rest }) {
+function gerenteSuper({ component: Component, path, permisos, ...rest }) {
     return (
         <Route
             {...rest}
@@ -10,12 +10,12 @@ function Cliente({ component: Component, path, permisos, ...rest }) {
                 // si no esta autenticado
                 if (!permisos) {
                     return (
-                        <Redirect to="/" />
+                        <Redirect to="/iniciarSesion" />
                     );
                 }
 
-                // esta autenticado, pero no es cliente
-                if (!permisos.cliente) {
+                // esta autenticado, pero no es gerenteSuper
+                if (!permisos.gerenteSuper) {
                     return (
                         <Redirect to="/" />
                     );
@@ -30,4 +30,4 @@ function Cliente({ component: Component, path, permisos, ...rest }) {
     );
 }
 
-export default Cliente;
+export default gerenteSuper;

@@ -21,7 +21,7 @@ export default class feedback extends Component {
     EnviarCorreo = () =>{
         this.setState({ listo: 'true' });
        
-        swal("Exito!", "Gracias por su retroalimentacion", "success")
+       
     }
 
     render() {

@@ -77,7 +77,7 @@ export default class ModificarPregunta extends Component {
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
                     <h1>Chofer Sobrio</h1>
-                    <h5>Registra un nuevo carro</h5>
+                    <h5>Modifica una pregunta</h5>
                 </Jumbotron>
 
                 <Card border="ligth">

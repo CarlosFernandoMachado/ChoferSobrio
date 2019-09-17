@@ -10,7 +10,7 @@ function Gerente({ component: Component, path, permisos, ...rest }) {
                 // si no esta autenticado
                 if (!permisos) {
                     return (
-                        <Redirect to="/iniciarSesion" />
+                        <Redirect to="/" />
                     );
                 }
 

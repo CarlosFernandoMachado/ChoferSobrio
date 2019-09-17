@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
-import firebase from '../config/config';
 import "react-datepicker/dist/react-datepicker.css";
 import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Container, Col, Button, Form, Card, Alert} from 'react-bootstrap';
-import swal from 'sweetalert';
 
-export default class PedirChofer extends Component {
+export default class CrearInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            pregunta: '',
-            respuesta: '',
+            titulo: '',
+            contenido: '',
+            permisos: props.permisos,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -47,8 +46,17 @@ export default class PedirChofer extends Component {
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
                     <h1>Chofer Sobrio</h1>
-                    <h5>Crea una pregunta</h5>
+                    <h5>Crea información.</h5>
                 </Jumbotron>
+
+                <Card className="text-center" bg="dark" text="white" border="warning" style={{ margin:'16px' }}>
+                    <Card.Body>
+                        <Card.Title>Titulo</Card.Title>
+                            <Card.Text>
+                                Asi se mostrara el titulo y contenido que crees, puedes verificar la informaicón que creaste en la página de "nuestra información".
+                            </Card.Text>
+                        </Card.Body>
+                 </Card>
 
                 <Card border="ligth">
                     <Alert variant="secondary">
@@ -57,46 +65,44 @@ export default class PedirChofer extends Component {
                             validated={validated}
                             onSubmit={e => this.handleSubmit(e)}>
                             <Form.Row>
-                                <Form.Group as={Col} md="8">
-                                    <Form.Label>Ingrese la pregunta</Form.Label>
+                                <Form.Group as={Col} md="4">
+                                    <Form.Label>Ingrese el titulo</Form.Label>
                                     <Form.Control
-                                        as="textarea"
                                         type="text"
-                                        rows="2"
                                         required
-                                        name="pregunta"
-                                        value={this.state.pregunta}
+                                        name="titulo"
+                                        value={this.state.titulo}
                                         onChange={this.handleChange}
-                                        id="pregunta"
+                                        id="titulo"
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Por favor, ingrese una pregunta.
+                                        Por favor, ingrese el titulo de su información.
                                     </Form.Control.Feedback>
                                 </Form.Group>
                             </Form.Row>
                                 <Form.Row>
 
                                 <Form.Group as={Col} md="8">
-                                    <Form.Label>Ingrese la respuesta</Form.Label>
+                                    <Form.Label>Ingrese el contenido:</Form.Label>
                                     <Form.Control
                                         as="textarea"
                                         type="text"
-                                        rows="2"
+                                        rows="3"
                                         required
-                                        name="respuesta"
-                                        value={this.state.respuesta}
+                                        name="contenido"
+                                        value={this.state.contenido}
                                         onChange={this.handleChange}
-                                        id="respesta"
+                                        id="contenido"
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        Por favor, ingrese una respuesta.
+                                        Por favor, ingrese el contenido de su información.
                                     </Form.Control.Feedback>
                                 </Form.Group>
                               
                             </Form.Row>
                             <div className="text-center">
-                                <Button type="submit" variant="warning" >Agregar Pregunta
-                                    <Crear validado = {this.state.listo} datos={[this.state.pregunta,this.state.respuesta]} funcion={"crear_pregunta"}/>
+                                <Button type="submit" variant="warning" >Agregar Información
+                                    <Crear validado = {this.state.listo} datos={[this.state.titulo,this.state.contenido]} funcion={"crear_informacion"}/>
                                 </Button>
                             </div>
 

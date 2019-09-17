@@ -105,6 +105,9 @@ class SideDrawer extends React.Component {
                 <Link key={key++} to="/GestionPreguntas">
                     <Button onClick={props.hide}>Gestion de preguntas frecuentes</Button>
                 </Link>,
+                <Link key={key++} to="/GestionInformacion">
+                    <Button onClick={props.hide}>Gestion de información</Button>
+                 </Link>,
                 <Link key={key++} to="/comentarioschofer">
                     <Button onClick={props.hide}>Mostrar Feedback de Clientes</Button>
                 </Link>,
@@ -145,6 +148,9 @@ class SideDrawer extends React.Component {
             menu.push(
                 <Link key={key++} to="/subirfoto">
                     <Button>Subir foto</Button>
+                </Link>,
+                <Link key={key++} to="/historial_servicios_chofer">
+                    <Button onClick={props.hide}>Historial de servicios</Button>
                 </Link>,
                 <Link key={key++} to="/miperfil">
                     <Button onClick={props.hide}>Mis Reservaciones</Button>

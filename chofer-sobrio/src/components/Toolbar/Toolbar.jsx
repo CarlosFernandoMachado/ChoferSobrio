@@ -12,6 +12,7 @@ class Toolbar extends React.Component {
         this.props = props;
 
         this.state = {
+            isGerenteSuper: false,
             isGerente: false,
             isChofer: false,
             isCliente: false,
@@ -23,6 +24,21 @@ class Toolbar extends React.Component {
 
         if (user) {
             this.setState({ user });
+
+            // Super gerentes
+            this.dbRefGerenteSuper = firebase.database().ref('/SuperGerente');
+            this.dbCallbackGerenteSuper = this.dbRefGerenteSuper.on('value', (snap) => {
+                const gerenteSuper = snap.val();
+                let isGerenteSuper = false;
+
+                Object.keys(gerenteSuper).forEach(key => {
+                    if (isGerenteSuper = isGerenteSuper || (gerenteSuper[key].correo === user.email && gerenteSuper[key].estado === "activo")) {
+                        this.setState({ isGerenteSuper });
+                    } else if ((gerenteSuper[key].correo === user.email && gerenteSuper[key].estado === "inactivo")) {
+
+                    }
+                });
+            });
 
             // gerentes
             this.dbRefGerentes = firebase.database().ref('/gerente');
@@ -72,6 +88,7 @@ class Toolbar extends React.Component {
     componentWillUnmount() {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
+            this.dbRefGerenteSuper.off('value', this.dbCallbackGerenteSuper);
             this.dbRefGerentes.off('value', this.dbCallbackGerentes);
             this.dbRefChoferes.off('value', this.dbCallbackChoferes);
             this.dbRefClientes.off('value', this.dbCallbackClientes);
@@ -80,10 +97,10 @@ class Toolbar extends React.Component {
 
     render() {
         const props = this.props;
-        const { isGerente, isChofer, isCliente } = this.state;
+        const { isGerenteSuper, isGerente, isChofer, isCliente } = this.state;
 
         let mensaje;
-        if (localStorage.getItem('user') || ( isChofer===true || isCliente===true || isGerente===true) ){
+        if (localStorage.getItem('user') || (isChofer === true || isCliente === true || isGerenteSuper === true || isGerente === true) ){
             mensaje = 'Cerrar sesion';
         } else {
             mensaje = 'Iniciar sesion';
@@ -92,7 +109,7 @@ class Toolbar extends React.Component {
         let key = 0;
         const menu = [];
 
-        if (isChofer || isGerente) {
+        if (isChofer || isGerenteSuper || isGerente) {
             menu.push(
                 <Dropdown.Item key={key++}>
                     <Link to="/reservaciones">
@@ -102,7 +119,7 @@ class Toolbar extends React.Component {
             );
         }
 
-        if (isGerente) {
+        if (isGerenteSuper) {
             menu.push(
                 <Dropdown.Item key={key++}>
                     <Link to="/Historial">
@@ -122,6 +139,71 @@ class Toolbar extends React.Component {
                 <Dropdown.Item key={key++}>
                     <Link to="/CrearGerente">
                         <Button> Crear Gerente</Button>
+                    </Link>
+                </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
+                    <Link to="/MostrarClienteSuper">
+                        <Button>Mostrar Cliente</Button>
+                    </Link>
+                </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
+                    <Link to="/MostrarChoferSuper">
+                        <Button>Mostrar Chofer</Button>
+                    </Link>
+                </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
+                    <Link to="/MostrarGerenteSuper">
+                        <Button>Mostrar Gerente</Button>
+                    </Link>
+                </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
+                    <Link to="/listarfeedback">
+                        <Button>Feedback Recibido</Button>
+                    </Link>
+                </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
+                    <Link to="/ModificarGerente">
+                        <Button>Modificar mi cuenta</Button>
+                    </Link>
+                </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
+                    <Link to="/MostrarGerentesInactivos">
+                        <Button>Mostrar Gerentes Inactivos</Button>
+                    </Link>
+                </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
+                    <Link to="/MostrarChoferesInactivos">
+                        <Button>Mostrar Choferes Inactivos</Button>
+                    </Link>
+                </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
+                    <Link to="/EliminarCuentaGerente">
+                        <Button>Desactivar mi cuenta Gerente</Button>
+                    </Link>
+                </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
+                    <Link to="/GestionPreguntas">
+                        <Button>Gestión de preguntas frecuentes</Button>
+                    </Link>
+                </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
+                    <Link to="/EliminarCuentaTotal_Gerente">
+                        <Button>Eliminar mi cuenta Gerente</Button>
+                    </Link>
+                </Dropdown.Item>
+            );
+        }
+
+        if (isGerente) {
+            menu.push(
+                <Dropdown.Item key={key++}>
+                    <Link to="/Historial">
+                        <Button>Historial de Reservaciones</Button>
+                    </Link>
+                </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
+                    <Link to="/comentarioschofer">
+                        <Button>Mostrar Feedback de Clientes</Button>
                     </Link>
                 </Dropdown.Item>,
                 <Dropdown.Item key={key++}>
@@ -169,14 +251,17 @@ class Toolbar extends React.Component {
                      <Button>Gestión de preguntas frecuentes</Button>
                  </Link>
              </Dropdown.Item>,
+              <Dropdown.Item key={key++}>
+              <Link to="/GestionInfo">
+                  <Button>Gestión de información</Button>
+              </Link>
+          </Dropdown.Item>,
                 <Dropdown.Item key={key++}>
                 <Link to="/EliminarCuentaTotal_Gerente">
                     <Button>Eliminar mi cuenta Gerente</Button>
                 </Link>
             </Dropdown.Item>
             );
-        } else {
-
         }
 
         if (isChofer) {
@@ -191,6 +276,11 @@ class Toolbar extends React.Component {
                         <Button>Mis Reservaciones</Button>
                     </Link>
                 </Dropdown.Item>,
+                <Dropdown.Item key={key++}>
+                <Link to="/historial_servicios_chofer">
+                    <Button>Historial de servicios</Button>
+                </Link>
+            </Dropdown.Item>,
                 <Dropdown.Item key={key++}>
                     <Link to="/ModificarChofer">
                         <Button>Modificar mi cuenta</Button>
@@ -299,7 +389,7 @@ class Toolbar extends React.Component {
                             <Button className="navbar-item"> Nuestra Info</Button>
                         </Link>
                         <Link to="/activarcuentas">
-                            <Button className="navbar-item"> Activar Cuentas</Button>
+                            <Button className="navbar-item"> Activar Cuenta</Button>
                         </Link>
                         <Link to="/feedback">
                             <Button className="navbar-item"> Tu opinion </Button>

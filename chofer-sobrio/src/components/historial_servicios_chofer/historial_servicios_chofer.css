@@ -1,0 +1,27 @@
+.jumbo-boy{
+    background:yellow;
+    border: 1px;
+    outline-width: thin; 
+    border-radius: 20px; 
+}
+.pedidosBody{
+    display: flex;
+    justify-content: center;
+}
+.Card_pedidos{
+    padding: 10px;
+    margin: 10px;
+    
+}
+.divForm{
+   padding: 4px;
+   margin: 4px;
+   border: 3px;
+   outline-width: thin; 
+   border-radius: 5px;
+   background-color:white; 
+}
+.titulo{
+    margin-left: 35%
+    
+}

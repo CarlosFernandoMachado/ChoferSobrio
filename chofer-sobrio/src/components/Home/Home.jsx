@@ -18,6 +18,7 @@ export default class Home extends Component {
             lon: -87.20681,
             mostrar: null,
             logged,
+            gerenteSuper: props.permisos.gerenteSuper,
             gerente: props.permisos.gerente,
             chofer: props.permisos.chofer,
             cliente: props.permisos.cliente,
@@ -29,10 +30,10 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
-        const { gerente, chofer, cliente, listo } = this.state;
+        const { gerenteSuper,gerente, chofer, cliente, listo } = this.state;
 
         if (listo) {
-            if (!localStorage.getItem('alertaLogin') && (gerente || chofer || cliente)) {
+            if (!localStorage.getItem('alertaLogin') && (gerenteSuper || gerente || chofer || cliente)) {
                 localStorage.setItem('alertaLogin', true);
                 this.setState({ mostrar: true });
             } else {
@@ -43,11 +44,12 @@ export default class Home extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const { gerente, chofer, cliente, activo, listo } = nextProps.permisos;
+        const { gerenteSuper,gerente, chofer, cliente, activo, listo } = nextProps.permisos;
 
-        let mostrar = (gerente || chofer || cliente) && listo;
+        let mostrar = (gerenteSuper || gerente || chofer || cliente) && listo;
 
         this.setState({
+            gerenteSuper,
             gerente,
             chofer,
             cliente,
@@ -80,6 +82,9 @@ export default class Home extends Component {
             function (evt) {
                 this.setState({ lat: marker.position.lat().toFixed(4) });
                 this.setState({ lon: marker.position.lng().toFixed(4) });
+                map.panTo(marker.getPosition());
+                console.log('Ubicacion cuando se mueve el marcador en HOME');
+                console.log('Latitud: ' + this.state.lat + ', Longitud: ' + this.state.lon);
             }.bind(this));
     }
 
@@ -104,9 +109,7 @@ export default class Home extends Component {
     }
 
     render() {
-        const { gerente, chofer, cliente, activo, listo, mostrar, logged } = this.state;
-
-        console.log({ activo });
+        const { gerenteSuper,gerente, chofer, cliente, activo, listo, mostrar, logged } = this.state;
 
         if (!listo) {
             return (
@@ -126,6 +129,10 @@ export default class Home extends Component {
         }
 
         let tipoUsuario = '';
+
+        if (gerenteSuper) {
+            tipoUsuario = 'Super Gerente';
+        }
 
         if (gerente) {
             tipoUsuario = 'Gerente';
@@ -161,7 +168,7 @@ export default class Home extends Component {
                                 pathname: '/pedirchofer',
                                 state: {
                                     latitude: this.state.lat,
-                                    longitude: this.state.lon 
+                                    longitude: this.state.lon
                                 }
                             }}>
                                 <div id="button">

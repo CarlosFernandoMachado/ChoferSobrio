@@ -6,6 +6,7 @@ import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from 'react-bootstrap';
 import es from 'date-fns/locale/es';
 import './ModificarChofer.css';
+import Fire from '../config/config';
 
 registerLocale('es', es);
 setDefaultLocale('es');
@@ -21,10 +22,9 @@ export default class ModificarChofer extends Component {
             correo: '',
             validated: '',
             listo: 0,
-            infoCliente: {},
             telefono2:'',
-            telefono3:''
-            
+            telefono3:'',
+            imagen: ''
         };
 
         this.onChange = hora => this.setState({ hora });
@@ -40,46 +40,31 @@ export default class ModificarChofer extends Component {
         
         const user = JSON.parse(localStorage.getItem('user'));
         this.getLocation();
-        var cont = 0;
         if (user) {
-
-            var rootRef = firebase.database().ref().child("chofer");
-            rootRef.on("child_added", snap => {
-                var id = 0
-                var nombre = snap.child("nombre").val();
-                var identidad = snap.child("identidad").val();
-                var telefono = snap.child("telefono").val();
-                var correo = snap.child("correo").val();
-                var telefono2  = snap.child("telefono2").val();
-                var telefono3  = snap.child("telefono3").val();
-               
-
-                if (correo == user.email) {
-                    firebase.database().ref().child('chofer').orderByChild('correo').equalTo(user.email).on("value", function(snapshot) {
-                        console.log(snapshot.val()); 
-                        snapshot.forEach(function(data) {
-                            id = data.key;
-
-                        });
-                    });
-                   
-                    this.setState({
-                        id: id,
-                        nombre: nombre,
-                        correo: correo,
-                        telefono: telefono,
-                       identidad:identidad,
-                       telefono2:telefono2,
-                       telefono3:telefono3
-                    });
-                }
-
+            const info = await firebase.database().ref('/chofer').once('value').then((snap) => {
+                const choferlist = snap.val();
+                let infoChofer;
+                Object.keys(choferlist).forEach((key, index) => {
+                    const chofer = choferlist[key];
+                    if (chofer.correo === user.email) {
+                        chofer.index = index;
+                        infoChofer = chofer;
+                    }
+                });
+                return infoChofer;
             });
 
-
-
-        }
-    
+            this.setState({
+                id: info.index,
+                nombre: info.nombre,
+                correo: info.correo,
+                telefono: info.telefono,
+                identidad: info.identidad,
+                telefono2: info.telefono2,
+                telefono3: info.telefono3,
+                imagen: info.imagen
+            });
+        }    
     }
 
     getLocation = () => {
@@ -140,6 +125,15 @@ export default class ModificarChofer extends Component {
         const form = event.currentTarget;
         var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
         var lengthID = this.state.identidad.length
+        var estado = 0;
+        var estado2 = 0;
+        var estadoc = 0;
+        var estado3 =0;
+        var estado4 =0;
+        var estado5=0;
+        var estado6=0;
+        var estado7=0;
+        var that = this;
 
         if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)) {
             /*Caracteres especiales*/
@@ -166,10 +160,63 @@ export default class ModificarChofer extends Component {
 
         } else {
            
-            this.setState({ validated: 'true' });
-            event.preventDefault();
-            this.setState({ listo: 'true' });
-
+            Fire.database().ref('cliente').orderByChild('telefono').equalTo(this.state.telefono).once('value').then(function (snapshot) {
+                estado2 = snapshot.exists()
+                Fire.database().ref('cliente').orderByChild('correo').equalTo(that.state.correo).once('value').then(function (snapshot) {
+                    estadoc = snapshot.exists()
+                    Fire.database().ref('chofer').orderByChild('identidad').equalTo(that.state.identidad).once('value').then(function (snapshot) {
+                        estado = snapshot.exists()
+                        Fire.database().ref('chofer').orderByChild('telefono').equalTo(that.state.telefono).once('value').then(function (snapshot) {
+                            estado3 = snapshot.exists()
+                            Fire.database().ref('chofer').orderByChild('correo').equalTo(that.state.correo).once('value').then(function (snapshot) {
+                                estado4 = snapshot.exists()
+                                Fire.database().ref('gerente').orderByChild('telefono').equalTo(that.state.telefono).once('value').then(function (snapshot) {
+                                    estado5 = snapshot.exists()
+                                    Fire.database().ref('gerente').orderByChild('correo').equalTo(that.state.correo).once('value').then(function (snapshot) {
+                                        estado6 = snapshot.exists()
+                                        Fire.database().ref('gerente').orderByChild('identidad').equalTo(that.state.identidad).once('value').then(function (snapshot) {
+                                            estado7 = snapshot.exists()
+                                           
+                                                if (estado2==true || estado3==true ||estado5==true){
+                                                    alert("El telefono que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
+                                                    that.setState({ telefono: '' });
+                                                    document.getElementById("telefono").value = "";
+                                                    that.setState({ validated: 'false' });
+                                                }
+                                                
+                                                 if (estado==true || estado7==true){
+                                                    alert("La identidad que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
+                                                    that.setState({ identidad: '' });
+                                                    document.getElementById("identidad").value = "";
+                                                    that.setState({ validated: 'false' });
+                                                }
+                                                if (form.checkValidity() === false) {
+                                                    event.preventDefault();
+                                                    event.stopPropagation();
+                                        
+                                                }   else{
+                                                    that.setState({ validated: 'true' });
+                                                    event.preventDefault();
+                                                    that.setState({ listo: 'true' });
+                                                }
+                                    
+                                            
+                                
+                                        })
+                                        
+                                    })
+                        
+                                })
+                    
+                            })
+                            
+                        })
+            
+                    })
+        
+                })
+                
+            });
 
 
         }
@@ -178,7 +225,14 @@ export default class ModificarChofer extends Component {
     }
 
     render() {
-        const { validated } = this.state;
+        const {
+            validated,
+            imagen,
+        } = this.state;
+        const compImagen = imagen ? (
+            <img className="rounded-circle mx-auto d-block" width="20%" src={imagen} alt="Foto de perfil" />
+            ) : null;
+
         return (
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
@@ -192,6 +246,8 @@ export default class ModificarChofer extends Component {
                             noValidate
                             validated={validated}
                             onSubmit={e => this.handleSubmit(e)}>
+                            {compImagen}
+                            <br />
                             <Form.Row>
                                 <Form.Group as={Col} md="4">
                                     <Form.Label>Nombre</Form.Label>

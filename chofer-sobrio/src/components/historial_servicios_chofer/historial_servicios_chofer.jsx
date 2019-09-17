@@ -1,11 +1,11 @@
 /* eslint-disable react/jsx-pascal-case */
 import React, { Component } from 'react'
 import { Jumbotron, Container, Table, Card, Alert, Button,Form, Dropdown,Col} from 'react-bootstrap';
-    import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import ReactTable from 'react-table';
 
-import './historial_pedidos_cliente.css'
+import './historial_servicios_chofer.css'
 import firebase from '../config/config';
 
 export default class historial_pedidos_cliente extends Component {
@@ -46,11 +46,12 @@ export default class historial_pedidos_cliente extends Component {
             pedidos: [],
             permisos: props.permisos,
             id_chofer:"",
-            correo_chofer:'',
             fecha_pedido:"",
             puntuacion_pedido:1,
             comentario_pedido:"",
             key_pedido:"",
+            telefono_pedido:"",
+            correo_cliente:"",
             modal: false
         };
 
@@ -64,7 +65,7 @@ export default class historial_pedidos_cliente extends Component {
     async componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
-            const info = await firebase.database().ref('/cliente').once('value').then((snap) => {
+            const info = await firebase.database().ref('/chofer').once('value').then((snap) => {
                 const choferlist = snap.val();
                 let infoChofer;
                 Object.keys(choferlist).forEach((key, index) => {
@@ -104,7 +105,8 @@ export default class historial_pedidos_cliente extends Component {
                     this.setState({id_chofer:pedido.idchofer});
                     this.setState({fecha_pedido:pedido.fecha});
                     this.setState({key_pedido:keyPedido});
-                    this.setState({correo_chofer:pedido.correo_chofer});
+                    this.setState({telefono_pedido:pedido.telefono});
+                    this.setState({correo_cliente:pedido.correo});
                 }
             });
         });
@@ -115,21 +117,21 @@ export default class historial_pedidos_cliente extends Component {
         
         const nuevo_feedback ={
             comentario:this.state.comentario_pedido,
+            telefono_cliente: this.state.telefono_pedido,
+            correo_cliente: this.state.correo_cliente,
             puntaje:this.state.puntuacion_pedido,
-            correo_cliente:this.state.infoChofer.correo,
-            id_chofer: this.state.id_chofer,
-            fecha: this.state.fecha_pedido,
-            correo_chofer: this.state.correo_chofer
+            correo_chofer:this.state.infoChofer.correo,
+            id_pedido: this.state.key_pedido,
+            fecha: this.state.fecha_pedido
         };
         
-        const dbRef = firebase.database().ref('Feedback');
+        const dbRef = firebase.database().ref('Feedback_chofer');
         const newFeddback = dbRef.push();
         newFeddback.set(nuevo_feedback);
-
-        alert("Se guardo calificacion de pedido");
+        alert("Se guardo calificacion del servicio");
         var database = firebase.database();
         database.ref('pedido/' + this.state.key_pedido).update({
-            estado: "Calificado",
+            comentario_chofer: "Comentado",
         });
         
     }
@@ -168,7 +170,7 @@ export default class historial_pedidos_cliente extends Component {
 
         Object.keys(pedidos).forEach((key, index) => {
             const pedido = pedidos[key];
-            if ( pedido.estado === "Finalizado" && this.state.infoChofer.telefono === pedido.telefono ) {
+            if ( (pedido.comentario_chofer === "Ninguno" && (pedido.estado === "Finalizado" || pedido.estado === "Calificado")) && this.state.infoChofer.identidad === pedido.idchofer ) {
 
                     pedido.accion =   <Button variant="info"  onClick={() => this.calificar(key)}>Calificar</Button>;
 
@@ -185,11 +187,11 @@ export default class historial_pedidos_cliente extends Component {
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
                     <h1>Chofer Sobrio</h1>
-                    <h5>Historial de tus reservaciones</h5>
+                    <h5>Historial de tus servicios</h5>
                 </Jumbotron>
                 <Card border="light">
                     <Alert variant="secondary">
-                        <h3>Pedidos por calificar</h3>
+                        <h3>Servivios por calificar</h3>
                         <br />
                         <ReactTable
                             data={pedidos}

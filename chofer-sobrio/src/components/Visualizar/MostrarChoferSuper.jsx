@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
+import { Jumbotron, Container, Table, Card, Alert, Button,Form, Dropdown,Col} from 'react-bootstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter,ListGroup, ListGroupItem,Collapse, CardBody } from 'reactstrap';
 import ReactTable from 'react-table';
 import './Visualizar.css'
 import firebase from '../config/config';
 import Fire from '../config/config';
-import { Jumbotron, Container, Table, Card, Alert, Button,Form, Dropdown,Col} from 'react-bootstrap';
-import { Modal, ModalHeader, ModalBody, ModalFooter,ListGroup, ListGroupItem,Collapse, CardBody } from 'reactstrap';
 export default class VisualizarChofer extends Component {
 
     constructor(props) {
@@ -34,9 +34,14 @@ export default class VisualizarChofer extends Component {
             Header: 'Correo',
             accessor: 'correo',
             maxWidth: 300,
-        },{
+        }, {
             Header: 'Accion',
             accessor: 'accion',
+            maxWidth: 100,
+            filterable: false,
+        },{
+            Header: 'Accion2',
+            accessor: 'accion2',
             maxWidth: 200,
             filterable: false,
         }];
@@ -101,7 +106,8 @@ export default class VisualizarChofer extends Component {
         Object.keys(choferes).forEach((key, index) => {
             const pedido = choferes[key];
             if (index !== 0 && choferes[key].estado =="activo") {
-                pedido.accion = <Button variant="info" onClick={() => this.calificacion(key)}>Calificacion</Button>;
+                pedido.accion = <Button variant="danger" onClick={() => this.eliminar(key)}>Eliminar</Button>;
+                pedido.accion2 = <Button variant="info" onClick={() => this.calificacion(key)}>Calificacion</Button>;
                 conductores.push(pedido);
             }
         })
@@ -155,7 +161,6 @@ export default class VisualizarChofer extends Component {
     toggle2() {
         this.setState(state => ({ collapse: !state.collapse }));
     }
-
 
     async eliminar(keyChofer) {
         const database = firebase.database();

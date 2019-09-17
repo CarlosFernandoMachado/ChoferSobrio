@@ -5,13 +5,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import Crear from '../Crear_C_G_C/Crear';
 import { Jumbotron, Container, Col, Button, Form, InputGroup, Card, Alert } from 'react-bootstrap';
 import es from 'date-fns/locale/es';
-import './ModificarGerente.css';
-import Fire from '../config/config';
+import './ModificarGerenteSuper.css';
 
 registerLocale('es', es);
 setDefaultLocale('es');
 
-export default class ModificarGerente extends Component {
+export default class ModificarGerenteSuper extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -44,7 +43,7 @@ export default class ModificarGerente extends Component {
         var cont = 0;
         if (user) {
 
-            var rootRef = firebase.database().ref().child("gerente");
+            var rootRef = firebase.database().ref().child("SuperGerente");
             rootRef.on("child_added", snap => {
                 var id = 0
                 var nombre = snap.child("nombre").val();
@@ -57,7 +56,7 @@ export default class ModificarGerente extends Component {
 
 
                 if (correo == user.email) {
-                    firebase.database().ref().child('gerente').orderByChild('correo').equalTo(user.email).on("value", function(snapshot) {
+                    firebase.database().ref().child('SuperGerente').orderByChild('correo').equalTo(user.email).on("value", function(snapshot) {
                         console.log(snapshot.val());
                         snapshot.forEach(function(data) {
                             id = data.key;
@@ -141,16 +140,6 @@ export default class ModificarGerente extends Component {
         const form = event.currentTarget;
         var length = Math.log(this.state.telefono) * Math.LOG10E + 1 | 0;
         var lengthID = this.state.identidad.length
-        var estado = 0;
-        var estado2 = 0;
-        var estadoc = 0;
-        var estado3 =0;
-        var estado4 =0;
-        var estado5=0;
-        var estado6=0;
-        var estado7=0;
-        var that = this;
-
 
         if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.nombre)) {
             /*Caracteres especiales*/
@@ -179,63 +168,11 @@ export default class ModificarGerente extends Component {
 
         } else {
 
-            Fire.database().ref('cliente').orderByChild('telefono').equalTo(this.state.telefono).once('value').then(function (snapshot) {
-                estado2 = snapshot.exists()
-                Fire.database().ref('cliente').orderByChild('correo').equalTo(that.state.correo).once('value').then(function (snapshot) {
-                    estadoc = snapshot.exists()
-                    Fire.database().ref('chofer').orderByChild('identidad').equalTo(that.state.identidad).once('value').then(function (snapshot) {
-                        estado = snapshot.exists()
-                        Fire.database().ref('chofer').orderByChild('telefono').equalTo(that.state.telefono).once('value').then(function (snapshot) {
-                            estado3 = snapshot.exists()
-                            Fire.database().ref('chofer').orderByChild('correo').equalTo(that.state.correo).once('value').then(function (snapshot) {
-                                estado4 = snapshot.exists()
-                                Fire.database().ref('gerente').orderByChild('telefono').equalTo(that.state.telefono).once('value').then(function (snapshot) {
-                                    estado5 = snapshot.exists()
-                                    Fire.database().ref('gerente').orderByChild('correo').equalTo(that.state.correo).once('value').then(function (snapshot) {
-                                        estado6 = snapshot.exists()
-                                        Fire.database().ref('gerente').orderByChild('identidad').equalTo(that.state.identidad).once('value').then(function (snapshot) {
-                                            estado7 = snapshot.exists()
-                                           
-                                                if (estado2==true || estado3==true ||estado5==true){
-                                                    alert("El telefono que ha ingresado ya esta registrado en nuestro sistema, intente de nuevo.")
-                                                    that.setState({ telefono: '' });
-                                                    document.getElementById("telefono").value = "";
-                                                    that.setState({ validated: 'false' });
-                                                }
-                                              
-                                                 if (estado==true || estado7==true){
-                                                    alert("La identidad que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
-                                                    that.setState({ identidad: '' });
-                                                    document.getElementById("identidad").value = "";
-                                                    that.setState({ validated: 'false' });
-                                                }
-                                                if (form.checkValidity() === false) {
-                                                    event.preventDefault();
-                                                    event.stopPropagation();
-                                        
-                                                }   else{
-                                                    that.setState({ validated: 'true' });
-                                                    event.preventDefault();
-                                                    that.setState({ listo: 'true' });
-                                                }
-                                    
-                                            
-                                
-                                        })
-                                        
-                                    })
-                        
-                                })
-                    
-                            })
-                            
-                        })
-            
-                    })
-        
-                })
-                
-            });
+            this.setState({ validated: 'true' });
+            event.preventDefault();
+            this.setState({ listo: 'true' });
+
+            event.preventDefault();
         }
         event.preventDefault()
 
@@ -351,7 +288,7 @@ export default class ModificarGerente extends Component {
 
                             <div className="text-center">
                                 <Button type="submit" variant="warning" >Guardar
-                                <Crear validado={ this.state.listo } datos={ [this.state.identidad, this.state.nombre, this.state.telefono, this.state.correo, this.state.id,this.state.telefono2,this.state.telefono3] } funcion={ "modificar_gerente" } />
+                                <Crear validado={ this.state.listo } datos={ [this.state.identidad, this.state.nombre, this.state.telefono, this.state.correo, this.state.id,this.state.telefono2,this.state.telefono3] } funcion={ "modificar_gerenteSuper" } />
                                 </Button>
 
                             </div>

@@ -14,7 +14,9 @@ import { Link, Redirect } from 'react-router-dom';
 import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
 import DropdownItem from 'react-bootstrap/DropdownItem';
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
-
+import Fire from '../config/config';
+import 'firebase/firestore';
+import {messaging} from '../config/config';
 registerLocale('es', es);
 setDefaultLocale('es');
 
@@ -54,9 +56,44 @@ export default class PedirChofer extends Component {
 
     async componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
+        await messaging.requestPermission();
+        const token = await messaging.getToken();
+        
+        console.log('token de usuario:', token);
+        if(token){
+            
+           /* var database = Fire.database();
+            var postsRef = database.ref().child("Tokens");
+            var newPostRef = postsRef.set();
+            newPostRef.set({
+                correo: user.email,
+                registro: token
+              });*/
+            var ref = Fire.database().ref().child('Tokens');
+            var refTokenEmail = ref.orderByChild('correo').equalTo(user.email);
+            refTokenEmail.once('value', function (snapshot) {
+            if (snapshot.hasChildren()) {
+                snapshot.forEach(function (child) {
+                    child.ref.update({
+                        correo: user.email,
+                        registro: token
+                      });
+                });
+            } else {
+                snapshot.ref.push({
+                    correo: user.email,
+                    registro: token
+                  });
+            }
+            });
+        }else{
+
+        }
         var lat = this.props.location.state.latitude;
         var lon = this.props.location.state.longitude;
         var ubicacion = lat + "," + lon;
+        console.log('Ubicacion que reciber PEDIR CHOFER de HOME');
+        console.log('Latitud: ' + lat + ', Longitud: ' + lon);
         this.setState({ ubicacion_actual: ubicacion });
         if (user) {
             // clientes
@@ -191,7 +228,7 @@ export default class PedirChofer extends Component {
             } else if (this.state.color === 'Seleccione el color de su vehículo.') {
                 this.setState({ validated: 'false' });
             } else {
-                swal("Exito!", "Pedido Realizado", "success");
+               
                 this.setState({ validated: 'true' });
                 event.preventDefault();
                 this.setState({ listo: 'true' });
@@ -369,7 +406,7 @@ export default class PedirChofer extends Component {
                                             {this.state.color}
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
-                                            <Dropdown.Item eventKey='Amarillo' onSelect={this.handleSelect}>>
+                                            <Dropdown.Item eventKey='Amarillo' onSelect={this.handleSelect}>
                                                 Amarillo
                                              </Dropdown.Item>
                                             <Dropdown.Item eventKey='Azul' onSelect={this.handleSelect}>

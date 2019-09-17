@@ -130,17 +130,19 @@ export default class Password_olvidada extends Component {
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
                     <h1>Chofer Sobrio</h1>
-                    <h5>Activar tus cuentas</h5>
+                    <h5>Activar tu cuenta</h5>
                 </Jumbotron>
 
                 <Card border="ligth">
                         <Form
                             onSubmit={e => this.handleSubmit(e)}>
+                            <br />
                             <Form.Row>
-                                <Image src="/welcome.png" />
+                                <Image className="mx-auto d-block" src="/welcome.png" />
                             </Form.Row>
+                            <br />
                             <div className="text-center">
-                                <Button type="submit" variant="warning" >Activar Cuentas
+                                <Button type="submit" variant="warning" >Activar Cuenta
 
                                 </Button>
 
