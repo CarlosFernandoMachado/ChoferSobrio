@@ -15,7 +15,8 @@ export default class CrearGerente extends Component {
             validated: 0,
             listo: 0,
             telefono2:'',
-            telefono3:''
+            telefono3:'',
+            password:''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -59,6 +60,11 @@ export default class CrearGerente extends Component {
             this.setState({ identidad: '' });
             document.getElementById("identidad").value = "";
 
+        }
+        if(this.state.password.length < 6){
+            this.setState({password:''});
+            this.setState({validated: 'false'});
+            document.getElementById("password").value = "";
         }
         if (form.checkValidity() === false) {
             this.setState({ validated: 'false' });
@@ -244,10 +250,24 @@ export default class CrearGerente extends Component {
                                 </Form.Control.Feedback>
                                     </InputGroup>
                                 </Form.Group>
+                                <Form.Group as={Col} md="8" controlId="validationPassword">
+                                    <Form.Label>Contraseña</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="password"
+                                        name="password"
+                                        value={this.state.value}
+                                        onChange={this.handleChange}
+                                        id="password"
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Ingrese su contraseña Correctamente (minimo 6 caracteres)
+                                    </Form.Control.Feedback>
+                                </Form.Group>
                             </Form.Row>
                             <div class="text-center">
                                 <Button type="submit" variant="warning" >Crear gerente</Button>
-                                <Crear validado={this.state.listo} datos={[this.state.identidad, this.state.nombre, this.state.telefono, this.state.correo,this.state.telefono2,this.state.telefono3]} funcion={"crear_gerente"} />
+                                <Crear validado={this.state.listo} datos={[this.state.identidad, this.state.nombre, this.state.telefono, this.state.correo,this.state.telefono2,this.state.telefono3,this.state.password]} funcion={"crear_gerente"} />
                             </div>
                         </Form>
                     </Alert>

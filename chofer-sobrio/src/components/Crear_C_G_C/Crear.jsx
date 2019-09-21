@@ -408,6 +408,7 @@ export default class Crear extends Component {
             email = this.props.datos[3];
             var telefono2 = this.props.datos[4];
             var telefono3 = this.props.datos[5];
+            var password = this.props.datos[6];
             var estadocuenta = "activo"
             id = 0;
             var estado = 0;
@@ -672,6 +673,7 @@ export default class Crear extends Component {
             email = this.props.datos[3];
             var telefono2 = this.props.datos[4];
             var telefono3 = this.props.datos[5];
+            var password = this.props.datos[6];
             id = 0;
             var estadocuenta = "activo"
             var estado = 0;
@@ -705,13 +707,12 @@ export default class Crear extends Component {
                                 id_chofer: id
                             });
                         });
-                        Fire.auth().createUserWithEmailAndPassword(email, '123456').then(function (_userRecord) {
+                        Fire.auth().createUserWithEmailAndPassword(email, password).then(function (_userRecord) {
                             Fire.auth().sendPasswordResetEmail(email);
                         });
                         swal("Exito!", "Chofer registrado exitosamente!", "success")
                         .then((value) => {
                             setTimeout(redirigir, 1000);
-
                         });
 
 

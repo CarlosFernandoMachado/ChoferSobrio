@@ -15,7 +15,8 @@ export default class CrearChofer extends Component {
             validated: '',
             listo: 0,
             telefono2:'',
-            telefono3:''
+            telefono3:'',
+            password:''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -57,6 +58,11 @@ export default class CrearChofer extends Component {
             this.setState({ identidad: '' });
             document.getElementById("identidad").value = "";
 
+        }
+        if(this.state.password.length < 6){
+            this.setState({password:''});
+            this.setState({validated: 'false'});
+            document.getElementById("password").value = "";
         }
         if (form.checkValidity() === false) {
             this.setState({ validated: 'false' })
@@ -241,10 +247,24 @@ export default class CrearChofer extends Component {
                                     <Form.Control.Feedback type="invalid">
                                         Ingrese su Correo Correctamente (correo@correo.com)                           </Form.Control.Feedback>
                                 </Form.Group>
+                                <Form.Group as={ Col } md="8" controlId="validationCustom01">
+                                    <Form.Label>Contraseña</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="password"
+                                        id="password"
+                                        name="password"
+                                        value={ this.state.value }
+                                        onChange={ this.handleChange }
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Ingrese su Contraseña Correctamente (minimo 6 caracteres)
+                                    </Form.Control.Feedback>
+                                </Form.Group>
                             </Form.Row>
                             <div class="text-center">
                                 <Button type="submit" variant="warning" >Crear chofer</Button>
-                                <Crear validado={ this.state.listo } datos={ [this.state.identidad, this.state.nombre, this.state.telefono, this.state.correo,this.state.telefono2,this.state.telefono3] } funcion={ "crear_chofer" } />
+                                <Crear validado={ this.state.listo } datos={ [this.state.identidad, this.state.nombre, this.state.telefono, this.state.correo,this.state.telefono2,this.state.telefono3,this.state.password] } funcion={ "crear_chofer" } />
                             </div>
                         </Form>
                     </Alert>
