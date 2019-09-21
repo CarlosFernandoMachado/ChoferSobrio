@@ -69,14 +69,6 @@ export default class PedirChofer extends Component {
         this.setState({ ubicacion_actual: ubicacion });
         if (user) {
             if(token){
-            
-                /* var database = Fire.database();
-                 var postsRef = database.ref().child("Tokens");
-                 var newPostRef = postsRef.set();
-                 newPostRef.set({
-                     correo: user.email,
-                     registro: token
-                   });*/
                 var ref = Fire.database().ref().child('Tokens');
                 var refTokenEmail = ref.orderByChild('correo').equalTo(user.email);
                 refTokenEmail.once('value', function (snapshot) {
@@ -139,6 +131,8 @@ export default class PedirChofer extends Component {
                 placa: info.placa,
                 correo:info.correo
             });
+        }else{
+
         }
 
     }
