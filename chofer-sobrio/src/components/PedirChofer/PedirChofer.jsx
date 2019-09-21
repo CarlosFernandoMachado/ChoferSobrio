@@ -94,8 +94,6 @@ export default class PedirChofer extends Component {
                        });
                  }
                  });
-             }else{
-     
              }
             // clientes
             const info = await firebase.database().ref('/cliente').once('value').then((snap) => {
