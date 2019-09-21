@@ -87,7 +87,7 @@ export default class PedirChofer extends Component {
                     }
                 });
                 var ref2= Fire.database().ref().child('Tokens_chofer');
-                var refTokenEmail2 = ref2.orderByChild('correo').equalTo(user.email);
+                var refTokenEmail2 = ref2.orderByChild('registro').equalTo(token);
                 refTokenEmail2.once('value', function (snapshot) {
                     if (snapshot.hasChildren()) {
                         snapshot.forEach(function (child) {
