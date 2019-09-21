@@ -641,10 +641,17 @@ export default class Crear extends Component {
                         swal("Exito!", "Usuario registrado exitosamente! Se envio correo de verificacion", "success")
                             .then((value) => setTimeout(redirigir, 1000))
                     ).catch();
+                }else{
+                    Fire.auth().createUserWithEmailAndPassword(email, my_password)
+                    .then(user => {
+                      Fire.auth().signInWithEmailAndPassword(email, my_password)
+                          .catch(error => console.log(error.message));
+                    })
+                    .catch(error => console.log(error.message));
                 }
             });
-
-            if (localStorage.getItem('user')) {
+            /* Esta parte es los mismo que esta dentro del onAuthStateChanged por eso envia varios correo de verificacion */
+            /*if (localStorage.getItem('user')) {
                 swal("Exitos!", "Usuario registrado exitosamente! Se envio correo de verificacion", "success");
                 Fire.auth().currentUser.sendEmailVerification().then(() => setTimeout(redirigir, 1000));
             } else {
@@ -654,7 +661,7 @@ export default class Crear extends Component {
                         .catch(error => console.log(error.message));
                   })
                   .catch(error => console.log(error.message));
-            }
+            }*/
         }
 
         if (this.props.validado && this.props.funcion === "crear_chofer") {
