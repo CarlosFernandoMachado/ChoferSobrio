@@ -77,23 +77,32 @@ export default class PedirChofer extends Component {
                      correo: user.email,
                      registro: token
                    });*/
-                 var ref = Fire.database().ref().child('Tokens');
-                 var refTokenEmail = ref.orderByChild('correo').equalTo(user.email);
-                 refTokenEmail.once('value', function (snapshot) {
-                 if (snapshot.hasChildren()) {
-                     snapshot.forEach(function (child) {
-                         child.ref.update({
-                             correo: user.email,
-                             registro: token
-                           });
-                     });
-                 } else {
-                     snapshot.ref.push({
-                         correo: user.email,
-                         registro: token
-                       });
-                 }
-                 });
+                var ref = Fire.database().ref().child('Tokens');
+                var refTokenEmail = ref.orderByChild('correo').equalTo(user.email);
+                refTokenEmail.once('value', function (snapshot) {
+                    if (snapshot.hasChildren()) {
+                        snapshot.forEach(function (child) {
+                            child.ref.update({
+                                correo: user.email,
+                                registro: token
+                            });
+                        });
+                    } else {
+                        snapshot.ref.push({
+                            correo: user.email,
+                            registro: token
+                        });
+                    }
+                });
+                var ref2= Fire.database().ref().child('Tokens_chofer');
+                var refTokenEmail2 = ref2.orderByChild('correo').equalTo(user.email);
+                refTokenEmail2.once('value', function (snapshot) {
+                    if (snapshot.hasChildren()) {
+                        snapshot.forEach(function (child) {
+                            child.ref.remove();
+                        });
+                    }
+                });
              }
             // clientes
             const info = await firebase.database().ref('/cliente').once('value').then((snap) => {

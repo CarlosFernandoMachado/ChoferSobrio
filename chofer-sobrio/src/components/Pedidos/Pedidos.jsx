@@ -108,6 +108,15 @@ export default class Precios extends Component {
                         });
                     }
                 });
+                var ref2= Fire.database().ref().child('Tokens');
+                var refTokenEmail2 = ref2.orderByChild('correo').equalTo(user.email);
+                refTokenEmail2.once('value', function (snapshot) {
+                    if (snapshot.hasChildren()) {
+                        snapshot.forEach(function (child) {
+                            child.ref.remove();
+                        });
+                    }
+                });
             } else {
 
             }
