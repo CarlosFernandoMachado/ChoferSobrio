@@ -518,7 +518,7 @@ export default class Crear extends Component {
                     var to = registrationToken;
                     var notification = {
                         'title': 'PEDIDO NUEVO',
-                        'body': 'Cliente: '+ email12,
+                        'body': 'NUEVO PEDIDO DE CLIENTE',
                         'icon': 'firebase-logo.png',
                         'click_action': 'http://localhost:3000/reservaciones'
                     };
