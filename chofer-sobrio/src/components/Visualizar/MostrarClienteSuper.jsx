@@ -49,7 +49,7 @@ export default class VisualizarCliente extends Component {
             filterable: false,
         },{
             Header: 'Accion2',
-            accessor: 'accion',
+            accessor: 'accion2',
             maxWidth: 200,
             filterable: false,
         }];

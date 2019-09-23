@@ -14,8 +14,8 @@ function GerenteChofer({ component: Component, path, permisos, ...rest }) {
                     );
                 }
 
-                // esta autenticado, pero no es chofer ni gerente
-                if (!permisos.chofer && !permisos.gerente) {
+                // esta autenticado, pero no es chofer ni gerente ni gerente super
+                if (!permisos.chofer && !permisos.gerente && !permisos.gerenteSuper) {
                     return (
                         <Redirect to="/" />
                     );

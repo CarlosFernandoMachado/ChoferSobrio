@@ -14,8 +14,8 @@ function Gerente({ component: Component, path, permisos, ...rest }) {
                     );
                 }
 
-                // esta autenticado, pero no es gerente
-                if (!permisos.gerente) {
+                // esta autenticado, pero no es gerente o super gerente
+                if (!permisos.gerente && !permisos.gerenteSuper) {
                     return (
                         <Redirect to="/" />
                     );

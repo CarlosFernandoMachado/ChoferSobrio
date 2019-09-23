@@ -76,7 +76,7 @@ export default class ListarFeedback extends Component {
                         <Table responsive>
                             <thead>
                                 <tr>
-                                    <th>comentario</th>
+                                    <th><h1>Comentario</h1></th>
                                 </tr>
                             </thead>
                             <tbody id="table_body">
