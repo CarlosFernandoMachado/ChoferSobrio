@@ -125,6 +125,7 @@ export default class VisualizarCliente extends Component {
     }
     calificacion(keyPedido){
         this.setState({puntaje: 0.0});
+        this.setState({comentarios:[]});
         var sub_puntaje = 0.0;
         var contar=0;
         firebase.database().ref('/cliente').once('value').then((snap) => {

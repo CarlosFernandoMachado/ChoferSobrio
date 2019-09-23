@@ -116,6 +116,7 @@ export default class VisualizarChofer extends Component {
     }
     calificacion(keyPedido){
         this.setState({puntaje: 0.0});
+        this.setState({comentarios:[]});
         var sub_puntaje = 0.0;
         var contar=0;
         firebase.database().ref('/chofer').once('value').then((snap) => {
