@@ -258,6 +258,8 @@ export default class Precios extends Component {
         //const pedidosRes = pedidos.map(a => Object.assign({}, a));
         //var coordenadas = pedidosRes[keyPedido].ubicacion.split(",");
         var coordenadas = pedidos[keyPedido].ubicacion;
+        console.log('Coordenadas del cliente')
+        console.log(coordenadas);
         if (coordenadas !== 'No la compartio') {
             coordenadas = coordenadas.split(",");
             var latitud = Number(parseFloat(coordenadas[0]).toFixed(4));
