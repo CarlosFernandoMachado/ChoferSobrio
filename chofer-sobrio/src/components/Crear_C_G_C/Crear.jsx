@@ -694,10 +694,10 @@ export default class Crear extends Component {
                     estado2 = snapshot.exists()
                     if (estado === true) {
                        
-                        document.getElementById("identidad").value = "";
+                       
                     } else if (estado2 === true) {
                       
-                        document.getElementById("correo").value = "";
+
                     } else {
                         n = database.ref('/referencias/').once('value').then(function (snapshot) {
                             id = (snapshot.val() && snapshot.val().id_chofer) || 'Anonymous';
