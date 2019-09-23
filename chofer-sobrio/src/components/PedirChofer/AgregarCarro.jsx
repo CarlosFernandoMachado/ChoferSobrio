@@ -49,75 +49,74 @@ export default class PedirChofer extends Component {
 
     handleSubmit(event) {
         const form = event.currentTarget;
-        
+
         var estado = 0;
         var estado2 = 0;
 
         var that = this;
+        /*VALIDACIONES*/
+        if (this.state.placa.length != 7 || !/^[a+p+h+P+A+H][a-z+A-Z][a-z+A-Z][0-9][0-9][0-9][0-9]+$/.test(this.state.placa)) {
+            /*Placa invalida*/
+            this.setState({ placa: '' });
+            document.getElementById("placa").value = "";
+            this.setState({ validated: 'false' });
+        }
+        if (this.state.marca == 'Seleccione la marca de su vehículo.') {
+            this.setState({ validated: 'false' });
+        }
+        if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.marca)) {
+            /*Caracteres especiales*/
+            this.setState({ marca: 'Seleccione la marca de su vehículo.' });
+            document.getElementById("marcaField").value = "";
+            this.setState({ validated: 'false' });
+        }
+        if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.color)) {
+            /*Caracteres especiales*/
+            this.setState({ color: 'Seleccione el color de su vehículo.' });
+            document.getElementById("colorField").value = "";
+            this.setState({ validated: 'false' });
+        }
+        if (this.state.color == 'Seleccione el color de su vehículo.') {
+            this.setState({ validated: 'false' });
+        }
 
 
-        
-       
+
 
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
 
         } else {
-            /*VALIDACIONES*/
-            if (this.state.placa.length != 7 || !/^[a+p+h+P+A+H][a-z+A-Z][a-z+A-Z][0-9][0-9][0-9][0-9]+$/.test(this.state.placa)) {
-                /*Placa invalida*/
-                this.setState({ placa: '' });
-                document.getElementById("placa").value = "";
-                this.setState({ validated: 'false' });
-            } else if (estado == true) {
-                alert("La placa que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
-                this.setState({ placa: '' });
-                document.getElementById("placa").value = "";
-                this.setState({ validated: 'false' });
-            } else if (this.state.marca == 'Seleccione la marca de su vehículo.') {
-                this.setState({ validated: 'false' });
-            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.marca)) {
-                /*Caracteres especiales*/
-                this.setState({ marca: 'Seleccione la marca de su vehículo.' });
-                document.getElementById("marcaField").value = "";
-                this.setState({ validated: 'false' });
-            } else if (!/^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/.test(this.state.color)) {
-                /*Caracteres especiales*/
-                this.setState({ color: 'Seleccione el color de su vehículo.' });
-                document.getElementById("colorField").value = "";
-                this.setState({ validated: 'false' });
-            } else if (this.state.color == 'Seleccione el color de su vehículo.') {
-                this.setState({ validated: 'false' });
-            } else {
 
-                Fire.database().ref('carros').orderByChild('placa').equalTo(this.state.placa).once('value').then(function (snapshot) {
-                    estado2 = snapshot.exists()
+
+            Fire.database().ref('carro').orderByChild('placa').equalTo(this.state.placa).once('value').then(function (snapshot) {
+                estado2 = snapshot.exists()
 
 
 
-                    if (estado2 == true) {
-                        alert("La placa que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
-                        that.setState({ placa: '' });
-                        document.getElementById("placa").value = "";
-                        that.setState({ validated: 'false' });
-                    }
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
+                if (estado2 == true) {
+                    alert("La placa que ha ingresado ya esta registrada en nuestro sistema, intente de nuevo.")
+                    that.setState({ placa: '' });
+                    document.getElementById("placa").value = "";
+                    that.setState({ validated: 'false' });
+                }
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
 
-                    } else {
-                        that.setState({ validated: 'true' });
-                        event.preventDefault();
-                        that.setState({ listo: 'true' });
-                    }
+                } else {
+                    that.setState({ validated: 'true' });
+                    event.preventDefault();
+                    that.setState({ listo: 'true' });
+                }
 
 
 
 
-                });
+            });
 
-            }
+
         }
         event.preventDefault();
         this.setState({ validated: 'false' });

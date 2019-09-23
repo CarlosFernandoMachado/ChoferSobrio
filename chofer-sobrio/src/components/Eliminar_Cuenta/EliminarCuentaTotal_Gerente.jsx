@@ -65,7 +65,7 @@ export default class EliminarCuentaTotal_Gerente extends Component {
               swal("Se Elimino la cuenta exitosamente", {
                 icon: "success",
               });
-              firebase.auth().currentUser.delete();
+             // firebase.auth().currentUser.delete();
               this.setState({ listo: "true" });
 
             } else {

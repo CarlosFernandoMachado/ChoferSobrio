@@ -21,6 +21,9 @@ function redirigircrearchofer() {
 function redirigircreargerente() {
     window.location = "/CrearGerente";
 }
+function redirigircrearcarro() {
+    window.location = "/MostrarCarros";
+}
 
 function redirigirPagoTarjeta(producto) {
     var urlPago;
@@ -560,7 +563,8 @@ export default class Crear extends Component {
                 Fire.database().ref('carro').orderByChild('placa').equalTo(plate).once('value').then(function (snapshot) {
                     estado2 = snapshot.exists()
                     if ( estado2 ===true) {
-
+                       
+                    
                     } else {
                         n = database.ref('/referencias/').once('value').then(function (snapshot) {
                             id = (snapshot.val() && snapshot.val().id_carro) || 'Anonymous';
@@ -575,7 +579,11 @@ export default class Crear extends Component {
                             database.ref('referencias/').update({
                                 id_carro: id
                             });
+                        }).then((value) => {
+                            setTimeout(redirigir, 1000);
                         });
+
+                        
 
                     }
                 });
