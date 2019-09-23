@@ -70,16 +70,14 @@ export default class PerfilChofer extends Component {
             }
         }
     }
-    RechazarChofer(){
-        
-        const user = JSON.parse(localStorage.getItem('user'));
 
+    RechazarChofer(){
+        const user = JSON.parse(localStorage.getItem('user'));
         var rootRef = firebase.database().ref().child("pedido");
+
         rootRef.on("child_added", snap => {
             var id = 0
-
             var correo = snap.child("correo").val();
-
 
             if (correo === user.email) {
                 firebase.database().ref().child('pedido').orderByChild('correo').equalTo(user.email).on("value", function (snapshot) {
@@ -92,25 +90,15 @@ export default class PerfilChofer extends Component {
                     });
                 });
 
-                
-               
                 var database = firebase.database();
                 database.ref('pedido/' + id ).update({
                     estado: 'Disponible',
                     correo_chofer: '',
                     idchofer:''
                    
-                });
-                setTimeout( window.location = "/",1000)
-
+                }).then(() => setTimeout(window.location = "/", 3000));
             }
-
         });
-        
-
-       
-       
-       
     }
 
     render() {

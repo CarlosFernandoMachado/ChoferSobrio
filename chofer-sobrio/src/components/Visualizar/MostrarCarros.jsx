@@ -37,34 +37,92 @@ export default class VisualizarCarros extends Component {
         }];
 
         this.state = {
-            carros: []
+            carros: {},
+            cliente: {},
         };
 
         this.mostrarcarros = this.mostrarcarros.bind(this);
-
-
+        this.buscarOtroCarro = this.buscarOtroCarro.bind(this);
     }
 
-    async componentDidMount() {
-            this.dbRefCarros = firebase.database().ref('/carro');
-            this.dbCallbackCarros = this.dbRefCarros.on('value', snap => this.setState({ carros: snap.val() }));
+    componentDidMount() {
+        const user = JSON.parse(localStorage.getItem('user'));
 
-        
+        if (user) {
+            this.dbRefClientes = firebase.database().ref('/cliente');
+            this.dbCallbackClientes = this.dbRefClientes.on('value', (snap) => {
+                const tempClientes = snap.val();
+                let resCliente;
+                Object.keys(tempClientes).forEach((key) => {
+                    const cliente = tempClientes[key];
+                    if (cliente.correo === user.email) {
+                        resCliente = cliente;
+                        resCliente.cKey = key;
+                    }
+                });
+                this.setState({ cliente: resCliente });
+            });
+
+            this.dbRefCarros = firebase.database().ref('/carro');
+            this.dbCallbackCarros = this.dbRefCarros.on('value', (snap) => {
+                const tempCarros = snap.val();
+                const resCarros = {};
+                Object.keys(tempCarros).forEach((key, index) => {
+                    const carro = tempCarros[key];
+                    if (carro.correo === user.email) {
+                        resCarros[key] = carro;
+                    }
+                });
+                this.setState({ carros: resCarros });
+            });
+        }
     }
 
     componentWillUnmount() {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
             this.dbRefCarros.off('value', this.dbCallbackCarros);
+            this.dbRefClientes.off('value', this.dbCallbackClientes);
         }
     }
 
     eliminarcarro(key){
+        const { carros, cliente } = this.state;
+        const carro = carros[key];
+
+        if (Object.keys(carros).length === 1) {
+            window.alert('No puede eliminar el unico carro que tiene!');
+            return;
+        }
+
         if (window.confirm('Se eliminara el carro de su cuenta.')) {
             const database = firebase.database();
+            if (cliente.placa === carro.placa) {
+                const clienteRes = { ...cliente };
+                delete clienteRes.cKey;
+
+                const otro = this.buscarOtroCarro(key);
+
+                clienteRes.marca = otro.marca;
+                clienteRes.placa = otro.placa;
+                clienteRes.color_vehiculo = otro.color;
+
+                database.ref(`cliente/${cliente.cKey}`).update(clienteRes);
+            }
             database.ref(`carro/${key}/`).remove();
             
         }
+    }
+
+    buscarOtroCarro(diferenteDe) {
+        const { carros } = this.state;
+        let res;
+        Object.keys(carros).forEach((key) => {
+            if (key !== diferenteDe) {
+                res = carros[key];
+            }
+        });
+        return res;
     }
 
     modificarcarro(key){
@@ -77,20 +135,17 @@ export default class VisualizarCarros extends Component {
 
     mostrarcarros() {
         const { carros } = this.state;
-        const user = JSON.parse(localStorage.getItem('user'));
         const car = [];
 
         Object.keys(carros).forEach((key, index) => {
             const carro = carros[key];
-            if (index !== 0 &&  carros[key].correo==user.email) {
-                carro.remove =  <Button variant="danger" onClick={() => this.eliminarcarro(key)}  ><FiTrash2/>
+            carro.remove =  <Button variant="danger" onClick={() => this.eliminarcarro(key)}  ><FiTrash2/>
+                            </Button>
+            carro.change =  <Link to="/ModificarCarro">
+                                <Button variant="success" onClick={() => this.modificarcarro(key)}><MdCreate/>
                                 </Button>
-                carro.change =  <Link to="/ModificarCarro">
-                                    <Button variant="success" onClick={() => this.modificarcarro(key)}><MdCreate/>
-                                    </Button>
-                                 </Link>
-                car.push(carro);
-            }
+                                </Link>
+            car.push(carro);
         })
 
         return car;
@@ -98,8 +153,8 @@ export default class VisualizarCarros extends Component {
 
 
     render() {
-        
-        const carros = this.mostrarcarros();
+        const { cliente } = this.state;
+        const losCarros = this.mostrarcarros();
         return (
             <Container>
                 <Jumbotron className="jumbo-boy" fluid>
@@ -111,7 +166,7 @@ export default class VisualizarCarros extends Component {
                     <h3>Carros</h3>
                         <br />
                         <ReactTable
-                            data={carros}
+                            data={losCarros}
                             columns={this.columnas}
                             filterable
                         />
@@ -120,7 +175,6 @@ export default class VisualizarCarros extends Component {
                                 <Button type="submit" variant="warning">Agregar</Button>
                         </Link>
                             </div>
-                       
                     </Alert>
                 </Card>
             </Container>
