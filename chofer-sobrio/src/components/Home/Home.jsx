@@ -100,6 +100,8 @@ export default class Home extends Component {
     showPosition = (position) => {
         this.setState({ lat: position.coords.latitude });
         this.setState({ lon: position.coords.longitude });
+        console.log('Posicion cuando se carga la pagina');
+        console.log('Latitud: ' + this.state.lat + ', Longitud: ' + this.state.lon)
     }
 
     toggleModal() {

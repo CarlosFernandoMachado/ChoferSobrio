@@ -524,7 +524,7 @@ export default class Crear extends Component {
                         'title': 'PEDIDO NUEVO',
                         'body': 'NUEVO PEDIDO DE CLIENTE',
                         'icon': 'firebase-logo.png',
-                        'click_action': 'http://localhost:3000/reservaciones'
+                        'click_action': 'http://www.chofersobrio.com/reservaciones'
                     };
 
                     fetch('https://fcm.googleapis.com/fcm/send', {

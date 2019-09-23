@@ -192,7 +192,7 @@ export default class Precios extends Component {
                         'title': 'Pedido Atendido',
                         'body': 'El chofer: ' + this.state.infoChofer.correo,
                         'icon': 'firebase-logo.png',
-                        'click_action': 'http://localhost:3000/Perfil_Chofer'
+                        'click_action': 'http://www.chofersobrio.com/Perfil_Chofer'
                     };
 
                     fetch('https://fcm.googleapis.com/fcm/send', {
@@ -258,6 +258,8 @@ export default class Precios extends Component {
         //const pedidosRes = pedidos.map(a => Object.assign({}, a));
         //var coordenadas = pedidosRes[keyPedido].ubicacion.split(",");
         var coordenadas = pedidos[keyPedido].ubicacion;
+        console.log('Coordenadas del cliente')
+        console.log(coordenadas);
         if (coordenadas !== 'No la compartio') {
             coordenadas = coordenadas.split(",");
             var latitud = Number(parseFloat(coordenadas[0]).toFixed(4));
